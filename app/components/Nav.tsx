@@ -117,12 +117,12 @@ function FeaturedLine() {
           147
         </div>
         <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", marginBottom: 4 }}>
-          Ivato &rarr; Analakely
+          Ambatomaro &rarr; 67Ha
         </div>
         <div style={{ fontSize: "0.72rem", fontWeight: 800, color: "#FFB800", marginBottom: 12 }}>
           23 541 recherches
         </div>
-        <a href="https://taxibemada.vercel.app/ligne/147" target="_blank" rel="noopener noreferrer" style={{
+        <a href="/recherche?q=147" style={{
           display: "block", padding: "8px 14px", borderRadius: 8, textAlign: "center",
           background: "#FFB800", color: "#0D1525",
           fontSize: "0.78rem", fontWeight: 800, textDecoration: "none",
