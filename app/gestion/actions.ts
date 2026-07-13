@@ -32,10 +32,9 @@ export async function loginAdmin(formData: FormData) {
     .select("id, nom, role")
     .eq("cle", cle)
     .eq("actif", true)
-    .eq("role", "superadmin")
     .single();
 
-  if (!data) {
+  if (!data || data.role !== "superadmin") {
     const newCount = (attempt?.count ?? 0) + 1;
     const blockedUntil = newCount >= MAX_ATTEMPTS
       ? new Date(Date.now() + BLOCK_MINUTES * 60 * 1000).toISOString()
