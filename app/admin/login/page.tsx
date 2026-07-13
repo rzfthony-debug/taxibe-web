@@ -6,6 +6,7 @@ export const metadata = { title: "Connexion — TaxiBe Admin" };
 const ERROR_MESSAGES: Record<string, string> = {
   required: "Veuillez saisir votre clé d'accès.",
   invalid: "Clé invalide ou compte désactivé.",
+  blocked: "Trop de tentatives. Accès bloqué 15 minutes.",
 };
 
 export default async function LoginPage({

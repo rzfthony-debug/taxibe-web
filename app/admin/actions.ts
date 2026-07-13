@@ -1,8 +1,11 @@
 "use server";
 
 import { adminDb } from "@/lib/supabase";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+const MAX_ATTEMPTS = 5;
+const BLOCK_MINUTES = 15;
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
@@ -10,6 +13,22 @@ export async function loginAdmin(formData: FormData) {
   const cle = (formData.get("cle") as string)?.trim();
   if (!cle) { redirect("/admin/login?error=required"); return; }
 
+  const hdrs = await headers();
+  const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+
+  // Vérifier le blocage
+  const { data: attempt } = await adminDb
+    .from("login_attempts")
+    .select("count, blocked_until")
+    .eq("ip", ip)
+    .maybeSingle();
+
+  if (attempt?.blocked_until && new Date(attempt.blocked_until) > new Date()) {
+    redirect("/admin/login?error=blocked");
+    return;
+  }
+
+  // Vérifier la clé
   const { data } = await adminDb
     .from("admin_users")
     .select("id, nom, role")
@@ -17,7 +36,23 @@ export async function loginAdmin(formData: FormData) {
     .eq("actif", true)
     .single();
 
-  if (!data) { redirect("/admin/login?error=invalid"); return; }
+  if (!data) {
+    const newCount = (attempt?.count ?? 0) + 1;
+    const blockedUntil = newCount >= MAX_ATTEMPTS
+      ? new Date(Date.now() + BLOCK_MINUTES * 60 * 1000).toISOString()
+      : null;
+
+    await adminDb.from("login_attempts").upsert(
+      { ip, count: newCount, blocked_until: blockedUntil, updated_at: new Date().toISOString() },
+      { onConflict: "ip" }
+    );
+
+    redirect("/admin/login?error=invalid");
+    return;
+  }
+
+  // Succès — effacer les tentatives
+  await adminDb.from("login_attempts").delete().eq("ip", ip);
 
   const jar = await cookies();
   jar.set("taxibe_admin", data.id, {
