@@ -2,12 +2,36 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { logoutAdmin } from "../actions";
 
-const NAV = [
-  { href: "/gestion",              label: "Dashboard",    icon: "▦" },
-  { href: "/gestion/actualites",   label: "Actualités",   icon: "📰" },
-  { href: "/gestion/spotlight",    label: "Spotlight",    icon: "📣" },
-  { href: "/gestion/utilisateurs", label: "Utilisateurs", icon: "👥" },
-  { href: "/gestion/emplois",      label: "Emplois",      icon: "💼" },
+const NAV_SECTIONS = [
+  {
+    label: "Vue d'ensemble",
+    items: [
+      { href: "/gestion",            label: "Dashboard",      icon: "▦" },
+    ],
+  },
+  {
+    label: "Site web",
+    items: [
+      { href: "/gestion/actualites", label: "Actualités",     icon: "📰" },
+      { href: "/gestion/spotlight",  label: "Spotlight",      icon: "📣" },
+      { href: "/gestion/emplois",    label: "Carrières",      icon: "💼" },
+    ],
+  },
+  {
+    label: "Application",
+    items: [
+      { href: "/gestion/lignes",         label: "Lignes",         icon: "🚌" },
+      { href: "/gestion/arrets",         label: "Arrêts",          icon: "📍" },
+      { href: "/gestion/cooperatives",   label: "Coopératives",   icon: "🏢" },
+      { href: "/gestion/signalements",   label: "Signalements",   icon: "⚠️" },
+    ],
+  },
+  {
+    label: "Administration",
+    items: [
+      { href: "/gestion/utilisateurs", label: "Accès & rôles",   icon: "🔑" },
+    ],
+  },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -41,16 +65,27 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
 
         <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
-          {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="admin-nav-item" style={{
-              display: "flex", alignItems: "center", gap: 10,
-              padding: "9px 12px", borderRadius: 9, marginBottom: 2,
-              textDecoration: "none", color: "rgba(255,255,255,0.65)",
-              fontSize: "0.85rem", fontWeight: 600, transition: "background 0.15s",
-            }}>
-              <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>
-              {item.label}
-            </Link>
+          {NAV_SECTIONS.map((section) => (
+            <div key={section.label} style={{ marginBottom: 18 }}>
+              <p style={{
+                margin: "0 0 4px 10px", fontSize: "0.6rem", fontWeight: 800,
+                textTransform: "uppercase", letterSpacing: "0.1em",
+                color: "rgba(255,255,255,0.25)",
+              }}>
+                {section.label}
+              </p>
+              {section.items.map((item) => (
+                <Link key={item.href} href={item.href} className="admin-nav-item" style={{
+                  display: "flex", alignItems: "center", gap: 10,
+                  padding: "9px 12px", borderRadius: 9, marginBottom: 2,
+                  textDecoration: "none", color: "rgba(255,255,255,0.65)",
+                  fontSize: "0.85rem", fontWeight: 600, transition: "background 0.15s",
+                }}>
+                  <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           ))}
         </nav>
 

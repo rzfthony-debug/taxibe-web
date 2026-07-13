@@ -32,6 +32,7 @@ export async function loginAdmin(formData: FormData) {
     .select("id, nom, role")
     .eq("cle", cle)
     .eq("actif", true)
+    .eq("role", "superadmin")
     .single();
 
   if (!data) {
