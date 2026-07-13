@@ -13,7 +13,7 @@ export default async function LignesPage() {
   const lignes = await getLignes();
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Lignes</h1>

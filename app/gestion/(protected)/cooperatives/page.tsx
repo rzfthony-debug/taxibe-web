@@ -12,7 +12,7 @@ export default async function CooperativesPage() {
   const coops = await getCooperatives();
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Cooperatives</h1>

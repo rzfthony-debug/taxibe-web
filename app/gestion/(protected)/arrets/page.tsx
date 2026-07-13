@@ -12,7 +12,7 @@ export default async function ArretsPage() {
   const arrets = await getArrets();
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Arrets</h1>

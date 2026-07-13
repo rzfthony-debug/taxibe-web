@@ -8,16 +8,14 @@ import { logoutAdmin } from "../actions";
 const NAV_SECTIONS = [
   {
     label: "Vue d'ensemble",
-    items: [
-      { href: "/gestion",              label: "Dashboard",    icon: "▦" },
-    ],
+    items: [{ href: "/gestion", label: "Dashboard", icon: "▦" }],
   },
   {
     label: "Site web",
     items: [
-      { href: "/gestion/actualites",   label: "Actualités",   icon: "📰" },
-      { href: "/gestion/spotlight",    label: "Spotlight",    icon: "📣" },
-      { href: "/gestion/emplois",      label: "Carrières",    icon: "💼" },
+      { href: "/gestion/actualites", label: "Actualités",  icon: "📰" },
+      { href: "/gestion/spotlight",  label: "Spotlight",   icon: "📣" },
+      { href: "/gestion/emplois",    label: "Carrières",   icon: "💼" },
     ],
   },
   {
@@ -31,42 +29,32 @@ const NAV_SECTIONS = [
   },
   {
     label: "Administration",
-    items: [
-      { href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" },
-    ],
+    items: [{ href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" }],
   },
 ];
 
-export default function AdminSidebar({ nom }: { nom: string }) {
-  const [open, setOpen] = useState(false);
-
-  const sidebarContent = (
+function NavContent({ nom, onClose }: { nom: string; onClose?: () => void }) {
+  return (
     <>
       {/* Logo */}
-      <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)", flexShrink: 0 }}>
+      <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid rgba(255,255,255,0.07)", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Image
             src="/logo_taxibe_vertcal.png"
             alt="TaxiBe"
             width={120}
             height={60}
-            style={{ height: 36, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
+            style={{ height: 34, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
             priority
           />
-          {/* Bouton fermer sur mobile */}
-          <button
-            onClick={() => setOpen(false)}
-            className="admin-close-btn"
-            aria-label="Fermer le menu"
-            style={{
-              display: "none", background: "none", border: "none",
-              color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: "1.4rem", padding: 4,
-            }}
-          >
-            ✕
-          </button>
+          {onClose && (
+            <button onClick={onClose} style={{
+              background: "none", border: "none", color: "rgba(255,255,255,0.45)",
+              cursor: "pointer", fontSize: "1.3rem", padding: 4, lineHeight: 1,
+            }}>✕</button>
+          )}
         </div>
-        <p style={{ margin: "8px 0 0", fontSize: "0.62rem", color: "rgba(255,255,255,0.3)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+        <p style={{ margin: "8px 0 0", fontSize: "0.6rem", color: "rgba(255,255,255,0.28)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>
           Administration
         </p>
       </div>
@@ -75,25 +63,17 @@ export default function AdminSidebar({ nom }: { nom: string }) {
       <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
         {NAV_SECTIONS.map((section) => (
           <div key={section.label} style={{ marginBottom: 18 }}>
-            <p style={{
-              margin: "0 0 4px 10px", fontSize: "0.6rem", fontWeight: 800,
-              textTransform: "uppercase", letterSpacing: "0.1em",
-              color: "rgba(255,255,255,0.25)",
-            }}>
+            <p style={{ margin: "0 0 4px 10px", fontSize: "0.6rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.22)" }}>
               {section.label}
             </p>
             {section.items.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="admin-nav-item"
-                style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  padding: "9px 12px", borderRadius: 9, marginBottom: 2,
-                  textDecoration: "none", color: "rgba(255,255,255,0.65)",
-                  fontSize: "0.85rem", fontWeight: 600, transition: "background 0.15s",
-                }}
+              <Link key={item.href} href={item.href} onClick={onClose} style={{
+                display: "flex", alignItems: "center", gap: 10,
+                padding: "9px 12px", borderRadius: 9, marginBottom: 2,
+                textDecoration: "none", color: "rgba(255,255,255,0.65)",
+                fontSize: "0.85rem", fontWeight: 600,
+              }}
+              className="admin-nav-item"
               >
                 <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>
                 {item.label}
@@ -103,28 +83,25 @@ export default function AdminSidebar({ nom }: { nom: string }) {
         ))}
       </nav>
 
-      {/* Utilisateur + déconnexion */}
-      <div style={{ padding: "16px 14px", borderTop: "1px solid rgba(255,255,255,0.06)", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+      {/* User + logout */}
+      <div style={{ padding: "14px", borderTop: "1px solid rgba(255,255,255,0.07)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
           <div style={{
-            width: 32, height: 32, borderRadius: "50%", background: "#FFB800",
+            width: 30, height: 30, borderRadius: "50%", background: "#FFB800",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: 900, fontSize: "0.8rem", color: "#0D1525", flexShrink: 0,
+            fontWeight: 900, fontSize: "0.78rem", color: "#0D1525", flexShrink: 0,
           }}>
             {nom.charAt(0).toUpperCase()}
           </div>
-          <span style={{
-            fontSize: "0.8rem", color: "rgba(255,255,255,0.7)", fontWeight: 600,
-            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-          }}>
+          <span style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.65)", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {nom}
           </span>
         </div>
         <form action={logoutAdmin}>
           <button type="submit" style={{
-            width: "100%", padding: "8px", borderRadius: 8,
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
-            color: "rgba(255,255,255,0.5)", fontSize: "0.78rem", fontWeight: 600, cursor: "pointer",
+            width: "100%", padding: "7px", borderRadius: 8,
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)",
+            color: "rgba(255,255,255,0.45)", fontSize: "0.76rem", fontWeight: 600, cursor: "pointer",
           }}>
             Se déconnecter
           </button>
@@ -132,67 +109,84 @@ export default function AdminSidebar({ nom }: { nom: string }) {
       </div>
     </>
   );
+}
+
+export default function AdminSidebar({ nom }: { nom: string }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <>
       <style>{`
-        /* ── Sidebar desktop ── */
-        .admin-sidebar {
-          width: 240px; flex-shrink: 0;
+        .admin-nav-item:hover { background: rgba(255,255,255,0.08) !important; color: white !important; }
+
+        /* ── Desktop sidebar ── */
+        .admin-sidebar-desktop {
+          width: 240px;
+          flex-shrink: 0;
           background: #0D1525;
-          display: flex; flex-direction: column;
-          position: sticky; top: 0; height: 100vh;
+          display: flex;
+          flex-direction: column;
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          overflow: hidden;
         }
-        /* ── Topbar mobile ── */
-        .admin-topbar {
+
+        /* ── Mobile topbar (fixed) ── */
+        .admin-topbar-mobile {
           display: none;
-          position: sticky; top: 0; z-index: 40;
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          z-index: 100;
+          height: 52px;
           background: #0D1525;
-          padding: 12px 16px;
-          align-items: center; justify-content: space-between;
-          border-bottom: 1px solid rgba(255,255,255,0.08);
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 16px;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
         }
-        /* ── Drawer overlay mobile ── */
-        .admin-overlay {
+
+        /* ── Drawer overlay ── */
+        .admin-drawer-overlay {
           display: none;
-          position: fixed; inset: 0; z-index: 50;
-          background: rgba(0,0,0,0.5);
+          position: fixed;
+          inset: 0;
+          z-index: 110;
+          background: rgba(0,0,0,0.55);
         }
-        .admin-drawer {
-          position: fixed; top: 0; left: 0; bottom: 0;
-          width: 260px; background: #0D1525;
-          display: flex; flex-direction: column;
-          z-index: 51;
+        .admin-drawer-overlay.open { display: block; }
+
+        /* ── Drawer panel ── */
+        .admin-drawer-panel {
+          position: fixed;
+          top: 0; left: 0; bottom: 0;
+          width: 260px;
+          background: #0D1525;
+          display: flex;
+          flex-direction: column;
+          z-index: 120;
           transform: translateX(-100%);
-          transition: transform 0.25s ease;
+          transition: transform 0.22s ease;
         }
-        .admin-nav-item:hover { background: rgba(255,255,255,0.07) !important; color: white !important; }
+        .admin-drawer-panel.open { transform: translateX(0); }
 
         @media (max-width: 768px) {
-          .admin-sidebar { display: none !important; }
-          .admin-topbar { display: flex !important; }
-          .admin-overlay { display: block !important; }
-          .admin-close-btn { display: block !important; }
-          .admin-drawer { transform: ${open ? "translateX(0)" : "translateX(-100%)"}; }
-          .admin-main { padding: 16px !important; }
-          .page-header { flex-wrap: wrap; gap: 10px; }
-          .page-title { font-size: 1.1rem !important; }
-          .card { border-radius: 10px !important; }
-          .card > div[style*="overflow-x"] { overflow-x: auto; }
+          .admin-sidebar-desktop { display: none !important; }
+          .admin-topbar-mobile   { display: flex !important; }
         }
       `}</style>
 
       {/* ── Desktop sidebar ── */}
-      <aside className="admin-sidebar">
-        {sidebarContent}
+      <aside className="admin-sidebar-desktop">
+        <NavContent nom={nom} />
       </aside>
 
       {/* ── Mobile topbar ── */}
-      <div className="admin-topbar">
+      <div className="admin-topbar-mobile">
         <button
-          onClick={() => setOpen(true)}
-          aria-label="Ouvrir le menu"
-          style={{ background: "none", border: "none", cursor: "pointer", color: "white", padding: 4 }}
+          onClick={() => setDrawerOpen(true)}
+          aria-label="Menu"
+          style={{ background: "none", border: "none", cursor: "pointer", color: "white", padding: 4, display: "flex" }}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
@@ -205,21 +199,21 @@ export default function AdminSidebar({ nom }: { nom: string }) {
           alt="TaxiBe"
           width={90}
           height={45}
-          style={{ height: 28, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
+          style={{ height: 26, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
         />
         <div style={{ width: 30 }} />
       </div>
 
-      {/* ── Mobile overlay + drawer ── */}
-      {open && (
-        <div
-          className="admin-overlay"
-          onClick={() => setOpen(false)}
-          aria-hidden
-        />
-      )}
-      <aside className="admin-drawer">
-        {sidebarContent}
+      {/* ── Drawer overlay ── */}
+      <div
+        className={`admin-drawer-overlay${drawerOpen ? " open" : ""}`}
+        onClick={() => setDrawerOpen(false)}
+        aria-hidden
+      />
+
+      {/* ── Drawer panel ── */}
+      <aside className={`admin-drawer-panel${drawerOpen ? " open" : ""}`}>
+        <NavContent nom={nom} onClose={() => setDrawerOpen(false)} />
       </aside>
     </>
   );
