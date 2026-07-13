@@ -126,7 +126,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               src={article.image_url}
               alt={article.texte}
               width={1060} height={480}
-              style={{ width: "100%", height: "auto", maxHeight: 480, objectFit: "cover", borderRadius: 16, display: "block" }}
+              style={{ width: "100%", height: "auto", maxHeight: 480, objectFit: "contain", background: "#F1F5F9", borderRadius: 16, display: "block" }}
             />
           </div>
         )}
@@ -203,7 +203,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                       <Image
                         src={a.image_url} alt={a.texte}
                         width={80} height={56}
-                        style={{ width: 80, height: 56, objectFit: "cover", borderRadius: 8, display: "block" }}
+                        style={{ width: 80, height: 56, objectFit: "contain", background: "#F1F5F9", borderRadius: 8, display: "block" }}
                       />
                     ) : (
                       <div style={{ width: 80, height: 56, borderRadius: 8, background: "#E8ECF0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

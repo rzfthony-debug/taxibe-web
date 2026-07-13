@@ -63,16 +63,16 @@ export default async function BlogPage() {
           .blog-layout   { display: grid; grid-template-columns: 1fr 320px; gap: 32px; max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
           .blog-hero     { max-width: 1100px; margin: 0 auto; padding: 28px 24px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
           .blog-hero-img { display: flex; align-items: center; justify-content: center; }
-          .featured-img  { width: 100%; aspect-ratio: 16/9; border-radius: 14px; object-fit: cover; display: block; }
+          .featured-img  { width: 100%; aspect-ratio: 16/9; border-radius: 14px; object-fit: contain; background: #F1F5F9; display: block; }
           .featured-img-ph { width: 100%; aspect-ratio: 16/9; border-radius: 14px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%); }
           .article-mini  { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: start; padding: 20px 0; border-bottom: 1px solid #E8ECF0; }
           .article-mini:last-child { border-bottom: none; }
-          .article-mini-img { width: 120px; height: 80px; border-radius: 10px; object-fit: cover; flex-shrink: 0; display: block; }
+          .article-mini-img { width: 120px; height: 80px; border-radius: 10px; object-fit: contain; background: #F1F5F9; flex-shrink: 0; display: block; }
           .article-mini-img-ph { width: 120px; height: 80px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
           .article-grid  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
           .article-card  { background: white; border-radius: 12px; border: 1px solid #E8ECF0; overflow: hidden; text-decoration: none; display: block; }
           .article-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); transition: all 0.2s; }
-          .article-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display:block; }
+          .article-card-img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #F1F5F9; display:block; }
           .article-card-img-ph { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; }
           .sidebar-widget { background: white; border-radius: 14px; border: 1px solid #E8ECF0; overflow: hidden; margin-bottom: 20px; }
           .sidebar-title  { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; padding: 16px 18px 10px; margin: 0; }
