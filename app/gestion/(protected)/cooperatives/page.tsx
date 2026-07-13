@@ -24,6 +24,7 @@ export default async function CooperativesPage() {
       </div>
 
       <div className="card">
+        <div className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -55,6 +56,7 @@ export default async function CooperativesPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

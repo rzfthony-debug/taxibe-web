@@ -27,6 +27,7 @@ export default async function LignesPage() {
       </div>
 
       <div className="card">
+        <div className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -77,6 +78,7 @@ export default async function LignesPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

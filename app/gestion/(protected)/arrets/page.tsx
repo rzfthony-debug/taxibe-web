@@ -24,6 +24,7 @@ export default async function ArretsPage() {
       </div>
 
       <div className="card">
+        <div className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -61,6 +62,7 @@ export default async function ArretsPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
