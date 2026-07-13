@@ -19,25 +19,29 @@ export default async function LoginPage({
   return (
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "#0D1525",
+      background: "#F1F5F9",
       fontFamily: "var(--font-poppins), system-ui, sans-serif",
     }}>
       <div style={{
         background: "white", borderRadius: 20, padding: "44px 40px",
         width: "100%", maxWidth: 380,
-        boxShadow: "0 24px 80px rgba(0,0,0,0.4)",
+        boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+        border: "1px solid #E2E8F0",
       }}>
-        {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: 36 }}>
+        {/* Logo centré */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 36 }}>
           <Image
             src="/logo_taxibe_vertcal.png"
             alt="TaxiBe"
             width={360}
             height={180}
-            style={{ height: 48, width: "auto", objectFit: "contain" }}
+            style={{ height: 52, width: "auto", objectFit: "contain" }}
             priority
           />
-          <p style={{ fontSize: "0.78rem", color: "#94A3B8", margin: "14px 0 0", fontWeight: 500 }}>
+          <p style={{
+            fontSize: "0.78rem", color: "#94A3B8", margin: "12px 0 0",
+            fontWeight: 500, textAlign: "center",
+          }}>
             Espace administrateur
           </p>
         </div>
@@ -71,7 +75,7 @@ export default async function LoginPage({
                 width: "100%", padding: "12px 14px", borderRadius: 10,
                 border: "1.5px solid #E2E8F0", fontSize: "1rem",
                 outline: "none", color: "#0D1525", boxSizing: "border-box",
-                letterSpacing: "0.12em",
+                letterSpacing: "0.12em", fontFamily: "inherit",
               }}
             />
           </div>
@@ -81,7 +85,7 @@ export default async function LoginPage({
               padding: "13px", borderRadius: 10, border: "none",
               background: "#FFB800", color: "#0D1525",
               fontWeight: 800, fontSize: "0.9375rem", cursor: "pointer",
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.01em", fontFamily: "inherit",
             }}
           >
             Se connecter
