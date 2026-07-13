@@ -40,11 +40,11 @@ function NavContent({ nom, onClose }: { nom: string; onClose?: () => void }) {
       <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid rgba(255,255,255,0.07)", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Image
-            src="/logo_taxibe_vertcal.png"
+            src="/logo_taxibe_noir.png"
             alt="TaxiBe"
             width={120}
             height={60}
-            style={{ height: 34, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
+            style={{ height: 34, width: "auto", objectFit: "contain" }}
             priority
           />
           {onClose && (

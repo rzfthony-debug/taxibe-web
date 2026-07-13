@@ -85,10 +85,10 @@ export default function Footer() {
         {/* Marque */}
         <div>
           <Image
-            src="/logo_taxibe_vertcal.png"
+            src="/logo_taxibe_noir.png"
             alt="TaxiBe"
             width={140} height={70}
-            style={{ height: 30, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 12 }}
+            style={{ height: 30, width: "auto", objectFit: "contain", marginBottom: 12 }}
           />
           <p style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.65, margin: "0 0 18px", maxWidth: 200 }}>
             TaxiBe Madagascar, votre allié pour tous vos déplacements à Antananarivo.
