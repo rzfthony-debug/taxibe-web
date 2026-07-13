@@ -96,8 +96,9 @@ export default async function BlogPage() {
             .article-grid { grid-template-columns: 1fr 1fr; }
           }
           @media (max-width: 540px) {
-            .article-mini { grid-template-columns: 88px 1fr; gap: 12px; }
-            .mini-img-wrap, .mini-img-ph { width: 88px; min-width: 88px; height: 60px; }
+            .article-mini { grid-template-columns: 1fr; gap: 0; padding: 16px 0; }
+            .mini-img-wrap { width: 100%; min-width: unset; height: 160px; margin-bottom: 14px; }
+            .mini-img-ph   { width: 100%; min-width: unset; height: 160px; margin-bottom: 14px; }
             .article-grid { grid-template-columns: 1fr; }
             .blog-layout  { padding: 0 16px 40px; }
           }
