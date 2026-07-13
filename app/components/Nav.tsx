@@ -128,7 +128,7 @@ export default function Nav() {
                   }}>
                     {/* Arrow */}
                     <div style={{
-                      position: "absolute", top: -6, left: "50%", transform: "translateX(-50%)",
+                      position: "absolute", top: -6, left: "50%",
                       width: 12, height: 12, background: "white",
                       border: "1px solid #E8ECF0", borderRight: "none", borderBottom: "none",
                       transform: "translateX(-50%) rotate(45deg)",
