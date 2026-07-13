@@ -94,7 +94,6 @@ const NAV_SECTIONS = [
       { label: "Notre mission",         desc: "Pourquoi TaxiBe ?",            href: "/a-propos",        icon: I.heart },
       { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "#",                icon: I.users },
       { label: "Carrieres",             desc: "Rejoignez l'aventure",         href: "/emplois",         icon: I.briefcase },
-      { label: "Presse",                desc: "Espace presse",                href: "#",                icon: I.newspaper },
       { label: "Contact",               desc: "Parlez-nous",                  href: "#",                icon: I.mail },
       { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/mentions-legales", icon: I.shield },
     ],
