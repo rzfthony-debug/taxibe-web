@@ -5,17 +5,17 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats();
 
   const cards = [
-    { label: "Inscriptions en attente", value: stats.usersEnAttente, href: "/gestion/utilisateurs", color: "#FFB800", bg: "#fffbeb" },
-    { label: "Emplois � mod�rer", value: stats.emploisEnAttente, href: "/gestion/emplois", color: "#f59e0b", bg: "#fff7ed" },
-    { label: "Articles publi�s", value: stats.actualitesPubliees, href: "/gestion/actualites", color: "#3b82f6", bg: "#eff6ff" },
-    { label: "Signalements ouverts", value: stats.signalementsOuverts, href: "#", color: "#ef4444", bg: "#fef2f2" },
+    { label: "Inscriptions en attente", value: stats.usersEnAttente,      href: "/gestion/utilisateurs", color: "#FFB800" },
+    { label: "Emplois à modérer",       value: stats.emploisEnAttente,    href: "/gestion/emplois",      color: "#f59e0b" },
+    { label: "Articles publiés",        value: stats.actualitesPubliees,  href: "/gestion/actualites",   color: "#3b82f6" },
+    { label: "Signalements ouverts",    value: stats.signalementsOuverts, href: "#",                     color: "#ef4444" },
   ];
 
   const shortcuts = [
-    { label: "Nouvel article", href: "/gestion/actualites/nouveau", icon: "??" },
-    { label: "Nouveau spotlight", href: "/gestion/spotlight/nouveau", icon: "??" },
-    { label: "Voir les utilisateurs", href: "/gestion/utilisateurs", icon: "??" },
-    { label: "Mod�rer les emplois", href: "/gestion/emplois", icon: "??" },
+    { label: "Nouvel article",        href: "/gestion/actualites/nouveau", icon: "📰" },
+    { label: "Nouveau spotlight",     href: "/gestion/spotlight/nouveau",  icon: "📣" },
+    { label: "Voir les utilisateurs", href: "/gestion/utilisateurs",       icon: "👥" },
+    { label: "Modérer les emplois",   href: "/gestion/emplois",            icon: "💼" },
   ];
 
   return (
@@ -27,15 +27,12 @@ export default async function DashboardPage() {
         </span>
       </div>
 
-      {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 32 }}>
         {cards.map((c) => (
           <Link key={c.label} href={c.href} style={{ textDecoration: "none" }}>
             <div style={{
               background: "white", borderRadius: 14, padding: "20px 22px",
-              border: "1px solid #E2E8F0",
-              borderLeft: `4px solid ${c.color}`,
-              transition: "box-shadow 0.15s",
+              border: "1px solid #E2E8F0", borderLeft: `4px solid ${c.color}`,
             }}>
               <p style={{ margin: "0 0 8px", fontSize: "0.75rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 {c.label}
@@ -48,7 +45,6 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      {/* Raccourcis */}
       <div className="card">
         <div style={{ padding: "18px 22px", borderBottom: "1px solid #F1F5F9" }}>
           <h2 style={{ margin: 0, fontSize: "0.9rem", fontWeight: 800, color: "#0D1525" }}>Actions rapides</h2>
@@ -59,7 +55,6 @@ export default async function DashboardPage() {
               display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
               padding: "20px 12px", borderRadius: 10, textDecoration: "none",
               background: "#F8FAFC", border: "1px solid #E2E8F0",
-              transition: "background 0.15s",
             }}>
               <span style={{ fontSize: "1.6rem" }}>{s.icon}</span>
               <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "#0D1525", textAlign: "center" }}>{s.label}</span>
