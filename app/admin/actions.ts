@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 export async function loginAdmin(formData: FormData) {
   const cle = (formData.get("cle") as string)?.trim();
-  if (!cle) return { error: "Clé requise." };
+  if (!cle) { redirect("/admin/login?error=required"); return; }
 
   const { data } = await adminDb
     .from("admin_users")
@@ -17,7 +17,7 @@ export async function loginAdmin(formData: FormData) {
     .eq("actif", true)
     .single();
 
-  if (!data) return { error: "Clé invalide ou compte désactivé." };
+  if (!data) { redirect("/admin/login?error=invalid"); return; }
 
   const jar = await cookies();
   jar.set("taxibe_admin", data.id, {

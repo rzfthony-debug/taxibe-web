@@ -1,6 +1,18 @@
 import { loginAdmin } from "@/app/admin/actions";
 
-export default function LoginPage() {
+const ERROR_MESSAGES: Record<string, string> = {
+  required: "Veuillez saisir votre clé d'accès.",
+  invalid: "Clé invalide ou compte désactivé.",
+};
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+  const errorMsg = error ? (ERROR_MESSAGES[error] ?? "Erreur inconnue.") : null;
+
   return (
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
@@ -28,6 +40,16 @@ export default function LoginPage() {
             Panneau d&apos;administration
           </p>
         </div>
+
+        {errorMsg && (
+          <div style={{
+            background: "#fee2e2", color: "#dc2626", borderRadius: 8,
+            padding: "10px 14px", fontSize: "0.85rem", marginBottom: 16,
+            fontWeight: 600,
+          }}>
+            {errorMsg}
+          </div>
+        )}
 
         <form action={loginAdmin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
