@@ -1,20 +1,33 @@
-"use client";
-
-import { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
+import SearchForm from "@/app/components/SearchForm";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
-  const [query, setQuery] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+type Article = {
+  id: string;
+  image_url: string | null;
+  texte: string;
+  created_at: string;
+};
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    if (query.trim()) {
-      window.location.href = `/recherche?q=${encodeURIComponent(query.trim())}`;
-    }
-  }
+async function getActualites(): Promise<Article[]> {
+  const { data } = await supabase
+    .from("actualites")
+    .select("id, image_url, texte, created_at")
+    .eq("publie", true)
+    .order("created_at", { ascending: false })
+    .limit(3);
+  return (data ?? []) as Article[];
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+
+export default async function Home() {
+  const articles = await getActualites();
 
   return (
     <>
@@ -24,22 +37,22 @@ export default function Home() {
       <style>{`
         .search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,184,0,0.15); }
         .search-btn:hover { background: #e6a500 !important; }
+        .actu-card { background: white; border-radius: 14px; border: 1px solid #E8ECF0; overflow: hidden; text-decoration: none; display: block; transition: box-shadow 0.2s, transform 0.2s; }
+        .actu-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); transform: translateY(-2px); }
+        .actu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 860px) { .actu-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 540px) { .actu-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{
-        background: "#0D1525",
-        padding: "80px 24px 96px",
-      }}>
+      <section style={{ background: "#0D1525", padding: "80px 24px 96px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
           <p style={{
             fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em",
-            textTransform: "uppercase", color: "#FFB800",
-            marginBottom: 20,
+            textTransform: "uppercase", color: "#FFB800", marginBottom: 20,
           }}>
             Antananarivo · 100% Gratuit
           </p>
-
           <h1 style={{
             fontSize: "clamp(2rem, 6vw, 3.4rem)", fontWeight: 900,
             color: "white", lineHeight: 1.13, marginBottom: 20,
@@ -48,55 +61,13 @@ export default function Home() {
             Trouvez votre ligne de{" "}
             <span style={{ color: "#FFB800" }}>taxi-be</span>
           </h1>
-
           <p style={{
             fontSize: "1rem", color: "rgba(255,255,255,0.55)",
             lineHeight: 1.8, marginBottom: 40, maxWidth: 480, margin: "0 auto 40px",
           }}>
             Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
           </p>
-
-          {/* Barre de recherche principale */}
-          <form onSubmit={handleSearch} style={{
-            display: "flex", gap: 0, maxWidth: 500, margin: "0 auto 24px",
-            background: "white", borderRadius: 12, overflow: "hidden",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.3)",
-          }}>
-            <input
-              ref={inputRef}
-              className="search-input"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Numéro de ligne — ex : 147"
-              style={{
-                flex: 1, padding: "16px 20px",
-                border: "none", outline: "none",
-                fontSize: "1rem", fontWeight: 500,
-                fontFamily: "var(--font-inter), system-ui",
-                color: "#0D1525", minWidth: 0,
-                background: "transparent",
-              }}
-            />
-            <button
-              type="submit"
-              className="search-btn"
-              style={{
-                flexShrink: 0, padding: "16px 24px",
-                background: "#FFB800", border: "none", cursor: "pointer",
-                fontWeight: 800, fontSize: "0.875rem", color: "#0D1525",
-                fontFamily: "var(--font-inter), system-ui",
-                display: "flex", alignItems: "center", gap: 8,
-                transition: "background 0.15s",
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
-              Chercher
-            </button>
-          </form>
-
+          <SearchForm />
           <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", margin: 0 }}>
             Essayez 147 · 135 · 20B · 165 · 182
           </p>
@@ -160,6 +131,68 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Actualités ── */}
+      {articles.length > 0 && (
+        <section style={{ padding: "88px 24px", background: "white" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 12 }}>
+              <div>
+                <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 10 }}>
+                  Actualités
+                </p>
+                <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", margin: 0, letterSpacing: "-0.01em" }}>
+                  Les dernières nouvelles
+                </h2>
+              </div>
+              <Link href="/blog" style={{
+                fontSize: "0.84rem", fontWeight: 700, color: "#FFB800",
+                textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6,
+                whiteSpace: "nowrap",
+              }}>
+                Voir tous les articles →
+              </Link>
+            </div>
+
+            <div className="actu-grid">
+              {articles.map((a) => (
+                <Link key={a.id} href={`/blog/${a.id}`} className="actu-card">
+                  {a.image_url ? (
+                    <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
+                      <Image
+                        src={a.image_url}
+                        alt={a.texte}
+                        width={0} height={0}
+                        sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
+                        style={{ width: "100%", height: "auto", display: "block" }}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: "100%", aspectRatio: "16/9",
+                      background: "linear-gradient(135deg, #0D1525 0%, #1a2a3a 100%)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <span style={{ fontSize: "2rem", opacity: 0.25 }}>🚌</span>
+                    </div>
+                  )}
+                  <div style={{ padding: "18px 20px 22px" }}>
+                    <p style={{ fontSize: "0.7rem", color: "#94A3B8", margin: "0 0 10px", fontWeight: 500 }}>
+                      {formatDate(a.created_at)}
+                    </p>
+                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.4 }}>
+                      {a.texte}
+                    </h3>
+                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#FFB800" }}>
+                      Lire l&apos;article →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── CTA Téléchargement ── */}
       <section style={{ background: "#FFB800", padding: "72px 24px" }}>
         <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
@@ -181,7 +214,7 @@ export default function Home() {
       </section>
 
       {/* ── Comment ça marche ── */}
-      <section id="comment" style={{ padding: "88px 24px", background: "white" }}>
+      <section id="comment" style={{ padding: "88px 24px", background: "#F8F9FB" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
             Utilisation
