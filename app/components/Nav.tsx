@@ -179,7 +179,7 @@ export default function Nav() {
           padding: 8px 12px; border-radius: 8px;
           font-size: 0.875rem; font-weight: 600; color: #64748B;
           background: none; border: none; cursor: pointer;
-          font-family: var(--font-poppins), system-ui;
+          font-family: var(--font-inter), system-ui;
           transition: color 0.15s, background 0.15s; white-space: nowrap;
         }
         .nav-trigger:hover, .nav-trigger.open { color: #0D1525; background: #F8F9FB; }
@@ -328,7 +328,7 @@ export default function Nav() {
             {NAV_SECTIONS.map((s) => (
               <div key={s.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
                 <button onClick={() => setMobileExpanded(mobileExpanded === s.key ? null : s.key)}
-                  style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", fontFamily: "var(--font-poppins), system-ui" }}>
+                  style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", fontFamily: "var(--font-inter), system-ui" }}>
                   <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ color: "#FFB800", display: "flex" }}>{s.headerIcon}</span>
                     {s.label}

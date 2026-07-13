@@ -42,7 +42,7 @@ export default async function RecherchePage({
               style={{
                 flex: 1, padding: "8px 16px", borderRadius: 8,
                 border: "1.5px solid #E2E8F0", fontSize: "0.9rem",
-                fontFamily: "var(--font-poppins), system-ui",
+                fontFamily: "var(--font-inter), system-ui",
                 outline: "none", color: "#0D1525",
               }}
             />
@@ -50,7 +50,7 @@ export default async function RecherchePage({
               padding: "8px 18px", borderRadius: 8,
               background: "#FFB800", border: "none", cursor: "pointer",
               fontWeight: 700, fontSize: "0.875rem", color: "#0D1525",
-              fontFamily: "var(--font-poppins), system-ui",
+              fontFamily: "var(--font-inter), system-ui",
             }}>
               Chercher
             </button>

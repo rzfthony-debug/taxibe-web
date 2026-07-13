@@ -97,7 +97,7 @@ export default function TelechargerPage() {
   return (
     <>
     <Nav />
-    <main style={{ fontFamily: "var(--font-poppins), system-ui, sans-serif" }}>
+    <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 
       {/* ── Hero ── */}
       <section style={{ background: "#0D1525", padding: "72px 24px 88px", textAlign: "center" }}>

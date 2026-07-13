@@ -21,7 +21,7 @@ export default async function LoginPage({
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
       background: "#F1F5F9",
-      fontFamily: "var(--font-poppins), system-ui, sans-serif",
+      fontFamily: "var(--font-inter), system-ui, sans-serif",
     }}>
       <div style={{
         background: "white", borderRadius: 20, padding: "44px 40px",

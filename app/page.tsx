@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
     <Nav />
-    <main style={{ fontFamily: "var(--font-poppins), system-ui, sans-serif" }}>
+    <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 
       <style>{`
         .search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,184,0,0.15); }
@@ -73,7 +73,7 @@ export default function Home() {
                 flex: 1, padding: "16px 20px",
                 border: "none", outline: "none",
                 fontSize: "1rem", fontWeight: 500,
-                fontFamily: "var(--font-poppins), system-ui",
+                fontFamily: "var(--font-inter), system-ui",
                 color: "#0D1525", minWidth: 0,
                 background: "transparent",
               }}
@@ -85,7 +85,7 @@ export default function Home() {
                 flexShrink: 0, padding: "16px 24px",
                 background: "#FFB800", border: "none", cursor: "pointer",
                 fontWeight: 800, fontSize: "0.875rem", color: "#0D1525",
-                fontFamily: "var(--font-poppins), system-ui",
+                fontFamily: "var(--font-inter), system-ui",
                 display: "flex", alignItems: "center", gap: 8,
                 transition: "background 0.15s",
               }}
