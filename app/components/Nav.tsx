@@ -54,7 +54,6 @@ const NAV_SECTIONS = [
       { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "#",                icon: I.list,    badge: "APP" },
       { label: "Itineraire A vers B",  desc: "Calculez votre trajet",         href: "#",                icon: I.route, badge: "APP" },
       { label: "Correspondances",      desc: "Trouvez vos correspondances",   href: "#",                icon: I.git,   badge: "APP" },
-      { label: "Zones desservies",     desc: "Decouvrez nos zones",           href: "#",                icon: I.map },
     ],
   },
   {
