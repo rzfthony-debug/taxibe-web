@@ -1,4 +1,7 @@
+import Image from "next/image";
 import { loginAdmin } from "@/app/admin/actions";
+
+export const metadata = { title: "Connexion — TaxiBe Admin" };
 
 const ERROR_MESSAGES: Record<string, string> = {
   required: "Veuillez saisir votre clé d'accès.",
@@ -16,74 +19,72 @@ export default async function LoginPage({
   return (
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "#F1F5F9",
+      background: "#0D1525",
+      fontFamily: "var(--font-poppins), system-ui, sans-serif",
     }}>
       <div style={{
-        background: "white", borderRadius: 16, padding: "40px 36px",
-        width: "100%", maxWidth: 400,
-        boxShadow: "0 4px 32px rgba(0,0,0,0.08)",
-        border: "1px solid #E2E8F0",
+        background: "white", borderRadius: 20, padding: "44px 40px",
+        width: "100%", maxWidth: 380,
+        boxShadow: "0 24px 80px rgba(0,0,0,0.4)",
       }}>
         {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            width: 56, height: 56, borderRadius: 14,
-            background: "#0D1525", marginBottom: 16,
-          }}>
-            <span style={{ color: "#FFB800", fontWeight: 900, fontSize: "1.3rem" }}>TB</span>
-          </div>
-          <h1 style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px" }}>
-            TaxiBe Admin
-          </h1>
-          <p style={{ fontSize: "0.8rem", color: "#94A3B8", margin: 0 }}>
-            Panneau d&apos;administration
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <Image
+            src="/logo_taxibe_vertcal.png"
+            alt="TaxiBe"
+            width={360}
+            height={180}
+            style={{ height: 48, width: "auto", objectFit: "contain" }}
+            priority
+          />
+          <p style={{ fontSize: "0.78rem", color: "#94A3B8", margin: "14px 0 0", fontWeight: 500 }}>
+            Espace administrateur
           </p>
         </div>
 
         {errorMsg && (
           <div style={{
             background: "#fee2e2", color: "#dc2626", borderRadius: 8,
-            padding: "10px 14px", fontSize: "0.85rem", marginBottom: 16,
+            padding: "10px 14px", fontSize: "0.85rem", marginBottom: 20,
             fontWeight: 600,
           }}>
             {errorMsg}
           </div>
         )}
 
-        <form action={loginAdmin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <form action={loginAdmin} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div>
             <label style={{
-              display: "block", fontSize: "0.72rem", fontWeight: 700,
-              color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em",
-              marginBottom: 6,
+              display: "block", fontSize: "0.7rem", fontWeight: 700,
+              color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em",
+              marginBottom: 7,
             }}>
-              Clé d&apos;accès admin
+              Clé d&apos;accès
             </label>
             <input
               name="cle"
               type="password"
-              placeholder="betax-admin-..."
               required
               autoFocus
+              autoComplete="current-password"
               style={{
-                width: "100%", padding: "11px 14px", borderRadius: 10,
-                border: "1.5px solid #E2E8F0", fontSize: "0.9rem",
+                width: "100%", padding: "12px 14px", borderRadius: 10,
+                border: "1.5px solid #E2E8F0", fontSize: "1rem",
                 outline: "none", color: "#0D1525", boxSizing: "border-box",
-                fontFamily: "monospace", letterSpacing: "0.06em",
+                letterSpacing: "0.12em",
               }}
             />
           </div>
           <button
             type="submit"
             style={{
-              padding: "12px", borderRadius: 10, border: "none",
+              padding: "13px", borderRadius: 10, border: "none",
               background: "#FFB800", color: "#0D1525",
               fontWeight: 800, fontSize: "0.9375rem", cursor: "pointer",
-              marginTop: 4,
+              letterSpacing: "-0.01em",
             }}
           >
-            Se connecter →
+            Se connecter
           </button>
         </form>
       </div>
