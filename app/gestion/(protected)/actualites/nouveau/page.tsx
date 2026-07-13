@@ -1,4 +1,4 @@
-import { createActualite } from "@/app/admin/actions";
+import { createActualite } from "@/app/gestion/actions";
 import Link from "next/link";
 
 export default function NouvelArticlePage() {
@@ -6,8 +6,8 @@ export default function NouvelArticlePage() {
     <div style={{ padding: "32px 36px", maxWidth: 760 }}>
       <div className="page-header">
         <h1 className="page-title">Nouvel article</h1>
-        <Link href="/admin/actualites">
-          <button className="btn-sm btn-gray">‚Üê Retour</button>
+        <Link href="/gestion/actualites">
+          <button className="btn-sm btn-gray">? Retour</button>
         </Link>
       </div>
 
@@ -18,8 +18,8 @@ export default function NouvelArticlePage() {
             <input name="image_url" type="url" placeholder="https://..." required />
           </div>
           <div>
-            <label>Texte / R√©sum√© *</label>
-            <textarea name="texte" rows={2} placeholder="Court r√©sum√© affich√© dans la liste..." required
+            <label>Texte / RÈsumÈ *</label>
+            <textarea name="texte" rows={2} placeholder="Court rÈsumÈ affichÈ dans la liste..." required
               style={{ resize: "vertical" }} />
           </div>
           <div>
@@ -35,7 +35,7 @@ export default function NouvelArticlePage() {
             <div>
               <label>Statut</label>
               <select name="publie">
-                <option value="true">Publi√©</option>
+                <option value="true">PubliÈ</option>
                 <option value="false">Brouillon</option>
               </select>
             </div>
@@ -45,8 +45,8 @@ export default function NouvelArticlePage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
-            <button type="submit" className="btn-yellow">Cr√©er l&apos;article ‚Üí</button>
-            <Link href="/admin/actualites">
+            <button type="submit" className="btn-yellow">CrÈer l&apos;article ?</button>
+            <Link href="/gestion/actualites">
               <button type="button" className="btn-sm btn-gray" style={{ padding: "10px 18px" }}>Annuler</button>
             </Link>
           </div>

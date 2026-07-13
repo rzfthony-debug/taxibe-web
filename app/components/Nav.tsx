@@ -176,7 +176,7 @@ export default function Nav() {
           {/* Right side actions */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {/* Bouton admin rond */}
-            <Link href="/admin/login" title="Espace administrateur" style={{
+            <Link href="/gestion/login" title="Espace administrateur" style={{
               width: 36, height: 36, borderRadius: "50%",
               background: "#F1F5F9", border: "1.5px solid #E2E8F0",
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -269,7 +269,7 @@ export default function Nav() {
             ))}
 
             <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-              <Link href="/admin/login" style={{
+              <Link href="/gestion/login" style={{
                 flex: 1, padding: "12px", borderRadius: 8, textAlign: "center",
                 background: "#F1F5F9", color: "#0D1525",
                 fontWeight: 700, fontSize: "0.875rem", textDecoration: "none",

@@ -1,4 +1,4 @@
-import { getEmplois, updateStatutEmploi, deleteEmploi } from "@/app/admin/actions";
+import { getEmplois, updateStatutEmploi, deleteEmploi } from "@/app/gestion/actions";
 
 export default async function EmploisPage() {
   const offres = await getEmplois();
@@ -10,7 +10,7 @@ export default async function EmploisPage() {
       <div className="page-header">
         <h1 className="page-title">Offres d&apos;emploi</h1>
         <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
-          {offres.length} offre{offres.length > 1 ? "s" : ""} Â· {enAttente.length} en attente
+          {offres.length} offre{offres.length > 1 ? "s" : ""} · {enAttente.length} en attente
         </span>
       </div>
 
@@ -52,8 +52,8 @@ export default async function EmploisPage() {
               };
               const statutLabels: Record<string, string> = {
                 en_attente: "En attente",
-                publie: "PubliÃ©",
-                rejete: "RejetÃ©",
+                publie: "Publié",
+                rejete: "Rejeté",
               };
 
               return (
@@ -72,7 +72,7 @@ export default async function EmploisPage() {
                   <td style={{ fontSize: "0.8rem", color: "#64748B", whiteSpace: "nowrap" }}>
                     {o.date_limite
                       ? new Date(o.date_limite).toLocaleDateString("fr-FR")
-                      : "â€”"}
+                      : "—"}
                   </td>
                   <td>
                     <span className={`badge ${statutMap[o.statut] ?? "badge-gray"}`}>

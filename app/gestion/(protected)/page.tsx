@@ -5,17 +5,17 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats();
 
   const cards = [
-    { label: "Inscriptions en attente", value: stats.usersEnAttente, href: "/admin/utilisateurs", color: "#FFB800", bg: "#fffbeb" },
-    { label: "Emplois à modérer", value: stats.emploisEnAttente, href: "/admin/emplois", color: "#f59e0b", bg: "#fff7ed" },
-    { label: "Articles publiés", value: stats.actualitesPubliees, href: "/admin/actualites", color: "#3b82f6", bg: "#eff6ff" },
+    { label: "Inscriptions en attente", value: stats.usersEnAttente, href: "/gestion/utilisateurs", color: "#FFB800", bg: "#fffbeb" },
+    { label: "Emplois � mod�rer", value: stats.emploisEnAttente, href: "/gestion/emplois", color: "#f59e0b", bg: "#fff7ed" },
+    { label: "Articles publi�s", value: stats.actualitesPubliees, href: "/gestion/actualites", color: "#3b82f6", bg: "#eff6ff" },
     { label: "Signalements ouverts", value: stats.signalementsOuverts, href: "#", color: "#ef4444", bg: "#fef2f2" },
   ];
 
   const shortcuts = [
-    { label: "Nouvel article", href: "/admin/actualites/nouveau", icon: "📰" },
-    { label: "Nouveau spotlight", href: "/admin/spotlight/nouveau", icon: "📣" },
-    { label: "Voir les utilisateurs", href: "/admin/utilisateurs", icon: "👥" },
-    { label: "Modérer les emplois", href: "/admin/emplois", icon: "💼" },
+    { label: "Nouvel article", href: "/gestion/actualites/nouveau", icon: "??" },
+    { label: "Nouveau spotlight", href: "/gestion/spotlight/nouveau", icon: "??" },
+    { label: "Voir les utilisateurs", href: "/gestion/utilisateurs", icon: "??" },
+    { label: "Mod�rer les emplois", href: "/gestion/emplois", icon: "??" },
   ];
 
   return (

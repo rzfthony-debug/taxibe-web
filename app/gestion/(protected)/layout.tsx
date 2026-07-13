@@ -3,11 +3,11 @@ import Link from "next/link";
 import { logoutAdmin } from "../actions";
 
 const NAV = [
-  { href: "/admin",            label: "Dashboard",    icon: "▦" },
-  { href: "/admin/actualites", label: "Actualités",   icon: "📰" },
-  { href: "/admin/spotlight",  label: "Spotlight",    icon: "📣" },
-  { href: "/admin/utilisateurs", label: "Utilisateurs", icon: "👥" },
-  { href: "/admin/emplois",    label: "Emplois",      icon: "💼" },
+  { href: "/gestion",            label: "Dashboard",    icon: "?" },
+  { href: "/gestion/actualites", label: "Actualit�s",   icon: "??" },
+  { href: "/gestion/spotlight",  label: "Spotlight",    icon: "??" },
+  { href: "/gestion/utilisateurs", label: "Utilisateurs", icon: "??" },
+  { href: "/gestion/emplois",    label: "Emplois",      icon: "??" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F1F5F9" }}>
 
-      {/* ── Sidebar ── */}
+      {/* -- Sidebar -- */}
       <aside style={{
         width: 240, flexShrink: 0,
         background: "#0D1525",
@@ -82,13 +82,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
               color: "rgba(255,255,255,0.5)", fontSize: "0.78rem", fontWeight: 600, cursor: "pointer",
             }}>
-              Se déconnecter
+              Se d�connecter
             </button>
           </form>
         </div>
       </aside>
 
-      {/* ── Contenu principal ── */}
+      {/* -- Contenu principal -- */}
       <main style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
         <style>{`
           .admin-nav-item:hover { background: rgba(255,255,255,0.07) !important; color: white !important; }

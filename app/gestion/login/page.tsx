@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { loginAdmin } from "@/app/admin/actions";
+import { loginAdmin } from "@/app/gestion/actions";
 
-export const metadata = { title: "Connexion â€” TaxiBe Admin" };
+export const metadata = { title: "Connexion — TaxiBe Admin" };
 
 const ERROR_MESSAGES: Record<string, string> = {
-  required: "Veuillez saisir votre clÃ© d'accÃ¨s.",
-  invalid: "ClÃ© invalide ou compte dÃ©sactivÃ©.",
-  blocked: "Trop de tentatives. AccÃ¨s bloquÃ© 15 minutes.",
+  required: "Veuillez saisir votre clé d'accès.",
+  invalid: "Clé invalide ou compte désactivé.",
+  blocked: "Trop de tentatives. Accès bloqué 15 minutes.",
 };
 
 export default async function LoginPage({
@@ -29,7 +29,7 @@ export default async function LoginPage({
         boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
         border: "1px solid #E2E8F0",
       }}>
-        {/* Logo centrÃ© */}
+        {/* Logo centré */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 36 }}>
           <Image
             src="/logo_taxibe_vertcal.png"
@@ -64,7 +64,7 @@ export default async function LoginPage({
               color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em",
               marginBottom: 7,
             }}>
-              ClÃ© d&apos;accÃ¨s
+              Clé d&apos;accès
             </label>
             <input
               name="cle"

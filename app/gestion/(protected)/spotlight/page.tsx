@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSpotlight, toggleSpotlight, deleteSpotlight } from "@/app/admin/actions";
+import { getSpotlight, toggleSpotlight, deleteSpotlight } from "@/app/gestion/actions";
 
 export default async function SpotlightPage() {
   const items = await getSpotlight();
@@ -7,8 +7,8 @@ export default async function SpotlightPage() {
   return (
     <div style={{ padding: "32px 36px" }}>
       <div className="page-header">
-        <h1 className="page-title">Spotlight / PublicitÃ©s</h1>
-        <Link href="/admin/spotlight/nouveau">
+        <h1 className="page-title">Spotlight / Publicités</h1>
+        <Link href="/gestion/spotlight/nouveau">
           <button className="btn-yellow">+ Nouveau spotlight</button>
         </Link>
       </div>
@@ -54,12 +54,12 @@ export default async function SpotlightPage() {
                 </td>
                 <td>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <Link href={`/admin/spotlight/${s.id}`}>
+                    <Link href={`/gestion/spotlight/${s.id}`}>
                       <button className="btn-sm btn-gray">Modifier</button>
                     </Link>
                     <form action={toggleSpotlight.bind(null, s.id, !s.publie)} style={{ display: "inline" }}>
                       <button type="submit" className={`btn-sm ${s.publie ? "btn-orange" : "btn-green"}`}>
-                        {s.publie ? "DÃ©sactiver" : "Activer"}
+                        {s.publie ? "Désactiver" : "Activer"}
                       </button>
                     </form>
                     <form action={deleteSpotlight.bind(null, s.id)} style={{ display: "inline" }}>

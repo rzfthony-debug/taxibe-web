@@ -1,4 +1,4 @@
-import { getUtilisateurs, approuverUser, suspendreUser, deleteUser } from "@/app/admin/actions";
+import { getUtilisateurs, approuverUser, suspendreUser, deleteUser } from "@/app/gestion/actions";
 
 export default async function UtilisateursPage() {
   const users = await getUtilisateurs();
@@ -14,7 +14,7 @@ export default async function UtilisateursPage() {
     };
     const labels: Record<string, string> = {
       en_attente: "En attente",
-      approuve: "ApprouvÃ©",
+      approuve: "Approuvé",
       suspendu: "Suspendu",
     };
     return <span className={`badge ${map[statut] ?? "badge-gray"}`}>{labels[statut] ?? statut}</span>;
@@ -41,7 +41,7 @@ export default async function UtilisateursPage() {
         </td>
         <td><StatutBadge statut={u.statut} /></td>
         <td style={{ fontFamily: "monospace", fontSize: "0.72rem", color: "#94A3B8" }}>
-          {u.cle ?? "â€”"}
+          {u.cle ?? "—"}
         </td>
         <td style={{ fontSize: "0.8rem", color: "#64748B", whiteSpace: "nowrap" }}>
           {new Date(u.created_at).toLocaleDateString("fr-FR")}
@@ -60,7 +60,7 @@ export default async function UtilisateursPage() {
             )}
             {u.statut === "suspendu" && (
               <form action={approuverUser.bind(null, u.id)} style={{ display: "inline" }}>
-                <button type="submit" className="btn-sm btn-green">RÃ©activer</button>
+                <button type="submit" className="btn-sm btn-green">Réactiver</button>
               </form>
             )}
             <form action={deleteUser.bind(null, u.id)} style={{ display: "inline" }}>
@@ -77,7 +77,7 @@ export default async function UtilisateursPage() {
       <div className="page-header">
         <h1 className="page-title">Utilisateurs</h1>
         <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
-          {users.length} membre{users.length > 1 ? "s" : ""} Â· {enAttente.length} en attente
+          {users.length} membre{users.length > 1 ? "s" : ""} · {enAttente.length} en attente
         </span>
       </div>
 
@@ -90,7 +90,7 @@ export default async function UtilisateursPage() {
             <table>
               <thead>
                 <tr>
-                  <th>Nom</th><th>Contact</th><th>Statut</th><th>ClÃ©</th><th>Date</th><th>Actions</th>
+                  <th>Nom</th><th>Contact</th><th>Statut</th><th>Clé</th><th>Date</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,7 +109,7 @@ export default async function UtilisateursPage() {
           <table>
             <thead>
               <tr>
-                <th>Nom</th><th>Contact</th><th>Statut</th><th>ClÃ© d&apos;accÃ¨s</th><th>Date</th><th>Actions</th>
+                <th>Nom</th><th>Contact</th><th>Statut</th><th>Clé d&apos;accès</th><th>Date</th><th>Actions</th>
               </tr>
             </thead>
             <tbody>

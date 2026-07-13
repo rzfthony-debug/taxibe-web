@@ -7,16 +7,16 @@ import { redirect } from "next/navigation";
 const MAX_ATTEMPTS = 5;
 const BLOCK_MINUTES = 15;
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
+// -- Auth ----------------------------------------------------------------------
 
 export async function loginAdmin(formData: FormData) {
   const cle = (formData.get("cle") as string)?.trim();
-  if (!cle) { redirect("/admin/login?error=required"); return; }
+  if (!cle) { redirect("/gestion/login?error=required"); return; }
 
   const hdrs = await headers();
   const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 
-  // Vérifier le blocage
+  // V�rifier le blocage
   const { data: attempt } = await adminDb
     .from("login_attempts")
     .select("count, blocked_until")
@@ -24,11 +24,11 @@ export async function loginAdmin(formData: FormData) {
     .maybeSingle();
 
   if (attempt?.blocked_until && new Date(attempt.blocked_until) > new Date()) {
-    redirect("/admin/login?error=blocked");
+    redirect("/gestion/login?error=blocked");
     return;
   }
 
-  // Vérifier la clé
+  // V�rifier la cl�
   const { data } = await adminDb
     .from("admin_users")
     .select("id, nom, role")
@@ -47,11 +47,11 @@ export async function loginAdmin(formData: FormData) {
       { onConflict: "ip" }
     );
 
-    redirect("/admin/login?error=invalid");
+    redirect("/gestion/login?error=invalid");
     return;
   }
 
-  // Succès — effacer les tentatives
+  // Succ�s � effacer les tentatives
   await adminDb.from("login_attempts").delete().eq("ip", ip);
 
   const jar = await cookies();
@@ -65,7 +65,7 @@ export async function loginAdmin(formData: FormData) {
   jar.set("taxibe_admin_nom", data.nom, { path: "/" });
   jar.set("taxibe_admin_role", data.role ?? "lecteur", { path: "/" });
 
-  redirect("/admin");
+  redirect("/gestion");
 }
 
 export async function logoutAdmin() {
@@ -73,10 +73,10 @@ export async function logoutAdmin() {
   jar.delete("taxibe_admin");
   jar.delete("taxibe_admin_nom");
   jar.delete("taxibe_admin_role");
-  redirect("/admin/login");
+  redirect("/gestion/login");
 }
 
-// ── Actualités ────────────────────────────────────────────────────────────────
+// -- Actualit�s ----------------------------------------------------------------
 
 export async function getActualites() {
   const { data } = await adminDb
@@ -102,10 +102,10 @@ export async function createActualite(formData: FormData) {
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  if (!image_url || !texte) { redirect("/admin/actualites"); return; }
+  if (!image_url || !texte) { redirect("/gestion/actualites"); return; }
 
   await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, publie, ordre });
-  redirect("/admin/actualites");
+  redirect("/gestion/actualites");
 }
 
 export async function updateActualite(id: string, formData: FormData) {
@@ -117,10 +117,10 @@ export async function updateActualite(id: string, formData: FormData) {
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   await adminDb.from("actualites").update({ image_url, texte, contenu, lien, publie, ordre }).eq("id", id);
-  redirect("/admin/actualites");
+  redirect("/gestion/actualites");
 }
 
-// ── Spotlight ─────────────────────────────────────────────────────────────────
+// -- Spotlight -----------------------------------------------------------------
 
 export async function getSpotlight() {
   const { data } = await adminDb
@@ -147,10 +147,10 @@ export async function createSpotlight(formData: FormData) {
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  if (!image_url || !titre) { redirect("/admin/spotlight"); return; }
+  if (!image_url || !titre) { redirect("/gestion/spotlight"); return; }
 
   await adminDb.from("spotlight").insert({ image_url, titre, sous_titre, cta_label, cta_url, publie, ordre });
-  redirect("/admin/spotlight");
+  redirect("/gestion/spotlight");
 }
 
 export async function updateSpotlight(id: string, formData: FormData) {
@@ -163,10 +163,10 @@ export async function updateSpotlight(id: string, formData: FormData) {
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   await adminDb.from("spotlight").update({ image_url, titre, sous_titre, cta_label, cta_url, publie, ordre }).eq("id", id);
-  redirect("/admin/spotlight");
+  redirect("/gestion/spotlight");
 }
 
-// ── Utilisateurs ──────────────────────────────────────────────────────────────
+// -- Utilisateurs --------------------------------------------------------------
 
 export async function getUtilisateurs() {
   const { data } = await adminDb
@@ -195,7 +195,7 @@ export async function deleteUser(id: string) {
   await adminDb.from("app_users").delete().eq("id", id);
 }
 
-// ── Emplois ───────────────────────────────────────────────────────────────────
+// -- Emplois -------------------------------------------------------------------
 
 export async function getEmplois() {
   const { data } = await adminDb
@@ -213,7 +213,7 @@ export async function deleteEmploi(id: string) {
   await adminDb.from("offres_emploi").delete().eq("id", id);
 }
 
-// ── Dashboard stats ───────────────────────────────────────────────────────────
+// -- Dashboard stats -----------------------------------------------------------
 
 export async function getDashboardStats() {
   const [users, emplois, actualites, signalements] = await Promise.all([

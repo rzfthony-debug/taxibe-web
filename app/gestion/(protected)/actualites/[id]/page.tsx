@@ -1,5 +1,5 @@
 import { adminDb } from "@/lib/supabase";
-import { updateActualite } from "@/app/admin/actions";
+import { updateActualite } from "@/app/gestion/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -19,7 +19,7 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
     <div style={{ padding: "32px 36px", maxWidth: 760 }}>
       <div className="page-header">
         <h1 className="page-title">Modifier l&apos;article</h1>
-        <Link href="/admin/actualites">
+        <Link href="/gestion/actualites">
           <button className="btn-sm btn-gray">← Retour</button>
         </Link>
       </div>
@@ -61,7 +61,7 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
           </div>
           <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
             <button type="submit" className="btn-yellow">Enregistrer →</button>
-            <Link href="/admin/actualites">
+            <Link href="/gestion/actualites">
               <button type="button" className="btn-sm btn-gray" style={{ padding: "10px 18px" }}>Annuler</button>
             </Link>
           </div>

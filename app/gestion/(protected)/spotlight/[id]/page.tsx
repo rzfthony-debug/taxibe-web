@@ -1,5 +1,5 @@
 import { adminDb } from "@/lib/supabase";
-import { updateSpotlight } from "@/app/admin/actions";
+import { updateSpotlight } from "@/app/gestion/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -14,7 +14,7 @@ export default async function EditSpotlightPage({ params }: { params: Promise<{ 
     <div style={{ padding: "32px 36px", maxWidth: 760 }}>
       <div className="page-header">
         <h1 className="page-title">Modifier le spotlight</h1>
-        <Link href="/admin/spotlight">
+        <Link href="/gestion/spotlight">
           <button className="btn-sm btn-gray">← Retour</button>
         </Link>
       </div>
@@ -62,7 +62,7 @@ export default async function EditSpotlightPage({ params }: { params: Promise<{ 
           </div>
           <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
             <button type="submit" className="btn-yellow">Enregistrer →</button>
-            <Link href="/admin/spotlight">
+            <Link href="/gestion/spotlight">
               <button type="button" className="btn-sm btn-gray" style={{ padding: "10px 18px" }}>Annuler</button>
             </Link>
           </div>

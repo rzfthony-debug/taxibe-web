@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getActualites, toggleActualite, deleteActualite } from "@/app/admin/actions";
+import { getActualites, toggleActualite, deleteActualite } from "@/app/gestion/actions";
 
 export default async function ActualitesPage() {
   const articles = await getActualites();
@@ -7,8 +7,8 @@ export default async function ActualitesPage() {
   return (
     <div style={{ padding: "32px 36px" }}>
       <div className="page-header">
-        <h1 className="page-title">ActualitÃ©s</h1>
-        <Link href="/admin/actualites/nouveau">
+        <h1 className="page-title">Actualités</h1>
+        <Link href="/gestion/actualites/nouveau">
           <button className="btn-yellow">+ Nouvel article</button>
         </Link>
       </div>
@@ -18,7 +18,7 @@ export default async function ActualitesPage() {
           <thead>
             <tr>
               <th>Image</th>
-              <th>Texte / RÃ©sumÃ©</th>
+              <th>Texte / Résumé</th>
               <th>Statut</th>
               <th>Date</th>
               <th>Actions</th>
@@ -51,7 +51,7 @@ export default async function ActualitesPage() {
                 </td>
                 <td>
                   <span className={`badge ${a.publie ? "badge-green" : "badge-gray"}`}>
-                    {a.publie ? "PubliÃ©" : "Brouillon"}
+                    {a.publie ? "Publié" : "Brouillon"}
                   </span>
                 </td>
                 <td style={{ color: "#64748B", fontSize: "0.8rem", whiteSpace: "nowrap" }}>
@@ -59,12 +59,12 @@ export default async function ActualitesPage() {
                 </td>
                 <td>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <Link href={`/admin/actualites/${a.id}`}>
+                    <Link href={`/gestion/actualites/${a.id}`}>
                       <button className="btn-sm btn-gray">Modifier</button>
                     </Link>
                     <form action={toggleActualite.bind(null, a.id, !a.publie)} style={{ display: "inline" }}>
                       <button type="submit" className={`btn-sm ${a.publie ? "btn-orange" : "btn-green"}`}>
-                        {a.publie ? "DÃ©publier" : "Publier"}
+                        {a.publie ? "Dépublier" : "Publier"}
                       </button>
                     </form>
                     <form action={deleteActualite.bind(null, a.id)} style={{ display: "inline" }}
