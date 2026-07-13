@@ -67,7 +67,7 @@ export async function createActualite(formData: FormData) {
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  if (!image_url || !texte) return { error: "Image et texte requis." };
+  if (!image_url || !texte) { redirect("/admin/actualites"); return; }
 
   await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, publie, ordre });
   redirect("/admin/actualites");
@@ -112,7 +112,7 @@ export async function createSpotlight(formData: FormData) {
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  if (!image_url || !titre) return { error: "Image et titre requis." };
+  if (!image_url || !titre) { redirect("/admin/spotlight"); return; }
 
   await adminDb.from("spotlight").insert({ image_url, titre, sous_titre, cta_label, cta_url, publie, ordre });
   redirect("/admin/spotlight");
