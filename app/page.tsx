@@ -1,18 +1,13 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Nav from "@/app/components/Nav";
+import Footer from "@/app/components/Footer";
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const navLinks = [
-    { label: "Fonctionnalités", href: "#fonctionnalites" },
-    { label: "Comment ça marche", href: "#comment" },
-  ];
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -22,77 +17,12 @@ export default function Home() {
   }
 
   return (
+    <>
+    <Nav />
     <main style={{ fontFamily: "var(--font-poppins), system-ui, sans-serif" }}>
 
-      {/* ── Nav ── */}
-      <nav style={{
-        position: "sticky", top: 0, zIndex: 100,
-        background: "white",
-        borderBottom: "1px solid #E2E8F0",
-        boxShadow: "0 1px 8px rgba(0,0,0,0.05)",
-      }}>
-        <div style={{
-          maxWidth: 1100, margin: "0 auto", padding: "0 24px",
-          height: 64, display: "flex", alignItems: "center", justifyContent: "space-between",
-        }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
-            <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={360} height={180}
-              style={{ height: 36, width: "auto", objectFit: "contain" }} priority />
-          </a>
-
-          {/* Liens desktop */}
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }} className="nav-desktop">
-            {navLinks.map((l) => (
-              <a key={l.label} href={l.href} style={{
-                padding: "8px 14px", borderRadius: 8,
-                color: "#64748B", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none",
-              }}>
-                {l.label}
-              </a>
-            ))}
-            <Link href="/telecharger" style={{
-              marginLeft: 8, padding: "9px 22px", borderRadius: 8,
-              background: "#FFB800", color: "#0D1525",
-              fontWeight: 800, fontSize: "0.875rem", textDecoration: "none",
-            }}>
-              Télécharger l&apos;app
-            </Link>
-          </div>
-
-          {/* Burger mobile */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="nav-burger"
-            style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8, borderRadius: 8, color: "#0D1525" }}
-            aria-label="Menu">
-            {menuOpen
-              ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/></svg>
-            }
-          </button>
-        </div>
-
-        {/* Menu mobile */}
-        {menuOpen && (
-          <div style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "12px 24px 20px" }} className="nav-mobile-menu">
-            {navLinks.map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{
-                display: "block", padding: "12px 0", color: "#0D1525", fontSize: "1rem", fontWeight: 600,
-                textDecoration: "none", borderBottom: "1px solid #F1F5F9",
-              }}>{l.label}</a>
-            ))}
-            <Link href="/telecharger" style={{
-              display: "block", marginTop: 16, padding: "13px", borderRadius: 8, textAlign: "center",
-              background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none",
-            }}>
-              Télécharger l&apos;app — Gratuit
-            </Link>
-          </div>
-        )}
-      </nav>
-
       <style>{`
-        @media (max-width: 768px) { .nav-desktop { display: none !important; } .nav-burger { display: flex !important; } }
-        @media (min-width: 769px) { .nav-mobile-menu { display: none !important; } }
-        .search-input:focus { border-color: #FFB800 !important; box-shadow: 0 0 0 3px rgba(255,184,0,0.15) !important; }
+        .search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,184,0,0.15); }
         .search-btn:hover { background: #e6a500 !important; }
       `}</style>
 
@@ -286,48 +216,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: "#0D1525", padding: "48px 24px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
-            <div style={{ maxWidth: 260 }}>
-              <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={160} height={80}
-                style={{ height: 34, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 14 }} />
-              <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: 0 }}>
-                L&apos;application de référence pour trouver vos lignes de taxi-be à Antananarivo.{" "}
-                <strong style={{ color: "#FFB800" }}>Gratuit.</strong>
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-              <div>
-                <p style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.25)", marginBottom: 14 }}>Application</p>
-                {[
-                  { label: "Fonctionnalités", href: "#fonctionnalites" },
-                  { label: "Comment ça marche", href: "#comment" },
-                  { label: "Télécharger l'app", href: "/telecharger" },
-                  { label: "Rechercher une ligne", href: "/recherche" },
-                ].map((l) => (
-                  <a key={l.label} href={l.href} style={{ display: "block", fontSize: "0.84rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", marginBottom: 8, fontWeight: 500 }}>{l.label}</a>
-                ))}
-              </div>
-              <div>
-                <p style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.25)", marginBottom: 14 }}>Légal</p>
-                {[
-                  { label: "Confidentialité", href: "/politique-confidentialite" },
-                  { label: "Conditions d'utilisation", href: "/conditions" },
-                ].map((l) => (
-                  <a key={l.label} href={l.href} style={{ display: "block", fontSize: "0.84rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", marginBottom: 8, fontWeight: 500 }}>{l.label}</a>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(255,255,255,0.25)" }}>© {new Date().getFullYear()} TaxiBe. Tous droits réservés.</p>
-            <p style={{ margin: 0, fontSize: "0.75rem", color: "rgba(255,255,255,0.25)" }}>Antananarivo, Madagascar</p>
-          </div>
-        </div>
-      </footer>
-
     </main>
+    <Footer />
+    </>
   );
 }

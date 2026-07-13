@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import Nav from "@/app/components/Nav";
+import Footer from "@/app/components/Footer";
 
 export const metadata = {
   title: "Télécharger TaxiBe — Gratuit sur Android",
@@ -93,23 +95,9 @@ function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
 
 export default function TelechargerPage() {
   return (
+    <>
+    <Nav />
     <main style={{ fontFamily: "var(--font-poppins), system-ui, sans-serif" }}>
-
-      {/* ── Nav ── */}
-      <nav style={{
-        position: "sticky", top: 0, zIndex: 100, background: "white",
-        borderBottom: "1px solid #E2E8F0", boxShadow: "0 1px 8px rgba(0,0,0,0.05)",
-      }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
-            <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={360} height={180}
-              style={{ height: 36, width: "auto", objectFit: "contain" }} priority />
-          </Link>
-          <Link href="/" style={{ fontSize: "0.85rem", color: "#64748B", textDecoration: "none", fontWeight: 600 }}>
-            ← Retour
-          </Link>
-        </div>
-      </nav>
 
       {/* ── Hero ── */}
       <section style={{ background: "#0D1525", padding: "72px 24px 88px", textAlign: "center" }}>
@@ -230,18 +218,8 @@ export default function TelechargerPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: "#0D1525", padding: "32px 24px", textAlign: "center" }}>
-        <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={120} height={60}
-          style={{ height: 28, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 14 }} />
-        <p style={{ margin: "0 0 8px", fontSize: "0.78rem", color: "rgba(255,255,255,0.3)" }}>
-          © {new Date().getFullYear()} TaxiBe · Antananarivo, Madagascar
-        </p>
-        <Link href="/" style={{ fontSize: "0.78rem", color: "rgba(255,184,0,0.6)", textDecoration: "none" }}>
-          ← Retour à l&apos;accueil
-        </Link>
-      </footer>
-
     </main>
+    <Footer />
+    </>
   );
 }

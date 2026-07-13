@@ -1,6 +1,7 @@
 import { searchLignesByNumero } from "@/lib/search";
 import Link from "next/link";
-import Image from "next/image";
+import Nav from "@/app/components/Nav";
+import Footer from "@/app/components/Footer";
 
 export default async function RecherchePage({
   searchParams,
@@ -12,22 +13,18 @@ export default async function RecherchePage({
   const results = query ? await searchLignesByNumero(query) : [];
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8F9FB" }}>
+    <>
+    <Nav />
+    <div style={{ minHeight: "80vh", background: "#F8F9FB" }}>
 
-      {/* Nav */}
-      <nav style={{
+      {/* Barre de recherche sticky */}
+      <div style={{
         background: "white", borderBottom: "1px solid #E8ECF0",
-        position: "sticky", top: 0, zIndex: 100,
-        boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+        padding: "12px 24px",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
       }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 24px", height: 60, display: "flex", alignItems: "center", gap: 20 }}>
-          <Link href="/" style={{ flexShrink: 0, textDecoration: "none" }}>
-            <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={240} height={120}
-              style={{ height: 32, width: "auto", objectFit: "contain" }} />
-          </Link>
-
-          {/* Barre de recherche dans la nav */}
-          <form action="/recherche" method="GET" style={{ flex: 1, maxWidth: 480, display: "flex", gap: 8 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+          <form action="/recherche" method="GET" style={{ display: "flex", gap: 8 }}>
             <input
               name="q"
               defaultValue={query}
@@ -49,18 +46,10 @@ export default async function RecherchePage({
               Chercher
             </button>
           </form>
-
-          <Link href="/telecharger" style={{
-            flexShrink: 0, padding: "8px 16px", borderRadius: 8,
-            background: "#0D1525", color: "#FFB800",
-            fontSize: "0.8rem", fontWeight: 700, textDecoration: "none",
-          }}>
-            Télécharger l&apos;app
-          </Link>
         </div>
-      </nav>
+      </div>
 
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "28px 24px" }}>
 
         {/* État vide */}
         {!query && (
@@ -188,5 +177,7 @@ export default async function RecherchePage({
         )}
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
