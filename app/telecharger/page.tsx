@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Télécharger TaxiBe — Gratuit",
-  description: "Téléchargez TaxiBe sur Android ou installez-la dans votre navigateur. Gratuit, sans abonnement.",
+  title: "Télécharger TaxiBe — Gratuit sur Android",
+  description: "Téléchargez TaxiBe sur Android. Gratuit, sans abonnement, sans publicité.",
 };
 
 function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
@@ -51,14 +51,12 @@ function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
       content: (
         <div style={{ padding: "10px 8px", display: "flex", flexDirection: "column", gap: 6 }}>
           {[
-            { c: "#FFB800", label: "147", w: "70%" },
-            { c: "#0D1525", label: "135", w: "85%" },
-            { c: "#1a2f55", label: "20B", w: "60%" },
-          ].map((r) => (
-            <div key={r.label} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 8, padding: "8px 10px", display: "flex", gap: 8, alignItems: "center" }}>
-              <div style={{ width: 32, height: 22, borderRadius: 5, background: r.c, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ height: 6, background: "rgba(255,255,255,0.7)", borderRadius: 2, width: "60%" }} />
-              </div>
+            { c: "#FFB800", w: "70%" },
+            { c: "#0D1525", w: "85%" },
+            { c: "#1a2f55", w: "60%" },
+          ].map((r, i) => (
+            <div key={i} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 8, padding: "8px 10px", display: "flex", gap: 8, alignItems: "center" }}>
+              <div style={{ width: 32, height: 22, borderRadius: 5, background: r.c, flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
                 <div style={{ height: 7, background: "#E2E8F0", borderRadius: 3, width: r.w, marginBottom: 4 }} />
                 <div style={{ height: 6, background: "#F1F5F9", borderRadius: 3, width: "50%" }} />
@@ -74,88 +72,67 @@ function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-      {/* Phone frame */}
       <div style={{
         width: 160, borderRadius: 24, background: "#0D1525",
         padding: "10px 6px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
-        position: "relative",
       }}>
-        {/* Notch */}
         <div style={{ width: 50, height: 8, background: "#1a2a40", borderRadius: 4, margin: "0 auto 8px" }} />
-        {/* Screen */}
         <div style={{ background: "#F8FAFC", borderRadius: 16, minHeight: 200, overflow: "hidden" }}>
-          {/* Status bar */}
           <div style={{ background: "#0D1525", padding: "4px 10px", display: "flex", justifyContent: "space-between" }}>
             <div style={{ height: 5, width: 20, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
             <div style={{ height: 5, width: 28, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
           </div>
           {s.content}
         </div>
-        {/* Home bar */}
         <div style={{ width: 40, height: 4, background: "rgba(255,255,255,0.2)", borderRadius: 2, margin: "8px auto 0" }} />
       </div>
-      <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "#64748B" }}>{s.label}</span>
+      <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748B" }}>{s.label}</span>
     </div>
   );
 }
 
 export default function TelechargerPage() {
   return (
-    <main style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
+    <main style={{ fontFamily: "var(--font-poppins), system-ui, sans-serif" }}>
 
-      {/* ── Nav simple ── */}
+      {/* ── Nav ── */}
       <nav style={{
         position: "sticky", top: 0, zIndex: 100, background: "white",
-        borderBottom: "1px solid #E2E8F0", boxShadow: "0 1px 8px rgba(0,0,0,0.06)",
+        borderBottom: "1px solid #E2E8F0", boxShadow: "0 1px 8px rgba(0,0,0,0.05)",
       }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
             <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={360} height={180}
               style={{ height: 36, width: "auto", objectFit: "contain" }} priority />
           </Link>
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <a href="https://taxibemada.vercel.app" style={{
-              padding: "8px 16px", borderRadius: 8,
-              color: "#64748B", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none",
-              border: "1.5px solid #E2E8F0",
-            }}>
-              Utiliser dans le navigateur
-            </a>
-            <Link href="/" style={{ fontSize: "0.85rem", color: "#94A3B8", textDecoration: "none", fontWeight: 500 }}>
-              ← Retour
-            </Link>
-          </div>
+          <Link href="/" style={{ fontSize: "0.85rem", color: "#64748B", textDecoration: "none", fontWeight: 600 }}>
+            ← Retour
+          </Link>
         </div>
       </nav>
 
       {/* ── Hero ── */}
-      <section style={{
-        background: "linear-gradient(135deg, #0D1525 0%, #1a2f55 100%)",
-        padding: "72px 24px 88px", textAlign: "center",
-      }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            background: "rgba(255,184,0,0.15)", color: "#FFB800",
-            border: "1px solid rgba(255,184,0,0.3)",
-            borderRadius: 50, padding: "6px 18px", marginBottom: 24,
-            fontSize: "0.8rem", fontWeight: 700,
+      <section style={{ background: "#0D1525", padding: "72px 24px 88px", textAlign: "center" }}>
+        <div style={{ maxWidth: 640, margin: "0 auto" }}>
+          <p style={{
+            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em",
+            textTransform: "uppercase", color: "#FFB800", marginBottom: 20,
           }}>
-            🎁 100% Gratuit — Toujours
-          </span>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, color: "white", lineHeight: 1.2, marginBottom: 18 }}>
+            Disponible sur Android · 100% Gratuit
+          </p>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, color: "white", lineHeight: 1.15, marginBottom: 18, letterSpacing: "-0.02em" }}>
             Téléchargez TaxiBe sur votre téléphone
           </h1>
-          <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, marginBottom: 0, maxWidth: 500, margin: "0 auto" }}>
-            Installez l&apos;app en quelques secondes. Aucun abonnement, aucune carte bancaire — gratuit pour toujours.
+          <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: 480, margin: "0 auto" }}>
+            Installez l&apos;application en quelques secondes. Aucun abonnement, aucune carte bancaire — gratuit pour toujours.
           </p>
         </div>
       </section>
 
-      {/* ── Screenshots ── */}
-      <section style={{ padding: "72px 24px", background: "#F8FAFC" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 48 }}>
+      {/* ── Aperçu ── */}
+      <section style={{ padding: "72px 24px", background: "#F8F9FB" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 900, color: "#0D1525", marginBottom: 48, letterSpacing: "-0.01em" }}>
             Aperçu de l&apos;application
           </h2>
           <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap", alignItems: "flex-end" }}>
@@ -165,167 +142,102 @@ export default function TelechargerPage() {
             </div>
             <PhoneMockup screen="result" />
           </div>
-          <p style={{ marginTop: 40, fontSize: "0.82rem", color: "#94A3B8" }}>
+          <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#94A3B8" }}>
             Interface rapide, simple et lisible — conçue pour Antananarivo.
           </p>
         </div>
       </section>
 
-      {/* ── Options de téléchargement ── */}
+      {/* ── Installation APK ── */}
       <section style={{ padding: "72px 24px" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <h2 style={{ textAlign: "center", fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 12 }}>
-            Choisissez votre méthode d&apos;installation
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          <h2 style={{ textAlign: "center", fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 900, color: "#0D1525", marginBottom: 8, letterSpacing: "-0.01em" }}>
+            Comment installer TaxiBe
           </h2>
-          <p style={{ textAlign: "center", color: "#64748B", marginBottom: 48 }}>
-            Deux façons d&apos;installer TaxiBe — les deux sont gratuites.
+          <p style={{ textAlign: "center", color: "#64748B", marginBottom: 48, fontSize: "0.9rem" }}>
+            En moins d&apos;une minute, sur n&apos;importe quel téléphone Android.
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 24 }}>
-
-            {/* Option 1 — PWA */}
-            <div style={{
-              background: "white", borderRadius: 20, padding: "32px 28px",
-              border: "2px solid #FFB800",
-              boxShadow: "0 4px 24px rgba(255,184,0,0.12)",
-              position: "relative",
-            }}>
-              <div style={{
-                position: "absolute", top: -14, left: 28,
-                background: "#FFB800", color: "#0D1525",
-                fontSize: "0.72rem", fontWeight: 800, padding: "4px 14px", borderRadius: 20,
-                letterSpacing: "0.05em",
-              }}>
-                RECOMMANDÉ
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 14, background: "#FFF7E6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", flexShrink: 0 }}>
-                  🌐
-                </div>
-                <div>
-                  <h3 style={{ margin: "0 0 4px", fontWeight: 900, fontSize: "1.1rem", color: "#0D1525" }}>Installer en PWA</h3>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B" }}>Via Chrome ou votre navigateur</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 28 }}>
-                {[
-                  { n: "1", text: "Ouvrez taxibemada.vercel.app dans Chrome" },
-                  { n: "2", text: "Appuyez sur le menu (⋮) en haut à droite" },
-                  { n: "3", text: "Choisissez « Ajouter à l'écran d'accueil »" },
-                  { n: "4", text: "Confirmez — l'icône apparaît sur votre écran !" },
-                ].map((s) => (
-                  <div key={s.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <div style={{
-                      width: 26, height: 26, borderRadius: "50%", flexShrink: 0,
-                      background: "#FFB800", color: "#0D1525",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "0.78rem",
-                    }}>
-                      {s.n}
-                    </div>
-                    <p style={{ margin: 0, fontSize: "0.875rem", color: "#374151", lineHeight: 1.5, paddingTop: 3 }}>{s.text}</p>
+          <div style={{
+            background: "white", borderRadius: 16, padding: "36px 32px",
+            border: "1px solid #E8ECF0", boxShadow: "0 4px 24px rgba(0,0,0,0.05)",
+          }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
+              {[
+                { n: "1", text: "Téléchargez le fichier APK en appuyant sur le bouton ci-dessous" },
+                { n: "2", text: "Ouvrez le fichier téléchargé depuis vos notifications ou votre dossier Téléchargements" },
+                { n: "3", text: "Si le téléphone vous le demande, autorisez l'installation depuis cette source" },
+                { n: "4", text: "Installez — l'icône TaxiBe apparaît sur votre écran d'accueil" },
+              ].map((s) => (
+                <div key={s.n} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 8, flexShrink: 0,
+                    background: "#FFB800", color: "#0D1525",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontWeight: 900, fontSize: "0.85rem",
+                  }}>
+                    {s.n}
                   </div>
-                ))}
-              </div>
-
-              <a href="https://taxibemada.vercel.app" style={{
-                display: "block", padding: "13px", borderRadius: 50, textAlign: "center",
-                background: "#FFB800", color: "#0D1525",
-                fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none",
-              }}>
-                Ouvrir l&apos;app dans Chrome →
-              </a>
+                  <p style={{ margin: 0, fontSize: "0.9rem", color: "#374151", lineHeight: 1.6, paddingTop: 5 }}>{s.text}</p>
+                </div>
+              ))}
             </div>
 
-            {/* Option 2 — APK */}
-            <div style={{
-              background: "white", borderRadius: 20, padding: "32px 28px",
-              border: "1px solid #E2E8F0",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
+            <a href="/taxibe.apk" style={{
+              display: "block", padding: "16px", borderRadius: 10, textAlign: "center",
+              background: "#0D1525", color: "#FFB800",
+              fontWeight: 800, fontSize: "1rem", textDecoration: "none",
+              letterSpacing: "-0.01em",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 14, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", flexShrink: 0 }}>
-                  🤖
-                </div>
-                <div>
-                  <h3 style={{ margin: "0 0 4px", fontWeight: 900, fontSize: "1.1rem", color: "#0D1525" }}>Télécharger l&apos;APK</h3>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B" }}>Pour Android uniquement</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 28 }}>
-                {[
-                  { n: "1", text: "Téléchargez le fichier APK ci-dessous" },
-                  { n: "2", text: "Ouvrez le fichier téléchargé sur votre téléphone" },
-                  { n: "3", text: "Autorisez l'installation depuis une source inconnue si demandé" },
-                  { n: "4", text: "Installez et profitez de TaxiBe !" },
-                ].map((s) => (
-                  <div key={s.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <div style={{
-                      width: 26, height: 26, borderRadius: "50%", flexShrink: 0,
-                      background: "#0D1525", color: "#FFB800",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "0.78rem",
-                    }}>
-                      {s.n}
-                    </div>
-                    <p style={{ margin: 0, fontSize: "0.875rem", color: "#374151", lineHeight: 1.5, paddingTop: 3 }}>{s.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              <a href="/taxibe.apk" style={{
-                display: "block", padding: "13px", borderRadius: 50, textAlign: "center",
-                background: "#0D1525", color: "#FFB800",
-                fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none",
-              }}>
-                ⬇ Télécharger l&apos;APK Android
-              </a>
-            </div>
+              Télécharger TaxiBe — Gratuit
+            </a>
+            <p style={{ textAlign: "center", margin: "12px 0 0", fontSize: "0.75rem", color: "#94A3B8" }}>
+              Android 6.0 et supérieur · Aucune donnée personnelle requise
+            </p>
           </div>
         </div>
       </section>
 
       {/* ── Ce qui est inclus ── */}
-      <section style={{ padding: "72px 24px", background: "#F8FAFC" }}>
+      <section style={{ padding: "72px 24px", background: "#F8F9FB" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 12 }}>
+          <h2 style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 900, color: "#0D1525", marginBottom: 8, letterSpacing: "-0.01em" }}>
             Tout est inclus — gratuitement
           </h2>
-          <p style={{ color: "#64748B", marginBottom: 40 }}>Aucune fonctionnalité cachée derrière un abonnement.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          <p style={{ color: "#64748B", marginBottom: 40, fontSize: "0.9rem" }}>Aucune fonctionnalité cachée derrière un abonnement.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
             {[
-              { emoji: "🔍", label: "Recherche par numéro" },
-              { emoji: "📍", label: "Recherche par arrêt" },
-              { emoji: "🛰️", label: "GPS & arrêts proches" },
-              { emoji: "🔄", label: "Correspondances auto" },
-              { emoji: "⭐", label: "Lignes favorites" },
-              { emoji: "📰", label: "Actualités" },
-              { emoji: "💼", label: "Offres d'emploi" },
-              { emoji: "🎮", label: "Jeux & récompenses" },
-            ].map((f) => (
-              <div key={f.label} style={{
-                background: "white", borderRadius: 12, padding: "18px 16px",
-                border: "1px solid #E2E8F0", display: "flex", alignItems: "center", gap: 12,
+              "Recherche par numéro de ligne",
+              "Recherche par arrêt ou quartier",
+              "Localisation GPS",
+              "Correspondances automatiques",
+              "Lignes favorites",
+              "Actualités & informations",
+              "Offres d'emploi",
+              "Jeux & récompenses",
+            ].map((label) => (
+              <div key={label} style={{
+                background: "white", borderRadius: 10, padding: "14px 16px",
+                border: "1px solid #E8ECF0", display: "flex", alignItems: "center", gap: 10,
               }}>
-                <span style={{ fontSize: "1.3rem" }}>{f.emoji}</span>
-                <span style={{ fontSize: "0.875rem", fontWeight: 700, color: "#0D1525" }}>{f.label}</span>
-                <span style={{ marginLeft: "auto", color: "#22c55e", fontSize: "1rem" }}>✓</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span style={{ fontSize: "0.84rem", fontWeight: 600, color: "#0D1525" }}>{label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Footer simple ── */}
+      {/* ── Footer ── */}
       <footer style={{ background: "#0D1525", padding: "32px 24px", textAlign: "center" }}>
         <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={120} height={60}
-          style={{ height: 30, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 12 }} />
-        <p style={{ margin: "0 0 8px", fontSize: "0.82rem", color: "rgba(255,255,255,0.4)" }}>
+          style={{ height: 28, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 14 }} />
+        <p style={{ margin: "0 0 8px", fontSize: "0.78rem", color: "rgba(255,255,255,0.3)" }}>
           © {new Date().getFullYear()} TaxiBe · Antananarivo, Madagascar
         </p>
-        <Link href="/" style={{ fontSize: "0.8rem", color: "rgba(255,184,0,0.7)", textDecoration: "none" }}>
+        <Link href="/" style={{ fontSize: "0.78rem", color: "rgba(255,184,0,0.6)", textDecoration: "none" }}>
           ← Retour à l&apos;accueil
         </Link>
       </footer>
