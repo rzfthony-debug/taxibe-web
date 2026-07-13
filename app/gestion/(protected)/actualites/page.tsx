@@ -5,7 +5,7 @@ export default async function ActualitesAdminPage() {
   const articles = await getActualites();
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <h1 className="page-title">Actualites</h1>
         <Link href="/gestion/actualites/nouveau">

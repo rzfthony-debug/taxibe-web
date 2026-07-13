@@ -5,7 +5,7 @@ export default async function SpotlightAdminPage() {
   const items = await getSpotlight();
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <h1 className="page-title">Spotlight</h1>
         <Link href="/gestion/spotlight/nouveau">

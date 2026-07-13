@@ -139,11 +139,12 @@ export default function AdminSidebar({ nom }: { nom: string }) {
           top: 0; left: 0; right: 0;
           z-index: 100;
           height: 52px;
-          background: #0D1525;
+          background: white;
           align-items: center;
           justify-content: space-between;
           padding: 0 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.07);
+          border-bottom: 1px solid #E2E8F0;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
         /* ── Drawer overlay ── */
@@ -186,7 +187,7 @@ export default function AdminSidebar({ nom }: { nom: string }) {
         <button
           onClick={() => setDrawerOpen(true)}
           aria-label="Menu"
-          style={{ background: "none", border: "none", cursor: "pointer", color: "white", padding: 4, display: "flex" }}
+          style={{ background: "none", border: "none", cursor: "pointer", color: "#0D1525", padding: 4, display: "flex" }}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
@@ -199,7 +200,7 @@ export default function AdminSidebar({ nom }: { nom: string }) {
           alt="TaxiBe"
           width={90}
           height={45}
-          style={{ height: 26, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }}
+          style={{ height: 26, width: "auto", objectFit: "contain" }}
         />
         <div style={{ width: 30 }} />
       </div>

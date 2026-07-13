@@ -5,7 +5,7 @@ export default async function EmploisAdminPage() {
   const enAttente = offres.filter((o: { statut: string }) => o.statut === "en_attente");
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <h1 className="page-title">Offres d&apos;emploi</h1>
         <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
@@ -14,7 +14,7 @@ export default async function EmploisAdminPage() {
       </div>
 
       <div className="card">
-        <table>
+        <div className="table-wrap"><table>
           <thead>
             <tr>
               <th>Poste</th>
@@ -97,7 +97,7 @@ export default async function EmploisAdminPage() {
               );
             })}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   );

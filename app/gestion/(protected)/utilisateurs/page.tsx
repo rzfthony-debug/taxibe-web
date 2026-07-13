@@ -73,7 +73,7 @@ export default async function UtilisateursPage() {
   }
 
   return (
-    <div style={{ padding: "32px 36px" }}>
+    <div>
       <div className="page-header">
         <h1 className="page-title">Utilisateurs</h1>
         <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
@@ -87,14 +87,14 @@ export default async function UtilisateursPage() {
             En attente d&apos;approbation ({enAttente.length})
           </p>
           <div className="card" style={{ border: "1.5px solid #fde68a" }}>
-            <table>
+            <div className="table-wrap"><table>
               <thead>
                 <tr><th>Nom</th><th>Contact</th><th>Statut</th><th>Cle</th><th>Date</th><th>Actions</th></tr>
               </thead>
               <tbody>
                 {enAttente.map((u: { id: string; nom: string; telephone: string | null; email: string | null; statut: string; cle: string | null; created_at: string }) => <UserRow key={u.id} u={u} />)}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       )}
@@ -104,7 +104,7 @@ export default async function UtilisateursPage() {
           Tous les membres
         </p>
         <div className="card">
-          <table>
+          <div className="table-wrap"><table>
             <thead>
               <tr><th>Nom</th><th>Contact</th><th>Statut</th><th>Cle d&apos;acces</th><th>Date</th><th>Actions</th></tr>
             </thead>
@@ -114,7 +114,7 @@ export default async function UtilisateursPage() {
               )}
               {autres.map((u: { id: string; nom: string; telephone: string | null; email: string | null; statut: string; cle: string | null; created_at: string }) => <UserRow key={u.id} u={u} />)}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </div>
     </div>
