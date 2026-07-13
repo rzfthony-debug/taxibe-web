@@ -198,7 +198,7 @@ export default function Nav() {
           transition: background 0.12s, color 0.12s;
         }
         .mlabel { font-weight: 700; font-size: 0.8rem; color: #0D1525; margin: 0 0 1px; transition: color 0.12s; line-height: 1.3; }
-        .mdesc  { font-size: 0.7rem; color: #94A3B8; margin: 0; font-weight: 500; line-height: 1.3; }
+        .mdesc  { font-size: 0.7rem; color: #94A3B8; margin: 0; font-weight: 400; line-height: 1.3; }
         .sec-header {
           display: flex; align-items: center; gap: 7px;
           padding: 0 10px 10px; margin-bottom: 4px;
