@@ -63,17 +63,17 @@ export default async function BlogPage() {
           .blog-layout   { display: grid; grid-template-columns: 1fr 320px; gap: 32px; max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
           .blog-hero     { max-width: 1100px; margin: 0 auto; padding: 28px 24px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
           .blog-hero-img { display: flex; align-items: center; justify-content: center; }
-          .featured-img  { width: 100%; aspect-ratio: 16/9; border-radius: 14px; object-fit: contain; background: #F1F5F9; display: block; }
-          .featured-img-ph { width: 100%; aspect-ratio: 16/9; border-radius: 14px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%); }
+          .featured-img-wrap { width: 100%; background: #F1F5F9; border-radius: 14px 14px 0 0; overflow: hidden; }
+          .featured-img-ph { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%); border-radius: 14px 14px 0 0; }
           .article-mini  { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: start; padding: 20px 0; border-bottom: 1px solid #E8ECF0; }
           .article-mini:last-child { border-bottom: none; }
-          .article-mini-img { width: 120px; height: 80px; border-radius: 10px; object-fit: contain; background: #F1F5F9; flex-shrink: 0; display: block; }
-          .article-mini-img-ph { width: 120px; height: 80px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+          .mini-img-wrap { position: relative; width: 120px; min-width: 120px; height: 80px; border-radius: 10px; overflow: hidden; background: #F1F5F9; flex-shrink: 0; }
+          .mini-img-ph   { width: 120px; min-width: 120px; height: 80px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
           .article-grid  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
           .article-card  { background: white; border-radius: 12px; border: 1px solid #E8ECF0; overflow: hidden; text-decoration: none; display: block; }
           .article-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); transition: all 0.2s; }
-          .article-card-img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #F1F5F9; display:block; }
-          .article-card-img-ph { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; }
+          .card-img-wrap { width: 100%; background: #F1F5F9; overflow: hidden; }
+          .card-img-ph   { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; }
           .sidebar-widget { background: white; border-radius: 14px; border: 1px solid #E8ECF0; overflow: hidden; margin-bottom: 20px; }
           .sidebar-title  { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; padding: 16px 18px 10px; margin: 0; }
           .cat-item  { display: flex; align-items: center; gap: 10px; padding: 9px 18px; font-size: 0.84rem; font-weight: 500; color: #374151; border-top: 1px solid #F1F5F9; text-decoration: none; }
@@ -96,8 +96,8 @@ export default async function BlogPage() {
             .article-grid { grid-template-columns: 1fr 1fr; }
           }
           @media (max-width: 540px) {
-            .article-mini { grid-template-columns: 90px 1fr; gap: 12px; }
-            .article-mini-img, .article-mini-img-ph { width: 90px; height: 60px; }
+            .article-mini { grid-template-columns: 88px 1fr; gap: 12px; }
+            .mini-img-wrap, .mini-img-ph { width: 88px; min-width: 88px; height: 60px; }
             .article-grid { grid-template-columns: 1fr; }
             .blog-layout  { padding: 0 16px 40px; }
           }
@@ -188,12 +188,15 @@ export default async function BlogPage() {
             {featured && (
               <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", overflow: "hidden", marginBottom: 40 }}>
                 {featured.image_url ? (
-                  <Image
-                    src={featured.image_url}
-                    alt={featured.texte}
-                    width={800} height={450}
-                    className="featured-img"
-                  />
+                  <div className="featured-img-wrap">
+                    <Image
+                      src={featured.image_url}
+                      alt={featured.texte}
+                      width={0} height={0}
+                      sizes="(max-width: 900px) 100vw, 700px"
+                      style={{ width: "100%", height: "auto", display: "block" }}
+                    />
+                  </div>
                 ) : (
                   <div className="featured-img-ph">
                     <span style={{ fontSize: "3rem", opacity: 0.3 }}>🚌</span>
@@ -227,9 +230,11 @@ export default async function BlogPage() {
                   {dernieres.map((a) => (
                     <div key={a.id} className="article-mini">
                       {a.image_url ? (
-                        <Image src={a.image_url} alt={a.texte} width={120} height={80} className="article-mini-img" />
+                        <div className="mini-img-wrap">
+                          <Image src={a.image_url} alt={a.texte} fill sizes="120px" style={{ objectFit: "contain" }} />
+                        </div>
                       ) : (
-                        <div className="article-mini-img-ph" style={{ background: "linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 100%)" }}>
+                        <div className="mini-img-ph" style={{ background: "linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 100%)" }}>
                           <span style={{ fontSize: "1.5rem", opacity: 0.4 }}>🚌</span>
                         </div>
                       )}
@@ -262,9 +267,16 @@ export default async function BlogPage() {
                   {recents.map((a) => (
                     <Link key={a.id} href={`/blog/${a.id}`} className="article-card">
                       {a.image_url ? (
-                        <Image src={a.image_url} alt={a.texte} width={400} height={225} className="article-card-img" />
+                        <div className="card-img-wrap">
+                          <Image
+                            src={a.image_url} alt={a.texte}
+                            width={0} height={0}
+                            sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 33vw"
+                            style={{ width: "100%", height: "auto", display: "block" }}
+                          />
+                        </div>
                       ) : (
-                        <div className="article-card-img-ph" style={{ background: "linear-gradient(135deg, #1a2a2a 0%, #2a3a3a 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div className="card-img-ph" style={{ background: "linear-gradient(135deg, #1a2a2a 0%, #2a3a3a 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                           <span style={{ fontSize: "2rem", opacity: 0.35 }}>🚌</span>
                         </div>
                       )}

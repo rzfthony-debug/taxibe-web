@@ -121,12 +121,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
         {/* Image hero */}
         {article.image_url && (
-          <div style={{ maxWidth: 1100, margin: "24px auto 0", padding: "0 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "24px auto 0", padding: "0 24px", background: "#F1F5F9", borderRadius: 16, overflow: "hidden" }}>
             <Image
               src={article.image_url}
               alt={article.texte}
-              width={1060} height={480}
-              style={{ width: "100%", height: "auto", maxHeight: 480, objectFit: "contain", background: "#F1F5F9", borderRadius: 16, display: "block" }}
+              width={0} height={0}
+              sizes="(max-width: 1100px) 100vw, 1060px"
+              style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>
         )}
@@ -200,13 +201,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {autres.map((a) => (
                   <Link key={a.id} href={`/blog/${a.id}`} className="rel-item">
                     {a.image_url ? (
-                      <Image
-                        src={a.image_url} alt={a.texte}
-                        width={80} height={56}
-                        style={{ width: 80, height: 56, objectFit: "contain", background: "#F1F5F9", borderRadius: 8, display: "block" }}
-                      />
+                      <div style={{ position: "relative", width: 80, minWidth: 80, height: 56, borderRadius: 8, overflow: "hidden", background: "#F1F5F9", flexShrink: 0 }}>
+                        <Image src={a.image_url} alt={a.texte} fill sizes="80px" style={{ objectFit: "contain" }} />
+                      </div>
                     ) : (
-                      <div style={{ width: 80, height: 56, borderRadius: 8, background: "#E8ECF0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <div style={{ width: 80, minWidth: 80, height: 56, borderRadius: 8, background: "#E8ECF0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                         <span style={{ fontSize: "1.2rem" }}>🚌</span>
                       </div>
                     )}
