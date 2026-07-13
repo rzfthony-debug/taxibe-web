@@ -15,6 +15,15 @@ export default async function RecherchePage({
   return (
     <>
     <Nav />
+    <style>{`
+      .result-card { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+      .result-btn { flex-shrink: 0; padding: 8px 16px; border-radius: 8px; background: #F1F5F9; color: #0D1525; font-size: 0.8rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+      @media (max-width: 480px) {
+        .result-card { flex-wrap: wrap; }
+        .result-trajet { min-width: 0; flex: 1 1 calc(100% - 76px); }
+        .result-btn { width: 100%; text-align: center; padding: 10px; margin-top: 4px; }
+      }
+    `}</style>
     <div style={{ minHeight: "80vh", background: "#F8F9FB" }}>
 
       {/* Barre de recherche sticky */}
@@ -85,11 +94,9 @@ export default async function RecherchePage({
               {results.map((ligne) => {
                 const color = ligne.couleur_bus && ligne.couleur_bus !== "" ? ligne.couleur_bus : "#FFB800";
                 return (
-                  <div key={ligne.id} style={{
+                  <div key={ligne.id} className="result-card" style={{
                     background: "white", borderRadius: 12,
                     border: "1px solid #E8ECF0",
-                    display: "flex", alignItems: "center", gap: 16,
-                    padding: "16px 20px",
                     boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                   }}>
                     {/* Badge numéro */}
@@ -106,7 +113,7 @@ export default async function RecherchePage({
                     </div>
 
                     {/* Trajet */}
-                    <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="result-trajet" style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                         <span style={{ fontWeight: 700, fontSize: "0.9rem", color: "#0D1525" }}>
                           {ligne.terminus_debut}
@@ -135,12 +142,7 @@ export default async function RecherchePage({
                       href={`https://taxibemada.vercel.app/ligne/${ligne.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        flexShrink: 0, padding: "8px 16px", borderRadius: 8,
-                        background: "#F1F5F9", color: "#0D1525",
-                        fontSize: "0.8rem", fontWeight: 700, textDecoration: "none",
-                        whiteSpace: "nowrap",
-                      }}
+                      className="result-btn"
                     >
                       Voir le trajet →
                     </a>

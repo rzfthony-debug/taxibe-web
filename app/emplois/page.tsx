@@ -42,7 +42,7 @@ export default async function EmploisPage() {
             </div>
           )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(380px, 100%), 1fr))", gap: 16 }}>
             {(offres ?? []).map((o) => {
               const dateCreation = new Date(o.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
               const dateLimite = o.date_limite
