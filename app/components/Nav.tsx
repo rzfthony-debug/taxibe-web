@@ -74,7 +74,7 @@ const NAV_SECTIONS = [
     items: [
       { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "#",                icon: I.alert },
       { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "#",                icon: I.userPlus },
-      { label: "Blog",                   desc: "Actualites & conseils",       href: "#",                icon: I.edit },
+      { label: "Blog",                   desc: "Actualites & conseils",       href: "/blog",            icon: I.edit },
     ],
   },
   {
