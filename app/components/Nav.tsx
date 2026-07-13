@@ -50,8 +50,8 @@ const NAV_SECTIONS = [
     headerIcon: I.search,
     items: [
       { label: "Trouver une ligne",    desc: "Recherchez par numero",         href: "/recherche",       icon: I.hash },
-      { label: "Tous les arrets",      desc: "Trouvez un arret precis",       href: "#",                icon: I.mapPin },
-      { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "#",                icon: I.list },
+      { label: "Tous les arrets",      desc: "Trouvez un arret precis",       href: "#",                icon: I.mapPin,  badge: "APP" },
+      { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "#",                icon: I.list,    badge: "APP" },
       { label: "Itineraire A vers B",  desc: "Calculez votre trajet",         href: "#",                icon: I.route, badge: "APP" },
       { label: "Correspondances",      desc: "Trouvez vos correspondances",   href: "#",                icon: I.git,   badge: "APP" },
       { label: "Zones desservies",     desc: "Decouvrez nos zones",           href: "#",                icon: I.map },
@@ -63,9 +63,7 @@ const NAV_SECTIONS = [
     headerIcon: I.compass,
     items: [
       { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "#",                icon: I.book },
-      { label: "Les quartiers couverts",  desc: "Voir la couverture",         href: "#",                icon: I.grid },
       { label: "Les nouveautes",          desc: "Restez informe",             href: "/actualites",      icon: I.bell },
-      { label: "Les lignes populaires",   desc: "Les plus empruntees",        href: "#",                icon: I.star },
       { label: "FAQ",                     desc: "Questions frequentes",       href: "#",                icon: I.help },
       { label: "Conseils de deplacement", desc: "Nos astuces",                href: "#",                icon: I.lightbulb },
     ],
@@ -76,8 +74,6 @@ const NAV_SECTIONS = [
     headerIcon: I.users,
     items: [
       { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "#",                icon: I.alert },
-      { label: "Ajouter une ligne",      desc: "Proposez une nouvelle ligne", href: "#",                icon: I.plusCircle },
-      { label: "Suggerer un arret",      desc: "Proposez un nouvel arret",    href: "#",                icon: I.mapPin },
       { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "#",                icon: I.userPlus },
       { label: "Blog",                   desc: "Actualites & conseils",       href: "#",                icon: I.edit },
     ],
@@ -88,10 +84,7 @@ const NAV_SECTIONS = [
     headerIcon: I.briefcase,
     items: [
       { label: "Publicite",             desc: "Promouvez votre activite",     href: "#",                icon: I.megaphone },
-      { label: "API",                   desc: "Accedez a nos donnees",        href: "#",                icon: I.code },
-      { label: "Integration",           desc: "Integrez TaxiBe",              href: "#",                icon: I.link },
       { label: "Partenaires",           desc: "Nos partenaires",              href: "#",                icon: I.handshake },
-      { label: "Contact commercial",    desc: "Discutons ensemble",           href: "/emplois",         icon: I.mail },
     ],
   },
   {
