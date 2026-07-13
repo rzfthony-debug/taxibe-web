@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { logoutAdmin } from "./actions";
+import { logoutAdmin } from "../actions";
 
 const NAV = [
   { href: "/admin",            label: "Dashboard",    icon: "▦" },
