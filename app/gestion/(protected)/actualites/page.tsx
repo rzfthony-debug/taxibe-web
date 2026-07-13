@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { getActualites, toggleActualite, deleteActualite } from "@/app/gestion/actions";
 
-export default async function ActualitesPage() {
+export default async function ActualitesAdminPage() {
   const articles = await getActualites();
 
   return (
     <div style={{ padding: "32px 36px" }}>
       <div className="page-header">
-        <h1 className="page-title">Actualités</h1>
+        <h1 className="page-title">Actualites</h1>
         <Link href="/gestion/actualites/nouveau">
           <button className="btn-yellow">+ Nouvel article</button>
         </Link>
@@ -18,7 +18,7 @@ export default async function ActualitesPage() {
           <thead>
             <tr>
               <th>Image</th>
-              <th>Texte / Résumé</th>
+              <th>Resume</th>
               <th>Statut</th>
               <th>Date</th>
               <th>Actions</th>
@@ -37,11 +37,7 @@ export default async function ActualitesPage() {
                 <td style={{ width: 80 }}>
                   {a.image_url && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={a.image_url}
-                      alt=""
-                      style={{ width: 64, height: 44, objectFit: "cover", borderRadius: 6 }}
-                    />
+                    <img src={a.image_url} alt="" style={{ width: 64, height: 44, objectFit: "cover", borderRadius: 6 }} />
                   )}
                 </td>
                 <td style={{ maxWidth: 320 }}>
@@ -51,7 +47,7 @@ export default async function ActualitesPage() {
                 </td>
                 <td>
                   <span className={`badge ${a.publie ? "badge-green" : "badge-gray"}`}>
-                    {a.publie ? "Publié" : "Brouillon"}
+                    {a.publie ? "Publie" : "Brouillon"}
                   </span>
                 </td>
                 <td style={{ color: "#64748B", fontSize: "0.8rem", whiteSpace: "nowrap" }}>
@@ -64,11 +60,10 @@ export default async function ActualitesPage() {
                     </Link>
                     <form action={toggleActualite.bind(null, a.id, !a.publie)} style={{ display: "inline" }}>
                       <button type="submit" className={`btn-sm ${a.publie ? "btn-orange" : "btn-green"}`}>
-                        {a.publie ? "Dépublier" : "Publier"}
+                        {a.publie ? "Depublier" : "Publier"}
                       </button>
                     </form>
-                    <form action={deleteActualite.bind(null, a.id)} style={{ display: "inline" }}
-                      onSubmit={(e) => { if (!confirm("Supprimer cet article ?")) e.preventDefault(); }}>
+                    <form action={deleteActualite.bind(null, a.id)} style={{ display: "inline" }}>
                       <button type="submit" className="btn-sm btn-red">Supprimer</button>
                     </form>
                   </div>

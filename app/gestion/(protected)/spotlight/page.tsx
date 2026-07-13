@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { getSpotlight, toggleSpotlight, deleteSpotlight } from "@/app/gestion/actions";
 
-export default async function SpotlightPage() {
+export default async function SpotlightAdminPage() {
   const items = await getSpotlight();
 
   return (
     <div style={{ padding: "32px 36px" }}>
       <div className="page-header">
-        <h1 className="page-title">Spotlight / Publicités</h1>
+        <h1 className="page-title">Spotlight</h1>
         <Link href="/gestion/spotlight/nouveau">
           <button className="btn-yellow">+ Nouveau spotlight</button>
         </Link>
@@ -59,7 +59,7 @@ export default async function SpotlightPage() {
                     </Link>
                     <form action={toggleSpotlight.bind(null, s.id, !s.publie)} style={{ display: "inline" }}>
                       <button type="submit" className={`btn-sm ${s.publie ? "btn-orange" : "btn-green"}`}>
-                        {s.publie ? "Désactiver" : "Activer"}
+                        {s.publie ? "Desactiver" : "Activer"}
                       </button>
                     </form>
                     <form action={deleteSpotlight.bind(null, s.id)} style={{ display: "inline" }}>

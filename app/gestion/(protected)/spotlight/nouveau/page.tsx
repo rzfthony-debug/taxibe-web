@@ -7,7 +7,7 @@ export default function NouveauSpotlightPage() {
       <div className="page-header">
         <h1 className="page-title">Nouveau spotlight</h1>
         <Link href="/gestion/spotlight">
-          <button className="btn-sm btn-gray">? Retour</button>
+          <button className="btn-sm btn-gray">Retour</button>
         </Link>
       </div>
 
@@ -49,7 +49,7 @@ export default function NouveauSpotlightPage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
-            <button type="submit" className="btn-yellow">Créer ?</button>
+            <button type="submit" className="btn-yellow">Creer</button>
             <Link href="/gestion/spotlight">
               <button type="button" className="btn-sm btn-gray" style={{ padding: "10px 18px" }}>Annuler</button>
             </Link>

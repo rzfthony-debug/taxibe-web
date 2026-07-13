@@ -7,7 +7,7 @@ export default function NouvelArticlePage() {
       <div className="page-header">
         <h1 className="page-title">Nouvel article</h1>
         <Link href="/gestion/actualites">
-          <button className="btn-sm btn-gray">? Retour</button>
+          <button className="btn-sm btn-gray">Retour</button>
         </Link>
       </div>
 
@@ -18,8 +18,8 @@ export default function NouvelArticlePage() {
             <input name="image_url" type="url" placeholder="https://..." required />
           </div>
           <div>
-            <label>Texte / Résumé *</label>
-            <textarea name="texte" rows={2} placeholder="Court résumé affiché dans la liste..." required
+            <label>Texte / Resume *</label>
+            <textarea name="texte" rows={2} placeholder="Court resume affiche dans la liste..." required
               style={{ resize: "vertical" }} />
           </div>
           <div>
@@ -35,7 +35,7 @@ export default function NouvelArticlePage() {
             <div>
               <label>Statut</label>
               <select name="publie">
-                <option value="true">Publié</option>
+                <option value="true">Publie</option>
                 <option value="false">Brouillon</option>
               </select>
             </div>
@@ -45,7 +45,7 @@ export default function NouvelArticlePage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
-            <button type="submit" className="btn-yellow">Créer l&apos;article ?</button>
+            <button type="submit" className="btn-yellow">Creer l&apos;article</button>
             <Link href="/gestion/actualites">
               <button type="button" className="btn-sm btn-gray" style={{ padding: "10px 18px" }}>Annuler</button>
             </Link>
