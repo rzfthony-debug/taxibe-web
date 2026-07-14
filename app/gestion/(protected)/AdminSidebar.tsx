@@ -16,6 +16,7 @@ const NAV_SECTIONS = [
       { href: "/gestion/actualites", label: "Actualités",  icon: "📰" },
       { href: "/gestion/spotlight",  label: "Spotlight",   icon: "📣" },
       { href: "/gestion/emplois",    label: "Carrières",   icon: "💼" },
+      { href: "/gestion/messages",   label: "Messages",    icon: "✉️" },
     ],
   },
   {

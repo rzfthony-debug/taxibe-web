@@ -81,18 +81,37 @@ export default function AProposPage() {
 
             <div style={{ borderTop: "1px solid #F1F5F9", marginBottom: 40 }} />
 
+            <section id="equipe" style={{ marginBottom: 40, scrollMarginTop: 90 }}>
+              <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.01em" }}>
+                Notre équipe
+              </h2>
+              <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: "0 0 16px" }}>
+                TaxiBe est développé par une petite équipe basée à Antananarivo, convaincue que la ville se comprend
+                mieux quand on la parcourt. Nous cartographions le réseau ligne par ligne, avec l&apos;aide d&apos;usagers
+                qui connaissent chaque quartier mieux que quiconque.
+              </p>
+              <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
+                Envie de nous aider à faire grandir la base de données ?{" "}
+                <Link href="/contribuer" style={{ color: "#FFB800", fontWeight: 700, textDecoration: "none" }}>
+                  Devenez contributeur →
+                </Link>
+              </p>
+            </section>
+
+            <div style={{ borderTop: "1px solid #F1F5F9", marginBottom: 40 }} />
+
             <section>
               <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.01em" }}>
                 Contact
               </h2>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: "0 0 12px" }}>
                 Pour toute question, suggestion ou signalement d&apos;erreur sur les lignes, vous pouvez nous contacter
-                directement depuis l&apos;application ou via l&apos;espace de signalement intégré.
+                directement depuis l&apos;application ou via notre formulaire en ligne.
               </p>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
                 Vous souhaitez contribuer à la base de données des lignes ou signaler une erreur ?{" "}
-                <Link href="/recherche" style={{ color: "#FFB800", fontWeight: 700, textDecoration: "none" }}>
-                  Ouvrez l&apos;application →
+                <Link href="/contact" style={{ color: "#FFB800", fontWeight: 700, textDecoration: "none" }}>
+                  Contactez-nous →
                 </Link>
               </p>
             </section>

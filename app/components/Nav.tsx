@@ -50,10 +50,10 @@ const NAV_SECTIONS = [
     headerIcon: I.search,
     items: [
       { label: "Trouver une ligne",    desc: "Recherchez par numero",         href: "/recherche",       icon: I.hash },
-      { label: "Tous les arrets",      desc: "Trouvez un arret precis",       href: "#",                icon: I.mapPin,  badge: "APP" },
-      { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "#",                icon: I.list,    badge: "APP" },
-      { label: "Itineraire A vers B",  desc: "Calculez votre trajet",         href: "#",                icon: I.route, badge: "APP" },
-      { label: "Correspondances",      desc: "Trouvez vos correspondances",   href: "#",                icon: I.git,   badge: "APP" },
+      { label: "Tous les arrets",      desc: "Trouvez un arret precis",       href: "/telecharger",     icon: I.mapPin,  badge: "APP" },
+      { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "/telecharger",     icon: I.list,    badge: "APP" },
+      { label: "Itineraire A vers B",  desc: "Calculez votre trajet",         href: "/telecharger",     icon: I.route, badge: "APP" },
+      { label: "Correspondances",      desc: "Trouvez vos correspondances",   href: "/telecharger",     icon: I.git,   badge: "APP" },
     ],
   },
   {
@@ -61,10 +61,10 @@ const NAV_SECTIONS = [
     label: "Decouvrir",
     headerIcon: I.compass,
     items: [
-      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "#",                icon: I.book },
+      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/guide",           icon: I.book },
       { label: "Les nouveautes",          desc: "Restez informe",             href: "/actualites",      icon: I.bell },
-      { label: "FAQ",                     desc: "Questions frequentes",       href: "#",                icon: I.help },
-      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "#",                icon: I.lightbulb },
+      { label: "FAQ",                     desc: "Questions frequentes",       href: "/faq",             icon: I.help },
+      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/conseils",        icon: I.lightbulb },
     ],
   },
   {
@@ -72,8 +72,8 @@ const NAV_SECTIONS = [
     label: "Communaute",
     headerIcon: I.users,
     items: [
-      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "#",                icon: I.alert },
-      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "#",                icon: I.userPlus },
+      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/signaler",        icon: I.alert },
+      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/contribuer",      icon: I.userPlus },
       { label: "Blog",                   desc: "Actualites & conseils",       href: "/blog",            icon: I.edit },
     ],
   },
@@ -82,8 +82,8 @@ const NAV_SECTIONS = [
     label: "Entreprises",
     headerIcon: I.briefcase,
     items: [
-      { label: "Publicite",             desc: "Promouvez votre activite",     href: "#",                icon: I.megaphone },
-      { label: "Partenaires",           desc: "Nos partenaires",              href: "#",                icon: I.handshake },
+      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/publicite",       icon: I.megaphone },
+      { label: "Partenaires",           desc: "Nos partenaires",              href: "/partenaires",     icon: I.handshake },
     ],
   },
   {
@@ -92,9 +92,9 @@ const NAV_SECTIONS = [
     headerIcon: I.info,
     items: [
       { label: "Notre mission",         desc: "Pourquoi TaxiBe ?",            href: "/a-propos",        icon: I.heart },
-      { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "#",                icon: I.users },
+      { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "/a-propos#equipe", icon: I.users },
       { label: "Carrieres",             desc: "Rejoignez l'aventure",         href: "/emplois",         icon: I.briefcase },
-      { label: "Contact",               desc: "Parlez-nous",                  href: "#",                icon: I.mail },
+      { label: "Contact",               desc: "Parlez-nous",                  href: "/contact",         icon: I.mail },
       { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/mentions-legales", icon: I.shield },
     ],
   },

@@ -8,13 +8,13 @@ export default async function DashboardPage() {
     { label: "Inscriptions en attente", value: stats.usersEnAttente,      href: "/gestion/utilisateurs", color: "#FFB800" },
     { label: "Emplois a moderer",       value: stats.emploisEnAttente,    href: "/gestion/emplois",      color: "#f59e0b" },
     { label: "Articles publies",        value: stats.actualitesPubliees,  href: "/gestion/actualites",   color: "#3b82f6" },
-    { label: "Signalements ouverts",    value: stats.signalementsOuverts, href: "#",                     color: "#ef4444" },
+    { label: "Messages non lus",        value: stats.messagesNouveaux,    href: "/gestion/messages",     color: "#ef4444" },
   ];
 
   const shortcuts = [
     { label: "Nouvel article",        href: "/gestion/actualites/nouveau", icon: "📰" },
     { label: "Nouveau spotlight",     href: "/gestion/spotlight/nouveau",  icon: "📣" },
-    { label: "Voir les utilisateurs", href: "/gestion/utilisateurs",       icon: "👥" },
+    { label: "Voir les messages",     href: "/gestion/messages",           icon: "✉️" },
     { label: "Moderer les emplois",   href: "/gestion/emplois",            icon: "💼" },
   ];
 

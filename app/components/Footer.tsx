@@ -6,25 +6,28 @@ const COLS = [
     title: "Explorer",
     links: [
       { label: "Trouver une ligne",     href: "/recherche" },
-      { label: "Tous les arrêts",       href: "#" },
-      { label: "Itinéraire A vers B",   href: "#" },
-      { label: "Correspondances",       href: "#" },
+      { label: "Tous les arrêts",       href: "/telecharger" },
+      { label: "Itinéraire A vers B",   href: "/telecharger" },
+      { label: "Correspondances",       href: "/telecharger" },
     ],
   },
   {
     title: "Communauté",
     links: [
       { label: "Blog",                    href: "/blog" },
-      { label: "FAQ",                     href: "#" },
-      { label: "Conseils de déplacement", href: "#" },
+      { label: "FAQ",                     href: "/faq" },
+      { label: "Conseils de déplacement", href: "/conseils" },
+      { label: "Signaler une erreur",     href: "/signaler" },
+      { label: "Devenir contributeur",    href: "/contribuer" },
     ],
   },
   {
     title: "Entreprise",
     links: [
-      { label: "Publicité",   href: "#" },
-      { label: "Partenaires", href: "#" },
+      { label: "Publicité",   href: "/publicite" },
+      { label: "Partenaires", href: "/partenaires" },
       { label: "Carrières",   href: "/emplois" },
+      { label: "Contact",     href: "/contact" },
     ],
   },
   {

@@ -210,19 +210,39 @@ export async function deleteEmploi(id: string) {
   await adminDb.from("offres_emploi").delete().eq("id", id);
 }
 
+// ── Messages (contact, signalement, contribution, publicite, partenariat) ─────
+
+export async function getMessages() {
+  const { data } = await adminDb
+    .from("messages_contact")
+    .select("id, categorie, nom, email, telephone, sujet, message, ligne_numero, statut, created_at")
+    .order("created_at", { ascending: false });
+  return data ?? [];
+}
+
+export async function updateStatutMessage(id: string, statut: string) {
+  await adminDb.from("messages_contact").update({ statut }).eq("id", id);
+}
+
+export async function deleteMessage(id: string) {
+  await adminDb.from("messages_contact").delete().eq("id", id);
+}
+
 // ── Dashboard stats ───────────────────────────────────────────────────────────
 
 export async function getDashboardStats() {
-  const [users, emplois, actualites, signalements] = await Promise.all([
+  const [users, emplois, actualites, signalements, messages] = await Promise.all([
     adminDb.from("app_users").select("*", { count: "exact", head: true }).eq("statut", "en_attente"),
     adminDb.from("offres_emploi").select("*", { count: "exact", head: true }).eq("statut", "en_attente"),
     adminDb.from("actualites").select("*", { count: "exact", head: true }).eq("publie", true),
     adminDb.from("signalements").select("*", { count: "exact", head: true }).eq("statut", "en_attente"),
+    adminDb.from("messages_contact").select("*", { count: "exact", head: true }).eq("statut", "nouveau"),
   ]);
   return {
     usersEnAttente: users.count ?? 0,
     emploisEnAttente: emplois.count ?? 0,
     actualitesPubliees: actualites.count ?? 0,
     signalementsOuverts: signalements.count ?? 0,
+    messagesNouveaux: messages.count ?? 0,
   };
 }
