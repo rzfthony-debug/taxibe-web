@@ -64,6 +64,7 @@ export default async function EmploisPage() {
           .hero-text-col { min-width: 0; padding-bottom: 64px; }
           .hero-img-col {
             display: flex; align-items: flex-end; justify-content: center; min-width: 0;
+            max-height: 420px; overflow: hidden;
           }
           @media (max-width: 768px) {
             .hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 16px; }
