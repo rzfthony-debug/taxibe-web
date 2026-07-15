@@ -64,18 +64,26 @@ export default async function Home() {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 40px; align-items: center;
           }
+          .hero-text-col { min-width: 0; }
+          .hero-search-wrap { width: 100%; max-width: 460px; }
           .hero-img-col {
-            display: flex; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center; min-width: 0;
           }
-          @media (max-width: 860px) {
-            .hero-grid { grid-template-columns: 1fr; padding: 56px 24px 40px; }
-            .hero-img-col { max-height: 300px; align-items: flex-start; }
+          .hero-img-col img { width: 100%; height: auto; display: block; }
+          @media (max-width: 768px) {
+            .hero-grid {
+              grid-template-columns: 1fr;
+              padding: 40px 20px 0;
+              gap: 32px;
+            }
+            .hero-search-wrap { max-width: 100%; }
+            .hero-img-col { max-height: 260px; overflow: hidden; align-items: flex-start; }
           }
         `}</style>
 
         <div className="hero-grid">
           {/* Colonne gauche — texte */}
-          <div>
+          <div className="hero-text-col">
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)",
@@ -87,7 +95,7 @@ export default async function Home() {
             </div>
 
             <h1 style={{
-              fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)", fontWeight: 900,
+              fontSize: "clamp(1.8rem, 5vw, 3.4rem)", fontWeight: 900,
               color: "#0D1525", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
             }}>
               Trouvez votre ligne de{" "}
@@ -95,13 +103,13 @@ export default async function Home() {
             </h1>
 
             <p style={{
-              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36,
+              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32,
               color: "#64748B", maxWidth: 420,
             }}>
               Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
             </p>
 
-            <div style={{ width: "100%", maxWidth: 460 }}>
+            <div className="hero-search-wrap">
               <SearchForm />
               <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "#94A3B8" }}>
                 Essayez 147 · 135 · 20B · 165 · 182
@@ -109,7 +117,7 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Colonne droite — image sans fond parasite */}
+          {/* Colonne droite — image */}
           {heroImageUrl ? (
             <div className="hero-img-col">
               <Image
@@ -117,14 +125,14 @@ export default async function Home() {
                 alt="Application TaxiBe"
                 width={680}
                 height={520}
-                sizes="(max-width: 860px) 100vw, 50vw"
-                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", objectPosition: "bottom", mixBlendMode: "multiply" }}
+                sizes="(max-width: 768px) calc(100vw - 40px), 50vw"
+                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
                 priority
               />
             </div>
           ) : (
             <div aria-hidden="true" style={{
-              paddingBottom: 72, display: "flex", alignItems: "center", justifyContent: "center",
+              display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: "clamp(5rem,12vw,9rem)", fontWeight: 900, color: "#FFB800",
               opacity: 0.06, letterSpacing: "-0.05em", userSelect: "none",
             }}>TXB</div>
