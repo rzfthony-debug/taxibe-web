@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
 
@@ -234,6 +235,7 @@ export default async function TelechargerPage() {
       </section>
 
     </main>
+    <CtaApp />
     <Footer />
     </>
   );

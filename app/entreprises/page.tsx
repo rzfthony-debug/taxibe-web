@@ -1,4 +1,5 @@
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
@@ -178,6 +179,7 @@ export default async function EntreprisesPage({
 
         </div>
       </main>
+      <CtaApp />
       <Footer />
     </>
   );

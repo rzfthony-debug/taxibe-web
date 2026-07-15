@@ -1,4 +1,5 @@
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
@@ -415,6 +416,7 @@ export default async function BlogPage() {
           </aside>
         </div>
       </div>
+      <CtaApp />
       <Footer />
     </>
   );

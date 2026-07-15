@@ -1,4 +1,5 @@
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import CommunauteForm from "./CommunauteForm";
 
@@ -44,6 +45,7 @@ export default async function CommunautePage({
         </div>
 
       </main>
+      <CtaApp />
       <Footer />
     </>
   );

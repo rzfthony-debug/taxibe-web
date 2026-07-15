@@ -1,6 +1,7 @@
 import { searchLignesByNumero } from "@/lib/search";
 import Link from "next/link";
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 
 export default async function RecherchePage({
@@ -179,6 +180,7 @@ export default async function RecherchePage({
         )}
       </div>
     </div>
+    <CtaApp />
     <Footer />
     </>
   );

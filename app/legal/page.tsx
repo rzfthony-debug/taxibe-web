@@ -1,4 +1,5 @@
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 
 export const metadata = {
@@ -160,6 +161,7 @@ export default function LegalPage() {
           </div>
         </div>
       </main>
+      <CtaApp />
       <Footer />
     </>
   );

@@ -1,4 +1,5 @@
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 
@@ -159,6 +160,7 @@ export default function AidePage() {
           </div>
         </div>
       </main>
+      <CtaApp />
       <Footer />
     </>
   );
