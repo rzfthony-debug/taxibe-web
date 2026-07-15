@@ -60,13 +60,12 @@ export default async function Home() {
       <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
         <style>{`
           .hero-grid {
-            max-width: 1200px; margin: 0 auto; padding: 72px 40px 0;
+            max-width: 1200px; margin: 0 auto; padding: 72px 40px 72px;
             display: grid; grid-template-columns: 1fr 1fr;
-            gap: 40px; align-items: flex-end;
+            gap: 40px; align-items: center;
           }
           .hero-img-col {
-            display: flex; align-items: flex-end; justify-content: center;
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
           }
           @media (max-width: 860px) {
             .hero-grid { grid-template-columns: 1fr; padding: 56px 24px 40px; }
@@ -76,7 +75,7 @@ export default async function Home() {
 
         <div className="hero-grid">
           {/* Colonne gauche — texte */}
-          <div style={{ paddingBottom: 72 }}>
+          <div>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)",
