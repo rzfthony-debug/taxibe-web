@@ -1,7 +1,7 @@
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
-import MessageForm from "@/app/components/MessageForm";
+import Link from "next/link";
 
 export const metadata = {
   title: "Entreprises — TaxiBe",
@@ -41,18 +41,12 @@ const ATOUTS = [
   },
 ];
 
-export default async function EntreprisesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ statut?: string; type?: string }>;
-}) {
-  const { statut, type } = await searchParams;
-
+export default function EntreprisesPage() {
   return (
     <>
       <Nav />
       <style>{`
-        .ent-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
+        .ent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
         .atouts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
         @media (max-width: 760px) {
           .ent-grid { grid-template-columns: 1fr; }
@@ -83,50 +77,32 @@ export default async function EntreprisesPage({
               Partenariats
             </p>
             <div className="ent-grid">
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 4px" }}>
-                  Profils que nous recherchons
-                </p>
-                {PROFILS.map((p) => (
-                  <div key={p.titre} style={{
-                    background: "white", borderRadius: 12, border: "1px solid #E8ECF0", padding: "18px 20px",
-                  }}>
-                    <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
-                      {p.titre}
-                    </p>
-                    <p style={{ margin: 0, fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
-                      {p.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{
-                background: "white", borderRadius: 14, padding: "32px 32px",
-                border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-                height: "fit-content",
+              {PROFILS.map((p) => (
+                <div key={p.titre} style={{
+                  background: "white", borderRadius: 12, border: "1px solid #E8ECF0", padding: "24px 22px",
+                }}>
+                  <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: "0.92rem", color: "#0D1525" }}>
+                    {p.titre}
+                  </p>
+                  <p style={{ margin: 0, fontSize: "0.82rem", color: "#94A3B8", lineHeight: 1.6 }}>
+                    {p.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 20 }}>
+              <Link href="/contact" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                background: "#0D1525", color: "#FFB800",
+                fontWeight: 800, fontSize: "0.875rem", padding: "12px 24px",
+                borderRadius: 9, textDecoration: "none",
               }}>
-                <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
-                  Présenter votre structure
-                </h2>
-                <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
-                  Décrivez votre organisation et l&apos;idée de collaboration, nous revenons vers vous rapidement.
-                </p>
-                <MessageForm
-                  categorie="partenariat"
-                  redirectTo="/entreprises"
-                  sujetLabel="Nom de la structure"
-                  sujetPlaceholder="Ex : Coopérative, institution, organisation…"
-                  messageLabel="Décrivez votre projet de collaboration"
-                  messagePlaceholder="Présentez votre structure et le type de partenariat envisagé…"
-                  submitLabel="Envoyer ma proposition"
-                  status={type === "partenariat" ? statut : undefined}
-                />
-              </div>
+                Nous contacter pour un partenariat →
+              </Link>
             </div>
           </div>
 
-          {/* Section Publicité */}
+          {/* Section Visibilité */}
           <div>
             <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
               Visibilité commerciale
@@ -134,7 +110,6 @@ export default async function EntreprisesPage({
             <p style={{ fontSize: "0.95rem", color: "#64748B", margin: "0 0 20px", lineHeight: 1.7 }}>
               Touchez les usagers des taxi-be d&apos;Antananarivo directement là où ils préparent leur trajet du jour.
             </p>
-
             <div className="atouts-grid" style={{ marginBottom: 24 }}>
               {ATOUTS.map((a) => (
                 <div key={a.titre} style={{
@@ -152,28 +127,15 @@ export default async function EntreprisesPage({
                 </div>
               ))}
             </div>
-
-            <div style={{
-              background: "white", borderRadius: 14, padding: "36px",
-              border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-              maxWidth: 620,
-            }}>
-              <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
-                Demander une offre
-              </h2>
-              <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
-                Décrivez votre activité, notre équipe commerciale vous recontacte avec les formats disponibles.
-              </p>
-              <MessageForm
-                categorie="publicite"
-                redirectTo="/entreprises"
-                sujetLabel="Nom de l'entreprise ou de la marque"
-                sujetPlaceholder="Ex : Épicerie Ambatomaro"
-                messageLabel="Décrivez votre projet"
-                messagePlaceholder="Type d'activité, période souhaitée, budget indicatif…"
-                submitLabel="Envoyer ma demande"
-                status={type === "publicite" ? statut : undefined}
-              />
+            <div>
+              <Link href="/contact" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                background: "#0D1525", color: "#FFB800",
+                fontWeight: 800, fontSize: "0.875rem", padding: "12px 24px",
+                borderRadius: 9, textDecoration: "none",
+              }}>
+                Demander une offre commerciale →
+              </Link>
             </div>
           </div>
 
