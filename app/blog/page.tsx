@@ -4,7 +4,6 @@ import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-import PageHeader from "@/app/components/PageHeader";
 import SpotlightSection from "@/app/components/SpotlightSection";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -64,7 +63,7 @@ export default async function BlogPage() {
       <div style={{ background: "#F8F9FB", minHeight: "100vh" }}>
         <style>{`
           .blog-layout   { display: grid; grid-template-columns: 1fr 320px; gap: 32px; max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
-          .blog-hero     { max-width: 1100px; margin: 0 auto; padding: 28px 24px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+          .blog-hero     { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
           .blog-hero-img { display: flex; align-items: center; justify-content: center; }
           .featured-img-wrap { width: 100%; background: #F1F5F9; border-radius: 14px 14px 0 0; overflow: hidden; }
           .featured-img-ph { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%); border-radius: 14px 14px 0 0; }
@@ -94,7 +93,7 @@ export default async function BlogPage() {
 
           @media (max-width: 900px) {
             .blog-layout  { grid-template-columns: 1fr; }
-            .blog-hero    { grid-template-columns: 1fr; }
+            .blog-hero    { grid-template-columns: 1fr; padding: 40px 20px; }
             .blog-hero-img { display: none; }
             .article-grid { grid-template-columns: 1fr 1fr; }
           }
@@ -107,33 +106,20 @@ export default async function BlogPage() {
           }
         `}</style>
 
-        <PageHeader
-          tag="Blog"
-          title="Le média de la mobilité à Antananarivo"
-          subtitle="Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements."
-          breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Blog" }]}
-        />
-
-        {/* Spotlight */}
-        <SpotlightSection />
-
-        {/* Hero illustration */}
-        <div className="blog-hero">
-          <div>
-            <span style={{
-              display: "inline-block", background: "#FFB800", color: "#0D1525",
-              fontSize: "0.65rem", fontWeight: 900, textTransform: "uppercase",
-              letterSpacing: "0.1em", padding: "4px 12px", borderRadius: 6, marginBottom: 18,
-            }}>
-              Le blog TaxiBe
-            </span>
-            <h1 style={{ fontSize: "2.2rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.2, margin: "0 0 16px" }}>
-              Le média de la mobilité<br />à Antananarivo
-            </h1>
-            <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.65, margin: 0, maxWidth: 420 }}>
-              Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
-            </p>
-          </div>
+        {/* Hero */}
+        <section style={{ borderBottom: "1px solid #E8ECF0" }}>
+          <div className="blog-hero">
+            <div>
+              <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FFB800", marginBottom: 14 }}>
+                Blog
+              </p>
+              <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 12px", letterSpacing: "-0.02em" }}>
+                Le média de la mobilité à Antananarivo
+              </h1>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.7, margin: 0, maxWidth: 480 }}>
+                Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
+              </p>
+            </div>
           <div className="blog-hero-img">
             <svg viewBox="0 0 460 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 440 }}>
               <rect width="460" height="280" fill="#F8F9FB" rx="16"/>
@@ -184,6 +170,10 @@ export default async function BlogPage() {
             </svg>
           </div>
         </div>
+        </section>
+
+        {/* Spotlight */}
+        <SpotlightSection />
 
         {/* Contenu + Sidebar */}
         <div className="blog-layout">
