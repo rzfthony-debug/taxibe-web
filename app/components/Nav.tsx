@@ -199,7 +199,6 @@ export default function Nav() {
         .sec-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #0D1525; }
         .nav-desktop { display: flex; align-items: center; gap: 1px; }
         .nav-burger  { display: none; }
-        .nav-mobile-panel { display: none; }
         .nav-cta-btn { display: flex; }
         .admin-btn { transition: background 0.15s, border-color 0.15s; }
         .admin-btn:hover { background: #0D1525 !important; border-color: #0D1525 !important; }
@@ -207,11 +206,7 @@ export default function Nav() {
         @media (max-width: 900px) {
           .nav-desktop { display: none !important; }
           .nav-burger  { display: flex !important; }
-          .nav-mobile-panel { display: block !important; }
           .nav-cta-btn { display: none !important; }
-        }
-        @media (min-width: 901px) {
-          .nav-mobile-panel { display: none !important; }
         }
       `}</style>
 
@@ -316,7 +311,7 @@ export default function Nav() {
 
         {/* ── Menu mobile ── */}
         {mobileOpen && (
-          <div className="nav-mobile-panel" style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "80vh", overflowY: "auto" }}>
+          <div style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "80vh", overflowY: "auto" }}>
             {NAV_SECTIONS.map((s) => (
               <div key={s.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
                 <button onClick={() => setMobileExpanded(mobileExpanded === s.key ? null : s.key)}
