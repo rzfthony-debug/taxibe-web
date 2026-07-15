@@ -75,11 +75,17 @@ export default async function Home() {
           @media (max-width: 768px) {
             .hero-grid {
               grid-template-columns: 1fr;
-              padding: 40px 20px 0;
-              gap: 32px;
+              padding: 40px 20px 32px;
+              gap: 24px;
             }
             .hero-search-wrap { max-width: 100%; }
-            .hero-img-col { max-height: 280px; overflow: hidden; align-items: flex-start; }
+            /* Cacher la colonne image sur mobile par défaut */
+            .hero-img-col { display: none; }
+            /* Afficher seulement si une image mobile existe */
+            .hero-img-col.has-mobile {
+              display: flex; align-items: center; justify-content: center;
+              overflow: hidden; max-height: 300px;
+            }
             .hero-img-desktop { display: none; }
             .hero-img-mobile { display: block; }
           }
@@ -123,7 +129,7 @@ export default async function Home() {
 
           {/* Colonne droite — image desktop / mobile */}
           {(heroImageUrl || heroImageMobileUrl) ? (
-            <div className="hero-img-col">
+            <div className={`hero-img-col${heroImageMobileUrl ? " has-mobile" : ""}`}>
               {/* Image desktop — cachée sur mobile */}
               {heroImageUrl && (
                 <Image
