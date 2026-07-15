@@ -31,12 +31,16 @@ async function getHeroImageUrl(): Promise<string | null> {
   return data?.valeur ?? null;
 }
 
-async function getArticles(): Promise<Article[]> {
-  const { data } = await supabase
+async function getArticles(q?: string): Promise<Article[]> {
+  let req = supabase
     .from("actualites")
     .select("id, image_url, texte, contenu, lien, publie, ordre, created_at")
     .eq("publie", true)
     .order("created_at", { ascending: false });
+
+  if (q) req = req.or(`texte.ilike.%${q}%,contenu.ilike.%${q}%`);
+
+  const { data } = await req;
   return data ?? [];
 }
 
@@ -61,8 +65,14 @@ export const metadata = { title: "Blog — TaxiBe" };
 
 export const revalidate = 0;
 
-export default async function BlogPage() {
-  const [articles, heroImageUrl] = await Promise.all([getArticles(), getHeroImageUrl()]);
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+  const query = q?.trim() ?? "";
+  const [articles, heroImageUrl] = await Promise.all([getArticles(query || undefined), getHeroImageUrl()]);
 
   const featured = articles[0] ?? null;
   const dernieres = articles.slice(1, 4);
@@ -152,6 +162,18 @@ export default async function BlogPage() {
 
           {/* ── Contenu principal ── */}
           <div>
+
+            {/* Indicateur de recherche */}
+            {query && (
+              <div style={{ marginBottom: 24, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <p style={{ margin: 0, fontSize: "0.84rem", color: "#64748B" }}>
+                  <strong>{articles.length}</strong> résultat{articles.length !== 1 ? "s" : ""} pour <strong>«&nbsp;{query}&nbsp;»</strong>
+                </p>
+                <a href="/blog" style={{ fontSize: "0.75rem", color: "#94A3B8", textDecoration: "none", border: "1px solid #E2E8F0", padding: "2px 9px", borderRadius: 5, background: "white" }}>
+                  ✕ Effacer
+                </a>
+              </div>
+            )}
 
             {/* Article à la une */}
             {featured && (
@@ -276,9 +298,11 @@ export default async function BlogPage() {
             <div className="sidebar-widget">
               <p className="sidebar-title">Rechercher</p>
               <div style={{ padding: "0 18px 16px" }}>
-                <div style={{ position: "relative" }}>
+                <form action="/blog" method="get" style={{ position: "relative" }}>
                   <input
                     type="text"
+                    name="q"
+                    defaultValue={query}
                     placeholder="Rechercher un article…"
                     style={{
                       width: "100%", padding: "9px 36px 9px 12px", borderRadius: 8,
@@ -286,11 +310,16 @@ export default async function BlogPage() {
                       outline: "none", boxSizing: "border-box", color: "#0D1525",
                     }}
                   />
-                  <svg style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", color: "#94A3B8" }}
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                  </svg>
-                </div>
+                  <button type="submit" style={{
+                    position: "absolute", right: 0, top: 0, height: "100%",
+                    background: "none", border: "none", cursor: "pointer",
+                    padding: "0 10px", color: "#94A3B8", display: "flex", alignItems: "center",
+                  }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                  </button>
+                </form>
               </div>
             </div>
 
