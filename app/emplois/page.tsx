@@ -4,6 +4,8 @@ import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
 import EmploisListe from "./EmploisListe";
 
+export const revalidate = 0;
+
 export const metadata = {
   title: "Carrières — TaxiBe",
   description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
