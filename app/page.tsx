@@ -57,7 +57,7 @@ export default async function Home() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{ background: "#0D1525", overflow: "hidden" }}>
+      <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
         <style>{`
           .hero-grid {
             max-width: 1200px; margin: 0 auto; padding: 72px 40px 0;
@@ -66,11 +66,11 @@ export default async function Home() {
           }
           .hero-img-col {
             display: flex; align-items: flex-end; justify-content: center;
+            overflow: hidden;
           }
-          .hero-img-col img { width: 100%; height: auto; display: block; }
           @media (max-width: 860px) {
             .hero-grid { grid-template-columns: 1fr; padding: 56px 24px 40px; }
-            .hero-img-col { max-height: 320px; overflow: hidden; align-items: flex-start; }
+            .hero-img-col { max-height: 300px; align-items: flex-start; }
           }
         `}</style>
 
@@ -79,17 +79,17 @@ export default async function Home() {
           <div style={{ paddingBottom: 72 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 6,
-              background: "rgba(255,184,0,0.15)", border: "1px solid rgba(255,184,0,0.35)",
+              background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)",
               borderRadius: 8, padding: "5px 12px", marginBottom: 24,
             }}>
-              <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
+              <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
                 Antananarivo · 100% Gratuit
               </span>
             </div>
 
             <h1 style={{
               fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)", fontWeight: 900,
-              color: "white", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
+              color: "#0D1525", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
             }}>
               Trouvez votre ligne de{" "}
               <span style={{ color: "#FFB800" }}>taxi-be</span>
@@ -97,21 +97,21 @@ export default async function Home() {
 
             <p style={{
               fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36,
-              color: "rgba(255,255,255,0.55)", maxWidth: 420,
+              color: "#64748B", maxWidth: 420,
             }}>
               Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
             </p>
 
             <div style={{ width: "100%", maxWidth: 460 }}>
               <SearchForm />
-              <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "rgba(255,255,255,0.3)" }}>
+              <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "#94A3B8" }}>
                 Essayez 147 · 135 · 20B · 165 · 182
               </p>
             </div>
           </div>
 
-          {/* Colonne droite — image */}
-          {heroImageUrl && (
+          {/* Colonne droite — image sans fond parasite */}
+          {heroImageUrl ? (
             <div className="hero-img-col">
               <Image
                 src={heroImageUrl}
@@ -119,14 +119,18 @@ export default async function Home() {
                 width={680}
                 height={520}
                 sizes="(max-width: 860px) 100vw, 50vw"
-                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", objectPosition: "bottom" }}
+                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", objectPosition: "bottom", mixBlendMode: "multiply" }}
                 priority
               />
             </div>
+          ) : (
+            <div aria-hidden="true" style={{
+              paddingBottom: 72, display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "clamp(5rem,12vw,9rem)", fontWeight: 900, color: "#FFB800",
+              opacity: 0.06, letterSpacing: "-0.05em", userSelect: "none",
+            }}>TXB</div>
           )}
         </div>
-
-        <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
       </section>
 
       {/* ── Fonctionnalités ── */}
