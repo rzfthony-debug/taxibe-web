@@ -123,9 +123,16 @@ export default async function Home() {
 
             <div className="hero-search-wrap">
               <SearchForm />
-              <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "#94A3B8" }}>
-                Essayez 147 · 135 · 20B · 165 · 182
-              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+                <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>Essayez :</span>
+                {["147", "135", "20B", "165", "182"].map((n) => (
+                  <a key={n} href={`/recherche?q=${n}`} style={{
+                    display: "inline-block", padding: "3px 10px", borderRadius: 6,
+                    background: "#F1F5F9", color: "#64748B", textDecoration: "none",
+                    fontSize: "0.75rem", fontWeight: 700, border: "1px solid #E2E8F0",
+                  }}>{n}</a>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -252,9 +259,24 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          <p style={{ textAlign: "center", marginTop: 28, fontSize: "0.78rem", color: "#94A3B8" }}>
-            Les fonctionnalités <strong style={{ color: "#0D1525" }}>APP</strong> sont accessibles aux membres après téléchargement de l&apos;application.
-          </p>
+          <div style={{ marginTop: 40, background: "#0D1525", borderRadius: 16, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <div>
+              <p style={{ margin: "0 0 4px", fontWeight: 900, color: "white", fontSize: "1rem", letterSpacing: "-0.01em" }}>
+                5 fonctionnalités sur 6 sont exclusives à l&apos;app
+              </p>
+              <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+                GPS, favoris, correspondances, jeux — accessibles uniquement après téléchargement.
+              </p>
+            </div>
+            <Link href="/telecharger" style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              padding: "12px 24px", background: "#FFB800", borderRadius: 10,
+              fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", textDecoration: "none",
+              flexShrink: 0, whiteSpace: "nowrap",
+            }}>
+              Télécharger gratuitement →
+            </Link>
+          </div>
         </div>
       </section>
 

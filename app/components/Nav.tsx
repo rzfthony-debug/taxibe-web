@@ -306,6 +306,21 @@ export default function Nav() {
               {/* Widget ligne la plus recherchee */}
               <FeaturedLine />
             </div>
+
+            {/* Bandeau app exclusif */}
+            <div style={{ borderTop: "1px solid #F1F5F9", padding: "10px 0 4px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748B" }}>
+                <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.58rem", fontWeight: 800, padding: "1px 6px", borderRadius: 3, letterSpacing: "0.06em", marginRight: 7 }}>APP</span>
+                Arrêts GPS, favoris, itinéraires et correspondances — fonctionnalités exclusives à l&apos;application.
+              </p>
+              <a href="/telecharger" onClick={() => setOpen(false)} style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "6px 14px", background: "#FFB800", borderRadius: 7,
+                fontWeight: 800, fontSize: "0.78rem", color: "#0D1525", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0,
+              }}>
+                Télécharger gratuitement →
+              </a>
+            </div>
           </div>
         )}
 

@@ -63,10 +63,38 @@ export default async function RecherchePage({
 
         {/* État vide */}
         {!query && (
-          <div style={{ textAlign: "center", paddingTop: 80 }}>
-            <p style={{ fontSize: "1rem", color: "#94A3B8", fontWeight: 500 }}>
-              Entrez un numéro de ligne pour commencer.
+          <div style={{ paddingTop: 40 }}>
+            <p style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", marginBottom: 16 }}>
+              Lignes populaires
             </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 40 }}>
+              {["147", "135", "20B", "165", "182", "45", "86", "30"].map((n) => (
+                <a key={n} href={`/recherche?q=${n}`} style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: 60, height: 60, background: "white",
+                  border: "1.5px solid #E8ECF0", borderRadius: 12,
+                  fontWeight: 900, fontSize: "1.05rem", color: "#0D1525", textDecoration: "none",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                }}>{n}</a>
+              ))}
+            </div>
+            <div style={{ background: "#0D1525", borderRadius: 14, padding: "24px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
+              <div>
+                <p style={{ margin: "0 0 4px", fontWeight: 800, color: "white", fontSize: "0.92rem" }}>
+                  Chercher par arrêt ou quartier ?
+                </p>
+                <p style={{ margin: 0, fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.55 }}>
+                  Localisation GPS, recherche par nom d&apos;arrêt, correspondances — dans l&apos;app.
+                </p>
+              </div>
+              <a href="/telecharger" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "10px 20px", background: "#FFB800", borderRadius: 8,
+                fontWeight: 800, fontSize: "0.85rem", color: "#0D1525", textDecoration: "none", flexShrink: 0,
+              }}>
+                Télécharger l&apos;app →
+              </a>
+            </div>
           </div>
         )}
 
@@ -80,14 +108,25 @@ export default async function RecherchePage({
             </p>
 
             {results.length === 0 && (
-              <div style={{
-                background: "white", borderRadius: 12, padding: "40px 32px",
-                border: "1px solid #E8ECF0", textAlign: "center",
-              }}>
-                <p style={{ fontWeight: 700, color: "#0D1525", marginBottom: 8 }}>Ligne introuvable</p>
-                <p style={{ fontSize: "0.875rem", color: "#64748B", margin: 0 }}>
-                  Vérifiez le numéro ou essayez avec une partie du numéro (ex : &quot;14&quot; pour trouver 147).
-                </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ background: "white", borderRadius: 12, padding: "32px", border: "1px solid #E8ECF0", textAlign: "center" }}>
+                  <p style={{ fontWeight: 700, color: "#0D1525", marginBottom: 6, fontSize: "0.95rem" }}>Ligne introuvable</p>
+                  <p style={{ fontSize: "0.84rem", color: "#64748B", margin: 0, lineHeight: 1.6 }}>
+                    Vérifiez le numéro ou essayez une partie — ex : «&nbsp;14&nbsp;» pour trouver 147.
+                  </p>
+                </div>
+                <div style={{ background: "#0D1525", borderRadius: 12, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                  <div>
+                    <p style={{ margin: "0 0 4px", fontWeight: 800, color: "white", fontSize: "0.88rem" }}>Cherchez par arrêt ou quartier</p>
+                    <p style={{ margin: 0, fontSize: "0.78rem", color: "rgba(255,255,255,0.45)" }}>Disponible dans l&apos;application TaxiBe.</p>
+                  </div>
+                  <a href="/telecharger" style={{
+                    padding: "9px 18px", background: "#FFB800", borderRadius: 8,
+                    fontWeight: 800, fontSize: "0.82rem", color: "#0D1525", textDecoration: "none", flexShrink: 0,
+                  }}>
+                    Télécharger →
+                  </a>
+                </div>
               </div>
             )}
 
