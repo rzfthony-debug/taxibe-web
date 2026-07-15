@@ -23,6 +23,7 @@ async function getOffre(id: string): Promise<Offre | null> {
     .select("id, nom, type_poste, lieu, description, telephone, statut, date_limite, created_at")
     .eq("id", id)
     .eq("statut", "publie")
+    .eq("interne", true)
     .single();
   return data ?? null;
 }
@@ -32,6 +33,7 @@ async function getAutresOffres(excludeId: string): Promise<Pick<Offre, "id" | "n
     .from("offres_emploi")
     .select("id, nom, type_poste, lieu")
     .eq("statut", "publie")
+    .eq("interne", true)
     .neq("id", excludeId)
     .order("created_at", { ascending: false })
     .limit(4);
