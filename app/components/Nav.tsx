@@ -327,8 +327,15 @@ export default function Nav() {
                     {s.items.map((item) => (
                       <Link key={item.label} href={item.href} className="mega-item" onClick={() => setMobileOpen(false)}>
                         <div className="mico">{item.icon}</div>
-                        <div>
-                          <p className="mlabel">{item.label}</p>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                            <p className="mlabel">{item.label}</p>
+                            {"badge" in item && item.badge && (
+                              <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.55rem", fontWeight: 800, padding: "1px 5px", borderRadius: 3, letterSpacing: "0.06em", flexShrink: 0 }}>
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
                           <p className="mdesc">{item.desc}</p>
                         </div>
                       </Link>
