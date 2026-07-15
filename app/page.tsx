@@ -15,13 +15,17 @@ type Article = {
   created_at: string;
 };
 
-async function getHeroImages(): Promise<{ desktop: string | null; mobile: string | null }> {
+async function getHeroImages(): Promise<{ desktop: string | null; mobile: string | null; ctaPhone: string | null }> {
   const { data } = await supabase
     .from("parametres")
     .select("cle, valeur")
-    .in("cle", ["home_hero_image_url", "home_hero_image_mobile_url"]);
+    .in("cle", ["home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url"]);
   const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
-  return { desktop: map["home_hero_image_url"] ?? null, mobile: map["home_hero_image_mobile_url"] ?? null };
+  return {
+    desktop: map["home_hero_image_url"] ?? null,
+    mobile: map["home_hero_image_mobile_url"] ?? null,
+    ctaPhone: map["home_cta_phone_url"] ?? null,
+  };
 }
 
 async function getActualites(): Promise<Article[]> {
@@ -40,7 +44,7 @@ function formatDate(iso: string) {
 
 export default async function Home() {
   const [articles, heroImages] = await Promise.all([getActualites(), getHeroImages()]);
-  const { desktop: heroImageUrl, mobile: heroImageMobileUrl } = heroImages;
+  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl } = heroImages;
 
   return (
     <>
@@ -320,24 +324,84 @@ export default async function Home() {
       )}
 
       {/* ── CTA Téléchargement ── */}
-      <section style={{ background: "#FFB800", padding: "72px 24px" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em" }}>
-            Toutes les fonctionnalités dans l&apos;app
-          </h2>
-          <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: 32 }}>
-            Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
-          </p>
-          <Link href="/telecharger" style={{
-            display: "inline-block", padding: "14px 36px", borderRadius: 8,
-            background: "#0D1525", color: "#FFB800",
-            fontWeight: 800, fontSize: "1rem", textDecoration: "none",
-            letterSpacing: "-0.01em",
-          }}>
-            Télécharger l&apos;app
-          </Link>
-        </div>
-      </section>
+      <div style={{ position: "relative", zIndex: 0 }}>
+        <style>{`
+          .cta-section {
+            background: #FFB800;
+            position: relative;
+            overflow: visible;
+          }
+          .cta-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 72px 40px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 40px; align-items: center;
+            position: relative;
+          }
+          .cta-phone-col {
+            display: flex; justify-content: center; align-items: flex-end;
+            position: relative;
+          }
+          .cta-phone-img {
+            width: 100%; max-width: 320px;
+            margin-bottom: -72px;
+            margin-top: -72px;
+            filter: drop-shadow(0 32px 48px rgba(0,0,0,0.22));
+          }
+          @media (max-width: 720px) {
+            .cta-inner { grid-template-columns: 1fr; padding: 56px 24px; }
+            .cta-phone-col { display: none; }
+          }
+        `}</style>
+        <section className="cta-section">
+          <div className="cta-inner">
+            {/* Texte */}
+            <div>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+                Toutes les fonctionnalités dans l&apos;app
+              </h2>
+              <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36, maxWidth: 400 }}>
+                Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
+              </p>
+              <Link href="/telecharger" style={{
+                display: "inline-block", padding: "15px 36px", borderRadius: 10,
+                background: "#0D1525", color: "#FFB800",
+                fontWeight: 800, fontSize: "1rem", textDecoration: "none",
+                letterSpacing: "-0.01em",
+              }}>
+                Télécharger l&apos;app
+              </Link>
+            </div>
+
+            {/* Téléphone */}
+            <div className="cta-phone-col">
+              {ctaPhoneUrl ? (
+                <Image
+                  src={ctaPhoneUrl}
+                  alt="Application TaxiBe sur téléphone"
+                  width={320}
+                  height={580}
+                  sizes="320px"
+                  className="cta-phone-img"
+                  style={{ objectFit: "contain" }}
+                />
+              ) : (
+                /* Placeholder si pas d'image uploadée */
+                <div className="cta-phone-img" style={{
+                  width: 220, background: "#0D1525", borderRadius: 32,
+                  padding: "12px 8px", boxShadow: "0 32px 48px rgba(0,0,0,0.22)",
+                }}>
+                  <div style={{ width: 60, height: 10, background: "#1a2a40", borderRadius: 5, margin: "0 auto 10px" }} />
+                  <div style={{ background: "#F8FAFC", borderRadius: 20, height: 320, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: "2rem", fontWeight: 900, color: "#FFB800", opacity: 0.3 }}>TXB</span>
+                  </div>
+                  <div style={{ width: 50, height: 5, background: "rgba(255,255,255,0.2)", borderRadius: 3, margin: "10px auto 0" }} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* ── Comment ça marche ── */}
       <section id="comment" style={{ padding: "88px 24px", background: "#F8F9FB" }}>

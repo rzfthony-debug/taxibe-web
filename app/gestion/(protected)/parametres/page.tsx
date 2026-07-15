@@ -11,9 +11,10 @@ async function getParam(cle: string): Promise<string | null> {
 }
 
 export default async function ParametresPage() {
-  const [homeHero, homeHeroMobile, emploisHero, telechargerApercu] = await Promise.all([
+  const [homeHero, homeHeroMobile, homeCtaPhone, emploisHero, telechargerApercu] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
+    getParam("home_cta_phone_url"),
     getParam("emplois_hero_image_url"),
     getParam("telecharger_apercu_image"),
   ]);
@@ -47,6 +48,13 @@ export default async function ParametresPage() {
               description="Recommandé : 800 × 600 px (4:3 ou carré), JPG ou WebP, max 8 Mo. Affiché sous le texte sur mobile."
               ratio="4/3"
               currentUrl={homeHeroMobile}
+            />
+            <HeroUpload
+              cle="home_cta_phone_url"
+              label="Téléphone section CTA (fond jaune)"
+              description="Recommandé : PNG avec fond transparent, portrait, ~320 × 580 px. Le téléphone déborde au-dessus et en dessous de la section."
+              ratio="9/16"
+              currentUrl={homeCtaPhone}
             />
           </div>
         </div>
