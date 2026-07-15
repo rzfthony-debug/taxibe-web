@@ -49,29 +49,23 @@ export default async function EmploisPage() {
         <style>{`
           /* ── Hero ── */
           .carriere-hero {
-            background: linear-gradient(135deg, #0D1525 0%, #1A2540 60%, #0D1525 100%);
-            position: relative; overflow: hidden;
-          }
-          .hero-dots {
-            position: absolute; right: 0; top: 0; width: 420px; height: 100%;
-            background-image: radial-gradient(circle, rgba(255,184,0,0.18) 1.5px, transparent 1.5px);
-            background-size: 22px 22px; pointer-events: none;
-            mask-image: linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%);
+            background: #F8F9FB;
+            overflow: hidden;
+            border-bottom: 1px solid #E8ECF0;
           }
           .hero-inner {
-            max-width: 1100px; margin: 0 auto;
-            padding: 64px 24px 72px;
-            display: grid; grid-template-columns: 1fr;
-            gap: 40px; position: relative;
+            max-width: 1280px; margin: 0 auto;
+            padding: 64px 40px 0;
+            display: grid; grid-template-columns: 1fr 1.4fr;
+            gap: 24px; align-items: flex-end;
           }
-          @media (min-width: 780px) {
-            .hero-inner { grid-template-columns: 1fr 1fr; align-items: center; }
+          .hero-text-col { min-width: 0; padding-bottom: 64px; }
+          .hero-img-col {
+            display: flex; align-items: flex-end; justify-content: center; min-width: 0;
           }
-          .hero-illustration {
-            display: none;
-          }
-          @media (min-width: 780px) {
-            .hero-illustration { display: flex; justify-content: flex-end; align-items: center; }
+          @media (max-width: 768px) {
+            .hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 16px; }
+            .hero-img-col { display: none; }
           }
 
           /* ── Stats ── */
@@ -146,27 +140,26 @@ export default async function EmploisPage() {
 
         {/* ── Hero ── */}
         <section className="carriere-hero">
-          <div className="hero-dots" aria-hidden="true" />
           <div className="hero-inner">
-            <div>
+            {/* Colonne gauche — texte */}
+            <div className="hero-text-col">
               <div style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.3)",
-                borderRadius: 8, padding: "5px 14px", marginBottom: 24,
+                display: "inline-flex", alignItems: "center", gap: 6,
+                background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)",
+                borderRadius: 8, padding: "5px 12px", marginBottom: 24,
               }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFB800"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
+                <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
                   Carrières TaxiBe
                 </span>
               </div>
 
               <h1 style={{
-                fontSize: "clamp(1.8rem, 5vw, 2.9rem)", fontWeight: 900,
-                color: "white", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.025em",
+                fontSize: "clamp(1.8rem, 5vw, 3rem)", fontWeight: 900,
+                color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.025em",
               }}>
                 Rejoignez l&apos;équipe qui transforme la mobilité à Madagascar
               </h1>
-              <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", margin: "0 0 32px", lineHeight: 1.7, maxWidth: 500 }}>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", margin: "0 0 32px", lineHeight: 1.75, maxWidth: 460 }}>
                 Construisons ensemble le futur du transport. Des postes ouverts dans tous nos départements à Antananarivo.
               </p>
 
@@ -182,8 +175,8 @@ export default async function EmploisPage() {
                 </a>
                 <a href="#candidature" style={{
                   display: "inline-flex", alignItems: "center", gap: 8,
-                  background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
-                  color: "white", fontWeight: 700, fontSize: "0.9rem",
+                  background: "#0D1525", color: "white",
+                  fontWeight: 700, fontSize: "0.9rem",
                   padding: "13px 24px", borderRadius: 10, textDecoration: "none",
                 }}>
                   Candidature spontanée
@@ -191,44 +184,37 @@ export default async function EmploisPage() {
               </div>
             </div>
 
-            <div className="hero-illustration">
+            {/* Colonne droite — image */}
+            <div className="hero-img-col">
               {heroImageUrl ? (
-                <div style={{
-                  width: "100%", maxWidth: 420, aspectRatio: "3/2",
-                  borderRadius: 16, overflow: "hidden",
-                  border: "2px solid rgba(255,184,0,0.2)",
-                  position: "relative",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
-                }}>
-                  <Image
-                    src={heroImageUrl}
-                    alt="Équipe TaxiBe"
-                    fill
-                    sizes="(max-width: 780px) 0px, 420px"
-                    style={{ objectFit: "cover" }}
-                    priority
-                  />
-                </div>
+                <Image
+                  src={heroImageUrl}
+                  alt="Équipe TaxiBe"
+                  width={760}
+                  height={540}
+                  sizes="(max-width: 768px) 0px, (max-width: 1280px) 50vw, 760px"
+                  priority
+                  style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                />
               ) : (
                 <div style={{
-                  width: "100%", maxWidth: 420, aspectRatio: "3/2",
-                  borderRadius: 16, border: "2px dashed rgba(255,184,0,0.2)",
+                  width: "100%", aspectRatio: "4/3",
+                  borderRadius: 16, border: "2px dashed #E8ECF0",
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center",
-                  background: "rgba(255,184,0,0.04)", gap: 10,
+                  background: "#F1F5F9", gap: 10,
                 }}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,184,0,0.4)" strokeWidth="1.5" strokeLinecap="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#CBD5E0" strokeWidth="1.5" strokeLinecap="round">
                     <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
                     <polyline points="21 15 16 10 5 21"/>
                   </svg>
-                  <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.25)", fontWeight: 600 }}>
+                  <span style={{ fontSize: "0.75rem", color: "#94A3B8", fontWeight: 600 }}>
                     Ajoutez une photo depuis l&apos;admin
                   </span>
                 </div>
               )}
             </div>
           </div>
-          <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
         </section>
 
         {/* ── Stats ── */}
