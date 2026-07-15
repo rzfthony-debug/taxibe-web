@@ -11,8 +11,9 @@ async function getParam(cle: string): Promise<string | null> {
 }
 
 export default async function ParametresPage() {
-  const [homeHero, emploisHero] = await Promise.all([
+  const [homeHero, homeHeroMobile, emploisHero] = await Promise.all([
     getParam("home_hero_image_url"),
+    getParam("home_hero_image_mobile_url"),
     getParam("emplois_hero_image_url"),
   ]);
 
@@ -31,13 +32,22 @@ export default async function ParametresPage() {
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
             Page d&apos;accueil
           </p>
-          <HeroUpload
-            cle="home_hero_image_url"
-            label="Image hero — Page d'accueil"
-            description="Recommandé : 1400 × 800 px (16:9), JPG ou WebP, max 8 Mo. S'affiche à droite du titre principal."
-            ratio="16/9"
-            currentUrl={homeHero}
-          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <HeroUpload
+              cle="home_hero_image_url"
+              label="Image hero — Desktop (≥ 769px)"
+              description="Recommandé : 1400 × 800 px, JPG ou WebP, max 8 Mo. Affiché à droite du texte sur grand écran."
+              ratio="16/9"
+              currentUrl={homeHero}
+            />
+            <HeroUpload
+              cle="home_hero_image_mobile_url"
+              label="Image hero — Mobile (< 769px)"
+              description="Recommandé : 800 × 600 px (4:3 ou carré), JPG ou WebP, max 8 Mo. Affiché sous le texte sur mobile."
+              ratio="4/3"
+              currentUrl={homeHeroMobile}
+            />
+          </div>
         </div>
 
         <div>

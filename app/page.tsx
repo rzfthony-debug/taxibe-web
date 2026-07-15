@@ -15,13 +15,13 @@ type Article = {
   created_at: string;
 };
 
-async function getHeroImageUrl(): Promise<string | null> {
+async function getHeroImages(): Promise<{ desktop: string | null; mobile: string | null }> {
   const { data } = await supabase
     .from("parametres")
-    .select("valeur")
-    .eq("cle", "home_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+    .select("cle, valeur")
+    .in("cle", ["home_hero_image_url", "home_hero_image_mobile_url"]);
+  const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
+  return { desktop: map["home_hero_image_url"] ?? null, mobile: map["home_hero_image_mobile_url"] ?? null };
 }
 
 async function getActualites(): Promise<Article[]> {
@@ -39,7 +39,8 @@ function formatDate(iso: string) {
 }
 
 export default async function Home() {
-  const [articles, heroImageUrl] = await Promise.all([getActualites(), getHeroImageUrl()]);
+  const [articles, heroImages] = await Promise.all([getActualites(), getHeroImages()]);
+  const { desktop: heroImageUrl, mobile: heroImageMobileUrl } = heroImages;
 
   return (
     <>
@@ -70,6 +71,7 @@ export default async function Home() {
             display: flex; align-items: center; justify-content: center; min-width: 0;
           }
           .hero-img-col img { width: 100%; height: auto; display: block; }
+          .hero-img-mobile { display: none; }
           @media (max-width: 768px) {
             .hero-grid {
               grid-template-columns: 1fr;
@@ -77,7 +79,9 @@ export default async function Home() {
               gap: 32px;
             }
             .hero-search-wrap { max-width: 100%; }
-            .hero-img-col { max-height: 260px; overflow: hidden; align-items: flex-start; }
+            .hero-img-col { max-height: 280px; overflow: hidden; align-items: flex-start; }
+            .hero-img-desktop { display: none; }
+            .hero-img-mobile { display: block; }
           }
         `}</style>
 
@@ -117,18 +121,35 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Colonne droite — image */}
-          {heroImageUrl ? (
+          {/* Colonne droite — image desktop / mobile */}
+          {(heroImageUrl || heroImageMobileUrl) ? (
             <div className="hero-img-col">
-              <Image
-                src={heroImageUrl}
-                alt="Application TaxiBe"
-                width={680}
-                height={520}
-                sizes="(max-width: 768px) calc(100vw - 40px), 50vw"
-                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
-                priority
-              />
+              {/* Image desktop — cachée sur mobile */}
+              {heroImageUrl && (
+                <Image
+                  src={heroImageUrl}
+                  alt="Application TaxiBe"
+                  width={680}
+                  height={520}
+                  sizes="50vw"
+                  className="hero-img-desktop"
+                  style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
+                  priority
+                />
+              )}
+              {/* Image mobile — cachée sur desktop */}
+              {heroImageMobileUrl && (
+                <Image
+                  src={heroImageMobileUrl}
+                  alt="Application TaxiBe"
+                  width={480}
+                  height={360}
+                  sizes="calc(100vw - 40px)"
+                  className="hero-img-mobile"
+                  style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
+                  priority
+                />
+              )}
             </div>
           ) : (
             <div aria-hidden="true" style={{
