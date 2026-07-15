@@ -65,14 +65,14 @@ export default async function Home() {
       <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
         <style>{`
           .hero-grid {
-            max-width: 1200px; margin: 0 auto; padding: 72px 40px 72px;
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 40px; align-items: center;
+            max-width: 1280px; margin: 0 auto; padding: 64px 40px 0;
+            display: grid; grid-template-columns: 1fr 1.4fr;
+            gap: 24px; align-items: flex-end;
           }
-          .hero-text-col { min-width: 0; }
+          .hero-text-col { min-width: 0; padding-bottom: 64px; }
           .hero-search-wrap { width: 100%; max-width: 460px; }
           .hero-img-col {
-            display: flex; align-items: center; justify-content: center; min-width: 0;
+            display: flex; align-items: flex-end; justify-content: center; min-width: 0;
           }
           .hero-img-col img { width: 100%; height: auto; display: block; }
           .hero-img-mobile-wrap { display: none; }
