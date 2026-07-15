@@ -61,10 +61,10 @@ const NAV_SECTIONS = [
     label: "Decouvrir",
     headerIcon: I.compass,
     items: [
-      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/guide",           icon: I.book },
-      { label: "Les nouveautes",          desc: "Restez informe",             href: "/actualites",      icon: I.bell },
-      { label: "FAQ",                     desc: "Questions frequentes",       href: "/faq",             icon: I.help },
-      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/conseils",        icon: I.lightbulb },
+      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/aide",            icon: I.book },
+      { label: "Les nouveautes",          desc: "Restez informe",             href: "/blog",            icon: I.bell },
+      { label: "FAQ",                     desc: "Questions frequentes",       href: "/aide",            icon: I.help },
+      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/aide",            icon: I.lightbulb },
     ],
   },
   {
@@ -72,8 +72,8 @@ const NAV_SECTIONS = [
     label: "Communaute",
     headerIcon: I.users,
     items: [
-      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/signaler",        icon: I.alert },
-      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/contribuer",      icon: I.userPlus },
+      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/communaute",      icon: I.alert },
+      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/communaute",      icon: I.userPlus },
       { label: "Blog",                   desc: "Actualites & conseils",       href: "/blog",            icon: I.edit },
     ],
   },
@@ -82,8 +82,8 @@ const NAV_SECTIONS = [
     label: "Entreprises",
     headerIcon: I.briefcase,
     items: [
-      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/publicite",       icon: I.megaphone },
-      { label: "Partenaires",           desc: "Nos partenaires",              href: "/partenaires",     icon: I.handshake },
+      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/entreprises",     icon: I.megaphone },
+      { label: "Partenaires",           desc: "Nos partenaires",              href: "/entreprises",     icon: I.handshake },
     ],
   },
   {
@@ -95,7 +95,7 @@ const NAV_SECTIONS = [
       { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "/a-propos#equipe", icon: I.users },
       { label: "Carrieres",             desc: "Rejoignez l'aventure",         href: "/emplois",         icon: I.briefcase },
       { label: "Contact",               desc: "Parlez-nous",                  href: "/contact",         icon: I.mail },
-      { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/mentions-legales", icon: I.shield },
+      { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/legal",           icon: I.shield },
     ],
   },
 ];

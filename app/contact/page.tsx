@@ -10,10 +10,10 @@ export const metadata = {
 };
 
 const RACCOURCIS = [
-  { titre: "Signaler une erreur sur une ligne", desc: "Un arrêt, un trajet ou un tarif qui a changé ?", href: "/signaler" },
-  { titre: "Une question sur l'application", desc: "Consultez les réponses aux questions les plus posées.", href: "/faq" },
-  { titre: "Une offre de partenariat", desc: "Coopérative, institution, projet urbain.", href: "/partenaires" },
-  { titre: "Un espace publicitaire", desc: "Faites connaître votre activité aux usagers de TaxiBe.", href: "/publicite" },
+  { titre: "Signaler une erreur sur une ligne", desc: "Un arrêt, un trajet ou un tarif qui a changé ?", href: "/communaute" },
+  { titre: "Une question sur l'application", desc: "Consultez les réponses aux questions les plus posées.", href: "/aide" },
+  { titre: "Une offre de partenariat", desc: "Coopérative, institution, projet urbain.", href: "/entreprises" },
+  { titre: "Un espace publicitaire", desc: "Faites connaître votre activité aux usagers de TaxiBe.", href: "/entreprises" },
 ];
 
 export default async function ContactPage({

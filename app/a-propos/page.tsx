@@ -100,7 +100,7 @@ export default function AProposPage() {
               </p>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
                 Envie de nous aider à faire grandir la base de données ?{" "}
-                <Link href="/contribuer" style={{ color: "#FFB800", fontWeight: 700, textDecoration: "none" }}>
+                <Link href="/communaute" style={{ color: "#FFB800", fontWeight: 700, textDecoration: "none" }}>
                   Devenez contributeur →
                 </Link>
               </p>

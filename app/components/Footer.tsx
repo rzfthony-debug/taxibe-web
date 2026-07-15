@@ -15,26 +15,24 @@ const COLS = [
     title: "Communauté",
     links: [
       { label: "Blog",                    href: "/blog" },
-      { label: "FAQ",                     href: "/faq" },
-      { label: "Conseils de déplacement", href: "/conseils" },
-      { label: "Signaler une erreur",     href: "/signaler" },
-      { label: "Devenir contributeur",    href: "/contribuer" },
+      { label: "Aide & FAQ",              href: "/aide" },
+      { label: "Signaler une erreur",     href: "/communaute" },
+      { label: "Devenir contributeur",    href: "/communaute" },
     ],
   },
   {
     title: "Entreprise",
     links: [
-      { label: "Publicité",   href: "/publicite" },
-      { label: "Partenaires", href: "/partenaires" },
-      { label: "Carrières",   href: "/emplois" },
-      { label: "Contact",     href: "/contact" },
+      { label: "Visibilité commerciale", href: "/entreprises" },
+      { label: "Partenariats",           href: "/entreprises" },
+      { label: "Carrières",              href: "/emplois" },
+      { label: "Contact",                href: "/contact" },
     ],
   },
   {
     title: "Légal",
     links: [
-      { label: "Mentions légales",       href: "/mentions-legales" },
-      { label: "CGU & confidentialité",  href: "/conditions" },
+      { label: "Informations légales",   href: "/legal" },
     ],
   },
 ];
