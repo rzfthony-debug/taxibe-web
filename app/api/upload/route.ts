@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 
-const adminStorage = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(req: NextRequest) {
+  const adminStorage = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
   const cle = formData.get("cle") as string | null;
