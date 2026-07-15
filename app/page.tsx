@@ -3,6 +3,7 @@ import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import SearchForm from "@/app/components/SearchForm";
+import SpotlightSection from "@/app/components/SpotlightSection";
 import { supabase } from "@/lib/supabase";
 
 type Article = {
@@ -88,15 +89,45 @@ export default async function Home() {
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
             {[
-              { icon: "M", title: "Par numéro de ligne", desc: "Entrez le numéro et obtenez tous les arrêts, le trajet complet et les terminus.", color: "#FFB800", appOnly: false },
-              { icon: "L", title: "Par arrêt ou quartier", desc: "Indiquez votre départ et votre destination — les correspondances sont calculées automatiquement.", color: "#3b82f6", appOnly: true },
-              { icon: "G", title: "Arrêts près de moi", desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous.", color: "#10b981", appOnly: true },
-              { icon: "F", title: "Lignes favorites", desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste.", color: "#f59e0b", appOnly: true },
-              { icon: "J", title: "Jeux & récompenses", desc: "Sudoku et quiz sur les lignes de Tana. Gagnez des lots en jouant.", color: "#8b5cf6", appOnly: true },
-              { icon: "A", title: "Actualités & emplois", desc: "Restez informé des nouvelles et offres d'emploi à Antananarivo.", color: "#06b6d4", appOnly: true },
+              {
+                title: "Par numéro de ligne",
+                desc: "Entrez le numéro et obtenez tous les arrêts, le trajet complet et les terminus.",
+                appOnly: false,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>,
+              },
+              {
+                title: "Par arrêt ou quartier",
+                desc: "Indiquez votre départ et votre destination — les correspondances sont calculées automatiquement.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>,
+              },
+              {
+                title: "Arrêts près de moi",
+                desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+              },
+              {
+                title: "Lignes favorites",
+                desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFB800" stroke="#FFB800" strokeWidth="1.5" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+              },
+              {
+                title: "Jeux & récompenses",
+                desc: "Sudoku et quiz sur les lignes de Tana. Gagnez des lots en jouant.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>,
+              },
+              {
+                title: "Actualités & emplois",
+                desc: "Restez informé des nouvelles et offres d'emploi à Antananarivo.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
+              },
             ].map((f) => (
               <div key={f.title} style={{
-                background: "white", borderRadius: 12, padding: "24px 20px",
+                background: "white", borderRadius: 14, padding: "24px 22px",
                 border: "1px solid #E8ECF0",
                 boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
                 position: "relative",
@@ -112,15 +143,15 @@ export default async function Home() {
                   </span>
                 )}
                 <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: `${f.color}18`,
-                  border: `1.5px solid ${f.color}30`,
+                  width: 52, height: 52, borderRadius: 14,
+                  background: "rgba(255,184,0,0.1)",
+                  border: "1.5px solid rgba(255,184,0,0.22)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  marginBottom: 16,
+                  marginBottom: 18,
                 }}>
-                  <div style={{ width: 18, height: 18, borderRadius: 3, background: f.color, opacity: 0.9 }} />
+                  {f.icon}
                 </div>
-                <h3 style={{ fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", marginBottom: 8 }}>{f.title}</h3>
+                <h3 style={{ fontWeight: 800, fontSize: "0.92rem", color: "#0D1525", marginBottom: 8 }}>{f.title}</h3>
                 <p style={{ fontSize: "0.82rem", color: "#64748B", lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
@@ -130,6 +161,9 @@ export default async function Home() {
           </p>
         </div>
       </section>
+
+      {/* ── Spotlight ── */}
+      <SpotlightSection />
 
       {/* ── Actualités ── */}
       {articles.length > 0 && (

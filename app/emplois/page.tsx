@@ -1,6 +1,8 @@
 import { supabase } from "@/lib/supabase";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
+import PageHeader from "@/app/components/PageHeader";
+import SpotlightSection from "@/app/components/SpotlightSection";
 
 export const metadata = {
   title: "Offres d'emploi — TaxiBe",
@@ -19,17 +21,13 @@ export default async function EmploisPage() {
       <Nav />
       <main style={{ minHeight: "70vh", background: "#F8F9FB" }}>
 
-        {/* Header */}
-        <div style={{ background: "#0D1525", padding: "56px 24px 64px" }}>
-          <div style={{ maxWidth: 900, margin: "0 auto" }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FFB800", marginBottom: 14 }}>
-              Offres d&apos;emploi
-            </p>
-            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "white", margin: 0, letterSpacing: "-0.02em" }}>
-              Trouvez votre prochain poste à Tana
-            </h1>
-          </div>
-        </div>
+        <PageHeader
+          tag="Offres d'emploi"
+          title="Trouvez votre prochain poste à Tana"
+          subtitle="Toutes les offres disponibles à Antananarivo et ses environs."
+          breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Emplois" }]}
+        />
+        <SpotlightSection />
 
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px" }}>
           {(!offres || offres.length === 0) && (

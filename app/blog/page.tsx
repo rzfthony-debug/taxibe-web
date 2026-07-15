@@ -3,6 +3,8 @@ import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
+import PageHeader from "@/app/components/PageHeader";
+import SpotlightSection from "@/app/components/SpotlightSection";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -104,14 +106,17 @@ export default async function BlogPage() {
           }
         `}</style>
 
-        {/* Breadcrumb */}
-        <div className="breadcrumb">
-          <Link href="/">Accueil</Link>
-          <span style={{ margin: "0 8px" }}>›</span>
-          <span style={{ color: "#0D1525", fontWeight: 600 }}>Blog</span>
-        </div>
+        <PageHeader
+          tag="Blog"
+          title="Le média de la mobilité à Antananarivo"
+          subtitle="Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements."
+          breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Blog" }]}
+        />
 
-        {/* Hero */}
+        {/* Spotlight */}
+        <SpotlightSection />
+
+        {/* Hero illustration */}
         <div className="blog-hero">
           <div>
             <span style={{
