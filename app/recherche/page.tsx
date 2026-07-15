@@ -68,7 +68,7 @@ export default async function RecherchePage({
               Lignes populaires
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 40 }}>
-              {["147", "135", "20B", "165", "182", "45", "86", "30"].map((n) => (
+              {["147", "183", "D", "163", "133"].map((n) => (
                 <a key={n} href={`/recherche?q=${n}`} style={{
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
                   width: 60, height: 60, background: "white",

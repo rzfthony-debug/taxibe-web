@@ -125,7 +125,7 @@ export default async function Home() {
               <SearchForm />
               <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
                 <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>Essayez :</span>
-                {["147", "135", "20B", "165", "182"].map((n) => (
+                {["147", "183", "D", "163", "133"].map((n) => (
                   <a key={n} href={`/recherche?q=${n}`} style={{
                     display: "inline-block", padding: "3px 10px", borderRadius: 6,
                     background: "#F1F5F9", color: "#64748B", textDecoration: "none",
