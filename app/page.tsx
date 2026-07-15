@@ -13,6 +13,15 @@ type Article = {
   created_at: string;
 };
 
+async function getHeroImageUrl(): Promise<string | null> {
+  const { data } = await supabase
+    .from("parametres")
+    .select("valeur")
+    .eq("cle", "home_hero_image_url")
+    .single();
+  return data?.valeur ?? null;
+}
+
 async function getActualites(): Promise<Article[]> {
   const { data } = await supabase
     .from("actualites")
@@ -28,7 +37,7 @@ function formatDate(iso: string) {
 }
 
 export default async function Home() {
-  const articles = await getActualites();
+  const [articles, heroImageUrl] = await Promise.all([getActualites(), getHeroImageUrl()]);
 
   return (
     <>
@@ -46,33 +55,73 @@ export default async function Home() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{ background: "#0D1525", padding: "80px 24px 96px" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
-          <p style={{
-            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em",
-            textTransform: "uppercase", color: "#FFB800", marginBottom: 20,
-          }}>
-            Antananarivo · 100% Gratuit
-          </p>
-          <h1 style={{
-            fontSize: "clamp(2rem, 6vw, 3.4rem)", fontWeight: 900,
-            color: "white", lineHeight: 1.13, marginBottom: 20,
-            letterSpacing: "-0.02em",
-          }}>
-            Trouvez votre ligne de{" "}
-            <span style={{ color: "#FFB800" }}>taxi-be</span>
-          </h1>
-          <p style={{
-            fontSize: "1rem", color: "rgba(255,255,255,0.55)",
-            lineHeight: 1.8, marginBottom: 40, maxWidth: 480, margin: "0 auto 40px",
-          }}>
-            Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
-          </p>
-          <SearchForm />
-          <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", margin: 0 }}>
-            Essayez 147 · 135 · 20B · 165 · 182
-          </p>
+      <section style={{ background: "#0D1525", position: "relative", overflow: "hidden" }}>
+        <style>{`
+          .home-hero-dots {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 340px;
+            background-image: radial-gradient(circle, rgba(255,184,0,0.15) 1.5px, transparent 1.5px);
+            background-size: 20px 20px; pointer-events: none;
+            mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 80%);
+          }
+          .home-hero-inner {
+            max-width: 1100px; margin: 0 auto;
+            padding: 80px 24px 96px;
+            display: grid; grid-template-columns: 1fr;
+            gap: 48px; position: relative; align-items: center;
+          }
+          .home-hero-img-col { display: none; }
+          @media (min-width: 800px) {
+            .home-hero-inner.has-img { grid-template-columns: 1fr 1fr; padding: 72px 24px 80px; }
+            .home-hero-img-col { display: flex; justify-content: flex-end; align-items: center; }
+            .home-hero-inner:not(.has-img) .home-hero-text { text-align: center; max-width: 680px; margin: 0 auto; }
+          }
+        `}</style>
+
+        {heroImageUrl && <div className="home-hero-dots" aria-hidden="true" />}
+
+        <div className={`home-hero-inner${heroImageUrl ? " has-img" : ""}`}>
+          {/* Texte */}
+          <div className="home-hero-text">
+            <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#FFB800", marginBottom: 20 }}>
+              Antananarivo · 100% Gratuit
+            </p>
+            <h1 style={{ fontSize: "clamp(2rem, 6vw, 3.4rem)", fontWeight: 900, color: "white", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em" }}>
+              Trouvez votre ligne de{" "}
+              <span style={{ color: "#FFB800" }}>taxi-be</span>
+            </h1>
+            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 40, maxWidth: 480 }}>
+              Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
+            </p>
+            <SearchForm />
+            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", margin: 0 }}>
+              Essayez 147 · 135 · 20B · 165 · 182
+            </p>
+          </div>
+
+          {/* Image hero (si configurée) */}
+          {heroImageUrl && (
+            <div className="home-hero-img-col">
+              <div style={{
+                width: "100%", maxWidth: 460, aspectRatio: "16/9",
+                borderRadius: 16, overflow: "hidden",
+                border: "2px solid rgba(255,184,0,0.2)",
+                position: "relative",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+              }}>
+                <Image
+                  src={heroImageUrl}
+                  alt="TaxiBe"
+                  fill
+                  sizes="(max-width: 800px) 0px, 460px"
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
+            </div>
+          )}
         </div>
+
+        <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
       </section>
 
       {/* ── Fonctionnalités ── */}

@@ -30,7 +30,10 @@ const NAV_SECTIONS = [
   },
   {
     label: "Administration",
-    items: [{ href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" }],
+    items: [
+      { href: "/gestion/parametres",   label: "Paramètres",   icon: "⚙️" },
+      { href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" },
+    ],
   },
 ];
 
