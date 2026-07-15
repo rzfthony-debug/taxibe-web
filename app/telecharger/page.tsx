@@ -42,6 +42,17 @@ export default async function TelechargerPage() {
         .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
         .page-hero-img { display: flex; align-items: center; justify-content: center; }
         @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } }
+        .dl-card { background: white; border-radius: 16px; border: 1px solid #E8ECF0; box-shadow: 0 6px 32px rgba(0,0,0,0.07); display: grid; grid-template-columns: 176px 1fr; overflow: hidden; margin-bottom: 40px; }
+        .dl-qr { background: #F8F9FB; border-right: 1px solid #E8ECF0; padding: 28px 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .dl-main { padding: 28px 32px; }
+        .dl-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 24px; background: #0D1525; color: #FFB800; border-radius: 10px; font-weight: 800; font-size: 0.98rem; text-decoration: none; letter-spacing: -0.01em; margin-bottom: 10px; transition: background 0.15s; }
+        .dl-btn:hover { background: #1a2a40; }
+        .dl-meta { margin: 0 0 18px; font-size: 0.74rem; color: #94A3B8; text-align: center; }
+        .dl-trust { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
+        .dl-trust-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px; font-size: 0.71rem; font-weight: 700; color: #166534; }
+        .dl-stores { border-top: 1px solid #F1F5F9; padding-top: 18px; }
+        .dl-stores-label { margin: 0 0 10px; font-size: 0.67rem; font-weight: 800; color: #CBD5E1; text-transform: uppercase; letter-spacing: 0.1em; }
+        @media (max-width: 640px) { .dl-card { grid-template-columns: 1fr; } .dl-qr { display: none; } .dl-main { padding: 22px 18px; } }
       `}</style>
       {/* ── Hero ── */}
       <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
@@ -175,52 +186,134 @@ export default async function TelechargerPage() {
         </div>
       </section>
 
-      {/* ── Installation APK ── */}
+      {/* ── Télécharger · Installation ── */}
       <section style={{ padding: "72px 24px" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <h2 style={{ textAlign: "center", fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 900, color: "#0D1525", marginBottom: 8, letterSpacing: "-0.01em" }}>
-            Comment installer TaxiBe
+            Installer TaxiBe en 1 minute
           </h2>
-          <p style={{ textAlign: "center", color: "#64748B", marginBottom: 48, fontSize: "0.9rem" }}>
-            En moins d&apos;une minute, sur n&apos;importe quel téléphone Android.
+          <p style={{ textAlign: "center", color: "#64748B", marginBottom: 40, fontSize: "0.9rem" }}>
+            Téléchargement direct — Android uniquement pour l&apos;instant.
           </p>
 
-          <div style={{
-            background: "white", borderRadius: 16, padding: "36px 32px",
-            border: "1px solid #E8ECF0", boxShadow: "0 4px 24px rgba(0,0,0,0.05)",
-          }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
-              {[
-                { n: "1", text: "Téléchargez le fichier APK en appuyant sur le bouton ci-dessous" },
-                { n: "2", text: "Ouvrez le fichier téléchargé depuis vos notifications ou votre dossier Téléchargements" },
-                { n: "3", text: "Si le téléphone vous le demande, autorisez l'installation depuis cette source" },
-                { n: "4", text: "Installez — l'icône TaxiBe apparaît sur votre écran d'accueil" },
-              ].map((s) => (
-                <div key={s.n} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: 8, flexShrink: 0,
-                    background: "#FFB800", color: "#0D1525",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontWeight: 900, fontSize: "0.85rem",
-                  }}>
-                    {s.n}
-                  </div>
-                  <p style={{ margin: 0, fontSize: "0.9rem", color: "#374151", lineHeight: 1.6, paddingTop: 5 }}>{s.text}</p>
-                </div>
-              ))}
+          {/* Download card */}
+          <div className="dl-card">
+            {/* QR side */}
+            <div className="dl-qr">
+              {/* Decorative QR placeholder — remplacer par un vrai QR pointant vers /taxibe.apk quand le domaine est fixé */}
+              <svg width="112" height="112" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="112" height="112" fill="white" rx="6"/>
+                {/* Top-left finder */}
+                <rect x="6" y="6" width="28" height="28" fill="#0D1525"/>
+                <rect x="10" y="10" width="20" height="20" fill="white"/>
+                <rect x="14" y="14" width="12" height="12" fill="#0D1525"/>
+                {/* Top-right finder */}
+                <rect x="78" y="6" width="28" height="28" fill="#0D1525"/>
+                <rect x="82" y="10" width="20" height="20" fill="white"/>
+                <rect x="86" y="14" width="12" height="12" fill="#0D1525"/>
+                {/* Bottom-left finder */}
+                <rect x="6" y="78" width="28" height="28" fill="#0D1525"/>
+                <rect x="10" y="82" width="20" height="20" fill="white"/>
+                <rect x="14" y="86" width="12" height="12" fill="#0D1525"/>
+                {/* Data modules (decorative) */}
+                <rect x="40" y="6" width="6" height="6" fill="#0D1525"/><rect x="50" y="6" width="6" height="6" fill="#0D1525"/>
+                <rect x="62" y="6" width="6" height="6" fill="#0D1525"/><rect x="70" y="6" width="6" height="6" fill="#0D1525"/>
+                <rect x="40" y="16" width="6" height="6" fill="#0D1525"/><rect x="56" y="16" width="6" height="6" fill="#0D1525"/>
+                <rect x="68" y="16" width="6" height="6" fill="#0D1525"/><rect x="44" y="26" width="6" height="6" fill="#0D1525"/>
+                <rect x="58" y="26" width="6" height="6" fill="#0D1525"/><rect x="72" y="26" width="6" height="6" fill="#0D1525"/>
+                <rect x="6" y="40" width="6" height="6" fill="#0D1525"/><rect x="18" y="40" width="6" height="6" fill="#0D1525"/>
+                <rect x="28" y="40" width="6" height="6" fill="#0D1525"/><rect x="40" y="40" width="6" height="6" fill="#0D1525"/>
+                <rect x="52" y="40" width="6" height="6" fill="#0D1525"/><rect x="64" y="40" width="6" height="6" fill="#0D1525"/>
+                <rect x="76" y="40" width="6" height="6" fill="#0D1525"/><rect x="88" y="40" width="6" height="6" fill="#0D1525"/>
+                <rect x="100" y="40" width="6" height="6" fill="#0D1525"/><rect x="6" y="50" width="6" height="6" fill="#0D1525"/>
+                <rect x="22" y="50" width="6" height="6" fill="#0D1525"/><rect x="46" y="50" width="6" height="6" fill="#0D1525"/>
+                <rect x="58" y="50" width="6" height="6" fill="#0D1525"/><rect x="72" y="50" width="6" height="6" fill="#0D1525"/>
+                <rect x="84" y="50" width="6" height="6" fill="#0D1525"/><rect x="96" y="50" width="6" height="6" fill="#0D1525"/>
+                <rect x="10" y="60" width="6" height="6" fill="#0D1525"/><rect x="28" y="60" width="6" height="6" fill="#0D1525"/>
+                <rect x="42" y="60" width="6" height="6" fill="#0D1525"/><rect x="54" y="60" width="6" height="6" fill="#0D1525"/>
+                <rect x="66" y="60" width="6" height="6" fill="#0D1525"/><rect x="78" y="60" width="6" height="6" fill="#0D1525"/>
+                <rect x="92" y="60" width="6" height="6" fill="#0D1525"/><rect x="100" y="60" width="6" height="6" fill="#0D1525"/>
+                <rect x="40" y="78" width="6" height="6" fill="#0D1525"/><rect x="54" y="78" width="6" height="6" fill="#0D1525"/>
+                <rect x="66" y="78" width="6" height="6" fill="#0D1525"/><rect x="78" y="78" width="6" height="6" fill="#0D1525"/>
+                <rect x="90" y="78" width="6" height="6" fill="#0D1525"/><rect x="100" y="78" width="6" height="6" fill="#0D1525"/>
+                <rect x="44" y="88" width="6" height="6" fill="#0D1525"/><rect x="58" y="88" width="6" height="6" fill="#0D1525"/>
+                <rect x="70" y="88" width="6" height="6" fill="#0D1525"/><rect x="84" y="88" width="6" height="6" fill="#0D1525"/>
+                <rect x="96" y="88" width="6" height="6" fill="#0D1525"/><rect x="40" y="98" width="6" height="6" fill="#0D1525"/>
+                <rect x="56" y="98" width="6" height="6" fill="#0D1525"/><rect x="68" y="98" width="6" height="6" fill="#0D1525"/>
+                <rect x="82" y="98" width="6" height="6" fill="#0D1525"/><rect x="100" y="98" width="6" height="6" fill="#0D1525"/>
+              </svg>
+              <p style={{ margin: "12px 0 0", fontSize: "0.7rem", fontWeight: 700, color: "#64748B", textAlign: "center", lineHeight: 1.5 }}>
+                Scanner depuis<br/>votre téléphone
+              </p>
             </div>
 
-            <a href="/taxibe.apk" style={{
-              display: "block", padding: "16px", borderRadius: 10, textAlign: "center",
-              background: "#0D1525", color: "#FFB800",
-              fontWeight: 800, fontSize: "1rem", textDecoration: "none",
-              letterSpacing: "-0.01em",
-            }}>
-              Télécharger TaxiBe — Gratuit
-            </a>
-            <p style={{ textAlign: "center", margin: "12px 0 0", fontSize: "0.75rem", color: "#94A3B8" }}>
-              Android 6.0 et supérieur · Aucune donnée personnelle requise
-            </p>
+            {/* Main download */}
+            <div className="dl-main">
+              <a href="/taxibe.apk" className="dl-btn">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Télécharger TaxiBe — Gratuit
+              </a>
+              <p className="dl-meta">v1.0 · environ 25 Mo · Android 6.0+</p>
+
+              <div className="dl-trust">
+                {["Aucun compte requis", "Sans publicité", "100% gratuit", "Aucune donnée personnelle"].map((t) => (
+                  <span key={t} className="dl-trust-chip">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="dl-stores">
+                <p className="dl-stores-label">Bientôt disponible sur</p>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 10,
+                  background: "#1D1B20", borderRadius: 10, padding: "9px 16px",
+                  opacity: 0.38, cursor: "not-allowed", userSelect: "none",
+                }}>
+                  <svg width="20" height="22" viewBox="0 0 20 22" fill="none">
+                    <path d="M1 1.5L11.5 12L1 22.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M1 1.5L19 11L11.5 12" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M1 22.5L19 13L11.5 12" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <div>
+                    <p style={{ margin: 0, fontSize: "0.56rem", color: "rgba(255,255,255,0.75)", letterSpacing: "0.04em", textTransform: "uppercase", lineHeight: 1 }}>Bientôt sur</p>
+                    <p style={{ margin: 0, fontSize: "0.88rem", fontWeight: 800, color: "white", lineHeight: 1.3, fontFamily: "system-ui" }}>Google Play</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <h3 style={{ fontSize: "1rem", fontWeight: 800, color: "#0D1525", margin: "0 0 18px", letterSpacing: "-0.01em" }}>
+            Comment installer
+          </h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {[
+              "Appuyez sur le bouton de téléchargement ci-dessus",
+              "Ouvrez le fichier APK depuis vos notifications ou votre dossier Téléchargements",
+              "Si demandé, autorisez l'installation depuis cette source — c'est normal pour les APK hors store",
+              "Installez — l'icône TaxiBe apparaît sur votre écran d'accueil",
+            ].map((text, i) => (
+              <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                <div style={{
+                  width: 30, height: 30, borderRadius: 8, flexShrink: 0,
+                  background: "#FFB800", color: "#0D1525",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontWeight: 900, fontSize: "0.82rem",
+                }}>
+                  {i + 1}
+                </div>
+                <p style={{ margin: 0, fontSize: "0.88rem", color: "#374151", lineHeight: 1.65, paddingTop: 5 }}>{text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
