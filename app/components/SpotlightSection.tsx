@@ -125,11 +125,13 @@ export default async function SpotlightSection() {
     <section style={{ background: "#F8F9FB", padding: "56px 24px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-          <div style={{ width: 4, height: 20, background: "#FFB800", borderRadius: 2 }} />
-          <span style={{ fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#0D1525" }}>
-            Spotlight
-          </span>
+        <div style={{ marginBottom: 32 }}>
+          <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+            Ce qui se passe à Tana
+          </h2>
+          <p style={{ fontSize: "0.9rem", color: "#64748B", margin: 0, lineHeight: 1.6 }}>
+            Actualités, événements et bons plans à ne pas manquer autour de vous.
+          </p>
         </div>
 
         <style>{`
