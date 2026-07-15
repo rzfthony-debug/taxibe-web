@@ -160,7 +160,7 @@ export default async function EmploisPage() {
                 fontSize: "clamp(1.8rem, 5vw, 3rem)", fontWeight: 900,
                 color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.025em",
               }}>
-                Rejoignez l&apos;équipe qui transforme la mobilité à Madagascar
+                Rejoignez l&apos;équipe qui transforme la <span style={{ color: "#FFB800" }}>mobilité</span> à Madagascar
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", margin: "0 0 32px", lineHeight: 1.75, maxWidth: 460 }}>
                 Construisons ensemble le futur du transport. Des postes ouverts dans tous nos départements à Antananarivo.

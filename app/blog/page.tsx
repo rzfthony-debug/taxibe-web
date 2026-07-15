@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import SpotlightSection from "@/app/components/SpotlightSection";
+import HeroIllustration from "@/app/components/HeroIllustration";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -20,6 +21,15 @@ type Article = {
 };
 
 // ── Données Supabase ───────────────────────────────────────────────────────────
+
+async function getHeroImageUrl(): Promise<string | null> {
+  const { data } = await supabase
+    .from("parametres")
+    .select("valeur")
+    .eq("cle", "blog_hero_image_url")
+    .single();
+  return data?.valeur ?? null;
+}
 
 async function getArticles(): Promise<Article[]> {
   const { data } = await supabase
@@ -49,8 +59,10 @@ const CATEGORIES = [
 
 export const metadata = { title: "Blog — TaxiBe" };
 
+export const revalidate = 0;
+
 export default async function BlogPage() {
-  const articles = await getArticles();
+  const [articles, heroImageUrl] = await Promise.all([getArticles(), getHeroImageUrl()]);
 
   const featured = articles[0] ?? null;
   const dernieres = articles.slice(1, 4);
@@ -110,64 +122,24 @@ export default async function BlogPage() {
         <section style={{ borderBottom: "1px solid #E8ECF0" }}>
           <div className="blog-hero">
             <div>
-              <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FFB800", marginBottom: 14 }}>
-                Blog
-              </p>
-              <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 12px", letterSpacing: "-0.02em" }}>
-                Le média de la mobilité à Antananarivo
+              <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
+                <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
+                  Blog
+                </span>
+              </div>
+              <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
+                Le média de la <span style={{ color: "#FFB800" }}>mobilité</span> à Antananarivo
               </h1>
-              <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.7, margin: 0, maxWidth: 480 }}>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.75, margin: 0, maxWidth: 480 }}>
                 Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
               </p>
             </div>
           <div className="blog-hero-img">
-            <svg viewBox="0 0 460 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 440 }}>
-              <rect width="460" height="280" fill="#F8F9FB" rx="16"/>
-              <ellipse cx="230" cy="230" rx="240" ry="90" fill="#E8ECF0"/>
-              <ellipse cx="110" cy="210" rx="130" ry="60" fill="#EEF1F5"/>
-              <ellipse cx="370" cy="220" rx="120" ry="55" fill="#E8ECF0"/>
-              <rect x="40"  y="130" width="30" height="90" rx="3" fill="#D1D9E6"/>
-              <rect x="75"  y="110" width="35" height="110" rx="3" fill="#C8D2E0"/>
-              <rect x="115" y="125" width="25" height="95" rx="3" fill="#D1D9E6"/>
-              <rect x="320" y="115" width="35" height="105" rx="3" fill="#C8D2E0"/>
-              <rect x="360" y="130" width="28" height="90" rx="3" fill="#D1D9E6"/>
-              <rect x="393" y="118" width="32" height="102" rx="3" fill="#C8D2E0"/>
-              <rect x="200" y="60" width="60" height="160" rx="4" fill="#B8C5D6"/>
-              <rect x="210" y="40" width="40" height="30" rx="3" fill="#A8B8CC"/>
-              <rect x="224" y="28" width="12" height="20" rx="2" fill="#94A3B8"/>
-              {[75,95,115,135,155,175].map((y, i) => (
-                <g key={i}>
-                  <rect x="210" y={y} width="10" height="12" rx="1" fill="#E2E8F0" opacity="0.8"/>
-                  <rect x="240" y={y} width="10" height="12" rx="1" fill="#E2E8F0" opacity="0.8"/>
-                </g>
-              ))}
-              <rect x="0" y="230" width="460" height="50" rx="0" fill="#D8E0EA"/>
-              <rect x="0" y="248" width="460" height="6" fill="#C8D2DF"/>
-              {[20,80,140,200,260,320,380].map((x, i) => (
-                <rect key={i} x={x} y="252" width="30" height="3" rx="1" fill="white" opacity="0.6"/>
-              ))}
-              <g transform="translate(160, 210)">
-                <rect x="0" y="8" width="80" height="36" rx="8" fill="#FFB800"/>
-                <rect x="8"  y="2"  width="64" height="26" rx="6" fill="#FFB800"/>
-                <rect x="12" y="5"  width="24" height="18" rx="3" fill="#E8F4FF" opacity="0.9"/>
-                <rect x="44" y="5"  width="24" height="18" rx="3" fill="#E8F4FF" opacity="0.9"/>
-                <circle cx="16" cy="46" r="9" fill="#1a2a3a"/>
-                <circle cx="16" cy="46" r="5" fill="#E2E8F0"/>
-                <circle cx="64" cy="46" r="9" fill="#1a2a3a"/>
-                <circle cx="64" cy="46" r="5" fill="#E2E8F0"/>
-                <rect x="2" y="12" width="8" height="6" rx="2" fill="#FFF9E6" opacity="0.9"/>
-                <rect x="70" y="12" width="8" height="6" rx="2" fill="#FF6B6B" opacity="0.8"/>
-              </g>
-              <g transform="translate(290, 130)">
-                <circle cx="20" cy="20" r="20" fill="#FFB800" opacity="0.15"/>
-                <path d="M20 4C13.4 4 8 9.4 8 16C8 24 20 36 20 36C20 36 32 24 32 16C32 9.4 26.6 4 20 4Z" fill="#FFB800"/>
-                <circle cx="20" cy="16" r="6" fill="white"/>
-              </g>
-              <ellipse cx="80"  cy="50" rx="30" ry="12" fill="white" opacity="0.7"/>
-              <ellipse cx="100" cy="44" rx="22" ry="10" fill="white" opacity="0.8"/>
-              <ellipse cx="350" cy="40" rx="28" ry="11" fill="white" opacity="0.7"/>
-              <ellipse cx="370" cy="34" rx="20" ry="9"  fill="white" opacity="0.8"/>
-            </svg>
+            {heroImageUrl ? (
+              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+            ) : (
+              <HeroIllustration />
+            )}
           </div>
         </div>
         </section>
