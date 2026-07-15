@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -246,51 +245,6 @@ export default async function EmploisPage() {
 
             {/* Colonne droite : sidebar */}
             <aside style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-
-              {/* Widget app */}
-              <div className="sidebar-widget">
-                <div className="widget-header">Télécharger l&apos;app</div>
-                <div className="widget-body" style={{ textAlign: "center" }}>
-                  <div style={{
-                    width: 52, height: 52, background: "rgba(255,184,0,0.1)", border: "1.5px solid rgba(255,184,0,0.22)",
-                    borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center",
-                    margin: "0 auto 14px", color: "#FFB800",
-                  }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                  </div>
-                  <p style={{ margin: "0 0 4px", fontWeight: 800, color: "#0D1525", fontSize: "0.9rem" }}>Application TaxiBe</p>
-                  <p style={{ margin: "0 0 16px", fontSize: "0.77rem", color: "#94A3B8", lineHeight: 1.6 }}>
-                    Téléchargez notre application pour trouver votre ligne de taxi-be à Tana.
-                  </p>
-                  <Link href="/telecharger" style={{
-                    display: "block", textAlign: "center", background: "#0D1525", color: "white",
-                    fontWeight: 800, fontSize: "0.82rem", padding: "10px 16px", borderRadius: 9,
-                    textDecoration: "none",
-                  }}>
-                    Télécharger gratuitement
-                  </Link>
-                </div>
-              </div>
-
-              {/* Widget ligne 147 */}
-              <div className="sidebar-widget">
-                <div className="widget-header" style={{ background: "#FFB800", color: "#0D1525" }}>Ligne 147 — Appel RH</div>
-                <div className="widget-body" style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                  <div style={{
-                    width: 42, height: 42, background: "#FFF7E6", border: "1.5px solid #FDE68A",
-                    borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center",
-                    flexShrink: 0, color: "#92400E",
-                  }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  </div>
-                  <div>
-                    <p style={{ margin: "0 0 2px", fontWeight: 800, color: "#0D1525", fontSize: "0.9rem" }}>147</p>
-                    <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748B", lineHeight: 1.5 }}>
-                      Appelez notre équipe RH du lundi au vendredi, 8h–17h.
-                    </p>
-                  </div>
-                </div>
-              </div>
 
               {/* FAQ */}
               <div className="sidebar-widget">
