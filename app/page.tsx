@@ -57,80 +57,76 @@ export default async function Home() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{ position: "relative", overflow: "hidden", background: "#0D1525" }}>
+      <section style={{ background: "#0D1525", overflow: "hidden" }}>
+        <style>{`
+          .hero-grid {
+            max-width: 1200px; margin: 0 auto; padding: 72px 40px 0;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 40px; align-items: flex-end;
+          }
+          .hero-img-col {
+            display: flex; align-items: flex-end; justify-content: center;
+          }
+          .hero-img-col img { width: 100%; height: auto; display: block; }
+          @media (max-width: 860px) {
+            .hero-grid { grid-template-columns: 1fr; padding: 56px 24px 40px; }
+            .hero-img-col { max-height: 320px; overflow: hidden; align-items: flex-start; }
+          }
+        `}</style>
 
-        {/* Image pleine largeur en fond */}
-        {heroImageUrl && (
-          <Image
-            src={heroImageUrl}
-            alt="TaxiBe hero"
-            fill
-            sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-            priority
-          />
-        )}
+        <div className="hero-grid">
+          {/* Colonne gauche — texte */}
+          <div style={{ paddingBottom: 72 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              background: "rgba(255,184,0,0.15)", border: "1px solid rgba(255,184,0,0.35)",
+              borderRadius: 8, padding: "5px 12px", marginBottom: 24,
+            }}>
+              <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
+                Antananarivo · 100% Gratuit
+              </span>
+            </div>
 
-        {/* Overlay gradient pour lisibilité du texte */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: heroImageUrl
-            ? "linear-gradient(90deg, rgba(13,21,37,0.92) 0%, rgba(13,21,37,0.75) 50%, rgba(13,21,37,0.3) 100%)"
-            : "transparent",
-          pointerEvents: "none",
-        }} />
+            <h1 style={{
+              fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)", fontWeight: 900,
+              color: "white", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
+            }}>
+              Trouvez votre ligne de{" "}
+              <span style={{ color: "#FFB800" }}>taxi-be</span>
+            </h1>
 
-        {/* Filigrane décoratif quand pas d'image */}
-        {!heroImageUrl && (
-          <div aria-hidden="true" style={{
-            position: "absolute", right: 32, top: "50%", transform: "translateY(-50%)",
-            fontSize: "clamp(5rem,18vw,12rem)", fontWeight: 900, color: "#FFB800",
-            opacity: 0.04, lineHeight: 1, letterSpacing: "-0.05em",
-            userSelect: "none", pointerEvents: "none",
-          }}>TXB</div>
-        )}
-
-        {/* Contenu */}
-        <div style={{
-          position: "relative", zIndex: 1,
-          maxWidth: "min(680px, calc(100% - 48px))", margin: "0 auto 0 clamp(24px, 8vw, 120px)",
-          padding: "88px 0 100px",
-          display: "flex", flexDirection: "column", alignItems: "flex-start",
-        }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            background: "rgba(255,184,0,0.15)", border: "1px solid rgba(255,184,0,0.35)",
-            borderRadius: 8, padding: "5px 12px", marginBottom: 20,
-          }}>
-            <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
-              Antananarivo · 100% Gratuit
-            </span>
-          </div>
-
-          <h1 style={{
-            fontSize: "clamp(2rem, 5vw, 3.4rem)", fontWeight: 900,
-            color: "white", lineHeight: 1.13, marginBottom: 16, letterSpacing: "-0.02em",
-          }}>
-            Trouvez votre ligne de{" "}
-            <span style={{ color: "#FFB800" }}>taxi-be</span>
-          </h1>
-
-          <p style={{
-            fontSize: "1rem", lineHeight: 1.75, marginBottom: 36,
-            color: "rgba(255,255,255,0.6)", maxWidth: 440,
-          }}>
-            Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
-          </p>
-
-          <div style={{ width: "100%", maxWidth: 480 }}>
-            <SearchForm />
-            <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "rgba(255,255,255,0.3)" }}>
-              Essayez 147 · 135 · 20B · 165 · 182
+            <p style={{
+              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36,
+              color: "rgba(255,255,255,0.55)", maxWidth: 420,
+            }}>
+              Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
             </p>
+
+            <div style={{ width: "100%", maxWidth: 460 }}>
+              <SearchForm />
+              <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "rgba(255,255,255,0.3)" }}>
+                Essayez 147 · 135 · 20B · 165 · 182
+              </p>
+            </div>
           </div>
+
+          {/* Colonne droite — image */}
+          {heroImageUrl && (
+            <div className="hero-img-col">
+              <Image
+                src={heroImageUrl}
+                alt="Application TaxiBe"
+                width={680}
+                height={520}
+                sizes="(max-width: 860px) 100vw, 50vw"
+                style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", objectPosition: "bottom" }}
+                priority
+              />
+            </div>
+          )}
         </div>
 
-        <div style={{ position: "relative", zIndex: 1, height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
+        <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
       </section>
 
       {/* ── Fonctionnalités ── */}
