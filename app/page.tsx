@@ -177,7 +177,7 @@ export default async function Home() {
             Tout pour se déplacer à Tana
           </h2>
           <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 480, margin: "0 auto 52px", lineHeight: 1.7 }}>
-            Toutes les fonctionnalités sont gratuites. Aucun compte requis pour chercher une ligne.
+            Recherche disponible sur le web. Toutes les fonctionnalités sont accessibles aux membres dans l&apos;application.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
             {[
@@ -249,7 +249,7 @@ export default async function Home() {
             ))}
           </div>
           <p style={{ textAlign: "center", marginTop: 28, fontSize: "0.78rem", color: "#94A3B8" }}>
-            Les fonctionnalités <strong style={{ color: "#0D1525" }}>APP</strong> sont disponibles après téléchargement — toujours gratuitement.
+            Les fonctionnalités <strong style={{ color: "#0D1525" }}>APP</strong> sont accessibles aux membres après téléchargement de l&apos;application.
           </p>
         </div>
       </section>
@@ -326,7 +326,7 @@ export default async function Home() {
             Toutes les fonctionnalités dans l&apos;app
           </h2>
           <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: 32 }}>
-            Favoris, GPS, correspondances, jeux — entièrement gratuit sur Android.
+            Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
           </p>
           <Link href="/telecharger" style={{
             display: "inline-block", padding: "14px 36px", borderRadius: 8,
@@ -350,10 +350,10 @@ export default async function Home() {
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {[
-              { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site ou sur l'application — accès immédiat, sans compte ni inscription." },
+              { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site pour la recherche rapide, ou dans l'application pour l'expérience complète." },
               { num: "2", title: "Cherchez par numéro de ligne", desc: "Tapez le numéro (ex : 147) pour voir tous les arrêts et le trajet complet en détail." },
               { num: "3", title: "Trouvez vos correspondances", desc: "Indiquez votre point de départ et votre destination — TaxiBe calcule les correspondances." },
-              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, jeux et récompenses sont disponibles dans l'application — gratuitement." },
+              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, jeux et récompenses — toutes les fonctionnalités sont dans l'application pour les membres." },
             ].map((step, i) => (
               <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
                 <div style={{

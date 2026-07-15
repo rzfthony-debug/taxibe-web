@@ -35,7 +35,7 @@ const FAQ_SECTIONS = [
     questions: [
       {
         q: "Ai-je besoin d'un compte pour utiliser TaxiBe ?",
-        r: "Non. La recherche de lignes est accessible sans inscription. Un compte gratuit permet en plus de sauvegarder vos lignes favorites et de suivre vos contributions.",
+        r: "La recherche de base est accessible sur le site web. Pour accéder à toutes les fonctionnalités de l'application — favoris, GPS, correspondances, jeux — un compte membre est requis. L'inscription est gratuite.",
       },
       {
         q: "Comment sauvegarder une ligne en favori ?",
@@ -65,7 +65,7 @@ const FAQ_SECTIONS = [
     questions: [
       {
         q: "TaxiBe est-il vraiment gratuit ?",
-        r: "Oui, entièrement. Aucun abonnement, aucun achat intégré, aucune publicité intrusive. L'accès à l'information sur le transport public doit rester libre.",
+        r: "Oui, TaxiBe est gratuit. L'inscription est libre et donne accès à l'ensemble des fonctionnalités de l'application. L'expérience complète se trouve dans l'app mobile.",
       },
       {
         q: "Sur quels téléphones TaxiBe est-il disponible ?",

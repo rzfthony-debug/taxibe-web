@@ -165,7 +165,7 @@ export default async function RecherchePage({
                 Recherche GPS, favoris, correspondances…
               </p>
               <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.55)" }}>
-                Toutes les fonctionnalités dans l&apos;application — gratuitement.
+                Toutes les fonctionnalités sont disponibles dans l&apos;application pour les membres.
               </p>
             </div>
             <Link href="/telecharger" style={{

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s — TaxiBe",
   },
   description:
-    "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, sans inscription.",
+    "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, disponible sur Android.",
   keywords: [
     "taxi-be", "taxibe", "Antananarivo", "Tananarive", "transport", "bus",
     "ligne", "arrêt", "trajet", "Madagascar", "Tana",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "TaxiBe",
     title: "TaxiBe — Lignes de taxi-be à Antananarivo",
     description:
-      "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, sans inscription.",
+      "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, disponible sur Android.",
     images: [
       {
         url: "/logo_taxibe.png",

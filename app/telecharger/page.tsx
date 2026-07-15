@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 export const metadata = {
   title: "Télécharger TaxiBe — Gratuit sur Android",
-  description: "Téléchargez TaxiBe sur Android. Gratuit, sans abonnement, sans publicité.",
+  description: "Téléchargez TaxiBe sur Android. Gratuit, accès à toutes les fonctionnalités pour les membres.",
 };
 
 async function getApercuImage(): Promise<string | null> {
@@ -40,7 +40,7 @@ export default async function TelechargerPage() {
             Téléchargez TaxiBe sur votre téléphone
           </h1>
           <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: 480, margin: "0 auto" }}>
-            Installez l&apos;application en quelques secondes. Aucun abonnement, aucune carte bancaire — gratuit pour toujours.
+            Installez l&apos;application en quelques secondes. Gratuit — toutes les fonctionnalités accessibles aux membres.
           </p>
         </div>
       </section>
@@ -205,9 +205,9 @@ export default async function TelechargerPage() {
       <section style={{ padding: "72px 24px", background: "#F8F9FB" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <h2 style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 900, color: "#0D1525", marginBottom: 8, letterSpacing: "-0.01em" }}>
-            Tout est inclus — gratuitement
+            Tout est dans l&apos;application
           </h2>
-          <p style={{ color: "#64748B", marginBottom: 40, fontSize: "0.9rem" }}>Aucune fonctionnalité cachée derrière un abonnement.</p>
+          <p style={{ color: "#64748B", marginBottom: 40, fontSize: "0.9rem" }}>Toutes les fonctionnalités sont accessibles aux membres de l&apos;application.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
             {[
               "Recherche par numéro de ligne",
