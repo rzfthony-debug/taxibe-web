@@ -57,121 +57,80 @@ export default async function Home() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{
-        background: heroImageUrl ? "white" : "#0D1525",
-        position: "relative", overflow: "hidden",
-        borderBottom: heroImageUrl ? "1px solid #E8ECF0" : "none",
-      }}>
-        <style>{`
-          .home-hero-inner {
-            max-width: 1160px; margin: 0 auto;
-            padding: 72px 24px 88px;
-            display: grid; grid-template-columns: 1fr;
-            gap: 48px; position: relative; align-items: center;
-          }
-          .home-hero-img-col { display: none; }
-          /* Sans image : contenu centré */
-          .home-hero-inner:not(.has-img) .home-hero-text {
-            text-align: center; max-width: 680px; margin: 0 auto;
-            display: flex; flex-direction: column; align-items: center;
-          }
-          /* Avec image : contenu aligné à gauche */
-          .home-hero-inner.has-img .home-hero-text {
-            display: flex; flex-direction: column; align-items: flex-start; max-width: 540px;
-          }
-          @media (min-width: 800px) {
-            .home-hero-inner.has-img {
-              grid-template-columns: 1fr 1fr;
-              padding: 64px 24px 72px;
-              gap: 40px;
-            }
-            .home-hero-img-col { display: flex; justify-content: center; align-items: center; }
-          }
-          @media (min-width: 1000px) {
-            .home-hero-inner.has-img { grid-template-columns: 1fr 460px; }
-          }
-        `}</style>
+      <section style={{ position: "relative", overflow: "hidden", background: "#0D1525" }}>
 
-        {/* Fond décoratif quand pas d'image */}
+        {/* Image pleine largeur en fond */}
+        {heroImageUrl && (
+          <Image
+            src={heroImageUrl}
+            alt="TaxiBe hero"
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center" }}
+            priority
+          />
+        )}
+
+        {/* Overlay gradient pour lisibilité du texte */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: heroImageUrl
+            ? "linear-gradient(90deg, rgba(13,21,37,0.92) 0%, rgba(13,21,37,0.75) 50%, rgba(13,21,37,0.3) 100%)"
+            : "transparent",
+          pointerEvents: "none",
+        }} />
+
+        {/* Filigrane décoratif quand pas d'image */}
         {!heroImageUrl && (
           <div aria-hidden="true" style={{
             position: "absolute", right: 32, top: "50%", transform: "translateY(-50%)",
             fontSize: "clamp(5rem,18vw,12rem)", fontWeight: 900, color: "#FFB800",
-            opacity: 0.04, lineHeight: 1, letterSpacing: "-0.05em", userSelect: "none",
-            pointerEvents: "none",
+            opacity: 0.04, lineHeight: 1, letterSpacing: "-0.05em",
+            userSelect: "none", pointerEvents: "none",
           }}>TXB</div>
         )}
 
-        <div className={`home-hero-inner${heroImageUrl ? " has-img" : ""}`}>
-          {/* Texte */}
-          <div className="home-hero-text">
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              background: heroImageUrl ? "rgba(255,184,0,0.1)" : "rgba(255,184,0,0.12)",
-              border: "1px solid rgba(255,184,0,0.3)",
-              borderRadius: 8, padding: "5px 12px", marginBottom: 20,
-            }}>
-              <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
-                Antananarivo · 100% Gratuit
-              </span>
-            </div>
-            <h1 style={{
-              fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900,
-              color: heroImageUrl ? "#0D1525" : "white",
-              lineHeight: 1.13, marginBottom: 16, letterSpacing: "-0.02em",
-            }}>
-              Trouvez votre ligne de{" "}
-              <span style={{ color: "#FFB800" }}>taxi-be</span>
-            </h1>
-            <p style={{
-              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32, maxWidth: 440,
-              color: heroImageUrl ? "#64748B" : "rgba(255,255,255,0.55)",
-            }}>
-              Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
-            </p>
-            <div style={{ width: "100%", maxWidth: 480 }}>
-              <SearchForm />
-              <p style={{
-                fontSize: "0.75rem", marginTop: 10, marginBottom: 0,
-                color: heroImageUrl ? "#94A3B8" : "rgba(255,255,255,0.3)",
-              }}>
-                Essayez 147 · 135 · 20B · 165 · 182
-              </p>
-            </div>
+        {/* Contenu */}
+        <div style={{
+          position: "relative", zIndex: 1,
+          maxWidth: "min(680px, calc(100% - 48px))", margin: "0 auto 0 clamp(24px, 8vw, 120px)",
+          padding: "88px 0 100px",
+          display: "flex", flexDirection: "column", alignItems: "flex-start",
+        }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            background: "rgba(255,184,0,0.15)", border: "1px solid rgba(255,184,0,0.35)",
+            borderRadius: 8, padding: "5px 12px", marginBottom: 20,
+          }}>
+            <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFB800" }}>
+              Antananarivo · 100% Gratuit
+            </span>
           </div>
 
-          {/* Image hero — affichée proprement sans texte dessus */}
-          {heroImageUrl && (
-            <div className="home-hero-img-col">
-              <div style={{
-                position: "relative",
-                width: "100%",
-                maxWidth: 460,
-                /* Laisse l'image définir sa hauteur naturelle */
-              }}>
-                <Image
-                  src={heroImageUrl}
-                  alt="Application TaxiBe"
-                  width={920}
-                  height={640}
-                  sizes="(max-width: 800px) 0px, (max-width: 1000px) 50vw, 460px"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                    objectFit: "contain",
-                    filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.12))",
-                  }}
-                  priority
-                />
-              </div>
-            </div>
-          )}
+          <h1 style={{
+            fontSize: "clamp(2rem, 5vw, 3.4rem)", fontWeight: 900,
+            color: "white", lineHeight: 1.13, marginBottom: 16, letterSpacing: "-0.02em",
+          }}>
+            Trouvez votre ligne de{" "}
+            <span style={{ color: "#FFB800" }}>taxi-be</span>
+          </h1>
+
+          <p style={{
+            fontSize: "1rem", lineHeight: 1.75, marginBottom: 36,
+            color: "rgba(255,255,255,0.6)", maxWidth: 440,
+          }}>
+            Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
+          </p>
+
+          <div style={{ width: "100%", maxWidth: 480 }}>
+            <SearchForm />
+            <p style={{ fontSize: "0.75rem", marginTop: 10, marginBottom: 0, color: "rgba(255,255,255,0.3)" }}>
+              Essayez 147 · 135 · 20B · 165 · 182
+            </p>
+          </div>
         </div>
 
-        {!heroImageUrl && (
-          <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
-        )}
+        <div style={{ position: "relative", zIndex: 1, height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
       </section>
 
       {/* ── Fonctionnalités ── */}
