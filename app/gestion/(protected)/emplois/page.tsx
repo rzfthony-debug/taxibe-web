@@ -1,11 +1,24 @@
 import { getEmplois, updateStatutEmploi, deleteEmploi } from "@/app/gestion/actions";
+import { adminDb } from "@/lib/supabase";
+import HeroImageUpload from "./HeroImageUpload";
+
+async function getHeroImageUrl(): Promise<string | null> {
+  const { data } = await adminDb
+    .from("parametres")
+    .select("valeur")
+    .eq("cle", "emplois_hero_image_url")
+    .single();
+  return data?.valeur ?? null;
+}
 
 export default async function EmploisAdminPage() {
-  const offres = await getEmplois();
+  const [offres, heroImageUrl] = await Promise.all([getEmplois(), getHeroImageUrl()]);
   const enAttente = offres.filter((o: { statut: string }) => o.statut === "en_attente");
 
   return (
     <div>
+      <HeroImageUpload currentUrl={heroImageUrl} />
+
       <div className="page-header">
         <h1 className="page-title">Offres d&apos;emploi</h1>
         <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>

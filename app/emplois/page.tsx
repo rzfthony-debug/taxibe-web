@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -15,19 +16,31 @@ const FAQ = [
   { q: "Vous ne trouvez pas votre métier ?", r: "Envoyez une candidature spontanée via le formulaire en bas de page. Nous gardons les profils en base pour les futures ouvertures." },
 ];
 
+async function getHeroImageUrl(): Promise<string | null> {
+  const { data } = await supabase
+    .from("parametres")
+    .select("valeur")
+    .eq("cle", "emplois_hero_image_url")
+    .single();
+  return data?.valeur ?? null;
+}
+
 export default async function EmploisPage() {
-  const { data: offres } = await supabase
-    .from("offres_emploi")
-    .select("id, nom, type_poste, lieu, description, date_limite, created_at")
-    .eq("statut", "publie")
-    .order("created_at", { ascending: false });
+  const [offresResult, countResult, heroImageUrl] = await Promise.all([
+    supabase
+      .from("offres_emploi")
+      .select("id, nom, type_poste, lieu, description, date_limite, created_at")
+      .eq("statut", "publie")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("offres_emploi")
+      .select("*", { count: "exact", head: true })
+      .eq("statut", "publie"),
+    getHeroImageUrl(),
+  ]);
 
-  const { count: totalOffres } = await supabase
-    .from("offres_emploi")
-    .select("*", { count: "exact", head: true })
-    .eq("statut", "publie");
-
-  const liste = offres ?? [];
+  const liste = offresResult.data ?? [];
+  const totalOffres = countResult.count;
 
   return (
     <>
@@ -179,25 +192,40 @@ export default async function EmploisPage() {
             </div>
 
             <div className="hero-illustration">
-              {/* Illustration décorative */}
-              <svg width="380" height="280" viewBox="0 0 380 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Fond carte */}
-                <rect x="30" y="20" width="320" height="240" rx="20" fill="rgba(255,184,0,0.06)" stroke="rgba(255,184,0,0.15)" strokeWidth="1"/>
-                {/* Silhouettes personnes */}
-                {[80, 140, 200, 260, 320].map((cx, i) => (
-                  <g key={i} transform={`translate(${cx}, ${100 + (i % 2) * 20})`} opacity={0.7 - i * 0.05}>
-                    <circle cx="0" cy="-28" r="14" fill={i === 2 ? "#FFB800" : "rgba(255,255,255,0.25)"}/>
-                    <path d={`M-16 0 Q-16 -20 0 -14 Q16 -20 16 0 L16 40 Q0 50 -16 40 Z`}
-                      fill={i === 2 ? "#FFB800" : "rgba(255,255,255,0.18)"}/>
-                  </g>
-                ))}
-                {/* Badge stats */}
-                <rect x="120" y="180" width="140" height="52" rx="12" fill="#FFB800"/>
-                <text x="190" y="200" textAnchor="middle" fill="#0D1525" fontSize="11" fontWeight="800" fontFamily="system-ui">ÉQUIPE TAXIBE</text>
-                <text x="190" y="220" textAnchor="middle" fill="rgba(13,21,37,0.7)" fontSize="10" fontFamily="system-ui">120+ collaborateurs</text>
-                {/* Lignes de route stylisées */}
-                <path d="M30 250 Q190 230 350 250" stroke="rgba(255,184,0,0.2)" strokeWidth="2" strokeDasharray="6 4"/>
-              </svg>
+              {heroImageUrl ? (
+                <div style={{
+                  width: "100%", maxWidth: 420, aspectRatio: "3/2",
+                  borderRadius: 16, overflow: "hidden",
+                  border: "2px solid rgba(255,184,0,0.2)",
+                  position: "relative",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+                }}>
+                  <Image
+                    src={heroImageUrl}
+                    alt="Équipe TaxiBe"
+                    fill
+                    sizes="(max-width: 780px) 0px, 420px"
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+              ) : (
+                <div style={{
+                  width: "100%", maxWidth: 420, aspectRatio: "3/2",
+                  borderRadius: 16, border: "2px dashed rgba(255,184,0,0.2)",
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", justifyContent: "center",
+                  background: "rgba(255,184,0,0.04)", gap: 10,
+                }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,184,0,0.4)" strokeWidth="1.5" strokeLinecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.25)", fontWeight: 600 }}>
+                    Ajoutez une photo depuis l&apos;admin
+                  </span>
+                </div>
+              )}
             </div>
           </div>
           <div style={{ height: 3, background: "linear-gradient(90deg, #FFB800 0%, transparent 60%)" }} />
