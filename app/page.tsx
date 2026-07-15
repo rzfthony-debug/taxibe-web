@@ -71,7 +71,7 @@ export default async function Home() {
             display: flex; align-items: center; justify-content: center; min-width: 0;
           }
           .hero-img-col img { width: 100%; height: auto; display: block; }
-          .hero-img-mobile { display: none; }
+          .hero-img-mobile-wrap { display: none; }
           @media (max-width: 768px) {
             .hero-grid {
               grid-template-columns: 1fr;
@@ -79,15 +79,13 @@ export default async function Home() {
               gap: 24px;
             }
             .hero-search-wrap { max-width: 100%; }
-            /* Cacher la colonne image sur mobile par défaut */
             .hero-img-col { display: none; }
-            /* Afficher seulement si une image mobile existe */
             .hero-img-col.has-mobile {
               display: flex; align-items: center; justify-content: center;
-              overflow: hidden; max-height: 300px;
+              overflow: hidden; max-height: 320px;
             }
-            .hero-img-desktop { display: none; }
-            .hero-img-mobile { display: block; }
+            .hero-img-desktop-wrap { display: none; }
+            .hero-img-mobile-wrap { display: block; }
           }
         `}</style>
 
@@ -130,31 +128,33 @@ export default async function Home() {
           {/* Colonne droite — image desktop / mobile */}
           {(heroImageUrl || heroImageMobileUrl) ? (
             <div className={`hero-img-col${heroImageMobileUrl ? " has-mobile" : ""}`}>
-              {/* Image desktop — cachée sur mobile */}
+              {/* Wrapper desktop — le div est caché sur mobile via CSS, pas l'img */}
               {heroImageUrl && (
-                <Image
-                  src={heroImageUrl}
-                  alt="Application TaxiBe"
-                  width={680}
-                  height={520}
-                  sizes="50vw"
-                  className="hero-img-desktop"
-                  style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
-                  priority
-                />
+                <div className="hero-img-desktop-wrap" style={{ width: "100%" }}>
+                  <Image
+                    src={heroImageUrl}
+                    alt="Application TaxiBe"
+                    width={680}
+                    height={520}
+                    sizes="50vw"
+                    style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                    priority
+                  />
+                </div>
               )}
-              {/* Image mobile — cachée sur desktop */}
+              {/* Wrapper mobile — le div est caché sur desktop via CSS, pas l'img */}
               {heroImageMobileUrl && (
-                <Image
-                  src={heroImageMobileUrl}
-                  alt="Application TaxiBe"
-                  width={480}
-                  height={360}
-                  sizes="calc(100vw - 40px)"
-                  className="hero-img-mobile"
-                  style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", mixBlendMode: "multiply" }}
-                  priority
-                />
+                <div className="hero-img-mobile-wrap" style={{ width: "100%" }}>
+                  <Image
+                    src={heroImageMobileUrl}
+                    alt="Application TaxiBe"
+                    width={480}
+                    height={360}
+                    sizes="calc(100vw - 40px)"
+                    style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                    priority
+                  />
+                </div>
               )}
             </div>
           ) : (
