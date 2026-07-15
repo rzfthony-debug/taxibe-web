@@ -10,13 +10,29 @@ async function getParam(cle: string): Promise<string | null> {
   return data?.valeur ?? null;
 }
 
+const HERO_DESC = "Recommandé : 1200 × 800 px (3:2), JPG ou WebP, max 8 Mo. S'affiche à droite du titre de la page.";
+
 export default async function ParametresPage() {
-  const [homeHero, homeHeroMobile, homeCtaPhone, emploisHero, telechargerApercu] = await Promise.all([
+  const [
+    homeHero, homeHeroMobile, homeCtaPhone,
+    emploisHero,
+    telechargerHero, telechargerApercu,
+    aproposHero, aideHero, legalHero,
+    communauteHero, contactHero, entreprisesHero, blogHero,
+  ] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
     getParam("home_cta_phone_url"),
     getParam("emplois_hero_image_url"),
+    getParam("telecharger_hero_image_url"),
     getParam("telecharger_apercu_image"),
+    getParam("apropos_hero_image_url"),
+    getParam("aide_hero_image_url"),
+    getParam("legal_hero_image_url"),
+    getParam("communaute_hero_image_url"),
+    getParam("contact_hero_image_url"),
+    getParam("entreprises_hero_image_url"),
+    getParam("blog_hero_image_url"),
   ]);
 
   return (
@@ -30,6 +46,7 @@ export default async function ParametresPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 640 }}>
 
+        {/* ── Accueil ── */}
         <div>
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
             Page d&apos;accueil
@@ -59,29 +76,138 @@ export default async function ParametresPage() {
           </div>
         </div>
 
+        {/* ── Carrières ── */}
         <div>
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
-            Page Carrières
+            Page Carrières (/emplois)
           </p>
           <HeroUpload
             cle="emplois_hero_image_url"
             label="Image hero — Page Carrières"
-            description="Recommandé : 1200 × 800 px (3:2), JPG ou WebP, max 8 Mo. S'affiche à droite du titre de la page /emplois."
+            description={HERO_DESC}
             ratio="3/2"
             currentUrl={emploisHero}
           />
         </div>
 
+        {/* ── Télécharger ── */}
         <div>
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
-            Page Télécharger — Aperçu de l&apos;application
+            Page Télécharger (/telecharger)
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <HeroUpload
+              cle="telecharger_hero_image_url"
+              label="Image hero — Page Télécharger"
+              description={HERO_DESC}
+              ratio="3/2"
+              currentUrl={telechargerHero}
+            />
+            <HeroUpload
+              cle="telecharger_apercu_image"
+              label="Aperçu de l'application (section démo)"
+              description="Une seule image qui remplace l'illustration. Recommandé : 820 × 480 px (paysage), PNG ou WebP, max 8 Mo."
+              ratio="16/9"
+              currentUrl={telechargerApercu}
+            />
+          </div>
+        </div>
+
+        {/* ── À propos ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page À propos (/a-propos)
           </p>
           <HeroUpload
-            cle="telecharger_apercu_image"
-            label="Image aperçu de l'application"
-            description="Une seule image qui remplace l'illustration. Recommandé : 820 × 480 px (paysage), PNG ou WebP, max 8 Mo."
-            ratio="16/9"
-            currentUrl={telechargerApercu}
+            cle="apropos_hero_image_url"
+            label="Image hero — Page À propos"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={aproposHero}
+          />
+        </div>
+
+        {/* ── Aide ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Aide (/aide)
+          </p>
+          <HeroUpload
+            cle="aide_hero_image_url"
+            label="Image hero — Page Aide"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={aideHero}
+          />
+        </div>
+
+        {/* ── Légal ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Légal (/legal)
+          </p>
+          <HeroUpload
+            cle="legal_hero_image_url"
+            label="Image hero — Page Légal"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={legalHero}
+          />
+        </div>
+
+        {/* ── Communauté ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Communauté (/communaute)
+          </p>
+          <HeroUpload
+            cle="communaute_hero_image_url"
+            label="Image hero — Page Communauté"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={communauteHero}
+          />
+        </div>
+
+        {/* ── Contact ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Contact (/contact)
+          </p>
+          <HeroUpload
+            cle="contact_hero_image_url"
+            label="Image hero — Page Contact"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={contactHero}
+          />
+        </div>
+
+        {/* ── Entreprises ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Entreprises (/entreprises)
+          </p>
+          <HeroUpload
+            cle="entreprises_hero_image_url"
+            label="Image hero — Page Entreprises"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={entreprisesHero}
+          />
+        </div>
+
+        {/* ── Blog ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Blog (/blog)
+          </p>
+          <HeroUpload
+            cle="blog_hero_image_url"
+            label="Image hero — Page Blog"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={blogHero}
           />
         </div>
 
