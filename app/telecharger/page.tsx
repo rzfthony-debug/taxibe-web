@@ -1,77 +1,33 @@
 import Image from "next/image";
-import Link from "next/link";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
+import { supabase } from "@/lib/supabase";
+
+export const revalidate = 0;
 
 export const metadata = {
   title: "Télécharger TaxiBe — Gratuit sur Android",
   description: "Téléchargez TaxiBe sur Android. Gratuit, sans abonnement, sans publicité.",
 };
 
-function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
-  const screens = {
-    home: {
-      label: "Accueil",
-      content: (
-        <div style={{ padding: "12px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ background: "#FFB800", borderRadius: 8, padding: "10px 12px" }}>
-            <div style={{ height: 8, background: "rgba(13,21,37,0.3)", borderRadius: 4, width: "60%", marginBottom: 6 }} />
-            <div style={{ height: 22, background: "rgba(13,21,37,0.15)", borderRadius: 6 }} />
-          </div>
-          {["#1a2f55", "#0369a1", "#065f46"].map((c, i) => (
-            <div key={i} style={{ background: c, borderRadius: 8, padding: "10px 12px", display: "flex", gap: 8, alignItems: "center" }}>
-              <div style={{ width: 28, height: 28, borderRadius: 6, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                <div style={{ height: 7, background: "rgba(255,255,255,0.5)", borderRadius: 3, width: "55%", marginBottom: 4 }} />
-                <div style={{ height: 6, background: "rgba(255,255,255,0.25)", borderRadius: 3, width: "80%" }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      ),
-    },
-    search: {
-      label: "Recherche",
-      content: (
-        <div style={{ padding: "12px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ background: "#F1F5F9", borderRadius: 20, padding: "9px 12px", display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#CBD5E0", flexShrink: 0 }} />
-            <div style={{ height: 7, background: "#CBD5E0", borderRadius: 3, flex: 1 }} />
-          </div>
-          <div style={{ background: "#F1F5F9", borderRadius: 20, padding: "9px 12px", display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
-            <div style={{ height: 7, background: "#CBD5E0", borderRadius: 3, flex: 1 }} />
-          </div>
-          <div style={{ background: "#FFB800", borderRadius: 20, padding: "9px 12px", textAlign: "center" }}>
-            <div style={{ height: 8, background: "rgba(13,21,37,0.3)", borderRadius: 3, width: "50%", margin: "0 auto" }} />
-          </div>
-        </div>
-      ),
-    },
-    result: {
-      label: "Résultat",
-      content: (
-        <div style={{ padding: "10px 8px", display: "flex", flexDirection: "column", gap: 6 }}>
-          {[
-            { c: "#FFB800", w: "70%" },
-            { c: "#0D1525", w: "85%" },
-            { c: "#1a2f55", w: "60%" },
-          ].map((r, i) => (
-            <div key={i} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 8, padding: "8px 10px", display: "flex", gap: 8, alignItems: "center" }}>
-              <div style={{ width: 32, height: 22, borderRadius: 5, background: r.c, flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                <div style={{ height: 7, background: "#E2E8F0", borderRadius: 3, width: r.w, marginBottom: 4 }} />
-                <div style={{ height: 6, background: "#F1F5F9", borderRadius: 3, width: "50%" }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      ),
-    },
+async function getScreenshots(): Promise<{ accueil: string | null; recherche: string | null; resultat: string | null }> {
+  const { data } = await supabase
+    .from("parametres")
+    .select("cle, valeur")
+    .in("cle", ["telecharger_screen_accueil", "telecharger_screen_recherche", "telecharger_screen_resultat"]);
+  const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
+  return {
+    accueil: map["telecharger_screen_accueil"] ?? null,
+    recherche: map["telecharger_screen_recherche"] ?? null,
+    resultat: map["telecharger_screen_resultat"] ?? null,
   };
+}
 
-  const s = screens[screen];
-
+function PhoneMockup({ label, imageUrl, placeholder }: {
+  label: string;
+  imageUrl: string | null;
+  placeholder: React.ReactNode;
+}) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
       <div style={{
@@ -80,20 +36,83 @@ function PhoneMockup({ screen }: { screen: "home" | "search" | "result" }) {
       }}>
         <div style={{ width: 50, height: 8, background: "#1a2a40", borderRadius: 4, margin: "0 auto 8px" }} />
         <div style={{ background: "#F8FAFC", borderRadius: 16, minHeight: 200, overflow: "hidden" }}>
-          <div style={{ background: "#0D1525", padding: "4px 10px", display: "flex", justifyContent: "space-between" }}>
-            <div style={{ height: 5, width: 20, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
-            <div style={{ height: 5, width: 28, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
-          </div>
-          {s.content}
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={label}
+              width={148}
+              height={260}
+              style={{ width: "100%", height: "auto", display: "block" }}
+              sizes="160px"
+            />
+          ) : (
+            <>
+              <div style={{ background: "#0D1525", padding: "4px 10px", display: "flex", justifyContent: "space-between" }}>
+                <div style={{ height: 5, width: 20, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
+                <div style={{ height: 5, width: 28, background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
+              </div>
+              {placeholder}
+            </>
+          )}
         </div>
         <div style={{ width: 40, height: 4, background: "rgba(255,255,255,0.2)", borderRadius: 2, margin: "8px auto 0" }} />
       </div>
-      <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748B" }}>{s.label}</span>
+      <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748B" }}>{label}</span>
     </div>
   );
 }
 
-export default function TelechargerPage() {
+export default async function TelechargerPage() {
+  const screenshots = await getScreenshots();
+
+  const placeholderAccueil = (
+    <div style={{ padding: "12px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
+      <div style={{ background: "#FFB800", borderRadius: 8, padding: "10px 12px" }}>
+        <div style={{ height: 8, background: "rgba(13,21,37,0.3)", borderRadius: 4, width: "60%", marginBottom: 6 }} />
+        <div style={{ height: 22, background: "rgba(13,21,37,0.15)", borderRadius: 6 }} />
+      </div>
+      {["#1a2f55", "#0369a1", "#065f46"].map((c, i) => (
+        <div key={i} style={{ background: c, borderRadius: 8, padding: "10px 12px", display: "flex", gap: 8, alignItems: "center" }}>
+          <div style={{ width: 28, height: 28, borderRadius: 6, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ height: 7, background: "rgba(255,255,255,0.5)", borderRadius: 3, width: "55%", marginBottom: 4 }} />
+            <div style={{ height: 6, background: "rgba(255,255,255,0.25)", borderRadius: 3, width: "80%" }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const placeholderRecherche = (
+    <div style={{ padding: "12px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ background: "#F1F5F9", borderRadius: 20, padding: "9px 12px", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#CBD5E0", flexShrink: 0 }} />
+        <div style={{ height: 7, background: "#CBD5E0", borderRadius: 3, flex: 1 }} />
+      </div>
+      <div style={{ background: "#F1F5F9", borderRadius: 20, padding: "9px 12px", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
+        <div style={{ height: 7, background: "#CBD5E0", borderRadius: 3, flex: 1 }} />
+      </div>
+      <div style={{ background: "#FFB800", borderRadius: 20, padding: "9px 12px", textAlign: "center" }}>
+        <div style={{ height: 8, background: "rgba(13,21,37,0.3)", borderRadius: 3, width: "50%", margin: "0 auto" }} />
+      </div>
+    </div>
+  );
+
+  const placeholderResultat = (
+    <div style={{ padding: "10px 8px", display: "flex", flexDirection: "column", gap: 6 }}>
+      {[{ c: "#FFB800", w: "70%" }, { c: "#0D1525", w: "85%" }, { c: "#1a2f55", w: "60%" }].map((r, i) => (
+        <div key={i} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: 8, padding: "8px 10px", display: "flex", gap: 8, alignItems: "center" }}>
+          <div style={{ width: 32, height: 22, borderRadius: 5, background: r.c, flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ height: 7, background: "#E2E8F0", borderRadius: 3, width: r.w, marginBottom: 4 }} />
+            <div style={{ height: 6, background: "#F1F5F9", borderRadius: 3, width: "50%" }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <>
     <Nav />
@@ -124,11 +143,11 @@ export default function TelechargerPage() {
             Aperçu de l&apos;application
           </h2>
           <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap", alignItems: "flex-end" }}>
-            <PhoneMockup screen="home" />
+            <PhoneMockup label="Accueil" imageUrl={screenshots.accueil} placeholder={placeholderAccueil} />
             <div style={{ transform: "scale(1.1)", transformOrigin: "bottom center" }}>
-              <PhoneMockup screen="search" />
+              <PhoneMockup label="Recherche" imageUrl={screenshots.recherche} placeholder={placeholderRecherche} />
             </div>
-            <PhoneMockup screen="result" />
+            <PhoneMockup label="Résultat" imageUrl={screenshots.resultat} placeholder={placeholderResultat} />
           </div>
           <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#94A3B8" }}>
             Interface rapide, simple et lisible — conçue pour Antananarivo.
