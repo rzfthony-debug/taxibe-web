@@ -65,22 +65,30 @@ export default async function Home() {
         <style>{`
           .home-hero-inner {
             max-width: 1160px; margin: 0 auto;
-            padding: 80px 24px 96px;
+            padding: 72px 24px 88px;
             display: grid; grid-template-columns: 1fr;
             gap: 48px; position: relative; align-items: center;
           }
           .home-hero-img-col { display: none; }
+          /* Sans image : contenu centré */
+          .home-hero-inner:not(.has-img) .home-hero-text {
+            text-align: center; max-width: 680px; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: center;
+          }
+          /* Avec image : contenu aligné à gauche */
+          .home-hero-inner.has-img .home-hero-text {
+            display: flex; flex-direction: column; align-items: flex-start; max-width: 540px;
+          }
           @media (min-width: 800px) {
             .home-hero-inner.has-img {
               grid-template-columns: 1fr 1fr;
-              padding: 64px 24px 64px;
-              gap: 0;
+              padding: 64px 24px 72px;
+              gap: 40px;
             }
-            .home-hero-img-col { display: flex; justify-content: center; align-items: flex-end; }
-            .home-hero-inner:not(.has-img) .home-hero-text { text-align: center; max-width: 680px; margin: 0 auto; }
+            .home-hero-img-col { display: flex; justify-content: center; align-items: center; }
           }
           @media (min-width: 1000px) {
-            .home-hero-inner.has-img { grid-template-columns: 1fr 480px; }
+            .home-hero-inner.has-img { grid-template-columns: 1fr 460px; }
           }
         `}</style>
 
@@ -110,24 +118,26 @@ export default async function Home() {
             <h1 style={{
               fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900,
               color: heroImageUrl ? "#0D1525" : "white",
-              lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
+              lineHeight: 1.13, marginBottom: 16, letterSpacing: "-0.02em",
             }}>
               Trouvez votre ligne de{" "}
               <span style={{ color: "#FFB800" }}>taxi-be</span>
             </h1>
             <p style={{
-              fontSize: "1rem", lineHeight: 1.8, marginBottom: 40, maxWidth: 460,
+              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32, maxWidth: 440,
               color: heroImageUrl ? "#64748B" : "rgba(255,255,255,0.55)",
             }}>
               Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
             </p>
-            <SearchForm />
-            <p style={{
-              fontSize: "0.78rem", margin: "16px 0 0",
-              color: heroImageUrl ? "#CBD5E1" : "rgba(255,255,255,0.3)",
-            }}>
-              Essayez 147 · 135 · 20B · 165 · 182
-            </p>
+            <div style={{ width: "100%", maxWidth: 480 }}>
+              <SearchForm />
+              <p style={{
+                fontSize: "0.75rem", marginTop: 10, marginBottom: 0,
+                color: heroImageUrl ? "#94A3B8" : "rgba(255,255,255,0.3)",
+              }}>
+                Essayez 147 · 135 · 20B · 165 · 182
+              </p>
+            </div>
           </div>
 
           {/* Image hero — affichée proprement sans texte dessus */}

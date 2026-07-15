@@ -15,9 +15,9 @@ export default function SearchForm() {
 
   return (
     <form onSubmit={handleSearch} style={{
-      display: "flex", gap: 0, maxWidth: 500, margin: "0 auto 24px",
+      display: "flex", gap: 0, maxWidth: 480, margin: "0 0 0 0",
       background: "white", borderRadius: 12, overflow: "hidden",
-      boxShadow: "0 8px 40px rgba(0,0,0,0.3)",
+      boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
     }}>
       <input
         ref={inputRef}
