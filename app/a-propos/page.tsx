@@ -35,7 +35,7 @@ export default function AProposPage() {
                 Notre mission
               </h2>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
-                TaxiBe est une application gratuite conçue pour aider les habitants d&apos;Antananarivo à se repérer parmi
+                TaxiBe est une application conçue pour aider les habitants d&apos;Antananarivo à se repérer parmi
                 les centaines de lignes de taxi-be qui sillonnent la capitale malgache. Notre objectif est simple : rendre
                 le transport public à Tana plus lisible, plus accessible, et plus simple à utiliser au quotidien.
               </p>
@@ -47,12 +47,16 @@ export default function AProposPage() {
               <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.01em" }}>
                 Ce que fait TaxiBe
               </h2>
+              <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, marginBottom: 16 }}>
+                TaxiBe regroupe toutes les fonctionnalités essentielles pour se déplacer à Tana. L&apos;ensemble
+                des fonctionnalités est disponible dans l&apos;application mobile, accessibles aux membres.
+              </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
                   { titre: "Recherche par numéro", desc: "Entrez le numéro d'une ligne et obtenez tous les arrêts et le trajet complet en détail." },
                   { titre: "Recherche par lieu", desc: "Indiquez votre point de départ et votre destination — TaxiBe calcule les correspondances automatiquement, y compris les doubles correspondances." },
-                  { titre: "Localisation GPS", desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous en temps réel." },
-                  { titre: "Lignes favorites", desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste, même sans connexion." },
+                  { titre: "Localisation GPS", desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous." },
+                  { titre: "Lignes favorites", desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste." },
                   { titre: "Jeux et récompenses", desc: "Sudoku et quiz sur les lignes de Tana — une façon ludique d'apprendre à se repérer." },
                 ].map((item) => (
                   <div key={item.titre} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
@@ -70,12 +74,16 @@ export default function AProposPage() {
 
             <section style={{ marginBottom: 40 }}>
               <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.01em" }}>
-                Toujours gratuit
+                Gratuit et accessible
               </h2>
+              <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: "0 0 12px" }}>
+                TaxiBe est gratuit. L&apos;inscription est libre et permet d&apos;accéder à l&apos;ensemble
+                des fonctionnalités de l&apos;application. La recherche de base est disponible sur ce site web,
+                mais l&apos;expérience complète — avec toutes les fonctionnalités — se trouve dans l&apos;application mobile.
+              </p>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
-                TaxiBe est entièrement gratuit. Aucun abonnement, aucune publicité intrusive, aucun compte requis pour
-                chercher une ligne. Nous croyons que l&apos;accès à l&apos;information sur le transport public doit être
-                libre pour tout le monde.
+                Nous croyons que l&apos;accès à l&apos;information sur le transport public doit être simple et ouvert
+                à tous les habitants de Tana.
               </p>
             </section>
 
@@ -86,7 +94,7 @@ export default function AProposPage() {
                 Notre équipe
               </h2>
               <p style={{ fontSize: "0.9rem", color: "#374151", lineHeight: 1.8, margin: "0 0 16px" }}>
-                TaxiBe est développé par une petite équipe basée à Antananarivo, convaincue que la ville se comprend
+                TaxiBe est développé par une équipe basée à Antananarivo, convaincue que la ville se comprend
                 mieux quand on la parcourt. Nous cartographions le réseau ligne par ligne, avec l&apos;aide d&apos;usagers
                 qui connaissent chaque quartier mieux que quiconque.
               </p>

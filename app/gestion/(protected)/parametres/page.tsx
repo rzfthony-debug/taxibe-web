@@ -11,13 +11,11 @@ async function getParam(cle: string): Promise<string | null> {
 }
 
 export default async function ParametresPage() {
-  const [homeHero, homeHeroMobile, emploisHero, screenAccueil, screenRecherche, screenResultat] = await Promise.all([
+  const [homeHero, homeHeroMobile, emploisHero, telechargerApercu] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
     getParam("emplois_hero_image_url"),
-    getParam("telecharger_screen_accueil"),
-    getParam("telecharger_screen_recherche"),
-    getParam("telecharger_screen_resultat"),
+    getParam("telecharger_apercu_image"),
   ]);
 
   return (
@@ -70,32 +68,13 @@ export default async function ParametresPage() {
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
             Page Télécharger — Aperçu de l&apos;application
           </p>
-          <p style={{ margin: "0 0 16px", fontSize: "0.78rem", color: "#64748B" }}>
-            Captures d&apos;écran affichées dans les maquettes de téléphone. Recommandé : 300 × 520 px (portrait), PNG ou WebP.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <HeroUpload
-              cle="telecharger_screen_accueil"
-              label="Écran Accueil"
-              description="Capture de l'écran d'accueil de l'app."
-              ratio="9/16"
-              currentUrl={screenAccueil}
-            />
-            <HeroUpload
-              cle="telecharger_screen_recherche"
-              label="Écran Recherche"
-              description="Capture de l'écran de recherche de l'app."
-              ratio="9/16"
-              currentUrl={screenRecherche}
-            />
-            <HeroUpload
-              cle="telecharger_screen_resultat"
-              label="Écran Résultat"
-              description="Capture de l'écran de résultat de l'app."
-              ratio="9/16"
-              currentUrl={screenResultat}
-            />
-          </div>
+          <HeroUpload
+            cle="telecharger_apercu_image"
+            label="Image aperçu de l'application"
+            description="Une seule image qui remplace l'illustration. Recommandé : 820 × 480 px (paysage), PNG ou WebP, max 8 Mo."
+            ratio="16/9"
+            currentUrl={telechargerApercu}
+          />
         </div>
 
       </div>
