@@ -72,14 +72,14 @@ export default async function CommunautePage({
                 Indiquez le numéro de ligne et décrivez l&apos;erreur — notre équipe vérifie et met à jour la base.
               </p>
               <MessageForm
-                categorie="signalement"
+                categorie="erreur"
                 redirectTo="/communaute"
                 sujetLabel="Numéro de ligne concernée"
                 sujetPlaceholder="Ex : 137, 188, 43…"
                 messageLabel="Décrivez l'erreur"
                 messagePlaceholder="Quel arrêt a changé ? Quel trajet est incorrect ?"
                 submitLabel="Envoyer le signalement"
-                status={type === "signalement" ? statut : undefined}
+                status={type === "erreur" ? statut : undefined}
               />
             </div>
           </div>
