@@ -63,8 +63,7 @@ export default async function EmploisPage() {
           }
           .hero-text-col { min-width: 0; padding-bottom: 64px; }
           .hero-img-col {
-            display: flex; align-items: flex-end; justify-content: center; min-width: 0;
-            max-height: 420px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; min-width: 0;
           }
           @media (max-width: 768px) {
             .hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 16px; }
@@ -197,7 +196,7 @@ export default async function EmploisPage() {
                   height={540}
                   sizes="(max-width: 768px) 0px, (max-width: 1280px) 50vw, 760px"
                   priority
-                  style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                  style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }}
                 />
               ) : (
                 <div style={{
