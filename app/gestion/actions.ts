@@ -197,7 +197,7 @@ export async function deleteUser(id: string) {
 export async function getEmplois() {
   const { data } = await adminDb
     .from("offres_emploi")
-    .select("id, nom, telephone, type_poste, lieu, description, statut, date_limite, created_at")
+    .select("id, nom, telephone, type_poste, lieu, description, statut, date_limite, created_at, interne")
     .order("created_at", { ascending: false });
   return data ?? [];
 }
@@ -208,6 +208,32 @@ export async function updateStatutEmploi(id: string, statut: string) {
 
 export async function deleteEmploi(id: string) {
   await adminDb.from("offres_emploi").delete().eq("id", id);
+}
+
+export async function createEmploiInterne(formData: FormData) {
+  const nom = (formData.get("nom") as string)?.trim();
+  const type_poste = (formData.get("type_poste") as string)?.trim() || null;
+  const lieu = (formData.get("lieu") as string)?.trim() || "Antananarivo";
+  const description = (formData.get("description") as string)?.trim() || null;
+  const date_limite = (formData.get("date_limite") as string) || null;
+
+  if (!nom) { redirect("/gestion/emplois"); return; }
+
+  await adminDb.from("offres_emploi").insert({
+    nom,
+    type_poste,
+    lieu,
+    description,
+    date_limite: date_limite || null,
+    interne: true,
+    statut: "publie",
+    telephone: "",
+  });
+  redirect("/gestion/emplois");
+}
+
+export async function toggleInterneEmploi(id: string, interne: boolean) {
+  await adminDb.from("offres_emploi").update({ interne }).eq("id", id);
 }
 
 // ── Messages (contact, signalement, contribution, publicite, partenariat) ─────
