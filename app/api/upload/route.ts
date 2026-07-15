@@ -30,9 +30,13 @@ export async function POST(req: NextRequest) {
 
   const { data: urlData } = adminStorage.storage.from("images").getPublicUrl(path);
 
-  await adminDb
+  const { error: dbError } = await adminDb
     .from("parametres")
     .upsert({ cle, valeur: urlData.publicUrl, updated_at: new Date().toISOString() }, { onConflict: "cle" });
+
+  if (dbError) {
+    return NextResponse.json({ error: `Sauvegarde échouée : ${dbError.message}` }, { status: 500 });
+  }
 
   return NextResponse.json({ url: urlData.publicUrl });
 }

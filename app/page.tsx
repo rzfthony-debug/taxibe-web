@@ -6,6 +6,8 @@ import SearchForm from "@/app/components/SearchForm";
 import SpotlightSection from "@/app/components/SpotlightSection";
 import { supabase } from "@/lib/supabase";
 
+export const revalidate = 0;
+
 type Article = {
   id: string;
   image_url: string | null;
