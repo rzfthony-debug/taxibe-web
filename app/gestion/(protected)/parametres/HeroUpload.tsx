@@ -2,10 +2,6 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 type Props = {
   cle: string;
@@ -34,32 +30,17 @@ export default function HeroUpload({ cle, label, description, ratio = "3/2", cur
     setLoading(true);
     setMsg(null);
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const ext = file.name.split(".").pop();
-    const path = `${cle}_${Date.now()}.${ext}`;
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("cle", cle);
 
-    const { error: uploadError } = await supabase.storage
-      .from("images")
-      .upload(path, file, { upsert: true, contentType: file.type });
-
-    if (uploadError) {
-      setMsg({ type: "err", text: `Erreur upload : ${uploadError.message}` });
-      setLoading(false);
-      return;
-    }
-
-    const { data: urlData } = supabase.storage.from("images").getPublicUrl(path);
-
-    const res = await fetch("/api/parametres", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cle, valeur: urlData.publicUrl }),
-    });
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const json = await res.json();
 
     if (!res.ok) {
-      setMsg({ type: "err", text: "Image uploadée mais échec de la sauvegarde." });
+      setMsg({ type: "err", text: `Erreur upload : ${json.error}` });
     } else {
-      setPreview(urlData.publicUrl);
+      setPreview(json.url);
       setMsg({ type: "ok", text: "Image mise à jour !" });
     }
     setLoading(false);

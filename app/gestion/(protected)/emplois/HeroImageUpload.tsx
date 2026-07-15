@@ -2,10 +2,6 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export default function HeroImageUpload({ currentUrl }: { currentUrl: string | null }) {
   const [preview, setPreview] = useState<string | null>(currentUrl);
@@ -18,44 +14,27 @@ export default function HeroImageUpload({ currentUrl }: { currentUrl: string | n
       setMsg({ type: "err", text: "Veuillez sélectionner une image (JPG, PNG, WebP)." });
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setMsg({ type: "err", text: "L'image ne doit pas dépasser 5 Mo." });
+    if (file.size > 8 * 1024 * 1024) {
+      setMsg({ type: "err", text: "L'image ne doit pas dépasser 8 Mo." });
       return;
     }
 
     setLoading(true);
     setMsg(null);
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const ext = file.name.split(".").pop();
-    const path = `emplois/hero_${Date.now()}.${ext}`;
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("cle", "emplois_hero_image_url");
 
-    const { error: uploadError } = await supabase.storage
-      .from("images")
-      .upload(path, file, { upsert: true, contentType: file.type });
-
-    if (uploadError) {
-      setMsg({ type: "err", text: `Erreur upload : ${uploadError.message}` });
-      setLoading(false);
-      return;
-    }
-
-    const { data: urlData } = supabase.storage.from("images").getPublicUrl(path);
-    const publicUrl = urlData.publicUrl;
-
-    const res = await fetch("/api/parametres", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cle: "emplois_hero_image_url", valeur: publicUrl }),
-    });
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const json = await res.json();
 
     if (!res.ok) {
-      setMsg({ type: "err", text: "Image uploadée mais échec de la sauvegarde." });
+      setMsg({ type: "err", text: `Erreur upload : ${json.error}` });
     } else {
-      setPreview(publicUrl);
+      setPreview(json.url);
       setMsg({ type: "ok", text: "Image mise à jour avec succès !" });
     }
-
     setLoading(false);
   }
 
