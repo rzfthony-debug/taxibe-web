@@ -47,11 +47,12 @@ export default function ChatWidget() {
       .eq("id", sid)
       .single()
       .then(({ data }) => {
-        if (!data) { localStorage.removeItem("txb_session_id"); return; }
-        const age = Date.now() - new Date(data.created_at).getTime();
-        if (age > 24 * 3600 * 1000 || data.statut === "ferme") {
+        const sess = data as { id: string; statut: string; created_at: string } | null;
+        if (!sess) { localStorage.removeItem("txb_session_id"); return; }
+        const age = Date.now() - new Date(sess.created_at).getTime();
+        if (age > 24 * 3600 * 1000 || sess.statut === "ferme") {
           localStorage.removeItem("txb_session_id");
-          if (data.statut === "ferme") setSessionClosed(true);
+          if (sess.statut === "ferme") setSessionClosed(true);
           return;
         }
         setSessionId(sid);
@@ -59,7 +60,7 @@ export default function ChatWidget() {
           .select("id, contenu, expediteur, admin_nom, created_at")
           .eq("session_id", sid)
           .order("created_at", { ascending: true })
-          .then(({ data: msgs }) => { if (msgs) setMessages(msgs); });
+          .then(({ data: msgs }) => { if (msgs) setMessages(msgs as Msg[]); });
       });
   }, []);
 
@@ -101,10 +102,11 @@ export default function ChatWidget() {
 
     if (!sessionId) {
       const name = nameInput.trim() || null;
-      const { data: sess } = await db
+      const { data: sessRaw } = await db
         .from("chat_sessions")
         .insert({ visitor_id: visitorId, visitor_name: name })
         .select("id").single();
+      const sess = sessRaw as { id: string } | null;
       if (!sess) { setSending(false); return; }
       localStorage.setItem("txb_session_id", sess.id);
       if (name) { setVisitorName(name); localStorage.setItem("txb_visitor_name", name); }
