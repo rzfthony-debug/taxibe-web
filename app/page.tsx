@@ -62,21 +62,53 @@ export default async function Home() {
   const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
   const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
-  const jsonLd = {
+  const BASE = "https://taxibemada.vercel.app";
+
+  const jsonLdGraph = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "TaxiBe",
-    "url": "https://taxibemada.vercel.app",
-    "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
-    "applicationCategory": "TransportationApplication",
-    "operatingSystem": "Android",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
-    "author": { "@type": "Organization", "name": "TaxiBe", "url": "https://taxibemada.vercel.app" },
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${BASE}/#website`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+        "inLanguage": "fr-MG",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": { "@type": "EntryPoint", "urlTemplate": `${BASE}/recherche?q={search_term_string}` },
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${BASE}/#organization`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` },
+        "description": "TaxiBe est l'application de référence pour trouver les lignes de taxi-be à Antananarivo, Madagascar.",
+        "areaServed": { "@type": "City", "name": "Antananarivo", "addressCountry": "MG" },
+        "knowsAbout": ["taxi-be", "transport en commun", "Antananarivo", "lignes de bus Madagascar", "mobilité urbaine Madagascar"],
+        "sameAs": [BASE],
+        "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "url": `${BASE}/contact`, "availableLanguage": "French" },
+      },
+      {
+        "@type": "WebApplication",
+        "@id": `${BASE}/#app`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "applicationCategory": "TransportationApplication",
+        "operatingSystem": "Android",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
+        "description": "Recherchez les lignes de taxi-be d'Antananarivo. Gratuit, sans compte, disponible sur Android.",
+        "author": { "@id": `${BASE}/#organization` },
+      },
+    ],
   };
 
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdGraph) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 

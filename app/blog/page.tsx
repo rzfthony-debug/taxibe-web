@@ -1,3 +1,4 @@
+import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -93,8 +94,35 @@ export default async function BlogPage({
   const recents = articles.slice(4, 7);
   const populaires = articles.slice(0, 5);
 
+  const BASE = "https://taxibemada.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${BASE}/blog` },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        "name": "Articles du blog TaxiBe",
+        "url": `${BASE}/blog`,
+        "itemListElement": articles.slice(0, 10).map((a, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": a.texte.length > 110 ? a.texte.slice(0, 107) + "…" : a.texte,
+          "url": `${BASE}/blog/${a.slug || a.id}`,
+        })),
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <div style={{ background: "#F8F9FB", minHeight: "100vh" }}>
         <style>{`

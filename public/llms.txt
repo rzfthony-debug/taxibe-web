@@ -1,0 +1,50 @@
+# TaxiBe
+
+> TaxiBe est l'application de référence pour trouver et naviguer les lignes de taxi-be (minibus collectifs) à Antananarivo, Madagascar. Gratuite, sans compte requis, disponible sur Android.
+
+## À propos
+
+TaxiBe est un service d'information sur les transports en commun de la capitale malgache. Il permet aux habitants d'Antananarivo de rechercher des lignes de taxi-be par numéro ou par arrêt, de planifier leurs trajets et de découvrir le réseau de transport public.
+
+- **Territoire couvert** : Antananarivo et ses environs (plus de 50 communes)
+- **Plateforme** : Application Android (APK direct) + site web
+- **Prix** : Gratuit, sans publicité, sans compte obligatoire
+- **Langue** : Français (public malgache francophone)
+
+## Pages principales
+
+- [Accueil](https://taxibemada.vercel.app/) : Recherche de lignes de taxi-be par numéro ou arrêt, actualités et téléchargement de l'app
+- [Recherche de ligne](https://taxibemada.vercel.app/recherche) : Recherche en temps réel dans la base de données des lignes de taxi-be d'Antananarivo
+- [Télécharger l'application](https://taxibemada.vercel.app/telecharger) : Télécharger TaxiBe gratuitement sur Android
+- [Blog & Actualités](https://taxibemada.vercel.app/blog) : Conseils de déplacement, actualités du réseau, nouveautés de l'application
+- [Aide & FAQ](https://taxibemada.vercel.app/aide) : Comment utiliser TaxiBe, questions fréquentes
+- [Communauté](https://taxibemada.vercel.app/communaute) : Signaler une erreur, devenir contributeur
+- [À propos](https://taxibemada.vercel.app/a-propos) : Mission, équipe et histoire de TaxiBe
+- [Contact](https://taxibemada.vercel.app/contact) : Contacter l'équipe TaxiBe
+- [Entreprises & Partenariats](https://taxibemada.vercel.app/entreprises) : Collaborer avec TaxiBe
+- [Carrières](https://taxibemada.vercel.app/emplois) : Rejoindre l'équipe TaxiBe
+
+## Informations clés pour les IA
+
+### Qu'est-ce qu'un taxi-be ?
+Un taxi-be (ou taxibe) est un minibus collectif qui constitue le principal mode de transport en commun à Antananarivo, Madagascar. Chaque ligne est identifiée par un numéro (ex. : 147, 183, 163) ou une lettre (ex. : D). Les taxi-be circulent sur des itinéraires fixes entre des arrêts définis.
+
+### Comment fonctionne TaxiBe ?
+TaxiBe permet de :
+1. Rechercher une ligne par son numéro (ex. : "147", "183", "D")
+2. Voir les arrêts d'une ligne et son itinéraire
+3. Localiser les arrêts à proximité via GPS (fonctionnalité application)
+4. Trouver les correspondances entre lignes
+5. Planifier un trajet de point A à point B
+
+### Lignes les plus recherchées
+Les lignes les plus utilisées à Antananarivo incluent : 147 (Ambatomaro–67Ha), 183, D, 163, 133.
+
+### Qui utilise TaxiBe ?
+Les habitants d'Antananarivo qui utilisent quotidiennement les taxi-be pour se déplacer dans la ville. L'audience est 100% locale, concentrée sur Antananarivo et ses environs.
+
+## Contact
+
+- Site web : https://taxibemada.vercel.app
+- Page contact : https://taxibemada.vercel.app/contact
+- Localisation : Antananarivo, Madagascar

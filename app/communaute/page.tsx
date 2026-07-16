@@ -4,7 +4,30 @@ import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import CommunauteForm from "./CommunauteForm";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+
+const BASE = "https://taxibemada.vercel.app";
+
+const communauteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+        { "@type": "ListItem", "position": 2, "name": "Communauté", "item": `${BASE}/communaute` },
+      ],
+    },
+    {
+      "@type": "ContactPage",
+      "name": "Communauté TaxiBe",
+      "url": `${BASE}/communaute`,
+      "description": "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
+      "about": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
+    },
+  ],
+};
 
 export const revalidate = 3600;
 
@@ -47,6 +70,7 @@ export default async function CommunautePage({
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(communauteJsonLd) }} />
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
 

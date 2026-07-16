@@ -98,17 +98,33 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const autres = await getAutresArticles(article.id);
 
+  const articleUrl = `${BASE}/blog/${article.slug || article.id}`;
+  const headline = article.texte.length > 110 ? article.texte.slice(0, 107) + "…" : article.texte;
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    "headline": article.texte,
-    "description": article.contenu?.slice(0, 200) ?? article.texte,
-    "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],
-    "datePublished": article.created_at,
-    "dateModified": article.created_at,
-    "author": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
-    "publisher": { "@type": "Organization", "name": "TaxiBe", "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` } },
-    "url": `${BASE}/blog/${article.slug || article.id}`,
+    "@graph": [
+      {
+        "@type": "NewsArticle",
+        "headline": headline,
+        "description": article.contenu?.slice(0, 200) ?? article.texte,
+        "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],
+        "datePublished": article.created_at,
+        "dateModified": article.created_at,
+        "author": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
+        "publisher": { "@type": "Organization", "name": "TaxiBe", "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` } },
+        "url": articleUrl,
+        "mainEntityOfPage": { "@type": "WebPage", "@id": articleUrl },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${BASE}/blog` },
+          { "@type": "ListItem", "position": 3, "name": headline, "item": articleUrl },
+        ],
+      },
+    ],
   };
 
   return (

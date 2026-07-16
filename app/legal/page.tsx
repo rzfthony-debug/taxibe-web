@@ -3,7 +3,31 @@ import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+
+const BASE = "https://taxibemada.vercel.app";
+
+const legalJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+        { "@type": "ListItem", "position": 2, "name": "Informations légales", "item": `${BASE}/legal` },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "name": "Informations légales — TaxiBe",
+      "url": `${BASE}/legal`,
+      "description": "Mentions légales et conditions d'utilisation de TaxiBe.",
+      "about": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
+      "genre": "LegalFormsDocument",
+    },
+  ],
+};
 
 export const revalidate = 86400;
 
@@ -153,6 +177,7 @@ export default async function LegalPage() {
   const heroImageUrl = await getHeroImageUrl();
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(legalJsonLd) }} />
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`

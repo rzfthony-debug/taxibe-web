@@ -91,20 +91,34 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
 
   const autres = await getAutresOffres(offre.id);
 
+  const offreUrl = `${BASE}/emplois/${offre.slug || offre.id}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "JobPosting",
-    "title": offre.nom,
-    "description": offre.description ?? offre.nom,
-    "datePosted": offre.created_at,
-    ...(offre.date_limite ? { "validThrough": offre.date_limite } : {}),
-    "employmentType": offre.type_poste ?? "FULL_TIME",
-    "hiringOrganization": { "@type": "Organization", "name": "TaxiBe", "sameAs": BASE },
-    "jobLocation": {
-      "@type": "Place",
-      "address": { "@type": "PostalAddress", "addressLocality": offre.lieu ?? "Antananarivo", "addressCountry": "MG" },
-    },
-    "url": `${BASE}/emplois/${offre.slug || offre.id}`,
+    "@graph": [
+      {
+        "@type": "JobPosting",
+        "title": offre.nom,
+        "description": offre.description ?? offre.nom,
+        "datePosted": offre.created_at,
+        ...(offre.date_limite ? { "validThrough": offre.date_limite } : {}),
+        "employmentType": offre.type_poste ?? "FULL_TIME",
+        "hiringOrganization": { "@type": "Organization", "name": "TaxiBe", "sameAs": BASE },
+        "jobLocation": {
+          "@type": "Place",
+          "address": { "@type": "PostalAddress", "addressLocality": offre.lieu ?? "Antananarivo", "addressCountry": "MG" },
+        },
+        "url": offreUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Carrières", "item": `${BASE}/emplois` },
+          { "@type": "ListItem", "position": 3, "name": offre.nom, "item": offreUrl },
+        ],
+      },
+    ],
   };
 
   const paragraphes = (offre.description ?? "").split("\n").filter(Boolean);

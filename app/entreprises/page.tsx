@@ -4,7 +4,34 @@ import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+
+const BASE = "https://taxibemada.vercel.app";
+
+const entreprisesJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+        { "@type": "ListItem", "position": 2, "name": "Entreprises", "item": `${BASE}/entreprises` },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "name": "Travailler avec TaxiBe — Entreprises & Partenariats",
+      "url": `${BASE}/entreprises`,
+      "description": "Partenariats institutionnels, visibilité commerciale, projets de mobilité avec TaxiBe à Antananarivo.",
+      "about": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Entreprises, coopératives de transport, institutions, annonceurs à Antananarivo",
+      },
+    },
+  ],
+};
 
 export const revalidate = 3600;
 
@@ -75,6 +102,7 @@ export default async function EntreprisesPage() {
   const heroImageUrl = await getHeroImageUrl();
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(entreprisesJsonLd) }} />
       <Nav />
       <style>{`
         .ent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }

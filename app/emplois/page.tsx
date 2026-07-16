@@ -3,6 +3,7 @@ import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 import EmploisListe from "./EmploisListe";
 
 export const revalidate = 60;
@@ -61,8 +62,43 @@ export default async function EmploisPage() {
   const liste = offresResult.data ?? [];
   const totalOffres = countResult.count;
 
+  const BASE = "https://taxibemada.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Carrières", "item": `${BASE}/emplois` },
+        ],
+      },
+      ...(liste.length > 0 ? [{
+        "@type": "ItemList",
+        "name": "Offres d'emploi TaxiBe",
+        "url": `${BASE}/emplois`,
+        "itemListElement": liste.slice(0, 10).map((o, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": o.nom,
+          "url": `${BASE}/emplois/${o.slug || o.id}`,
+        })),
+      }] : []),
+      {
+        "@type": "FAQPage",
+        "mainEntity": FAQ.map((item) => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": { "@type": "Answer", "text": item.r },
+        })),
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <main>
         <style>{`
