@@ -225,7 +225,9 @@ export default function Nav() {
           <div className="nav-desktop" onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
             {NAV_SECTIONS.map((s) => (
               <button key={s.key} className={`nav-trigger${open ? " open" : ""}`}
-                onMouseEnter={openMenu} aria-expanded={open}>
+                onMouseEnter={openMenu}
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}>
                 {s.label}
                 {I.chevron(open)}
               </button>

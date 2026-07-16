@@ -53,12 +53,12 @@ function formatDate(iso: string) {
 }
 
 const CATEGORIES = [
-  { label: "Conseils pratiques", icon: "💡" },
-  { label: "Actualités",         icon: "📰" },
-  { label: "Lignes & trajets",   icon: "🚌" },
-  { label: "Arrêts & correspondances", icon: "📍" },
-  { label: "Sécurité",           icon: "🔒" },
-  { label: "Application TaxiBe", icon: "📱" },
+  { label: "Conseils pratiques", icon: "💡", q: "conseils" },
+  { label: "Actualités",         icon: "📰", q: "actualités" },
+  { label: "Lignes & trajets",   icon: "🚌", q: "ligne" },
+  { label: "Arrêts",             icon: "📍", q: "arrêt" },
+  { label: "Sécurité",           icon: "🔒", q: "sécurité" },
+  { label: "Application TaxiBe", icon: "📱", q: "application" },
 ];
 
 // ── Composant ──────────────────────────────────────────────────────────────────
@@ -345,7 +345,7 @@ export default async function BlogPage({
             <div className="sidebar-widget">
               <p className="sidebar-title">Catégories</p>
               {CATEGORIES.map((c) => (
-                <Link key={c.label} href="#" className="cat-item">
+                <Link key={c.label} href={`/blog?q=${encodeURIComponent(c.q)}`} className="cat-item">
                   <span style={{ fontSize: "1rem" }}>{c.icon}</span>
                   {c.label}
                 </Link>
