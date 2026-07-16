@@ -12,7 +12,7 @@ export const revalidate = 3600;
 export const metadata = {
   title: "Aide",
   description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
-  alternates: { canonical: "/faq" },
+  alternates: { canonical: "/aide" },
   openGraph: {
     title: "Aide — TaxiBe",
     description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",

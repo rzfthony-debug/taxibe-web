@@ -26,23 +26,18 @@ export const metadata = {
   },
 };
 
-async function getHeroImageUrl(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "telecharger_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+async function getParam(cle: string): Promise<string | null> {
+  try {
+    const { data } = await Promise.race([
+      supabase.from("parametres").select("valeur").eq("cle", cle).single(),
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return data?.valeur ?? null;
+  } catch { return null; }
 }
 
-async function getApercuImage(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "telecharger_apercu_image")
-    .single();
-  return data?.valeur ?? null;
-}
+const getHeroImageUrl = () => getParam("telecharger_hero_image_url");
+const getApercuImage  = () => getParam("telecharger_apercu_image");
 
 const jsonLdTelecharger = {
   "@context": "https://schema.org",

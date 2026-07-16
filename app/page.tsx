@@ -18,22 +18,30 @@ type Article = {
 };
 
 async function getHomeParams() {
-  const { data } = await supabase
-    .from("parametres")
-    .select("cle, valeur")
-    .in("cle", [
-      "home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url",
-      "home_video_url", "home_video_titre", "home_video_sous_texte",
+  try {
+    const req = supabase
+      .from("parametres")
+      .select("cle, valeur")
+      .in("cle", [
+        "home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url",
+        "home_video_url", "home_video_titre", "home_video_sous_texte",
+      ]);
+    const { data } = await Promise.race([
+      req,
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
     ]);
-  const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
-  return {
-    desktop: map["home_hero_image_url"] ?? null,
-    mobile: map["home_hero_image_mobile_url"] ?? null,
-    ctaPhone: map["home_cta_phone_url"] ?? null,
-    videoUrl: map["home_video_url"] ?? null,
-    videoTitre: map["home_video_titre"] ?? "Voyez TaxiBe en action",
-    videoSousTexte: map["home_video_sous_texte"] ?? "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone.",
-  };
+    const map = Object.fromEntries(((data as { cle: string; valeur: string }[] | null) ?? []).map((r) => [r.cle, r.valeur]));
+    return {
+      desktop: map["home_hero_image_url"] ?? null,
+      mobile: map["home_hero_image_mobile_url"] ?? null,
+      ctaPhone: map["home_cta_phone_url"] ?? null,
+      videoUrl: map["home_video_url"] ?? null,
+      videoTitre: map["home_video_titre"] ?? "Voyez TaxiBe en action",
+      videoSousTexte: map["home_video_sous_texte"] ?? "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone.",
+    };
+  } catch {
+    return { desktop: null, mobile: null, ctaPhone: null, videoUrl: null, videoTitre: "Voyez TaxiBe en action", videoSousTexte: "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone." };
+  }
 }
 
 function getVideoEmbedSrc(url: string): { type: "youtube" | "mp4"; src: string } | null {
@@ -44,13 +52,19 @@ function getVideoEmbedSrc(url: string): { type: "youtube" | "mp4"; src: string }
 }
 
 async function getActualites(): Promise<Article[]> {
-  const { data } = await supabase
-    .from("actualites")
-    .select("id, slug, image_url, texte, created_at")
-    .eq("publie", true)
-    .order("created_at", { ascending: false })
-    .limit(3);
-  return (data ?? []) as Article[];
+  try {
+    const req = supabase
+      .from("actualites")
+      .select("id, slug, image_url, texte, created_at")
+      .eq("publie", true)
+      .order("created_at", { ascending: false })
+      .limit(3);
+    const { data } = await Promise.race([
+      req,
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return ((data as Article[] | null) ?? []);
+  } catch { return []; }
 }
 
 function formatDate(iso: string) {

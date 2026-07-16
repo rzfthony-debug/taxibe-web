@@ -28,12 +28,13 @@ export const metadata = {
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "apropos_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+  try {
+    const { data } = await Promise.race([
+      supabase.from("parametres").select("valeur").eq("cle", "apropos_hero_image_url").single(),
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return data?.valeur ?? null;
+  } catch { return null; }
 }
 
 const jsonLdAPropos = {
