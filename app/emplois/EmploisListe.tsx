@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 
 type Offre = {
   id: string;
+  slug: string | null;
   nom: string;
   type_poste: string | null;
   lieu: string | null;
@@ -181,7 +182,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
               </div>
 
               {/* Bouton */}
-              <Link href={`/emplois/${o.id}`} className="job-btn">
+              <Link href={`/emplois/${o.slug ?? o.id}`} className="job-btn">
                 Voir l&apos;offre
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="5" y1="12" x2="19" y2="12"/>

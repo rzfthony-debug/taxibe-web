@@ -11,6 +11,7 @@ export const revalidate = 0;
 
 type Article = {
   id: string;
+  slug: string | null;
   image_url: string | null;
   texte: string;
   created_at: string;
@@ -45,7 +46,7 @@ function getVideoEmbedSrc(url: string): { type: "youtube" | "mp4"; src: string }
 async function getActualites(): Promise<Article[]> {
   const { data } = await supabase
     .from("actualites")
-    .select("id, image_url, texte, created_at")
+    .select("id, slug, image_url, texte, created_at")
     .eq("publie", true)
     .order("created_at", { ascending: false })
     .limit(3);
@@ -374,7 +375,7 @@ export default async function Home() {
 
             <div className="actu-grid">
               {articles.map((a) => (
-                <Link key={a.id} href={`/blog/${a.id}`} className="actu-card">
+                <Link key={a.id} href={`/blog/${a.slug ?? a.id}`} className="actu-card">
                   {a.image_url ? (
                     <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
                       <Image

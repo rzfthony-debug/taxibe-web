@@ -45,7 +45,7 @@ export default async function EmploisPage() {
   const [offresResult, countResult, heroImageUrl] = await Promise.all([
     supabase
       .from("offres_emploi")
-      .select("id, nom, type_poste, lieu, description, date_limite, created_at")
+      .select("id, slug, nom, type_poste, lieu, description, date_limite, created_at")
       .eq("statut", "publie")
       .eq("interne", true)
       .order("created_at", { ascending: false }),

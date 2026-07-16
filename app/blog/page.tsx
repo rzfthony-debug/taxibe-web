@@ -11,6 +11,7 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 
 type Article = {
   id: string;
+  slug: string | null;
   image_url: string | null;
   texte: string;
   contenu: string | null;
@@ -34,7 +35,7 @@ async function getHeroImageUrl(): Promise<string | null> {
 async function getArticles(q?: string): Promise<Article[]> {
   let req = supabase
     .from("actualites")
-    .select("id, image_url, texte, contenu, lien, publie, ordre, created_at")
+    .select("id, slug, image_url, texte, contenu, lien, publie, ordre, created_at")
     .eq("publie", true)
     .order("created_at", { ascending: false });
 
@@ -222,7 +223,7 @@ export default async function BlogPage({
                       {featured.contenu.slice(0, 180)}{featured.contenu.length > 180 ? "…" : ""}
                     </p>
                   )}
-                  <Link href={`/blog/${featured.id}`} className="lire-link">Lire l&apos;article →</Link>
+                  <Link href={`/blog/${featured.slug ?? featured.id}`} className="lire-link">Lire l&apos;article →</Link>
                 </div>
               </div>
             )}
@@ -256,7 +257,7 @@ export default async function BlogPage({
                             {a.contenu.slice(0, 120)}{a.contenu.length > 120 ? "…" : ""}
                           </p>
                         )}
-                        <Link href={`/blog/${a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
+                        <Link href={`/blog/${a.slug ?? a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
                       </div>
                     </div>
                   ))}
@@ -272,7 +273,7 @@ export default async function BlogPage({
                 </div>
                 <div className="article-grid">
                   {recents.map((a) => (
-                    <Link key={a.id} href={`/blog/${a.id}`} className="article-card">
+                    <Link key={a.id} href={`/blog/${a.slug ?? a.id}`} className="article-card">
                       {a.image_url ? (
                         <div className="card-img-wrap">
                           <Image
@@ -355,7 +356,7 @@ export default async function BlogPage({
               <div className="sidebar-widget">
                 <p className="sidebar-title">Articles récents</p>
                 {populaires.map((a, i) => (
-                  <Link key={a.id} href={`/blog/${a.id}`} className="pop-item">
+                  <Link key={a.id} href={`/blog/${a.slug ?? a.id}`} className="pop-item">
                     <span className="pop-num">{i + 1}</span>
                     <span className="pop-title">{a.texte}</span>
                   </Link>

@@ -5,8 +5,8 @@ const BASE = "https://taxibemada.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [articles, emplois] = await Promise.all([
-    supabase.from("actualites").select("id, created_at").eq("publie", true),
-    supabase.from("offres_emploi").select("id, created_at").eq("statut", "publie").eq("interne", true),
+    supabase.from("actualites").select("id, slug, created_at").eq("publie", true),
+    supabase.from("offres_emploi").select("id, slug, created_at").eq("statut", "publie").eq("interne", true),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -25,14 +25,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const articlePages: MetadataRoute.Sitemap = (articles.data ?? []).map((a) => ({
-    url: `${BASE}/blog/${a.id}`,
+    url: `${BASE}/blog/${a.slug ?? a.id}`,
     lastModified: new Date(a.created_at),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   const emploiPages: MetadataRoute.Sitemap = (emplois.data ?? []).map((e) => ({
-    url: `${BASE}/emplois/${e.id}`,
+    url: `${BASE}/emplois/${e.slug ?? e.id}`,
     lastModified: new Date(e.created_at),
     changeFrequency: "weekly" as const,
     priority: 0.7,
