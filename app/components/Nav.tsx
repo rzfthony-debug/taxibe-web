@@ -160,7 +160,7 @@ export default function Nav() {
     setOpen(true);
   }
   function scheduleClose() {
-    closeTimer.current = setTimeout(() => setOpen(false), 100);
+    closeTimer.current = setTimeout(() => setOpen(false), 300);
   }
 
   return (
@@ -226,6 +226,7 @@ export default function Nav() {
             {NAV_SECTIONS.map((s) => (
               <button key={s.key} className={`nav-trigger${open ? " open" : ""}`}
                 onMouseEnter={openMenu}
+                onClick={openMenu}
                 aria-expanded={open}>
                 {s.label}
                 {I.chevron(open)}
