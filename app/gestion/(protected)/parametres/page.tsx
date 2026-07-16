@@ -20,7 +20,7 @@ export default async function ParametresPage() {
     telechargerHero, telechargerApercu,
     aproposHero, aideHero, legalHero,
     communauteHero, contactHero, entreprisesHero, blogHero,
-    contactEmail, recrutementEmail,
+    contactEmail, recrutementEmail, contactPhone,
     fbUrl, igUrl, liUrl,
   ] = await Promise.all([
     getParam("home_hero_image_url"),
@@ -38,6 +38,7 @@ export default async function ParametresPage() {
     getParam("blog_hero_image_url"),
     getParam("contact_email"),
     getParam("recrutement_email"),
+    getParam("contact_phone"),
     getParam("social_facebook_url"),
     getParam("social_instagram_url"),
     getParam("social_linkedin_url"),
@@ -225,6 +226,14 @@ export default async function ParametresPage() {
             Coordonnées &amp; Réseaux sociaux
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ParamTextInput
+              cle="contact_phone"
+              label="Numéro de téléphone"
+              description="Affiché sur la page Contact et dans le footer. Ex : +261 20 22 xxx xx"
+              placeholder="+261 20 22 xxx xx"
+              type="tel"
+              currentValue={contactPhone}
+            />
             <ParamTextInput
               cle="contact_email"
               label="Adresse e-mail de contact"

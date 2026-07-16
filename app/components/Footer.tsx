@@ -44,10 +44,12 @@ const COLS = [
 ];
 
 export default async function Footer() {
-  const [fbUrl, igUrl, liUrl] = await Promise.all([
+  const [fbUrl, igUrl, liUrl, contactPhone, contactEmail] = await Promise.all([
     getParam("social_facebook_url"),
     getParam("social_instagram_url"),
     getParam("social_linkedin_url"),
+    getParam("contact_phone"),
+    getParam("contact_email"),
   ]);
 
   const socialLinks = [
@@ -118,9 +120,25 @@ export default async function Footer() {
             width={140} height={70}
             style={{ height: 30, width: "auto", objectFit: "contain", marginBottom: 12 }}
           />
-          <p style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.65, margin: "0 0 18px", maxWidth: 200 }}>
+          <p style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.65, margin: "0 0 12px", maxWidth: 200 }}>
             TaxiBe Madagascar, votre allié pour tous vos déplacements à Antananarivo.
           </p>
+          {(contactPhone || contactEmail) && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 5, marginBottom: 14 }}>
+              {contactPhone && (
+                <a href={`tel:${contactPhone}`} style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.07 6.07l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.05z"/></svg>
+                  {contactPhone}
+                </a>
+              )}
+              {contactEmail && (
+                <a href={`mailto:${contactEmail}`} style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  {contactEmail}
+                </a>
+              )}
+            </div>
+          )}
           <div style={{ display: "flex", gap: 7 }}>
             {socialLinks.map((s, i) => (
               <a key={i} href={s.href} target={s.href !== "#" ? "_blank" : undefined} rel="noopener noreferrer" style={{
