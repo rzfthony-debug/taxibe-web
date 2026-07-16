@@ -13,8 +13,8 @@ export default function HeroUpload({ cle, label, description, ratio = "3/2", cur
   const inputRef = useRef<HTMLInputElement>(null);
 
   const supabase = createClient(
-    "https://sorucqpaytrhmthxeuhx.supabase.co",
-    "sb_publishable_8aNBK0nOIb4ZcrmBF0TGTQ_XO_8zhd8"
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
   async function uploadFile(file: File) {
@@ -32,7 +32,7 @@ export default function HeroUpload({ cle, label, description, ratio = "3/2", cur
     const path = `${cle}_${Date.now()}.${ext}`;
 
     // Upload avec suivi de progression via XHR direct sur Supabase Storage
-    const uploadUrl = `https://sorucqpaytrhmthxeuhx.supabase.co/storage/v1/object/images/${path}`;
+    const uploadUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/images/${path}`;
 
     await new Promise<void>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -45,7 +45,7 @@ export default function HeroUpload({ cle, label, description, ratio = "3/2", cur
       };
       xhr.onerror = () => reject(new Error("Erreur réseau"));
       xhr.open("POST", uploadUrl);
-      xhr.setRequestHeader("Authorization", `Bearer sb_publishable_8aNBK0nOIb4ZcrmBF0TGTQ_XO_8zhd8`);
+      xhr.setRequestHeader("Authorization", `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`);
       xhr.setRequestHeader("Content-Type", file.type);
       xhr.setRequestHeader("x-upsert", "true");
       xhr.send(file);

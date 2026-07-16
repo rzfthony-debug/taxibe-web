@@ -107,7 +107,8 @@ function SpotlightCard({
     </div>
   );
 
-  const href = item.cta_url ?? "#";
+  const rawUrl = item.cta_url;
+  const href = rawUrl && (/^https?:\/\//.test(rawUrl) || rawUrl.startsWith("/")) ? rawUrl : "#";
   return (
     <Link href={href} style={{ display: "block", height: "100%", textDecoration: "none" }}>
       {content}

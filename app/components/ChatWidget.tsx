@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { getBrowserClient } from "@/lib/supabase-browser";
+import { sendVisitorChatMessage } from "@/app/actions";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = () => getBrowserClient() as any;
@@ -95,12 +96,12 @@ export default function ChatWidget() {
   useEffect(() => { if (open) setUnread(0); }, [open]);
 
   async function send() {
-    const text = input.trim();
+    const text = input.trim().slice(0, 500);
     if (!text || sending) return;
     setSending(true);
 
     if (!sessionId) {
-      const name = nameInput.trim() || null;
+      const name = nameInput.trim().slice(0, 100) || null;
       const { data: sess } = await db()
         .from("chat_sessions")
         .insert({ visitor_id: visitorId, visitor_name: name })
@@ -109,10 +110,11 @@ export default function ChatWidget() {
       localStorage.setItem("txb_session_id", sess.id);
       if (name) { setVisitorName(name); localStorage.setItem("txb_visitor_name", name); }
       setSessionId(sess.id);
-      await db().from("chat_messages").insert({ session_id: sess.id, contenu: text, expediteur: "visiteur" });
+      // First message after session creation goes through server action
+      await sendVisitorChatMessage(sess.id, text, visitorId);
     } else {
-      await db().from("chat_messages").insert({ session_id: sessionId, contenu: text, expediteur: "visiteur" });
-      await db().from("chat_sessions").update({ last_message_at: new Date().toISOString() }).eq("id", sessionId);
+      const result = await sendVisitorChatMessage(sessionId, text, visitorId);
+      if (!result.ok) { setSending(false); return; }
     }
 
     setInput("");

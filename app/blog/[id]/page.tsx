@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { Metadata } from "next";
+import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -108,7 +109,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <div style={{ background: "#F8F9FB", minHeight: "100vh" }}>
         <style>{`
@@ -185,7 +186,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             {/* Contenu */}
             <div className="article-body">
               {article.contenu ? (
-                <div dangerouslySetInnerHTML={{ __html: article.contenu.replace(/\n/g, "<br/>") }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.contenu.replace(/\n/g, "<br/>")) }} />
               ) : (
                 <p style={{ color: "#94A3B8", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
               )}

@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -121,7 +122,7 @@ export default async function AidePage() {
       <Nav />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
@@ -211,3 +212,5 @@ export default async function AidePage() {
     </>
   );
 }
+
+

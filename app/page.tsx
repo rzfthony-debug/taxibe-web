@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
@@ -74,7 +75,7 @@ export default async function Home() {
 
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 
@@ -532,3 +533,5 @@ export default async function Home() {
     </>
   );
 }
+
+

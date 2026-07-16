@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -66,7 +67,7 @@ export default async function ContactPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdContact) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdContact) }} />
       <Nav />
       <style>{`
         .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
@@ -160,3 +161,5 @@ export default async function ContactPage({
     </>
   );
 }
+
+

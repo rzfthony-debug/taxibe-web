@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -50,7 +51,7 @@ export default async function AProposPage() {
   const heroImageUrl = await getHeroImageUrl();
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAPropos) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdAPropos) }} />
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
@@ -189,3 +190,5 @@ export default async function AProposPage() {
     </>
   );
 }
+
+

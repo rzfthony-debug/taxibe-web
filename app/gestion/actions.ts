@@ -1,6 +1,7 @@
 "use server";
 
 import { adminDb } from "@/lib/supabase";
+import { requireAdmin } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -11,18 +12,25 @@ const BLOCK_MINUTES = 15;
 
 export async function loginAdmin(formData: FormData) {
   const cle = (formData.get("cle") as string)?.trim();
-  if (!cle) { redirect("/gestion/login?error=required"); return; }
+  if (!cle || cle.length > 128) { redirect("/gestion/login?error=required"); return; }
 
   const hdrs = await headers();
-  const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  // Use rightmost IP (trusted proxy) to resist X-Forwarded-For spoofing
+  const forwardedFor = hdrs.get("x-forwarded-for") ?? "";
+  const ips = forwardedFor.split(",").map(s => s.trim()).filter(Boolean);
+  const ip = ips[ips.length - 1] ?? hdrs.get("x-real-ip") ?? "unknown";
+  // Also rate-limit by key prefix so distributed IPs can't bypass the block
+  const cleKey = `cle:${cle.slice(0, 32)}`;
 
-  const { data: attempt } = await adminDb
-    .from("login_attempts")
-    .select("count, blocked_until")
-    .eq("ip", ip)
-    .maybeSingle();
+  const [{ data: ipAttempt }, { data: cleAttempt }] = await Promise.all([
+    adminDb.from("login_attempts").select("count, blocked_until").eq("ip", ip).maybeSingle(),
+    adminDb.from("login_attempts").select("count, blocked_until").eq("ip", cleKey).maybeSingle(),
+  ]);
 
-  if (attempt?.blocked_until && new Date(attempt.blocked_until) > new Date()) {
+  const blocked = (a: typeof ipAttempt) =>
+    a?.blocked_until && new Date(a.blocked_until) > new Date();
+
+  if (blocked(ipAttempt) || blocked(cleAttempt)) {
     redirect("/gestion/login?error=blocked");
     return;
   }
@@ -35,32 +43,43 @@ export async function loginAdmin(formData: FormData) {
     .single();
 
   if (!data || data.role !== "superadmin") {
-    const newCount = (attempt?.count ?? 0) + 1;
-    const blockedUntil = newCount >= MAX_ATTEMPTS
-      ? new Date(Date.now() + BLOCK_MINUTES * 60 * 1000).toISOString()
-      : null;
+    const newIpCount = (ipAttempt?.count ?? 0) + 1;
+    const newCleCount = (cleAttempt?.count ?? 0) + 1;
+    const blockedAt = (n: number) =>
+      n >= MAX_ATTEMPTS
+        ? new Date(Date.now() + BLOCK_MINUTES * 60 * 1000).toISOString()
+        : null;
 
-    await adminDb.from("login_attempts").upsert(
-      { ip, count: newCount, blocked_until: blockedUntil, updated_at: new Date().toISOString() },
-      { onConflict: "ip" }
-    );
+    await Promise.all([
+      adminDb.from("login_attempts").upsert(
+        { ip, count: newIpCount, blocked_until: blockedAt(newIpCount), updated_at: new Date().toISOString() },
+        { onConflict: "ip" }
+      ),
+      adminDb.from("login_attempts").upsert(
+        { ip: cleKey, count: newCleCount, blocked_until: blockedAt(newCleCount), updated_at: new Date().toISOString() },
+        { onConflict: "ip" }
+      ),
+    ]);
 
     redirect("/gestion/login?error=invalid");
     return;
   }
 
-  await adminDb.from("login_attempts").delete().eq("ip", ip);
+  await Promise.all([
+    adminDb.from("login_attempts").delete().eq("ip", ip),
+    adminDb.from("login_attempts").delete().eq("ip", cleKey),
+  ]);
 
   const jar = await cookies();
-  jar.set("taxibe_admin", data.id, {
+  const cookieOpts = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
+    sameSite: "lax" as const,
     path: "/",
-  });
-  jar.set("taxibe_admin_nom", data.nom, { path: "/" });
-  jar.set("taxibe_admin_role", data.role ?? "lecteur", { path: "/" });
+  };
+  jar.set("taxibe_admin", data.id, { ...cookieOpts, maxAge: 60 * 60 * 24 * 7 });
+  jar.set("taxibe_admin_nom", data.nom, { ...cookieOpts, maxAge: 60 * 60 * 24 * 7 });
+  jar.set("taxibe_admin_role", data.role ?? "lecteur", { ...cookieOpts, maxAge: 60 * 60 * 24 * 7 });
 
   redirect("/gestion");
 }
@@ -76,8 +95,9 @@ export async function logoutAdmin() {
 // ── Parametres (texte) ────────────────────────────────────────────────────────
 
 export async function saveParam(formData: FormData) {
+  await requireAdmin();
   const cle = (formData.get("cle") as string)?.trim();
-  const valeur = ((formData.get("valeur") as string) ?? "").trim();
+  const valeur = ((formData.get("valeur") as string) ?? "").trim().slice(0, 2000);
   if (!cle) return;
   await adminDb.from("parametres").upsert({ cle, valeur }, { onConflict: "cle" });
 }
@@ -85,15 +105,17 @@ export async function saveParam(formData: FormData) {
 // ── Chat ──────────────────────────────────────────────────────────────────────
 
 export async function sendAdminMessage(formData: FormData) {
+  await requireAdmin();
   const session_id = (formData.get("session_id") as string)?.trim();
-  const contenu = (formData.get("contenu") as string)?.trim();
-  const admin_nom = (formData.get("admin_nom") as string)?.trim() || "Admin";
+  const contenu = (formData.get("contenu") as string)?.trim().slice(0, 1000);
+  const admin_nom = (formData.get("admin_nom") as string)?.trim().slice(0, 100) || "Admin";
   if (!session_id || !contenu) return;
   await adminDb.from("chat_messages").insert({ session_id, contenu, expediteur: "admin", admin_nom });
   await adminDb.from("chat_sessions").update({ last_message_at: new Date().toISOString() }).eq("id", session_id);
 }
 
 export async function closeChatSession(formData: FormData) {
+  await requireAdmin();
   const session_id = (formData.get("session_id") as string)?.trim();
   if (!session_id) return;
   await adminDb.from("chat_sessions").update({ statut: "ferme" }).eq("id", session_id);
@@ -121,17 +143,20 @@ export async function getActualites() {
 }
 
 export async function toggleActualite(id: string, publie: boolean) {
+  await requireAdmin();
   await adminDb.from("actualites").update({ publie }).eq("id", id);
 }
 
 export async function deleteActualite(id: string) {
+  await requireAdmin();
   await adminDb.from("actualites").delete().eq("id", id);
 }
 
 export async function createActualite(formData: FormData) {
+  await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const texte = formData.get("texte") as string;
-  const contenu = formData.get("contenu") as string;
+  const texte = (formData.get("texte") as string)?.slice(0, 300);
+  const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
@@ -143,9 +168,10 @@ export async function createActualite(formData: FormData) {
 }
 
 export async function updateActualite(id: string, formData: FormData) {
+  await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const texte = formData.get("texte") as string;
-  const contenu = formData.get("contenu") as string;
+  const texte = (formData.get("texte") as string)?.slice(0, 300);
+  const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
@@ -165,19 +191,23 @@ export async function getSpotlight() {
 }
 
 export async function toggleSpotlight(id: string, publie: boolean) {
+  await requireAdmin();
   await adminDb.from("spotlight").update({ publie }).eq("id", id);
 }
 
 export async function deleteSpotlight(id: string) {
+  await requireAdmin();
   await adminDb.from("spotlight").delete().eq("id", id);
 }
 
 export async function createSpotlight(formData: FormData) {
+  await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const titre = formData.get("titre") as string;
-  const sous_titre = (formData.get("sous_titre") as string) || null;
-  const cta_label = (formData.get("cta_label") as string) || null;
-  const cta_url = (formData.get("cta_url") as string) || null;
+  const titre = (formData.get("titre") as string)?.slice(0, 200);
+  const sous_titre = (formData.get("sous_titre") as string)?.slice(0, 400) || null;
+  const cta_label = (formData.get("cta_label") as string)?.slice(0, 100) || null;
+  const rawUrl = (formData.get("cta_url") as string) || null;
+  const cta_url = rawUrl && /^https?:\/\//.test(rawUrl) ? rawUrl : rawUrl?.startsWith("/") ? rawUrl : null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
@@ -188,11 +218,13 @@ export async function createSpotlight(formData: FormData) {
 }
 
 export async function updateSpotlight(id: string, formData: FormData) {
+  await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const titre = formData.get("titre") as string;
-  const sous_titre = (formData.get("sous_titre") as string) || null;
-  const cta_label = (formData.get("cta_label") as string) || null;
-  const cta_url = (formData.get("cta_url") as string) || null;
+  const titre = (formData.get("titre") as string)?.slice(0, 200);
+  const sous_titre = (formData.get("sous_titre") as string)?.slice(0, 400) || null;
+  const cta_label = (formData.get("cta_label") as string)?.slice(0, 100) || null;
+  const rawUrl = (formData.get("cta_url") as string) || null;
+  const cta_url = rawUrl && /^https?:\/\//.test(rawUrl) ? rawUrl : rawUrl?.startsWith("/") ? rawUrl : null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
@@ -211,7 +243,9 @@ export async function getUtilisateurs() {
 }
 
 export async function approuverUser(id: string) {
-  const cle = "txb-usr-" + Math.random().toString(36).slice(2, 14);
+  await requireAdmin();
+  // crypto.randomUUID() is cryptographically secure
+  const cle = "txb-usr-" + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
   await adminDb
     .from("app_users")
     .update({ statut: "approuve", cle, updated_at: new Date().toISOString() })
@@ -219,6 +253,7 @@ export async function approuverUser(id: string) {
 }
 
 export async function suspendreUser(id: string) {
+  await requireAdmin();
   await adminDb
     .from("app_users")
     .update({ statut: "suspendu", updated_at: new Date().toISOString() })
@@ -226,6 +261,7 @@ export async function suspendreUser(id: string) {
 }
 
 export async function deleteUser(id: string) {
+  await requireAdmin();
   await adminDb.from("app_users").delete().eq("id", id);
 }
 
@@ -240,18 +276,23 @@ export async function getEmplois() {
 }
 
 export async function updateStatutEmploi(id: string, statut: string) {
+  await requireAdmin();
+  const STATUTS = ["en_attente", "publie", "ferme", "refuse"];
+  if (!STATUTS.includes(statut)) return;
   await adminDb.from("offres_emploi").update({ statut }).eq("id", id);
 }
 
 export async function deleteEmploi(id: string) {
+  await requireAdmin();
   await adminDb.from("offres_emploi").delete().eq("id", id);
 }
 
 export async function createEmploiInterne(formData: FormData) {
-  const nom = (formData.get("nom") as string)?.trim();
-  const type_poste = (formData.get("type_poste") as string)?.trim() || null;
-  const lieu = (formData.get("lieu") as string)?.trim() || "Antananarivo";
-  const description = (formData.get("description") as string)?.trim() || null;
+  await requireAdmin();
+  const nom = (formData.get("nom") as string)?.trim().slice(0, 200);
+  const type_poste = (formData.get("type_poste") as string)?.trim().slice(0, 100) || null;
+  const lieu = (formData.get("lieu") as string)?.trim().slice(0, 100) || "Antananarivo";
+  const description = (formData.get("description") as string)?.trim().slice(0, 5000) || null;
   const date_limite = (formData.get("date_limite") as string) || null;
 
   if (!nom) { redirect("/gestion/emplois"); return; }
@@ -270,6 +311,7 @@ export async function createEmploiInterne(formData: FormData) {
 }
 
 export async function toggleInterneEmploi(id: string, interne: boolean) {
+  await requireAdmin();
   await adminDb.from("offres_emploi").update({ interne }).eq("id", id);
 }
 
@@ -284,10 +326,14 @@ export async function getMessages() {
 }
 
 export async function updateStatutMessage(id: string, statut: string) {
+  await requireAdmin();
+  const STATUTS = ["nouveau", "lu", "traite", "archive"];
+  if (!STATUTS.includes(statut)) return;
   await adminDb.from("messages_contact").update({ statut }).eq("id", id);
 }
 
 export async function deleteMessage(id: string) {
+  await requireAdmin();
   await adminDb.from("messages_contact").delete().eq("id", id);
 }
 

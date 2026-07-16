@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 
 type Offre = {
   id: string;
@@ -101,7 +102,7 @@ export default async function OffrePage({ params }: { params: Promise<{ id: stri
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <main>
         <style>{`

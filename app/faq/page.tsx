@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
@@ -105,7 +106,7 @@ export default function FaqPage() {
       <Nav />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
 
@@ -176,3 +177,5 @@ export default function FaqPage() {
     </>
   );
 }
+
+

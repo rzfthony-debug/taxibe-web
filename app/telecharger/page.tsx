@@ -1,3 +1,4 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -60,7 +61,7 @@ export default async function TelechargerPage() {
 
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTelecharger) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdTelecharger) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 
@@ -382,3 +383,5 @@ export default async function TelechargerPage() {
     </>
   );
 }
+
+
