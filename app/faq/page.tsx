@@ -6,6 +6,18 @@ export const metadata = {
   title: "FAQ — Questions fréquentes",
   description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
   alternates: { canonical: "/faq" },
+  openGraph: {
+    title: "FAQ TaxiBe — Questions fréquentes",
+    description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    url: "/faq",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "FAQ TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "FAQ TaxiBe — Questions fréquentes",
+    description: "Toutes les réponses sur l'utilisation de TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const FAQ_SECTIONS = [

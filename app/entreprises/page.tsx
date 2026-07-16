@@ -9,8 +9,21 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Entreprises — TaxiBe",
+  title: "Entreprises",
   description: "Partenariats et visibilité sur TaxiBe : coopératives de transport, institutions, entreprises et annonceurs à Antananarivo.",
+  alternates: { canonical: "/entreprises" },
+  openGraph: {
+    title: "Entreprises — TaxiBe",
+    description: "Partenariats et visibilité sur TaxiBe : coopératives de transport, institutions, entreprises et annonceurs à Antananarivo.",
+    url: "/entreprises",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe Entreprises" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Entreprises — TaxiBe",
+    description: "Partenariats et visibilité sur TaxiBe à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {

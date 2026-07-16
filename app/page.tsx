@@ -60,8 +60,21 @@ export default async function Home() {
   const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
   const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TaxiBe",
+    "url": "https://taxibemada.vercel.app",
+    "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+    "applicationCategory": "TransportationApplication",
+    "operatingSystem": "Android",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
+    "author": { "@type": "Organization", "name": "TaxiBe", "url": "https://taxibemada.vercel.app" },
+  };
+
   return (
     <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 

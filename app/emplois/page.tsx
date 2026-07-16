@@ -8,8 +8,21 @@ import EmploisListe from "./EmploisListe";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Carrières — TaxiBe",
+  title: "Carrières",
   description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
+  alternates: { canonical: "/emplois" },
+  openGraph: {
+    title: "Carrières — TaxiBe",
+    description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
+    url: "/emplois",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Carrières TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Carrières — TaxiBe",
+    description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const FAQ = [

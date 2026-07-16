@@ -46,17 +46,32 @@ async function getAutresArticles(excludeId: string): Promise<ArticleMini[]> {
 
 // ── Metadata dynamique ────────────────────────────────────────────────────────
 
+const BASE = "https://taxibemada.vercel.app";
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const article = await getArticle(id);
-  if (!article) return { title: "Article introuvable — TaxiBe" };
+  if (!article) return { title: "Article introuvable" };
+  const desc = article.contenu?.slice(0, 160) ?? article.texte;
   return {
-    title: `${article.texte} — TaxiBe`,
-    description: article.contenu?.slice(0, 160) ?? article.texte,
+    title: article.texte,
+    description: desc,
+    alternates: { canonical: `/blog/${id}` },
     openGraph: {
-      title: article.texte,
-      description: article.contenu?.slice(0, 160) ?? article.texte,
-      images: article.image_url ? [article.image_url] : [],
+      title: `${article.texte} — TaxiBe`,
+      description: desc,
+      url: `/blog/${id}`,
+      type: "article",
+      publishedTime: article.created_at,
+      images: article.image_url
+        ? [{ url: article.image_url, width: 1200, height: 630, alt: article.texte }]
+        : [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe Blog" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${article.texte} — TaxiBe`,
+      description: desc,
+      images: [article.image_url ?? "/logo_taxibe.png"],
     },
   };
 }
@@ -78,8 +93,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   if (!article) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": article.texte,
+    "description": article.contenu?.slice(0, 200) ?? article.texte,
+    "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],
+    "datePublished": article.created_at,
+    "dateModified": article.created_at,
+    "author": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
+    "publisher": { "@type": "Organization", "name": "TaxiBe", "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` } },
+    "url": `${BASE}/blog/${article.id}`,
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Nav />
       <div style={{ background: "#F8F9FB", minHeight: "100vh" }}>
         <style>{`

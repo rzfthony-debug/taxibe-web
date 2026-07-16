@@ -1,5 +1,12 @@
 import { searchLignesByNumero } from "@/lib/search";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Recherche de ligne",
+  description: "Recherchez une ligne de taxi-be à Antananarivo par numéro.",
+  robots: { index: false, follow: true },
+};
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";

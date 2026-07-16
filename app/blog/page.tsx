@@ -61,7 +61,23 @@ const CATEGORIES = [
 
 // ── Composant ──────────────────────────────────────────────────────────────────
 
-export const metadata = { title: "Blog — TaxiBe" };
+export const metadata = {
+  title: "Blog",
+  description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+    url: "/blog",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe — Blog" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
+};
 
 export const revalidate = 0;
 

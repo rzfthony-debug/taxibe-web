@@ -8,8 +8,21 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Télécharger TaxiBe — Gratuit sur Android",
-  description: "Téléchargez TaxiBe sur Android. Gratuit, accès à toutes les fonctionnalités pour les membres.",
+  title: "Télécharger l'app — Gratuit sur Android",
+  description: "Téléchargez TaxiBe sur Android. Gratuit, sans compte requis, sans publicité. Accès complet aux lignes de taxi-be d'Antananarivo.",
+  alternates: { canonical: "/telecharger" },
+  openGraph: {
+    title: "Télécharger TaxiBe — Gratuit sur Android",
+    description: "Téléchargez TaxiBe sur Android. Gratuit, sans compte requis, sans publicité. Accès complet aux lignes de taxi-be d'Antananarivo.",
+    url: "/telecharger",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Télécharger TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Télécharger TaxiBe — Gratuit sur Android",
+    description: "Téléchargez TaxiBe sur Android. Gratuit, sans compte requis, sans publicité.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
@@ -30,11 +43,24 @@ async function getApercuImage(): Promise<string | null> {
   return data?.valeur ?? null;
 }
 
+const jsonLdTelecharger = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TaxiBe",
+  "operatingSystem": "Android",
+  "applicationCategory": "TransportationApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
+  "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+  "url": "https://taxibemada.vercel.app/telecharger",
+  "author": { "@type": "Organization", "name": "TaxiBe", "url": "https://taxibemada.vercel.app" },
+};
+
 export default async function TelechargerPage() {
   const [heroImageUrl, apercuImageUrl] = await Promise.all([getHeroImageUrl(), getApercuImage()]);
 
   return (
     <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTelecharger) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 

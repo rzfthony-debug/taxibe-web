@@ -9,8 +9,21 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "À propos de TaxiBe",
-  description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo.",
+  title: "À propos",
+  description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo, Madagascar. Notre mission, notre équipe et notre histoire.",
+  alternates: { canonical: "/a-propos" },
+  openGraph: {
+    title: "À propos de TaxiBe",
+    description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+    url: "/a-propos",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "À propos de TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "À propos de TaxiBe",
+    description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
@@ -22,10 +35,22 @@ async function getHeroImageUrl(): Promise<string | null> {
   return data?.valeur ?? null;
 }
 
+const jsonLdAPropos = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TaxiBe",
+  "url": "https://taxibemada.vercel.app",
+  "logo": "https://taxibemada.vercel.app/logo_taxibe.png",
+  "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+  "address": { "@type": "PostalAddress", "addressLocality": "Antananarivo", "addressCountry": "MG" },
+  "sameAs": ["https://taxibemada.vercel.app"],
+};
+
 export default async function AProposPage() {
   const heroImageUrl = await getHeroImageUrl();
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAPropos) }} />
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`

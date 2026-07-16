@@ -8,8 +8,10 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Informations légales — TaxiBe",
+  title: "Informations légales",
   description: "Mentions légales et conditions d'utilisation de TaxiBe.",
+  alternates: { canonical: "/legal" },
+  robots: { index: false, follow: false },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {

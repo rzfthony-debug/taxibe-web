@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   creator: "TaxiBe",
   publisher: "TaxiBe",
   robots: { index: true, follow: true },
-  alternates: { canonical: BASE_URL },
   openGraph: {
     type: "website",
     locale: "fr_MG",
@@ -48,6 +47,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@taxibemada",
+    creator: "@taxibemada",
     title: "TaxiBe — Lignes de taxi-be à Antananarivo",
     description:
       "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet.",

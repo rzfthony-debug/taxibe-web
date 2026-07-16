@@ -45,13 +45,29 @@ async function getAutresOffres(excludeId: string): Promise<Pick<Offre, "id" | "n
   return data ?? [];
 }
 
+const BASE = "https://taxibemada.vercel.app";
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const offre = await getOffre(id);
-  if (!offre) return { title: "Offre introuvable — TaxiBe" };
+  if (!offre) return { title: "Offre introuvable" };
+  const desc = offre.description?.slice(0, 155) ?? "Rejoignez l'équipe TaxiBe à Antananarivo.";
   return {
-    title: `${offre.nom} — Carrières TaxiBe`,
-    description: offre.description?.slice(0, 150) ?? "Rejoignez l'équipe TaxiBe à Antananarivo.",
+    title: `${offre.nom} — Carrières`,
+    description: desc,
+    alternates: { canonical: `/emplois/${id}` },
+    openGraph: {
+      title: `${offre.nom} — TaxiBe Carrières`,
+      description: desc,
+      url: `/emplois/${id}`,
+      images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Carrières TaxiBe" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${offre.nom} — TaxiBe Carrières`,
+      description: desc,
+      images: ["/logo_taxibe.png"],
+    },
   };
 }
 
@@ -65,10 +81,27 @@ export default async function OffrePage({ params }: { params: Promise<{ id: stri
   const [offre, autres, recrutementEmail] = await Promise.all([getOffre(id), getAutresOffres(id), getRecrutementEmail()]);
   if (!offre) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": offre.nom,
+    "description": offre.description ?? offre.nom,
+    "datePosted": offre.created_at,
+    ...(offre.date_limite ? { "validThrough": offre.date_limite } : {}),
+    "employmentType": offre.type_poste ?? "FULL_TIME",
+    "hiringOrganization": { "@type": "Organization", "name": "TaxiBe", "sameAs": BASE },
+    "jobLocation": {
+      "@type": "Place",
+      "address": { "@type": "PostalAddress", "addressLocality": offre.lieu ?? "Antananarivo", "addressCountry": "MG" },
+    },
+    "url": `${BASE}/emplois/${offre.id}`,
+  };
+
   const paragraphes = (offre.description ?? "").split("\n").filter(Boolean);
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Nav />
       <main>
         <style>{`

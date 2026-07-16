@@ -9,8 +9,21 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "Aide — TaxiBe",
-  description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+  title: "Aide",
+  description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    title: "Aide — TaxiBe",
+    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    url: "/aide",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Aide TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Aide — TaxiBe",
+    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {

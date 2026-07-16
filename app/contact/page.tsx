@@ -13,6 +13,18 @@ export const metadata = {
   title: "Contact",
   description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe, l'application des lignes de taxi-be à Antananarivo.",
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact — TaxiBe",
+    description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
+    url: "/contact",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Contact TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Contact — TaxiBe",
+    description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
@@ -31,6 +43,20 @@ const RACCOURCIS = [
   { titre: "Un espace publicitaire", desc: "Faites connaître votre activité aux usagers de TaxiBe.", href: "/entreprises" },
 ];
 
+const jsonLdContact = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact TaxiBe",
+  "url": "https://taxibemada.vercel.app/contact",
+  "description": "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "TaxiBe",
+    "url": "https://taxibemada.vercel.app",
+    "address": { "@type": "PostalAddress", "addressLocality": "Antananarivo", "addressCountry": "MG" },
+  },
+};
+
 export default async function ContactPage({
   searchParams,
 }: {
@@ -40,6 +66,7 @@ export default async function ContactPage({
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdContact) }} />
       <Nav />
       <style>{`
         .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
