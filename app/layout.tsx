@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
-
-const ChatWidget = dynamic(() => import("@/app/components/ChatWidget"), { ssr: false });
+import ChatWidgetLoader from "@/app/components/ChatWidgetLoader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={inter.variable}>
       <body>
         {children}
-        <ChatWidget />
+        <ChatWidgetLoader />
       </body>
     </html>
   );
