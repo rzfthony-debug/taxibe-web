@@ -93,7 +93,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
             <input
               type="text"
               className="job-search"
-              placeholder="Rechercher un posteâ€¦"
+              placeholder="Rechercher un poste…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -127,7 +127,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
               Aucun poste ne correspond
             </p>
             <p style={{ fontSize: "0.8rem", color: "#94A3B8", margin: 0 }}>
-              Essayez d&apos;autres termes ou envoyez une candidature spontanÃ©e.
+              Essayez d&apos;autres termes ou envoyez une candidature spontanée.
             </p>
           </div>
         )}

@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -8,24 +8,27 @@ import HeroIllustration from "@/app/components/HeroIllustration";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Informations lÃ©gales",
-  description: "Mentions lÃ©gales et conditions d'utilisation de TaxiBe.",
+  title: "Informations légales",
+  description: "Mentions légales et conditions d'utilisation de TaxiBe.",
   alternates: { canonical: "/legal" },
   robots: { index: false, follow: false },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "legal_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+  try {
+    const { data } = await Promise.race([
+      supabase.from("parametres").select("valeur").eq("cle", "legal_hero_image_url").single(),
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return data?.valeur ?? null;
+  } catch {
+    return null;
+  }
 }
 
 const MENTIONS = [
   {
-    titre: "Ã‰diteur de l'application",
+    titre: "Éditeur de l'application",
     contenu: [
       "Nom de l'application : TaxiBe",
       "Type : Application mobile et site web",
@@ -33,33 +36,33 @@ const MENTIONS = [
     ],
   },
   {
-    titre: "HÃ©bergement",
+    titre: "Hébergement",
     contenu: [
-      "Site web : Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, Ã‰tats-Unis",
-      "Base de donnÃ©es : Supabase Inc.",
-      "Application Android : distribuÃ©e directement via fichier APK",
+      "Site web : Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, États-Unis",
+      "Base de données : Supabase Inc.",
+      "Application Android : distribuée directement via fichier APK",
     ],
   },
   {
-    titre: "PropriÃ©tÃ© intellectuelle",
+    titre: "Propriété intellectuelle",
     contenu: [
-      "L'ensemble du contenu de ce site et de l'application â€” textes, visuels, logo, interface â€” est la propriÃ©tÃ© exclusive de TaxiBe.",
-      "Toute reproduction, mÃªme partielle, est interdite sans autorisation Ã©crite prÃ©alable.",
+      "L'ensemble du contenu de ce site et de l'application — textes, visuels, logo, interface — est la propriété exclusive de TaxiBe.",
+      "Toute reproduction, même partielle, est interdite sans autorisation écrite préalable.",
     ],
   },
   {
-    titre: "DonnÃ©es personnelles",
+    titre: "Données personnelles",
     contenu: [
-      "TaxiBe collecte uniquement les donnÃ©es strictement nÃ©cessaires au fonctionnement de l'application (compte utilisateur optionnel, favoris, signalements).",
-      "Aucune donnÃ©e n'est vendue Ã  des tiers.",
-      "ConformÃ©ment Ã  la loi malgache nÂ° 2014-038 sur la protection des donnÃ©es personnelles, vous disposez d'un droit d'accÃ¨s, de rectification et de suppression de vos donnÃ©es.",
+      "TaxiBe collecte uniquement les données strictement nécessaires au fonctionnement de l'application (compte utilisateur optionnel, favoris, signalements).",
+      "Aucune donnée n'est vendue à des tiers.",
+      "Conformément à la loi malgache n° 2014-038 sur la protection des données personnelles, vous disposez d'un droit d'accès, de rectification et de suppression de vos données.",
     ],
   },
   {
-    titre: "ResponsabilitÃ©",
+    titre: "Responsabilité",
     contenu: [
-      "Les informations sur les lignes de taxi-be sont fournies Ã  titre indicatif. TaxiBe ne garantit pas leur exactitude en temps rÃ©el.",
-      "TaxiBe ne saurait Ãªtre tenu responsable des dommages rÃ©sultant de l'utilisation de l'application ou de l'inaccessibilitÃ© du service.",
+      "Les informations sur les lignes de taxi-be sont fournies à titre indicatif. TaxiBe ne garantit pas leur exactitude en temps réel.",
+      "TaxiBe ne saurait être tenu responsable des dommages résultant de l'utilisation de l'application ou de l'inaccessibilité du service.",
     ],
   },
 ];
@@ -68,52 +71,52 @@ const CONDITIONS = [
   {
     titre: "Acceptation des conditions",
     contenu: [
-      "En utilisant TaxiBe â€” que ce soit via l'application mobile ou le site web â€” vous acceptez sans rÃ©serve les prÃ©sentes conditions d'utilisation.",
+      "En utilisant TaxiBe — que ce soit via l'application mobile ou le site web — vous acceptez sans réserve les présentes conditions d'utilisation.",
       "Si vous n'acceptez pas ces conditions, veuillez cesser d'utiliser l'application et le site.",
     ],
   },
   {
     titre: "Description du service",
     contenu: [
-      "TaxiBe est un service d'information sur les lignes de taxi-be Ã  Antananarivo. Il permet de rechercher des lignes par numÃ©ro, par arrÃªt, ou par localisation GPS.",
-      "Le service est fourni gratuitement, sans garantie de disponibilitÃ© continue ni d'exactitude absolue des donnÃ©es.",
+      "TaxiBe est un service d'information sur les lignes de taxi-be à Antananarivo. Il permet de rechercher des lignes par numéro, par arrêt, ou par localisation GPS.",
+      "Le service est fourni gratuitement, sans garantie de disponibilité continue ni d'exactitude absolue des données.",
     ],
   },
   {
     titre: "Utilisation du service",
     contenu: [
-      "Vous vous engagez Ã  utiliser TaxiBe uniquement Ã  des fins lÃ©gales et personnelles.",
-      "Il est interdit d'extraire automatiquement les donnÃ©es de l'application (scraping), de les reproduire Ã  des fins commerciales, ou de tenter d'accÃ©der aux parties non publiques du service.",
-      "Tout signalement abusif ou contenu inappropriÃ© soumis via l'application pourra entraÃ®ner la suspension de votre compte.",
+      "Vous vous engagez à utiliser TaxiBe uniquement à des fins légales et personnelles.",
+      "Il est interdit d'extraire automatiquement les données de l'application (scraping), de les reproduire à des fins commerciales, ou de tenter d'accéder aux parties non publiques du service.",
+      "Tout signalement abusif ou contenu inapproprié soumis via l'application pourra entraîner la suspension de votre compte.",
     ],
   },
   {
     titre: "Compte utilisateur",
     contenu: [
-      "La crÃ©ation d'un compte n'est pas obligatoire pour utiliser les fonctionnalitÃ©s de base de TaxiBe.",
-      "Si vous crÃ©ez un compte, vous Ãªtes responsable de la confidentialitÃ© de vos identifiants.",
-      "TaxiBe se rÃ©serve le droit de suspendre ou supprimer tout compte en cas de violation des prÃ©sentes conditions.",
+      "La création d'un compte n'est pas obligatoire pour utiliser les fonctionnalités de base de TaxiBe.",
+      "Si vous créez un compte, vous êtes responsable de la confidentialité de vos identifiants.",
+      "TaxiBe se réserve le droit de suspendre ou supprimer tout compte en cas de violation des présentes conditions.",
     ],
   },
   {
     titre: "Exactitude des informations",
     contenu: [
-      "TaxiBe met tout en Å“uvre pour maintenir des informations Ã  jour sur les lignes de taxi-be. Cependant, les itinÃ©raires, arrÃªts et horaires peuvent changer sans prÃ©avis.",
-      "TaxiBe ne peut Ãªtre tenu responsable des consÃ©quences d'une information inexacte ou obsolÃ¨te.",
+      "TaxiBe met tout en œuvre pour maintenir des informations à jour sur les lignes de taxi-be. Cependant, les itinéraires, arrêts et horaires peuvent changer sans préavis.",
+      "TaxiBe ne peut être tenu responsable des conséquences d'une information inexacte ou obsolète.",
     ],
   },
   {
     titre: "Modification des conditions",
     contenu: [
-      "TaxiBe se rÃ©serve le droit de modifier les prÃ©sentes conditions Ã  tout moment. Les utilisateurs seront informÃ©s des changements importants via l'application.",
-      "La poursuite de l'utilisation du service aprÃ¨s modification des conditions vaut acceptation des nouvelles conditions.",
+      "TaxiBe se réserve le droit de modifier les présentes conditions à tout moment. Les utilisateurs seront informés des changements importants via l'application.",
+      "La poursuite de l'utilisation du service après modification des conditions vaut acceptation des nouvelles conditions.",
     ],
   },
   {
     titre: "Droit applicable",
     contenu: [
-      "Les prÃ©sentes conditions sont rÃ©gies par le droit malgache.",
-      "En cas de litige, une solution amiable sera recherchÃ©e en prioritÃ©.",
+      "Les présentes conditions sont régies par le droit malgache.",
+      "En cas de litige, une solution amiable sera recherchée en priorité.",
     ],
   },
 ];
@@ -140,7 +143,7 @@ function SectionBlock({ sections }: { sections: { titre: string; contenu: string
         </section>
       ))}
       <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", paddingTop: 16, borderTop: "1px solid #F1F5F9" }}>
-        DerniÃ¨re mise Ã  jour : juillet 2026
+        Dernière mise à jour : juillet 2026
       </p>
     </div>
   );
@@ -162,19 +165,19 @@ export default async function LegalPage() {
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
                 <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
-                  LÃ©gal
+                  Légal
                 </span>
               </div>
               <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
-                Informations <span style={{ color: "#FFB800" }}>lÃ©gales</span>
+                Informations <span style={{ color: "#FFB800" }}>légales</span>
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 480, margin: 0, lineHeight: 1.75 }}>
-                Mentions lÃ©gales et conditions d&apos;utilisation de l&apos;application et du site TaxiBe.
+                Mentions légales et conditions d&apos;utilisation de l&apos;application et du site TaxiBe.
               </p>
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Informations lÃ©gales TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Informations légales TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}
@@ -185,7 +188,7 @@ export default async function LegalPage() {
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px", display: "flex", flexDirection: "column", gap: 40 }}>
           <div>
             <h2 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
-              Mentions lÃ©gales
+              Mentions légales
             </h2>
             <SectionBlock sections={MENTIONS} />
           </div>
@@ -202,4 +205,3 @@ export default async function LegalPage() {
     </>
   );
 }
-

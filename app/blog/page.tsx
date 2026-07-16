@@ -1,4 +1,4 @@
-﻿import Nav from "@/app/components/Nav";
+import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
@@ -7,76 +7,74 @@ import { supabase } from "@/lib/supabase";
 import SpotlightSection from "@/app/components/SpotlightSection";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
 type Article = {
   id: string;
   slug: string | null;
   image_url: string | null;
   texte: string;
-  contenu: string | null;
   lien: string | null;
   publie: boolean;
   ordre: number;
   created_at: string;
 };
 
-// â”€â”€ DonnÃ©es Supabase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function safeRace<T>(p: Promise<{ data: T | null }>, fallback: T): Promise<T> {
+  return Promise.race([
+    p.then((r) => r.data ?? fallback).catch(() => fallback),
+    new Promise<T>((res) => setTimeout(() => res(fallback), 8000)),
+  ]);
+}
 
 async function getHeroImageUrl(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "blog_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+  return safeRace(
+    supabase.from("parametres").select("valeur").eq("cle", "blog_hero_image_url").single() as Promise<{ data: { valeur: string } | null }>,
+    null
+  ).then((d) => (d as { valeur: string } | null)?.valeur ?? null);
 }
 
 async function getArticles(q?: string): Promise<Article[]> {
   let req = supabase
     .from("actualites")
-    .select("id, slug, image_url, texte, contenu, lien, publie, ordre, created_at")
+    .select("id, slug, image_url, texte, lien, publie, ordre, created_at")
     .eq("publie", true)
     .order("created_at", { ascending: false })
     .limit(50);
 
-  if (q) req = req.or(`texte.ilike.%${q}%,contenu.ilike.%${q}%`);
+  if (q) req = req.or(`texte.ilike.%${q}%`);
 
-  const { data } = await req;
-  return data ?? [];
+  return Promise.race([
+    req.then((r) => (r.data as Article[]) ?? []).catch(() => []),
+    new Promise<Article[]>((res) => setTimeout(() => res([]), 8000)),
+  ]);
 }
-
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();
 }
 
 const CATEGORIES = [
-  { label: "Conseils pratiques", icon: "ðŸ’¡", q: "conseils" },
-  { label: "ActualitÃ©s",         icon: "ðŸ“°", q: "actualitÃ©s" },
-  { label: "Lignes & trajets",   icon: "ðŸšŒ", q: "ligne" },
-  { label: "ArrÃªts",             icon: "ðŸ“", q: "arrÃªt" },
-  { label: "SÃ©curitÃ©",           icon: "ðŸ”’", q: "sÃ©curitÃ©" },
-  { label: "Application TaxiBe", icon: "ðŸ“±", q: "application" },
+  { label: "Conseils pratiques", icon: "💡", q: "conseils" },
+  { label: "Actualités",         icon: "📰", q: "actualités" },
+  { label: "Lignes & trajets",   icon: "🚌", q: "ligne" },
+  { label: "Arrêts",             icon: "📍", q: "arrêt" },
+  { label: "Sécurité",           icon: "🔑", q: "sécurité" },
+  { label: "Application TaxiBe", icon: "📱", q: "application" },
 ];
-
-// â”€â”€ Composant â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const metadata = {
   title: "Blog",
-  description: "ActualitÃ©s, conseils et nouveautÃ©s sur TaxiBe et les transports en commun Ã  Antananarivo.",
+  description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Blog â€” TaxiBe",
-    description: "ActualitÃ©s, conseils et nouveautÃ©s sur TaxiBe et les transports en commun Ã  Antananarivo.",
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
     url: "/blog",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe â€” Blog" }],
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe — Blog" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "Blog â€” TaxiBe",
-    description: "ActualitÃ©s, conseils et nouveautÃ©s sur TaxiBe et les transports en commun Ã  Antananarivo.",
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
     images: ["/logo_taxibe.png"],
   },
 };
@@ -156,10 +154,10 @@ export default async function BlogPage({
                 </span>
               </div>
               <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
-                Le mÃ©dia de la <span style={{ color: "#FFB800" }}>mobilitÃ©</span> Ã  Antananarivo
+                Le média de la <span style={{ color: "#FFB800" }}>mobilité</span> à Antananarivo
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.75, margin: 0, maxWidth: 480 }}>
-                ActualitÃ©s, conseils et guides pour mieux comprendre et optimiser vos dÃ©placements au quotidien.
+                Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
               </p>
             </div>
           <div className="blog-hero-img">
@@ -178,22 +176,22 @@ export default async function BlogPage({
         {/* Contenu + Sidebar */}
         <div className="blog-layout">
 
-          {/* â”€â”€ Contenu principal â”€â”€ */}
+          {/* Contenu principal */}
           <div>
 
             {/* Indicateur de recherche */}
             {query && (
               <div style={{ marginBottom: 24, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                 <p style={{ margin: 0, fontSize: "0.84rem", color: "#64748B" }}>
-                  <strong>{articles.length}</strong> rÃ©sultat{articles.length !== 1 ? "s" : ""} pour <strong>Â«&nbsp;{query}&nbsp;Â»</strong>
+                  <strong>{articles.length}</strong> résultat{articles.length !== 1 ? "s" : ""} pour <strong>«&nbsp;{query}&nbsp;»</strong>
                 </p>
                 <a href="/blog" style={{ fontSize: "0.75rem", color: "#94A3B8", textDecoration: "none", border: "1px solid #E2E8F0", padding: "2px 9px", borderRadius: 5, background: "white" }}>
-                  âœ• Effacer
+                  ✕ Effacer
                 </a>
               </div>
             )}
 
-            {/* Article Ã  la une */}
+            {/* Article à la une */}
             {featured && (
               <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", overflow: "hidden", marginBottom: 40 }}>
                 {featured.image_url ? (
@@ -208,32 +206,27 @@ export default async function BlogPage({
                   </div>
                 ) : (
                   <div className="featured-img-ph">
-                    <span style={{ fontSize: "3rem", opacity: 0.3 }}>ðŸšŒ</span>
+                    <span style={{ fontSize: "3rem", opacity: 0.3 }}>🚌</span>
                   </div>
                 )}
                 <div style={{ padding: "24px 28px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
-                    <span className="badge-cat">ACTUALITÃ‰S</span>
+                    <span className="badge-cat">ACTUALITÉS</span>
                     <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>{formatDate(featured.created_at)}</span>
                   </div>
-                  <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 12px" }}>
+                  <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 20px" }}>
                     {featured.texte}
                   </h2>
-                  {featured.contenu && (
-                    <p style={{ fontSize: "0.9rem", color: "#64748B", lineHeight: 1.65, margin: "0 0 20px" }}>
-                      {featured.contenu.slice(0, 180)}{featured.contenu.length > 180 ? "â€¦" : ""}
-                    </p>
-                  )}
-                  <Link href={`/blog/${featured.slug || featured.id}`} className="lire-link">Lire l&apos;article â†’</Link>
+                  <Link href={`/blog/${featured.slug || featured.id}`} className="lire-link">Lire l&apos;article →</Link>
                 </div>
               </div>
             )}
 
-            {/* DerniÃ¨res actualitÃ©s */}
+            {/* Dernières actualités */}
             {dernieres.length > 0 && (
               <div style={{ marginBottom: 40 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-                  <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", margin: 0 }}>DerniÃ¨res actualitÃ©s</h2>
+                  <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", margin: 0 }}>Dernières actualités</h2>
                 </div>
                 <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "0 24px" }}>
                   {dernieres.map((a) => (
@@ -244,21 +237,16 @@ export default async function BlogPage({
                         </div>
                       ) : (
                         <div className="mini-img-ph" style={{ background: "linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 100%)" }}>
-                          <span style={{ fontSize: "1.5rem", opacity: 0.4 }}>ðŸšŒ</span>
+                          <span style={{ fontSize: "1.5rem", opacity: 0.4 }}>🚌</span>
                         </div>
                       )}
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                          <span className="badge-cat">ACTUALITÃ‰S</span>
+                          <span className="badge-cat">ACTUALITÉS</span>
                           <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
                         </div>
-                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 6px", lineHeight: 1.35 }}>{a.texte}</h3>
-                        {a.contenu && (
-                          <p style={{ fontSize: "0.8rem", color: "#64748B", margin: "0 0 8px", lineHeight: 1.55 }}>
-                            {a.contenu.slice(0, 120)}{a.contenu.length > 120 ? "â€¦" : ""}
-                          </p>
-                        )}
-                        <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article â†’</Link>
+                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{a.texte}</h3>
+                        <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
                       </div>
                     </div>
                   ))}
@@ -266,11 +254,11 @@ export default async function BlogPage({
               </div>
             )}
 
-            {/* Articles rÃ©cents */}
+            {/* Articles récents */}
             {recents.length > 0 && (
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-                  <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", margin: 0 }}>Articles rÃ©cents</h2>
+                  <h2 style={{ fontSize: "1.15rem", fontWeight: 900, color: "#0D1525", margin: 0 }}>Articles récents</h2>
                 </div>
                 <div className="article-grid">
                   {recents.map((a) => (
@@ -286,7 +274,7 @@ export default async function BlogPage({
                         </div>
                       ) : (
                         <div className="card-img-ph" style={{ background: "linear-gradient(135deg, #1a2a2a 0%, #2a3a3a 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <span style={{ fontSize: "2rem", opacity: 0.35 }}>ðŸšŒ</span>
+                          <span style={{ fontSize: "2rem", opacity: 0.35 }}>🚌</span>
                         </div>
                       )}
                       <div style={{ padding: "14px 16px" }}>
@@ -294,7 +282,7 @@ export default async function BlogPage({
                           <span style={{ fontSize: "0.7rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
                         </div>
                         <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0D1525", margin: "0 0 12px", lineHeight: 1.35 }}>{a.texte}</h3>
-                        <span className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article â†’</span>
+                        <span className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</span>
                       </div>
                     </Link>
                   ))}
@@ -304,12 +292,12 @@ export default async function BlogPage({
 
             {articles.length === 0 && (
               <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontSize: "1rem", color: "#94A3B8" }}>Aucun article publiÃ© pour l&apos;instant.</p>
+                <p style={{ fontSize: "1rem", color: "#94A3B8" }}>Aucun article publié pour l&apos;instant.</p>
               </div>
             )}
           </div>
 
-          {/* â”€â”€ Sidebar â”€â”€ */}
+          {/* Sidebar */}
           <aside>
 
             {/* Recherche */}
@@ -321,7 +309,7 @@ export default async function BlogPage({
                     type="text"
                     name="q"
                     defaultValue={query}
-                    placeholder="Rechercher un articleâ€¦"
+                    placeholder="Rechercher un article…"
                     style={{
                       width: "100%", padding: "9px 36px 9px 12px", borderRadius: 8,
                       border: "1.5px solid #E2E8F0", fontSize: "0.84rem",
@@ -341,9 +329,9 @@ export default async function BlogPage({
               </div>
             </div>
 
-            {/* CatÃ©gories */}
+            {/* Catégories */}
             <div className="sidebar-widget">
-              <p className="sidebar-title">CatÃ©gories</p>
+              <p className="sidebar-title">Catégories</p>
               {CATEGORIES.map((c) => (
                 <Link key={c.label} href={`/blog?q=${encodeURIComponent(c.q)}`} className="cat-item">
                   <span style={{ fontSize: "1rem" }}>{c.icon}</span>
@@ -352,10 +340,10 @@ export default async function BlogPage({
               ))}
             </div>
 
-            {/* Articles populaires (les plus rÃ©cents) */}
+            {/* Articles populaires */}
             {populaires.length > 0 && (
               <div className="sidebar-widget">
-                <p className="sidebar-title">Articles rÃ©cents</p>
+                <p className="sidebar-title">Articles récents</p>
                 {populaires.map((a, i) => (
                   <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="pop-item">
                     <span className="pop-num">{i + 1}</span>
@@ -365,13 +353,13 @@ export default async function BlogPage({
               </div>
             )}
 
-            {/* TÃ©lÃ©charger l'app */}
+            {/* Télécharger l'app */}
             <div style={{ background: "#0D1525", borderRadius: 14, padding: "20px 18px", marginBottom: 20 }}>
               <p style={{ fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 8px" }}>
                 Application TaxiBe
               </p>
               <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.65)", margin: "0 0 16px", lineHeight: 1.55 }}>
-                ArrÃªts GPS, favoris, itinÃ©raires, correspondances â€” tout dans votre poche.
+                Arrêts GPS, favoris, itinéraires, correspondances — tout dans votre poche.
               </p>
               <Link href="/telecharger" style={{
                 display: "flex", alignItems: "center", gap: 10, padding: "11px 14px",
@@ -383,32 +371,32 @@ export default async function BlogPage({
                   <line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
                 <div>
-                  <div style={{ fontSize: "0.56rem", color: "rgba(13,21,37,0.55)", lineHeight: 1, textTransform: "uppercase", letterSpacing: "0.06em" }}>Android Â· Gratuit</div>
-                  <div style={{ fontSize: "0.82rem", fontWeight: 800, color: "#0D1525", lineHeight: 1.3 }}>TÃ©lÃ©charger TaxiBe</div>
+                  <div style={{ fontSize: "0.56rem", color: "rgba(13,21,37,0.55)", lineHeight: 1, textTransform: "uppercase", letterSpacing: "0.06em" }}>Android · Gratuit</div>
+                  <div style={{ fontSize: "0.82rem", fontWeight: 800, color: "#0D1525", lineHeight: 1.3 }}>Télécharger TaxiBe</div>
                 </div>
               </Link>
               <p style={{ margin: "8px 0 0", fontSize: "0.68rem", color: "rgba(255,255,255,0.2)" }}>
-                Google Play Â· bientÃ´t disponible
+                Google Play · bientôt disponible
               </p>
             </div>
 
-            {/* Ligne la plus recherchÃ©e */}
+            {/* Ligne la plus recherchée */}
             <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "18px" }}>
               <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 2px" }}>
-                Ligne la plus recherchÃ©e
+                Ligne la plus recherchée
               </p>
               <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#94A3B8", margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 Aujourd&apos;hui
               </p>
               <div style={{ background: "#0D1525", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
                 <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "white", lineHeight: 1, marginBottom: 4 }}>147</div>
-                <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", marginBottom: 4 }}>Ambatomaro â†’ 67Ha</div>
+                <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", marginBottom: 4 }}>Ambatomaro → 67Ha</div>
                 <div style={{ fontSize: "0.72rem", fontWeight: 800, color: "#FFB800", marginBottom: 12 }}>23 541 recherches</div>
                 <Link href="/recherche?q=147" style={{
                   display: "block", padding: "8px", borderRadius: 8, textAlign: "center",
                   background: "#FFB800", color: "#0D1525", fontSize: "0.78rem", fontWeight: 800, textDecoration: "none",
                 }}>
-                  Voir la ligne â†’
+                  Voir la ligne →
                 </Link>
               </div>
               <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0D1525", margin: "0 0 2px" }}>Antananarivo et ses environs</p>
@@ -423,4 +411,3 @@ export default async function BlogPage({
     </>
   );
 }
-
