@@ -18,18 +18,16 @@ type Article = {
   created_at: string;
 };
 
-function safeRace<T>(p: Promise<{ data: T | null }>, fallback: T): Promise<T> {
-  return Promise.race([
-    p.then((r) => r.data ?? fallback).catch(() => fallback),
-    new Promise<T>((res) => setTimeout(() => res(fallback), 8000)),
-  ]);
-}
-
 async function getHeroImageUrl(): Promise<string | null> {
-  return safeRace(
-    supabase.from("parametres").select("valeur").eq("cle", "blog_hero_image_url").single() as Promise<{ data: { valeur: string } | null }>,
-    null
-  ).then((d) => (d as { valeur: string } | null)?.valeur ?? null);
+  try {
+    const { data } = await Promise.race([
+      supabase.from("parametres").select("valeur").eq("cle", "blog_hero_image_url").single(),
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return (data as { valeur: string } | null)?.valeur ?? null;
+  } catch {
+    return null;
+  }
 }
 
 async function getArticles(q?: string): Promise<Article[]> {
@@ -43,7 +41,7 @@ async function getArticles(q?: string): Promise<Article[]> {
   if (q) req = req.or(`texte.ilike.%${q}%`);
 
   return Promise.race([
-    req.then((r) => (r.data as Article[]) ?? []).catch(() => []),
+    Promise.resolve(req).then((r) => (r.data as Article[]) ?? []).catch(() => []),
     new Promise<Article[]>((res) => setTimeout(() => res([]), 8000)),
   ]);
 }
