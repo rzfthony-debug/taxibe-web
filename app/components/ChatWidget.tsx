@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { getBrowserClient } from "@/lib/supabase-browser";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = () => getBrowserClient() as any;
+
 type Msg = {
   id: string;
   contenu: string;
@@ -31,7 +34,6 @@ export default function ChatWidget() {
 
   // Init visitor ID + restore session
   useEffect(() => {
-    const db = getBrowserClient();
     let vid = localStorage.getItem("txb_visitor_id");
     if (!vid) { vid = genUUID(); localStorage.setItem("txb_visitor_id", vid); }
     setVisitorId(vid);
@@ -42,12 +44,11 @@ export default function ChatWidget() {
     const sid = localStorage.getItem("txb_session_id");
     if (!sid) return;
 
-    db.from("chat_sessions")
+    db().from("chat_sessions")
       .select("id, statut, created_at")
       .eq("id", sid)
       .single()
-      .then(({ data }) => {
-        const sess = data as { id: string; statut: string; created_at: string } | null;
+      .then(({ data: sess }: { data: { id: string; statut: string; created_at: string } | null }) => {
         if (!sess) { localStorage.removeItem("txb_session_id"); return; }
         const age = Date.now() - new Date(sess.created_at).getTime();
         if (age > 24 * 3600 * 1000 || sess.statut === "ferme") {
@@ -56,19 +57,18 @@ export default function ChatWidget() {
           return;
         }
         setSessionId(sid);
-        db.from("chat_messages")
+        db().from("chat_messages")
           .select("id, contenu, expediteur, admin_nom, created_at")
           .eq("session_id", sid)
           .order("created_at", { ascending: true })
-          .then(({ data: msgs }) => { if (msgs) setMessages(msgs as Msg[]); });
+          .then(({ data: msgs }: { data: Msg[] | null }) => { if (msgs) setMessages(msgs); });
       });
   }, []);
 
   // Realtime subscription
   useEffect(() => {
     if (!sessionId) return;
-    const db = getBrowserClient();
-    const ch = db.channel(`chat_widget:${sessionId}`)
+    const ch = db().channel(`chat_widget:${sessionId}`)
       .on("postgres_changes", {
         event: "INSERT",
         schema: "public",
@@ -88,7 +88,7 @@ export default function ChatWidget() {
         if (payload.new.statut === "ferme") setSessionClosed(true);
       })
       .subscribe();
-    return () => { db.removeChannel(ch); };
+    return () => { db().removeChannel(ch); };
   }, [sessionId, open]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
@@ -98,23 +98,21 @@ export default function ChatWidget() {
     const text = input.trim();
     if (!text || sending) return;
     setSending(true);
-    const db = getBrowserClient();
 
     if (!sessionId) {
       const name = nameInput.trim() || null;
-      const { data: sessRaw } = await db
+      const { data: sess } = await db()
         .from("chat_sessions")
         .insert({ visitor_id: visitorId, visitor_name: name })
-        .select("id").single();
-      const sess = sessRaw as { id: string } | null;
+        .select("id").single() as { data: { id: string } | null };
       if (!sess) { setSending(false); return; }
       localStorage.setItem("txb_session_id", sess.id);
       if (name) { setVisitorName(name); localStorage.setItem("txb_visitor_name", name); }
       setSessionId(sess.id);
-      await db.from("chat_messages").insert({ session_id: sess.id, contenu: text, expediteur: "visiteur" });
+      await db().from("chat_messages").insert({ session_id: sess.id, contenu: text, expediteur: "visiteur" });
     } else {
-      await db.from("chat_messages").insert({ session_id: sessionId, contenu: text, expediteur: "visiteur" });
-      await db.from("chat_sessions").update({ last_message_at: new Date().toISOString() }).eq("id", sessionId);
+      await db().from("chat_messages").insert({ session_id: sessionId, contenu: text, expediteur: "visiteur" });
+      await db().from("chat_sessions").update({ last_message_at: new Date().toISOString() }).eq("id", sessionId);
     }
 
     setInput("");

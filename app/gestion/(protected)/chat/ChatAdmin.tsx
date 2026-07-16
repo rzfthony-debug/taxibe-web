@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { getBrowserClient } from "@/lib/supabase-browser";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = () => getBrowserClient() as any;
 import { sendAdminMessage, closeChatSession } from "@/app/gestion/actions";
 
 type Session = {
@@ -40,57 +43,50 @@ export default function ChatAdmin({ initialSessions, adminNom }: { initialSessio
   // Load messages for selected session
   useEffect(() => {
     if (!selected) return;
-    const db = getBrowserClient();
-    db.from("chat_messages")
+    db().from("chat_messages")
       .select("id, contenu, expediteur, admin_nom, created_at")
       .eq("session_id", selected)
       .order("created_at", { ascending: true })
-      .then(({ data }) => {
+      .then(({ data }: { data: Msg[] | null }) => {
         if (data) setMessages(data);
-        // Mark as read
-        db.from("chat_messages").update({ lu: true }).eq("session_id", selected).eq("expediteur", "visiteur").eq("lu", false);
+        db().from("chat_messages").update({ lu: true }).eq("session_id", selected).eq("expediteur", "visiteur").eq("lu", false);
         setSessions(prev => prev.map(s => s.id === selected ? { ...s, unread: 0 } : s));
       });
   }, [selected]);
 
   // Realtime: new messages
   useEffect(() => {
-    const db = getBrowserClient();
-    const ch = db.channel("admin_chat_messages")
+    const ch = db().channel("admin_chat_messages")
       .on("postgres_changes", {
         event: "INSERT", schema: "public", table: "chat_messages",
-      }, (payload) => {
-        const msg = payload.new as Msg & { session_id: string };
+      }, (payload: { new: Msg & { session_id: string } }) => {
+        const msg = payload.new;
         if (msg.session_id === selected) {
           setMessages(prev => prev.find(m => m.id === msg.id) ? prev : [...prev, msg]);
-          // Mark read immediately
-          db.from("chat_messages").update({ lu: true }).eq("id", msg.id);
+          db().from("chat_messages").update({ lu: true }).eq("id", msg.id);
         } else if (msg.expediteur === "visiteur") {
           setSessions(prev => prev.map(s => s.id === msg.session_id ? { ...s, unread: s.unread + 1, last_message_at: msg.created_at } : s));
         }
       })
       .subscribe();
-    return () => { db.removeChannel(ch); };
+    return () => { db().removeChannel(ch); };
   }, [selected]);
 
   // Realtime: new sessions
   useEffect(() => {
-    const db = getBrowserClient();
-    const ch = db.channel("admin_chat_sessions")
+    const ch = db().channel("admin_chat_sessions")
       .on("postgres_changes", {
         event: "INSERT", schema: "public", table: "chat_sessions",
-      }, (payload) => {
-        const s = payload.new as Session;
-        setSessions(prev => [{ ...s, unread: 0 }, ...prev]);
+      }, (payload: { new: Session }) => {
+        setSessions(prev => [{ ...payload.new, unread: 0 }, ...prev]);
       })
       .on("postgres_changes", {
         event: "UPDATE", schema: "public", table: "chat_sessions",
-      }, (payload) => {
-        const s = payload.new as Session;
-        setSessions(prev => prev.map(p => p.id === s.id ? { ...p, statut: s.statut } : p));
+      }, (payload: { new: Session }) => {
+        setSessions(prev => prev.map(p => p.id === payload.new.id ? { ...p, statut: payload.new.statut } : p));
       })
       .subscribe();
-    return () => { db.removeChannel(ch); };
+    return () => { db().removeChannel(ch); };
   }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
