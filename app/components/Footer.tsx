@@ -43,6 +43,7 @@ const COLS = [
     title: "Légal",
     links: [
       { label: "Informations légales",   href: "/legal" },
+      { label: "Accès",                  href: "/gestion/login" },
     ],
   },
 ];

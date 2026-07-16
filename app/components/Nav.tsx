@@ -236,15 +236,6 @@ export default function Nav() {
 
           {/* Droite */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <Link href="/gestion/login" title="Espace administrateur" className="admin-btn" style={{
-              width: 36, height: 36, borderRadius: "50%",
-              background: "#F1F5F9", border: "1.5px solid #E2E8F0",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              textDecoration: "none",
-            }}>
-              {I.lock}
-            </Link>
-
             <Link href="/telecharger" className="nav-cta-btn" style={{
               padding: "9px 20px", borderRadius: 8,
               background: "#FFB800", color: "#0D1525",
@@ -364,7 +355,7 @@ export default function Nav() {
 
             <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
               <Link href="/gestion/login" style={{ flex: 1, padding: "12px", borderRadius: 8, textAlign: "center", background: "#F1F5F9", color: "#0D1525", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
-                Espace admin
+                Accès
               </Link>
               <Link href="/telecharger" style={{ flex: 2, padding: "12px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none" }}>
                 Telecharger l&apos;app
