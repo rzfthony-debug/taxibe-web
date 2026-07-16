@@ -1,6 +1,5 @@
 import { searchLignesByNumero } from "@/lib/search";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -174,6 +173,7 @@ export default async function RecherchePage({
           padding: 12px 24px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
+        .hero-image-col { display: flex; justify-content: center; align-items: center; }
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr; padding: 40px 24px 32px; }
           .hero-image-col { display: none; }
@@ -238,15 +238,12 @@ export default async function RecherchePage({
                 </div>
 
                 {/* Colonne droite — image */}
-                <div className="hero-image-col" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                  <Image
+                <div className="hero-image-col">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src="/header.png"
                     alt="Taxi-be Antananarivo"
-                    width={560}
-                    height={400}
-                    priority
-                    sizes="(max-width: 900px) 0px, 50vw"
-                    style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain" }}
+                    style={{ width: "100%", height: "auto", maxHeight: 440, objectFit: "contain", display: "block" }}
                   />
                 </div>
               </div>
