@@ -38,6 +38,7 @@ function SpotlightCard({
           alt={item.titre}
           fill
           sizes={large ? "(max-width: 900px) 100vw, 65vw" : "35vw"}
+          priority={large}
           style={{ objectFit: "cover" }}
         />
       ) : (

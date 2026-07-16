@@ -7,7 +7,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Aide",
@@ -212,5 +212,6 @@ export default async function AidePage() {
     </>
   );
 }
+
 
 

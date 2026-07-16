@@ -2,9 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
-async function getParam(cle: string): Promise<string | null> {
-  const { data } = await supabase.from("parametres").select("valeur").eq("cle", cle).single();
-  return data?.valeur ?? null;
+const SOCIAL_KEYS = ["social_facebook_url", "social_instagram_url", "social_linkedin_url", "contact_phone", "contact_email"] as const;
+type SocialKey = typeof SOCIAL_KEYS[number];
+
+async function getFooterParams(): Promise<Record<SocialKey, string | null>> {
+  const { data } = await supabase.from("parametres").select("cle, valeur").in("cle", [...SOCIAL_KEYS]);
+  const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
+  return Object.fromEntries(SOCIAL_KEYS.map((k) => [k, map[k] ?? null])) as Record<SocialKey, string | null>;
 }
 
 const COLS = [
@@ -44,13 +48,8 @@ const COLS = [
 ];
 
 export default async function Footer() {
-  const [fbUrl, igUrl, liUrl, contactPhone, contactEmail] = await Promise.all([
-    getParam("social_facebook_url"),
-    getParam("social_instagram_url"),
-    getParam("social_linkedin_url"),
-    getParam("contact_phone"),
-    getParam("contact_email"),
-  ]);
+  const params = await getFooterParams();
+  const { social_facebook_url: fbUrl, social_instagram_url: igUrl, social_linkedin_url: liUrl, contact_phone: contactPhone, contact_email: contactEmail } = params;
 
   const socialLinks = [
     {
@@ -118,6 +117,7 @@ export default async function Footer() {
             src="/logo_taxibe_noir.png"
             alt="TaxiBe"
             width={140} height={70}
+            sizes="140px"
             style={{ height: 30, width: "auto", objectFit: "contain", marginBottom: 12 }}
           />
           <p style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.65, margin: "0 0 12px", maxWidth: 200 }}>

@@ -1,16 +1,24 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
-import ChatWidget from "@/app/components/ChatWidget";
+
+const ChatWidget = dynamic(() => import("@/app/components/ChatWidget"), { ssr: false });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "700", "800", "900"],
   variable: "--font-inter",
   display: "swap",
 });
 
 const BASE_URL = "https://taxibemada.vercel.app";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#FFB800",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -63,7 +71,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={inter.variable}>
-      <body style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+      <body>
         {children}
         <ChatWidget />
       </body>

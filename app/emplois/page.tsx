@@ -5,7 +5,7 @@ import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
 import EmploisListe from "./EmploisListe";
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export const metadata = {
   title: "Carrières",
@@ -48,7 +48,8 @@ export default async function EmploisPage() {
       .select("id, slug, nom, type_poste, lieu, description, date_limite, created_at")
       .eq("statut", "publie")
       .eq("interne", true)
-      .order("created_at", { ascending: false }),
+      .order("created_at", { ascending: false })
+      .limit(100),
     supabase
       .from("offres_emploi")
       .select("*", { count: "exact", head: true })

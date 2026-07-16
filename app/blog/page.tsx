@@ -37,7 +37,8 @@ async function getArticles(q?: string): Promise<Article[]> {
     .from("actualites")
     .select("id, slug, image_url, texte, contenu, lien, publie, ordre, created_at")
     .eq("publie", true)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .limit(50);
 
   if (q) req = req.or(`texte.ilike.%${q}%,contenu.ilike.%${q}%`);
 
@@ -80,7 +81,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function BlogPage({
   searchParams,
@@ -163,7 +164,7 @@ export default async function BlogPage({
             </div>
           <div className="blog-hero-img">
             {heroImageUrl ? (
-              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
             ) : (
               <HeroIllustration />
             )}

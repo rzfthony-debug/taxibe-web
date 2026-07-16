@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -6,22 +6,22 @@ import CommunauteForm from "./CommunauteForm";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata = {
-  title: "Communauté",
-  description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
+  title: "CommunautÃ©",
+  description: "Signalez une erreur, devenez contributeur ou envoyez une remarque Ã  l'Ã©quipe TaxiBe.",
   alternates: { canonical: "/communaute" },
   openGraph: {
-    title: "Communauté — TaxiBe",
-    description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
+    title: "CommunautÃ© â€” TaxiBe",
+    description: "Signalez une erreur, devenez contributeur ou envoyez une remarque Ã  l'Ã©quipe TaxiBe.",
     url: "/communaute",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Communauté TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "CommunautÃ© TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "Communauté — TaxiBe",
-    description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
+    title: "CommunautÃ© â€” TaxiBe",
+    description: "Signalez une erreur, devenez contributeur ou envoyez une remarque Ã  l'Ã©quipe TaxiBe.",
     images: ["/logo_taxibe.png"],
   },
 };
@@ -60,20 +60,20 @@ export default async function CommunautePage({
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
                 <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
-                  Communauté
+                  CommunautÃ©
                 </span>
               </div>
               <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
-                Contribuer à <span style={{ color: "#FFB800" }}>TaxiBe</span>
+                Contribuer Ã  <span style={{ color: "#FFB800" }}>TaxiBe</span>
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 480, margin: 0, lineHeight: 1.75 }}>
-                TaxiBe est construit avec l&apos;aide de ceux qui connaissent le mieux le réseau.
+                TaxiBe est construit avec l&apos;aide de ceux qui connaissent le mieux le rÃ©seau.
                 Signalez une erreur, rejoignez les contributeurs, ou envoyez-nous un message.
               </p>
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Communauté TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Communauté TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}
@@ -90,7 +90,7 @@ export default async function CommunautePage({
           </div>
         </div>
 
-        {/* ── Section valeurs communauté ── */}
+        {/* â”€â”€ Section valeurs communautÃ© â”€â”€ */}
         <section style={{ background: "white", borderTop: "1px solid #E8ECF0", padding: "56px 24px" }}>
           <div className="valeurs-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, background: "#E8ECF0", borderRadius: 16, overflow: "hidden" }}>
 
@@ -101,8 +101,8 @@ export default async function CommunautePage({
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
                 ),
-                titre: "Partagez vos expériences",
-                desc: "Décrivez vos trajets, donnez votre avis et aidez la communauté à faire les bons choix.",
+                titre: "Partagez vos expÃ©riences",
+                desc: "DÃ©crivez vos trajets, donnez votre avis et aidez la communautÃ© Ã  faire les bons choix.",
               },
               {
                 icon: (
@@ -112,7 +112,7 @@ export default async function CommunautePage({
                   </svg>
                 ),
                 titre: "Signalez une erreur",
-                desc: "Un arrêt manquant, un trajet incorrect ou une information à corriger ? Dites-le nous.",
+                desc: "Un arrÃªt manquant, un trajet incorrect ou une information Ã  corriger ? Dites-le nous.",
               },
               {
                 icon: (
@@ -123,7 +123,7 @@ export default async function CommunautePage({
                   </svg>
                 ),
                 titre: "Devenez contributeur",
-                desc: "Participez à l'amélioration de TaxiBe en contribuant à la qualité des données.",
+                desc: "Participez Ã  l'amÃ©lioration de TaxiBe en contribuant Ã  la qualitÃ© des donnÃ©es.",
               },
               {
                 icon: (
@@ -168,3 +168,4 @@ export default async function CommunautePage({
     </>
   );
 }
+

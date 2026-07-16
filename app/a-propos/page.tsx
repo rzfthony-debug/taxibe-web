@@ -7,7 +7,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "À propos",
@@ -76,7 +76,7 @@ export default async function AProposPage() {
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="À propos de TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="À propos de TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}
@@ -190,5 +190,7 @@ export default async function AProposPage() {
     </>
   );
 }
+
+
 
 

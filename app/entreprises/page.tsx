@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -6,22 +6,22 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Entreprises",
-  description: "Partenariats et visibilité sur TaxiBe : coopératives de transport, institutions, entreprises et annonceurs à Antananarivo.",
+  description: "Partenariats et visibilitÃ© sur TaxiBe : coopÃ©ratives de transport, institutions, entreprises et annonceurs Ã  Antananarivo.",
   alternates: { canonical: "/entreprises" },
   openGraph: {
-    title: "Entreprises — TaxiBe",
-    description: "Partenariats et visibilité sur TaxiBe : coopératives de transport, institutions, entreprises et annonceurs à Antananarivo.",
+    title: "Entreprises â€” TaxiBe",
+    description: "Partenariats et visibilitÃ© sur TaxiBe : coopÃ©ratives de transport, institutions, entreprises et annonceurs Ã  Antananarivo.",
     url: "/entreprises",
     images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe Entreprises" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "Entreprises — TaxiBe",
-    description: "Partenariats et visibilité sur TaxiBe à Antananarivo.",
+    title: "Entreprises â€” TaxiBe",
+    description: "Partenariats et visibilitÃ© sur TaxiBe Ã  Antananarivo.",
     images: ["/logo_taxibe.png"],
   },
 };
@@ -37,16 +37,16 @@ async function getHeroImageUrl(): Promise<string | null> {
 
 const PROFILS = [
   {
-    titre: "Coopératives de transport",
-    desc: "Partagez vos données de lignes officielles et gagnez en visibilité auprès de milliers d'usagers.",
+    titre: "CoopÃ©ratives de transport",
+    desc: "Partagez vos donnÃ©es de lignes officielles et gagnez en visibilitÃ© auprÃ¨s de milliers d'usagers.",
   },
   {
-    titre: "Institutions & collectivités",
-    desc: "Collaborons sur des projets de mobilité urbaine ou de sensibilisation au transport public à Tana.",
+    titre: "Institutions & collectivitÃ©s",
+    desc: "Collaborons sur des projets de mobilitÃ© urbaine ou de sensibilisation au transport public Ã  Tana.",
   },
   {
-    titre: "Acteurs de la mobilité",
-    desc: "Startups, ONG ou projets de recherche autour du transport à Madagascar — parlons-en.",
+    titre: "Acteurs de la mobilitÃ©",
+    desc: "Startups, ONG ou projets de recherche autour du transport Ã  Madagascar â€” parlons-en.",
   },
 ];
 
@@ -54,17 +54,17 @@ const ATOUTS = [
   {
     chiffre: "Quotidien",
     titre: "Un usage du quotidien",
-    desc: "TaxiBe est consulté à chaque trajet, matin et soir, par des usagers réguliers du transport public.",
+    desc: "TaxiBe est consultÃ© Ã  chaque trajet, matin et soir, par des usagers rÃ©guliers du transport public.",
   },
   {
     chiffre: "Local",
     titre: "Une audience 100% Tananarivienne",
-    desc: "Toute l'audience est concentrée sur Antananarivo et ses environs — idéal pour une visibilité de proximité.",
+    desc: "Toute l'audience est concentrÃ©e sur Antananarivo et ses environs â€” idÃ©al pour une visibilitÃ© de proximitÃ©.",
   },
   {
     chiffre: "Non-intrusif",
-    titre: "Des formats respectueux de l'expérience",
-    desc: "Nos emplacements sont pensés pour ne jamais gêner la recherche d'un trajet.",
+    titre: "Des formats respectueux de l'expÃ©rience",
+    desc: "Nos emplacements sont pensÃ©s pour ne jamais gÃªner la recherche d'un trajet.",
   },
 ];
 
@@ -101,12 +101,12 @@ export default async function EntreprisesPage() {
                 Travailler avec <span style={{ color: "#FFB800" }}>TaxiBe</span>
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 480, margin: 0, lineHeight: 1.75 }}>
-                Partenariats institutionnels, visibilité commerciale, projets de mobilité — plusieurs façons de collaborer.
+                Partenariats institutionnels, visibilitÃ© commerciale, projets de mobilitÃ© â€” plusieurs faÃ§ons de collaborer.
               </p>
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Travailler avec TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Travailler avec TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}
@@ -142,18 +142,18 @@ export default async function EntreprisesPage() {
                 fontWeight: 800, fontSize: "0.875rem", padding: "12px 24px",
                 borderRadius: 9, textDecoration: "none",
               }}>
-                Nous contacter pour un partenariat →
+                Nous contacter pour un partenariat â†’
               </Link>
             </div>
           </div>
 
-          {/* Section Visibilité */}
+          {/* Section VisibilitÃ© */}
           <div>
             <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
-              Visibilité commerciale
+              VisibilitÃ© commerciale
             </p>
             <p style={{ fontSize: "0.95rem", color: "#64748B", margin: "0 0 20px", lineHeight: 1.7 }}>
-              Touchez les usagers des taxi-be d&apos;Antananarivo directement là où ils préparent leur trajet du jour.
+              Touchez les usagers des taxi-be d&apos;Antananarivo directement lÃ  oÃ¹ ils prÃ©parent leur trajet du jour.
             </p>
             <div className="atouts-grid" style={{ marginBottom: 24 }}>
               {ATOUTS.map((a) => (
@@ -179,7 +179,7 @@ export default async function EntreprisesPage() {
                 fontWeight: 800, fontSize: "0.875rem", padding: "12px 24px",
                 borderRadius: 9, textDecoration: "none",
               }}>
-                Demander une offre commerciale →
+                Demander une offre commerciale â†’
               </Link>
             </div>
           </div>
@@ -191,3 +191,5 @@ export default async function EntreprisesPage() {
     </>
   );
 }
+
+
