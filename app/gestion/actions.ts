@@ -82,6 +82,34 @@ export async function saveParam(formData: FormData) {
   await adminDb.from("parametres").upsert({ cle, valeur }, { onConflict: "cle" });
 }
 
+// ── Chat ──────────────────────────────────────────────────────────────────────
+
+export async function sendAdminMessage(formData: FormData) {
+  const session_id = (formData.get("session_id") as string)?.trim();
+  const contenu = (formData.get("contenu") as string)?.trim();
+  const admin_nom = (formData.get("admin_nom") as string)?.trim() || "Admin";
+  if (!session_id || !contenu) return;
+  await adminDb.from("chat_messages").insert({ session_id, contenu, expediteur: "admin", admin_nom });
+  await adminDb.from("chat_sessions").update({ last_message_at: new Date().toISOString() }).eq("id", session_id);
+}
+
+export async function closeChatSession(formData: FormData) {
+  const session_id = (formData.get("session_id") as string)?.trim();
+  if (!session_id) return;
+  await adminDb.from("chat_sessions").update({ statut: "ferme" }).eq("id", session_id);
+}
+
+export async function getUnreadChatCount(): Promise<number> {
+  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const { count } = await adminDb
+    .from("chat_messages")
+    .select("*", { count: "exact", head: true })
+    .eq("expediteur", "visiteur")
+    .eq("lu", false)
+    .gte("created_at", since);
+  return count ?? 0;
+}
+
 // ── Actualites ────────────────────────────────────────────────────────────────
 
 export async function getActualites() {

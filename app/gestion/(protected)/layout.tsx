@@ -1,13 +1,15 @@
 import { cookies } from "next/headers";
 import AdminSidebar from "./AdminSidebar";
+import { getUnreadChatCount } from "@/app/gestion/actions";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const jar = await cookies();
   const nom = jar.get("taxibe_admin_nom")?.value ?? "Admin";
+  const unreadChat = await getUnreadChatCount();
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F1F5F9" }}>
-      <AdminSidebar nom={nom} />
+      <AdminSidebar nom={nom} unreadChat={unreadChat} />
 
       <main style={{ flex: 1, minWidth: 0, overflowX: "hidden" }}>
         <style>{`

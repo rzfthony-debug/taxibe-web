@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ChatWidget from "@/app/components/ChatWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={inter.variable}>
       <body style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
         {children}
+        <ChatWidget />
       </body>
     </html>
   );
