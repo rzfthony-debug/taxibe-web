@@ -74,8 +74,8 @@ export default function ChatWidget() {
         schema: "public",
         table: "chat_messages",
         filter: `session_id=eq.${sessionId}`,
-      }, (payload) => {
-        const msg = payload.new as Msg;
+      }, (payload: { new: Msg }) => {
+        const msg = payload.new;
         setMessages((prev) => prev.find(m => m.id === msg.id) ? prev : [...prev, msg]);
         if (msg.expediteur === "admin" && !open) setUnread(c => c + 1);
       })
@@ -84,7 +84,7 @@ export default function ChatWidget() {
         schema: "public",
         table: "chat_sessions",
         filter: `id=eq.${sessionId}`,
-      }, (payload) => {
+      }, (payload: { new: { statut: string } }) => {
         if (payload.new.statut === "ferme") setSessionClosed(true);
       })
       .subscribe();
