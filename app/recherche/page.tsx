@@ -44,24 +44,27 @@ export default async function RecherchePage({
         }
 
         /* ── Barre de recherche ── */
-        .search-form-wrap { max-width: 520px; }
+        .search-form-wrap { width: 100%; max-width: 520px; box-sizing: border-box; }
         .search-bar-hero {
           display: flex;
           align-items: center;
+          width: 100%;
+          box-sizing: border-box;
           background: white;
           border: 1.5px solid #E2E8F0;
           border-radius: 14px;
           box-shadow: 0 4px 24px rgba(0,0,0,0.07);
           overflow: hidden;
-          height: 62px;
+          height: 60px;
         }
         .search-bar-hero:focus-within {
           border-color: #FFB800;
-          box-shadow: 0 4px 24px rgba(255,184,0,0.15);
+          box-shadow: 0 0 0 3px rgba(255,184,0,0.15);
         }
         .search-bar-hero input {
-          flex: 1;
+          flex: 1 1 0;
           min-width: 0;
+          width: 0;
           border: none;
           outline: none;
           padding: 0 12px;
@@ -75,18 +78,18 @@ export default async function RecherchePage({
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0 14px;
+          padding: 0 12px;
           flex-shrink: 0;
         }
         .search-btn {
           flex-shrink: 0;
-          padding: 0 24px;
+          padding: 0 22px;
           height: 100%;
           background: #FFB800;
           border: none;
           cursor: pointer;
           font-weight: 800;
-          font-size: 0.92rem;
+          font-size: 0.9rem;
           color: #0D1525;
           font-family: var(--font-inter), system-ui;
           transition: background 0.15s;
@@ -185,11 +188,13 @@ export default async function RecherchePage({
         .sticky-bar {
           position: sticky; top: 0; z-index: 40;
           background: white; border-bottom: 1px solid #E8ECF0;
-          padding: 10px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          padding: 10px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          width: 100%; box-sizing: border-box; overflow: hidden;
         }
         .sticky-inner { max-width: 860px; margin: 0 auto; }
         .search-bar-sticky {
           display: flex; align-items: center;
+          width: 100%; box-sizing: border-box;
           background: #F8F9FB;
           border: 1.5px solid #E2E8F0;
           border-radius: 12px;
@@ -202,7 +207,7 @@ export default async function RecherchePage({
           background: white;
         }
         .search-bar-sticky input {
-          flex: 1; min-width: 0; border: none; outline: none;
+          flex: 1 1 0; min-width: 0; width: 0; border: none; outline: none;
           padding: 0 12px; font-size: 0.95rem;
           font-family: var(--font-inter), system-ui;
           color: #0D1525; background: transparent;
@@ -256,7 +261,7 @@ export default async function RecherchePage({
 
         {/* ── HERO (sans query) ─────────────────────────────────── */}
         {!query && (
-          <section style={{ borderBottom: "1px solid #F1F5F9" }}>
+          <section style={{ borderBottom: "1px solid #F1F5F9", overflow: "hidden" }}>
             <div className="hero-grid">
 
               {/* Gauche : titre + search */}
