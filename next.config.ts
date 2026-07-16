@@ -13,9 +13,6 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  experimental: {
-    optimizePackageImports: ["@supabase/supabase-js"],
-  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

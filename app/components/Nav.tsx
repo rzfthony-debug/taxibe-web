@@ -226,7 +226,6 @@ export default function Nav() {
             {NAV_SECTIONS.map((s) => (
               <button key={s.key} className={`nav-trigger${open ? " open" : ""}`}
                 onMouseEnter={openMenu}
-                onClick={() => setOpen((v) => !v)}
                 aria-expanded={open}>
                 {s.label}
                 {I.chevron(open)}

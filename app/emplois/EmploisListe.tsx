@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useState, useMemo } from "react";
@@ -93,7 +93,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
             <input
               type="text"
               className="job-search"
-              placeholder="Rechercher un poste…"
+              placeholder="Rechercher un posteâ€¦"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -127,7 +127,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
               Aucun poste ne correspond
             </p>
             <p style={{ fontSize: "0.8rem", color: "#94A3B8", margin: 0 }}>
-              Essayez d&apos;autres termes ou envoyez une candidature spontanée.
+              Essayez d&apos;autres termes ou envoyez une candidature spontanÃ©e.
             </p>
           </div>
         )}
@@ -182,7 +182,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
               </div>
 
               {/* Bouton */}
-              <Link href={`/emplois/${o.slug ?? o.id}`} className="job-btn">
+              <Link href={`/emplois/${o.slug || o.id}`} className="job-btn">
                 Voir l&apos;offre
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="5" y1="12" x2="19" y2="12"/>
@@ -196,3 +196,4 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
     </>
   );
 }
+

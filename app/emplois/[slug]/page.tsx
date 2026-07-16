@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const offre = await getOffre(slug);
   if (!offre) return { title: "Offre introuvable" };
-  const canonicalSlug = offre.slug ?? offre.id;
+  const canonicalSlug = offre.slug || offre.id;
   const desc = offre.description?.slice(0, 155) ?? "Rejoignez l'équipe TaxiBe à Antananarivo.";
   return {
     title: `${offre.nom} — Carrières TaxiBe`,
@@ -104,7 +104,7 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
       "@type": "Place",
       "address": { "@type": "PostalAddress", "addressLocality": offre.lieu ?? "Antananarivo", "addressCountry": "MG" },
     },
-    "url": `${BASE}/emplois/${offre.slug ?? offre.id}`,
+    "url": `${BASE}/emplois/${offre.slug || offre.id}`,
   };
 
   const paragraphes = (offre.description ?? "").split("\n").filter(Boolean);
@@ -289,7 +289,7 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
                   <div className="widget-header">Autres offres</div>
                   <div>
                     {autres.map((o) => (
-                      <Link key={o.id} href={`/emplois/${o.slug ?? o.id}`} className="autre-offre-card">
+                      <Link key={o.id} href={`/emplois/${o.slug || o.id}`} className="autre-offre-card">
                         <span style={{ fontWeight: 800, fontSize: "0.85rem", color: "#0D1525" }}>{o.nom}</span>
                         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                           {o.lieu && (

@@ -375,7 +375,7 @@ export default async function Home() {
 
             <div className="actu-grid">
               {articles.map((a) => (
-                <Link key={a.id} href={`/blog/${a.slug ?? a.id}`} className="actu-card">
+                <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="actu-card">
                   {a.image_url ? (
                     <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
                       <Image
@@ -534,5 +534,6 @@ export default async function Home() {
     </>
   );
 }
+
 
 

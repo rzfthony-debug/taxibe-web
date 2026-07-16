@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const article = await getArticle(slug);
   if (!article) return { title: "Article introuvable" };
-  const canonicalSlug = article.slug ?? article.id;
+  const canonicalSlug = article.slug || article.id;
   const desc = article.contenu?.slice(0, 160) ?? article.texte;
   return {
     title: `${article.texte} — TaxiBe Blog`,
@@ -108,7 +108,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     "dateModified": article.created_at,
     "author": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
     "publisher": { "@type": "Organization", "name": "TaxiBe", "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` } },
-    "url": `${BASE}/blog/${article.slug ?? article.id}`,
+    "url": `${BASE}/blog/${article.slug || article.id}`,
   };
 
   return (
@@ -218,7 +218,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <div className="sidebar-widget">
                 <p className="sidebar-title">À lire aussi</p>
                 {autres.map((a) => (
-                  <Link key={a.id} href={`/blog/${a.slug ?? a.id}`} className="rel-item">
+                  <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="rel-item">
                     {a.image_url ? (
                       <div style={{ position: "relative", width: 80, minWidth: 80, height: 56, borderRadius: 8, overflow: "hidden", background: "#F1F5F9", flexShrink: 0 }}>
                         <Image src={a.image_url} alt={a.texte} fill sizes="80px" style={{ objectFit: "contain" }} />
