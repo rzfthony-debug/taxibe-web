@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import type { Metadata } from "next";
 import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
+import ShareButtons from "@/app/blog/ShareButtons";
 
 type Article = {
   id: string;
@@ -195,7 +196,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <h1 style={{ fontSize: "1.9rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
                 {article.texte}
               </h1>
-              <div style={{ height: 3, width: 48, background: "#FFB800", borderRadius: 2 }} />
+              <div style={{ height: 3, width: 48, background: "#FFB800", borderRadius: 2, marginBottom: 20 }} />
+              <ShareButtons url={articleUrl} title={article.texte} />
             </div>
 
             <div className="article-body">
@@ -216,14 +218,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 40, paddingTop: 24, borderTop: "1px solid #E8ECF0" }}>
-              <Link href="/blog" style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                padding: "9px 18px", borderRadius: 9, background: "#F1F5F9",
-                fontSize: "0.84rem", fontWeight: 700, color: "#0D1525", textDecoration: "none",
-              }}>
-                ← Retour au blog
-              </Link>
+            <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #E8ECF0", display: "flex", flexDirection: "column", gap: 16 }}>
+              <ShareButtons url={articleUrl} title={article.texte} />
+              <div>
+                <Link href="/blog" style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  padding: "9px 18px", borderRadius: 9, background: "#F1F5F9",
+                  fontSize: "0.84rem", fontWeight: 700, color: "#0D1525", textDecoration: "none",
+                }}>
+                  ← Retour au blog
+                </Link>
+              </div>
             </div>
           </article>
 
