@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+
+async function getParam(cle: string): Promise<string | null> {
+  const { data } = await supabase.from("parametres").select("valeur").eq("cle", cle).single();
+  return data?.valeur ?? null;
+}
 
 const COLS = [
   {
@@ -37,7 +43,28 @@ const COLS = [
   },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const [fbUrl, igUrl, liUrl] = await Promise.all([
+    getParam("social_facebook_url"),
+    getParam("social_instagram_url"),
+    getParam("social_linkedin_url"),
+  ]);
+
+  const socialLinks = [
+    {
+      href: fbUrl ?? "#",
+      icon: <svg key="fb" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
+    },
+    {
+      href: igUrl ?? "#",
+      icon: <svg key="ig" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>,
+    },
+    {
+      href: liUrl ?? "#",
+      icon: <svg key="li" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
+    },
+  ];
+
   return (
     <footer style={{ background: "#0D1525" }}>
       <style>{`
@@ -95,17 +122,13 @@ export default function Footer() {
             TaxiBe Madagascar, votre allié pour tous vos déplacements à Antananarivo.
           </p>
           <div style={{ display: "flex", gap: 7 }}>
-            {[
-              <svg key="fb" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
-              <svg key="ig" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>,
-              <svg key="li" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
-            ].map((icon, i) => (
-              <a key={i} href="#" style={{
+            {socialLinks.map((s, i) => (
+              <a key={i} href={s.href} target={s.href !== "#" ? "_blank" : undefined} rel="noopener noreferrer" style={{
                 width: 30, height: 30, borderRadius: 7,
                 background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.09)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 color: "rgba(255,255,255,0.45)", textDecoration: "none",
-              }}>{icon}</a>
+              }}>{s.icon}</a>
             ))}
           </div>
         </div>

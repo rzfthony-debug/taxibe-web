@@ -28,6 +28,11 @@ async function getOffre(id: string): Promise<Offre | null> {
   return data ?? null;
 }
 
+async function getRecrutementEmail(): Promise<string> {
+  const { data } = await supabase.from("parametres").select("valeur").eq("cle", "recrutement_email").single();
+  return data?.valeur ?? "recrutement@taxibe.mg";
+}
+
 async function getAutresOffres(excludeId: string): Promise<Pick<Offre, "id" | "nom" | "type_poste" | "lieu">[]> {
   const { data } = await supabase
     .from("offres_emploi")
@@ -57,7 +62,7 @@ function formatDate(iso: string | null) {
 
 export default async function OffrePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [offre, autres] = await Promise.all([getOffre(id), getAutresOffres(id)]);
+  const [offre, autres, recrutementEmail] = await Promise.all([getOffre(id), getAutresOffres(id), getRecrutementEmail()]);
   if (!offre) notFound();
 
   const paragraphes = (offre.description ?? "").split("\n").filter(Boolean);
@@ -188,12 +193,12 @@ export default async function OffrePage({ params }: { params: Promise<{ id: stri
                   </div>
                   <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                     {offre.telephone ? (
-                      <a href={`mailto:recrutement@taxibe.mg?subject=Candidature — ${encodeURIComponent(offre.nom)}`} className="apply-btn">
+                      <a href={`mailto:${recrutementEmail}?subject=Candidature — ${encodeURIComponent(offre.nom)}`} className="apply-btn">
                         Postuler maintenant
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                       </a>
                     ) : (
-                      <a href={`mailto:recrutement@taxibe.mg?subject=Candidature — ${encodeURIComponent(offre.nom)}`} className="apply-btn">
+                      <a href={`mailto:${recrutementEmail}?subject=Candidature — ${encodeURIComponent(offre.nom)}`} className="apply-btn">
                         Postuler par email
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                       </a>

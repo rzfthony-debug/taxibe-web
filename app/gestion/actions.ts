@@ -73,6 +73,15 @@ export async function logoutAdmin() {
   redirect("/gestion/login");
 }
 
+// ── Parametres (texte) ────────────────────────────────────────────────────────
+
+export async function saveParam(formData: FormData) {
+  const cle = (formData.get("cle") as string)?.trim();
+  const valeur = ((formData.get("valeur") as string) ?? "").trim();
+  if (!cle) return;
+  await adminDb.from("parametres").upsert({ cle, valeur }, { onConflict: "cle" });
+}
+
 // ── Actualites ────────────────────────────────────────────────────────────────
 
 export async function getActualites() {

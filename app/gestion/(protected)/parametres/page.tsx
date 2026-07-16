@@ -1,5 +1,6 @@
 import { adminDb } from "@/lib/supabase";
 import HeroUpload from "./HeroUpload";
+import ParamTextInput from "./ParamTextInput";
 
 async function getParam(cle: string): Promise<string | null> {
   const { data } = await adminDb
@@ -19,6 +20,8 @@ export default async function ParametresPage() {
     telechargerHero, telechargerApercu,
     aproposHero, aideHero, legalHero,
     communauteHero, contactHero, entreprisesHero, blogHero,
+    contactEmail, recrutementEmail,
+    fbUrl, igUrl, liUrl,
   ] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
@@ -33,6 +36,11 @@ export default async function ParametresPage() {
     getParam("contact_hero_image_url"),
     getParam("entreprises_hero_image_url"),
     getParam("blog_hero_image_url"),
+    getParam("contact_email"),
+    getParam("recrutement_email"),
+    getParam("social_facebook_url"),
+    getParam("social_instagram_url"),
+    getParam("social_linkedin_url"),
   ]);
 
   return (
@@ -209,6 +217,52 @@ export default async function ParametresPage() {
             ratio="3/2"
             currentUrl={blogHero}
           />
+        </div>
+
+        {/* ── Coordonnées & Réseaux sociaux ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Coordonnées &amp; Réseaux sociaux
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ParamTextInput
+              cle="contact_email"
+              label="Adresse e-mail de contact"
+              description="Affichée sur la page Contact et dans le footer. Ex : contact@taxibe.mg"
+              placeholder="contact@taxibe.mg"
+              type="email"
+              currentValue={contactEmail}
+            />
+            <ParamTextInput
+              cle="recrutement_email"
+              label="Adresse e-mail recrutement"
+              description="Utilisée dans les offres d'emploi (liens mailto). Ex : recrutement@taxibe.mg"
+              placeholder="recrutement@taxibe.mg"
+              type="email"
+              currentValue={recrutementEmail}
+            />
+            <ParamTextInput
+              cle="social_facebook_url"
+              label="Lien Facebook"
+              description="URL complète de la page Facebook. Ex : https://facebook.com/taxibe"
+              placeholder="https://facebook.com/taxibe"
+              currentValue={fbUrl}
+            />
+            <ParamTextInput
+              cle="social_instagram_url"
+              label="Lien Instagram"
+              description="URL complète du profil Instagram. Ex : https://instagram.com/taxibe"
+              placeholder="https://instagram.com/taxibe"
+              currentValue={igUrl}
+            />
+            <ParamTextInput
+              cle="social_linkedin_url"
+              label="Lien LinkedIn"
+              description="URL complète de la page LinkedIn. Ex : https://linkedin.com/company/taxibe"
+              placeholder="https://linkedin.com/company/taxibe"
+              currentValue={liUrl}
+            />
+          </div>
         </div>
 
       </div>
