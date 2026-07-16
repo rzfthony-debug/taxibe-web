@@ -22,6 +22,7 @@ export default async function ParametresPage() {
     communauteHero, contactHero, entreprisesHero, blogHero,
     contactEmail, recrutementEmail, contactPhone,
     fbUrl, igUrl, liUrl,
+    videoUrl, videoTitre, videoSousTexte,
   ] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
@@ -42,6 +43,9 @@ export default async function ParametresPage() {
     getParam("social_facebook_url"),
     getParam("social_instagram_url"),
     getParam("social_linkedin_url"),
+    getParam("home_video_url"),
+    getParam("home_video_titre"),
+    getParam("home_video_sous_texte"),
   ]);
 
   return (
@@ -218,6 +222,39 @@ export default async function ParametresPage() {
             ratio="3/2"
             currentUrl={blogHero}
           />
+        </div>
+
+        {/* ── Section vidéo ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Section vidéo (page d&apos;accueil)
+          </p>
+          <p style={{ margin: "0 0 14px", fontSize: "0.76rem", color: "#94A3B8", lineHeight: 1.55 }}>
+            La section n&apos;apparaît que si une URL vidéo est renseignée. Supports : YouTube et MP4 direct.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ParamTextInput
+              cle="home_video_url"
+              label="URL de la vidéo"
+              description="Lien YouTube (ex : https://youtu.be/xxx) ou lien direct vers un fichier MP4."
+              placeholder="https://youtu.be/..."
+              currentValue={videoUrl}
+            />
+            <ParamTextInput
+              cle="home_video_titre"
+              label="Titre de la section"
+              description="Affiché au-dessus de la vidéo. Défaut : « Voyez TaxiBe en action »"
+              placeholder="Voyez TaxiBe en action"
+              currentValue={videoTitre}
+            />
+            <ParamTextInput
+              cle="home_video_sous_texte"
+              label="Sous-texte"
+              description="Phrase descriptive affichée sous le titre."
+              placeholder="En 60 secondes, découvrez comment…"
+              currentValue={videoSousTexte}
+            />
+          </div>
         </div>
 
         {/* ── Coordonnées & Réseaux sociaux ── */}

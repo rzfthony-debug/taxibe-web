@@ -15,17 +15,30 @@ type Article = {
   created_at: string;
 };
 
-async function getHeroImages(): Promise<{ desktop: string | null; mobile: string | null; ctaPhone: string | null }> {
+async function getHomeParams() {
   const { data } = await supabase
     .from("parametres")
     .select("cle, valeur")
-    .in("cle", ["home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url"]);
+    .in("cle", [
+      "home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url",
+      "home_video_url", "home_video_titre", "home_video_sous_texte",
+    ]);
   const map = Object.fromEntries((data ?? []).map((r: { cle: string; valeur: string }) => [r.cle, r.valeur]));
   return {
     desktop: map["home_hero_image_url"] ?? null,
     mobile: map["home_hero_image_mobile_url"] ?? null,
     ctaPhone: map["home_cta_phone_url"] ?? null,
+    videoUrl: map["home_video_url"] ?? null,
+    videoTitre: map["home_video_titre"] ?? "Voyez TaxiBe en action",
+    videoSousTexte: map["home_video_sous_texte"] ?? "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone.",
   };
+}
+
+function getVideoEmbedSrc(url: string): { type: "youtube" | "mp4"; src: string } | null {
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (yt) return { type: "youtube", src: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
+  if (/\.mp4/i.test(url)) return { type: "mp4", src: url };
+  return null;
 }
 
 async function getActualites(): Promise<Article[]> {
@@ -43,8 +56,9 @@ function formatDate(iso: string) {
 }
 
 export default async function Home() {
-  const [articles, heroImages] = await Promise.all([getActualites(), getHeroImages()]);
-  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl } = heroImages;
+  const [articles, params] = await Promise.all([getActualites(), getHomeParams()]);
+  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
+  const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
   return (
     <>
@@ -282,6 +296,45 @@ export default async function Home() {
 
       {/* ── Spotlight ── */}
       <SpotlightSection />
+
+      {/* ── Vidéo ── */}
+      {videoEmbed && (
+        <section style={{ padding: "88px 24px", background: "white" }}>
+          <div style={{ maxWidth: 860, margin: "0 auto" }}>
+            <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
+              Découvrir
+            </p>
+            <h2 style={{ textAlign: "center", fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em" }}>
+              {videoTitre}
+            </h2>
+            <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 560, margin: "0 auto 44px", lineHeight: 1.75 }}>
+              {videoSousTexte}
+            </p>
+            <div style={{
+              position: "relative", width: "100%", paddingTop: "56.25%",
+              borderRadius: 18, overflow: "hidden",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+              border: "1px solid #E8ECF0",
+            }}>
+              {videoEmbed.type === "youtube" ? (
+                <iframe
+                  src={videoEmbed.src}
+                  title={videoTitre}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+                />
+              ) : (
+                <video
+                  src={videoEmbed.src}
+                  controls
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Actualités ── */}
       {articles.length > 0 && (
