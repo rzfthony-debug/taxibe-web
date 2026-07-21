@@ -27,7 +27,7 @@ export default async function ActualitesAdminPage() {
           <tbody>
             {articles.length === 0 && (
               <tr>
-                <td colSpan={5} style={{ textAlign: "center", color: "#64748B", padding: "40px" }}>
+                <td colSpan={5} style={{ textAlign: "center", color: "#94A3B8", padding: "40px" }}>
                   Aucun article pour l&apos;instant.
                 </td>
               </tr>

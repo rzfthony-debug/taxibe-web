@@ -83,7 +83,7 @@ export default async function SignalerPage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Décrire le problème
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
               Traité par notre équipe sous quelques jours.
             </p>
             <MessageForm

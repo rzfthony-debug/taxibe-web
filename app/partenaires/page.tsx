@@ -57,7 +57,7 @@ export default async function PartenairesPage({
         <div className="part-grid" style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px" }}>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748B", margin: "0 0 4px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 4px" }}>
               Profils que nous recherchons
             </p>
             {PROFILS.map((p) => (
@@ -67,7 +67,7 @@ export default async function PartenairesPage({
                 <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {p.titre}
                 </p>
-                <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B", lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
                   {p.desc}
                 </p>
               </div>
@@ -82,7 +82,7 @@ export default async function PartenairesPage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Présenter votre structure
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
               Décrivez votre organisation et l&apos;idée de collaboration, nous revenons vers vous rapidement.
             </p>
             <MessageForm

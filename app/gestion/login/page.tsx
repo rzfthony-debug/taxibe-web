@@ -39,7 +39,7 @@ export default async function LoginPage({
             priority
           />
           <p style={{
-            fontSize: "0.78rem", color: "#64748B", margin: "12px 0 0",
+            fontSize: "0.78rem", color: "#94A3B8", margin: "12px 0 0",
             fontWeight: 500, textAlign: "center",
           }}>
             Espace administrateur

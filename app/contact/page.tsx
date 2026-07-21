@@ -62,7 +62,7 @@ const jsonLdContact = {
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ statut?: string; poste?: string }>;
+  searchParams: Promise<{ statut?: string }>;
 }) {
   const [{ statut }, heroImageUrl] = await Promise.all([searchParams, getHeroImageUrl()]);
 
@@ -114,7 +114,7 @@ export default async function ContactPage({
 
           {/* Raccourcis */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748B", margin: "0 0 4px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 4px" }}>
               Une demande précise ?
             </p>
             {RACCOURCIS.map((r) => (
@@ -125,7 +125,7 @@ export default async function ContactPage({
                 <p style={{ margin: "0 0 3px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {r.titre} →
                 </p>
-                <p style={{ margin: 0, fontSize: "0.78rem", color: "#64748B", lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", lineHeight: 1.5 }}>
                   {r.desc}
                 </p>
               </Link>
@@ -141,7 +141,7 @@ export default async function ContactPage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Envoyer un message
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
               Réponse sous 2 à 3 jours ouvrés.
             </p>
             <MessageForm
@@ -149,14 +149,9 @@ export default async function ContactPage({
               redirectTo="/contact"
               sujetLabel="Sujet"
               sujetPlaceholder="Ex : suggestion, question générale…"
-              sujetDefaultValue={poste ? `Candidature — ${poste}` : undefined}
-              messageLabel={poste ? "Votre message de motivation" : "Votre message"}
-              messagePlaceholder={
-                poste
-                  ? "Présentez-vous et expliquez pourquoi ce poste vous intéresse…"
-                  : "Dites-nous en plus sur votre demande…"
-              }
-              submitLabel={poste ? "Envoyer ma candidature" : "Envoyer le message"}
+              messageLabel="Votre message"
+              messagePlaceholder="Dites-nous en plus sur votre demande…"
+              submitLabel="Envoyer le message"
               status={statut}
             />
           </div>

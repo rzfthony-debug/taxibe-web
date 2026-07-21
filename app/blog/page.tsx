@@ -238,7 +238,7 @@ export default async function BlogPage({
                 <div style={{ padding: "24px 28px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
                     <span className="badge-cat">ACTUALITÉS</span>
-                    <span style={{ fontSize: "0.75rem", color: "#64748B" }}>{formatDate(featured.created_at)}</span>
+                    <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>{formatDate(featured.created_at)}</span>
                   </div>
                   <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 20px" }}>
                     {featured.texte}
@@ -269,7 +269,7 @@ export default async function BlogPage({
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                           <span className="badge-cat">ACTUALITÉS</span>
-                          <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
+                          <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
                         </div>
                         <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{a.texte}</h3>
                         <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
@@ -305,7 +305,7 @@ export default async function BlogPage({
                       )}
                       <div style={{ padding: "14px 16px" }}>
                         <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                          <span style={{ fontSize: "0.7rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
+                          <span style={{ fontSize: "0.7rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
                         </div>
                         <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0D1525", margin: "0 0 12px", lineHeight: 1.35 }}>{a.texte}</h3>
                         <span className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</span>
@@ -318,7 +318,7 @@ export default async function BlogPage({
 
             {articles.length === 0 && (
               <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontSize: "1rem", color: "#64748B" }}>Aucun article publié pour l&apos;instant.</p>
+                <p style={{ fontSize: "1rem", color: "#94A3B8" }}>Aucun article publié pour l&apos;instant.</p>
               </div>
             )}
           </div>
@@ -411,7 +411,7 @@ export default async function BlogPage({
               <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 2px" }}>
                 Ligne la plus recherchée
               </p>
-              <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#64748B", margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#94A3B8", margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 Aujourd&apos;hui
               </p>
               <div style={{ background: "#0D1525", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
@@ -426,7 +426,7 @@ export default async function BlogPage({
                 </Link>
               </div>
               <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0D1525", margin: "0 0 2px" }}>Antananarivo et ses environs</p>
-              <p style={{ fontSize: "0.7rem", color: "#64748B", margin: 0 }}>+ de 50 communes couvertes</p>
+              <p style={{ fontSize: "0.7rem", color: "#94A3B8", margin: 0 }}>+ de 50 communes couvertes</p>
             </div>
 
           </aside>

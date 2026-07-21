@@ -69,7 +69,7 @@ export default async function PublicitePage({
                 <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {a.titre}
                 </p>
-                <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B", lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
                   {a.desc}
                 </p>
               </div>
@@ -84,7 +84,7 @@ export default async function PublicitePage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Demander une offre publicitaire
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
               Décrivez votre activité, notre équipe commerciale vous recontacte avec les formats disponibles.
             </p>
             <MessageForm

@@ -81,7 +81,7 @@ export default function MentionsLegalesPage() {
               </section>
             ))}
 
-            <p style={{ margin: 0, fontSize: "0.78rem", color: "#64748B", paddingTop: 16, borderTop: "1px solid #F1F5F9" }}>
+            <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", paddingTop: 16, borderTop: "1px solid #F1F5F9" }}>
               Dernière mise à jour : juillet 2026
             </p>
           </div>

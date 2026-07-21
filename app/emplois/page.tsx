@@ -97,8 +97,6 @@ export default async function EmploisPage() {
     ],
   };
 
-  const stats = STATS((offres ?? []).length);
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />

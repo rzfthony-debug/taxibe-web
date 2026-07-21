@@ -35,7 +35,7 @@ export default async function DashboardPage() {
 
       <div className="page-header">
         <h1 className="page-title">Dashboard</h1>
-        <span style={{ fontSize: "0.8rem", color: "#64748B" }}>
+        <span style={{ fontSize: "0.8rem", color: "#94A3B8" }}>
           {new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
         </span>
       </div>
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
               background: "white", borderRadius: 14, padding: "18px 20px",
               border: "1px solid #E2E8F0", borderLeft: `4px solid ${c.color}`,
             }}>
-              <p style={{ margin: "0 0 8px", fontSize: "0.72rem", fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.3 }}>
+              <p style={{ margin: "0 0 8px", fontSize: "0.72rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.3 }}>
                 {c.label}
               </p>
               <p style={{ margin: 0, fontSize: "2rem", fontWeight: 900, color: c.color, lineHeight: 1 }}>

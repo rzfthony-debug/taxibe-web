@@ -204,7 +204,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {article.contenu ? (
                 <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.contenu.replace(/\n/g, "<br/>")) }} />
               ) : (
-                <p style={{ color: "#64748B", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
+                <p style={{ color: "#94A3B8", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
               )}
             </div>
 
