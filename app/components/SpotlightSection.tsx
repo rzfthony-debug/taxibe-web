@@ -13,13 +13,21 @@ type Spotlight = {
 };
 
 async function getSpotlight(): Promise<Spotlight[]> {
-  const { data } = await supabase
-    .from("spotlight")
-    .select("id, image_url, titre, sous_titre, cta_label, cta_url, ordre")
-    .eq("publie", true)
-    .order("ordre", { ascending: true })
-    .limit(3);
-  return data ?? [];
+  try {
+    const req = supabase
+      .from("spotlight")
+      .select("id, image_url, titre, sous_titre, cta_label, cta_url, ordre")
+      .eq("publie", true)
+      .order("ordre", { ascending: true })
+      .limit(3);
+    const { data } = await Promise.race([
+      req,
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return (data as Spotlight[] | null) ?? [];
+  } catch {
+    return [];
+  }
 }
 
 function SpotlightCard({

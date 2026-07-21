@@ -1,4 +1,5 @@
-﻿import { safeJsonLd } from "@/lib/sanitize";
+﻿import { Suspense } from "react";
+import { safeJsonLd } from "@/lib/sanitize";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
@@ -71,8 +72,74 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 }
 
+async function ActualitesSection() {
+  const articles = await getActualites();
+  if (articles.length === 0) return null;
+
+  return (
+    <section style={{ padding: "88px 24px", background: "white" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 10 }}>
+              Actualités
+            </p>
+            <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", margin: 0, letterSpacing: "-0.01em" }}>
+              Les dernières nouvelles
+            </h2>
+          </div>
+          <Link href="/blog" style={{
+            fontSize: "0.84rem", fontWeight: 700, color: "#FFB800",
+            textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6,
+            whiteSpace: "nowrap",
+          }}>
+            Voir tous les articles →
+          </Link>
+        </div>
+
+        <div className="actu-grid">
+          {articles.map((a) => (
+            <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="actu-card">
+              {a.image_url ? (
+                <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
+                  <Image
+                    src={a.image_url}
+                    alt={a.texte}
+                    width={0} height={0}
+                    sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                </div>
+              ) : (
+                <div style={{
+                  width: "100%", aspectRatio: "16/9",
+                  background: "linear-gradient(135deg, #0D1525 0%, #1a2a3a 100%)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <span style={{ fontSize: "2rem", opacity: 0.25 }}>🚌</span>
+                </div>
+              )}
+              <div style={{ padding: "18px 20px 22px" }}>
+                <p style={{ fontSize: "0.7rem", color: "#64748B", margin: "0 0 10px", fontWeight: 500 }}>
+                  {formatDate(a.created_at)}
+                </p>
+                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.4 }}>
+                  {a.texte}
+                </h3>
+                <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#FFB800" }}>
+                  Lire l&apos;article →
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default async function Home() {
-  const [articles, params] = await Promise.all([getActualites(), getHomeParams()]);
+  const params = await getHomeParams();
   const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
   const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
@@ -356,7 +423,9 @@ export default async function Home() {
       </section>
 
       {/* ── Spotlight ── */}
-      <SpotlightSection />
+      <Suspense fallback={null}>
+        <SpotlightSection />
+      </Suspense>
 
       {/* ── Vidéo ── */}
       {videoEmbed && (
@@ -398,66 +467,9 @@ export default async function Home() {
       )}
 
       {/* ── Actualités ── */}
-      {articles.length > 0 && (
-        <section style={{ padding: "88px 24px", background: "white" }}>
-          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 12 }}>
-              <div>
-                <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 10 }}>
-                  Actualités
-                </p>
-                <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", margin: 0, letterSpacing: "-0.01em" }}>
-                  Les dernières nouvelles
-                </h2>
-              </div>
-              <Link href="/blog" style={{
-                fontSize: "0.84rem", fontWeight: 700, color: "#FFB800",
-                textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6,
-                whiteSpace: "nowrap",
-              }}>
-                Voir tous les articles →
-              </Link>
-            </div>
-
-            <div className="actu-grid">
-              {articles.map((a) => (
-                <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="actu-card">
-                  {a.image_url ? (
-                    <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
-                      <Image
-                        src={a.image_url}
-                        alt={a.texte}
-                        width={0} height={0}
-                        sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
-                        style={{ width: "100%", height: "auto", display: "block" }}
-                      />
-                    </div>
-                  ) : (
-                    <div style={{
-                      width: "100%", aspectRatio: "16/9",
-                      background: "linear-gradient(135deg, #0D1525 0%, #1a2a3a 100%)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                      <span style={{ fontSize: "2rem", opacity: 0.25 }}>🚌</span>
-                    </div>
-                  )}
-                  <div style={{ padding: "18px 20px 22px" }}>
-                    <p style={{ fontSize: "0.7rem", color: "#64748B", margin: "0 0 10px", fontWeight: 500 }}>
-                      {formatDate(a.created_at)}
-                    </p>
-                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.4 }}>
-                      {a.texte}
-                    </h3>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#FFB800" }}>
-                      Lire l&apos;article →
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <Suspense fallback={null}>
+        <ActualitesSection />
+      </Suspense>
 
       {/* ── CTA Téléchargement ── */}
       <div style={{ position: "relative", zIndex: 0 }}>
