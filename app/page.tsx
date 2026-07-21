@@ -1,25 +1,70 @@
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import SearchForm from "@/app/components/SearchForm";
+import SpotlightSection from "@/app/components/SpotlightSection";
 import { supabase } from "@/lib/supabase";
+
+export const revalidate = 60;
 
 type Article = {
   id: string;
+  slug: string | null;
   image_url: string | null;
   texte: string;
   created_at: string;
 };
 
+async function getHomeParams() {
+  try {
+    const req = supabase
+      .from("parametres")
+      .select("cle, valeur")
+      .in("cle", [
+        "home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url",
+        "home_video_url", "home_video_titre", "home_video_sous_texte",
+      ]);
+    const { data } = await Promise.race([
+      req,
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    const map = Object.fromEntries(((data as { cle: string; valeur: string }[] | null) ?? []).map((r) => [r.cle, r.valeur]));
+    return {
+      desktop: map["home_hero_image_url"] ?? null,
+      mobile: map["home_hero_image_mobile_url"] ?? null,
+      ctaPhone: map["home_cta_phone_url"] ?? null,
+      videoUrl: map["home_video_url"] ?? null,
+      videoTitre: map["home_video_titre"] ?? "Voyez TaxiBe en action",
+      videoSousTexte: map["home_video_sous_texte"] ?? "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone.",
+    };
+  } catch {
+    return { desktop: null, mobile: null, ctaPhone: null, videoUrl: null, videoTitre: "Voyez TaxiBe en action", videoSousTexte: "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone." };
+  }
+}
+
+function getVideoEmbedSrc(url: string): { type: "youtube" | "mp4"; src: string } | null {
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (yt) return { type: "youtube", src: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
+  if (/\.mp4/i.test(url)) return { type: "mp4", src: url };
+  return null;
+}
+
 async function getActualites(): Promise<Article[]> {
-  const { data } = await supabase
-    .from("actualites")
-    .select("id, image_url, texte, created_at")
-    .eq("publie", true)
-    .order("created_at", { ascending: false })
-    .limit(3);
-  return (data ?? []) as Article[];
+  try {
+    const req = supabase
+      .from("actualites")
+      .select("id, slug, image_url, texte, created_at")
+      .eq("publie", true)
+      .order("created_at", { ascending: false })
+      .limit(3);
+    const { data } = await Promise.race([
+      req,
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return ((data as Article[] | null) ?? []);
+  } catch { return []; }
 }
 
 function formatDate(iso: string) {
@@ -27,10 +72,57 @@ function formatDate(iso: string) {
 }
 
 export default async function Home() {
-  const articles = await getActualites();
+  const [articles, params] = await Promise.all([getActualites(), getHomeParams()]);
+  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
+  const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
+
+  const BASE = "https://taxibemada.vercel.app";
+
+  const jsonLdGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${BASE}/#website`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
+        "inLanguage": "fr-MG",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": { "@type": "EntryPoint", "urlTemplate": `${BASE}/recherche?q={search_term_string}` },
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${BASE}/#organization`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` },
+        "description": "TaxiBe est l'application de référence pour trouver les lignes de taxi-be à Antananarivo, Madagascar.",
+        "areaServed": { "@type": "City", "name": "Antananarivo", "addressCountry": "MG" },
+        "knowsAbout": ["taxi-be", "transport en commun", "Antananarivo", "lignes de bus Madagascar", "mobilité urbaine Madagascar"],
+        "sameAs": [BASE],
+        "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "url": `${BASE}/contact`, "availableLanguage": "French" },
+      },
+      {
+        "@type": "WebApplication",
+        "@id": `${BASE}/#app`,
+        "name": "TaxiBe",
+        "url": BASE,
+        "applicationCategory": "TransportationApplication",
+        "operatingSystem": "Android",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
+        "description": "Recherchez les lignes de taxi-be d'Antananarivo. Gratuit, sans compte, disponible sur Android.",
+        "author": { "@id": `${BASE}/#organization` },
+      },
+    ],
+  };
 
   return (
     <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdGraph) }} />
     <Nav />
     <main style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
 
@@ -45,32 +137,119 @@ export default async function Home() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{ background: "#0D1525", padding: "80px 24px 96px" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
-          <p style={{
-            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em",
-            textTransform: "uppercase", color: "#FFB800", marginBottom: 20,
-          }}>
-            Antananarivo · 100% Gratuit
-          </p>
-          <h1 style={{
-            fontSize: "clamp(2rem, 6vw, 3.4rem)", fontWeight: 900,
-            color: "white", lineHeight: 1.13, marginBottom: 20,
-            letterSpacing: "-0.02em",
-          }}>
-            Trouvez votre ligne de{" "}
-            <span style={{ color: "#FFB800" }}>taxi-be</span>
-          </h1>
-          <p style={{
-            fontSize: "1rem", color: "rgba(255,255,255,0.55)",
-            lineHeight: 1.8, marginBottom: 40, maxWidth: 480, margin: "0 auto 40px",
-          }}>
-            Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
-          </p>
-          <SearchForm />
-          <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", margin: 0 }}>
-            Essayez 147 · 135 · 20B · 165 · 182
-          </p>
+      <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
+        <style>{`
+          .hero-grid {
+            max-width: 1280px; margin: 0 auto; padding: 64px 40px 0;
+            display: grid; grid-template-columns: 1fr 1.4fr;
+            gap: 24px; align-items: flex-end;
+          }
+          .hero-text-col { min-width: 0; padding-bottom: 64px; }
+          .hero-search-wrap { width: 100%; max-width: 460px; }
+          .hero-img-col {
+            display: flex; align-items: flex-end; justify-content: center; min-width: 0;
+          }
+          .hero-img-col img { width: 100%; height: auto; display: block; }
+          .hero-img-mobile-wrap { display: none; }
+          @media (max-width: 768px) {
+            .hero-grid {
+              grid-template-columns: 1fr;
+              padding: 40px 20px 32px;
+              gap: 24px;
+            }
+            .hero-search-wrap { max-width: 100%; }
+            .hero-img-col { display: none; }
+            .hero-img-col.has-mobile {
+              display: flex; align-items: center; justify-content: center;
+              overflow: hidden; max-height: 320px;
+            }
+            .hero-img-desktop-wrap { display: none; }
+            .hero-img-mobile-wrap { display: block; }
+          }
+        `}</style>
+
+        <div className="hero-grid">
+          {/* Colonne gauche — texte */}
+          <div className="hero-text-col">
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)",
+              borderRadius: 8, padding: "5px 12px", marginBottom: 24,
+            }}>
+              <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
+                Antananarivo · 100% Gratuit
+              </span>
+            </div>
+
+            <h1 style={{
+              fontSize: "clamp(1.8rem, 5vw, 3.4rem)", fontWeight: 900,
+              color: "#0D1525", lineHeight: 1.13, marginBottom: 20, letterSpacing: "-0.02em",
+            }}>
+              Trouvez votre ligne de{" "}
+              <span style={{ color: "#FFB800" }}>taxi-be</span>
+            </h1>
+
+            <p style={{
+              fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32,
+              color: "#64748B", maxWidth: 420,
+            }}>
+              Tapez un numéro de ligne et obtenez tous les arrêts, le trajet complet, les correspondances.
+            </p>
+
+            <div className="hero-search-wrap">
+              <SearchForm />
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+                <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>Essayez :</span>
+                {["147", "183", "D", "163", "133"].map((n) => (
+                  <a key={n} href={`/recherche?q=${n}`} style={{
+                    display: "inline-block", padding: "3px 10px", borderRadius: 6,
+                    background: "#F1F5F9", color: "#64748B", textDecoration: "none",
+                    fontSize: "0.75rem", fontWeight: 700, border: "1px solid #E2E8F0",
+                  }}>{n}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Colonne droite — image desktop / mobile */}
+          {(heroImageUrl || heroImageMobileUrl) ? (
+            <div className={`hero-img-col${heroImageMobileUrl ? " has-mobile" : ""}`}>
+              {/* Wrapper desktop — le div est caché sur mobile via CSS, pas l'img */}
+              {heroImageUrl && (
+                <div className="hero-img-desktop-wrap" style={{ width: "100%" }}>
+                  <Image
+                    src={heroImageUrl}
+                    alt="Application TaxiBe"
+                    width={680}
+                    height={520}
+                    sizes="50vw"
+                    style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                    priority
+                  />
+                </div>
+              )}
+              {/* Wrapper mobile — le div est caché sur desktop via CSS, pas l'img */}
+              {heroImageMobileUrl && (
+                <div className="hero-img-mobile-wrap" style={{ width: "100%" }}>
+                  <Image
+                    src={heroImageMobileUrl}
+                    alt="Application TaxiBe"
+                    width={480}
+                    height={360}
+                    sizes="calc(100vw - 40px)"
+                    style={{ width: "100%", height: "auto", objectFit: "contain", mixBlendMode: "multiply" }}
+                    priority
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div aria-hidden="true" style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "clamp(5rem,12vw,9rem)", fontWeight: 900, color: "#FFB800",
+              opacity: 0.06, letterSpacing: "-0.05em", userSelect: "none",
+            }}>TXB</div>
+          )}
         </div>
       </section>
 
@@ -84,19 +263,49 @@ export default async function Home() {
             Tout pour se déplacer à Tana
           </h2>
           <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 480, margin: "0 auto 52px", lineHeight: 1.7 }}>
-            Toutes les fonctionnalités sont gratuites. Aucun compte requis pour chercher une ligne.
+            Recherche disponible sur le web. Toutes les fonctionnalités sont accessibles aux membres dans l&apos;application.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
             {[
-              { icon: "M", title: "Par numéro de ligne", desc: "Entrez le numéro et obtenez tous les arrêts, le trajet complet et les terminus.", color: "#FFB800", appOnly: false },
-              { icon: "L", title: "Par arrêt ou quartier", desc: "Indiquez votre départ et votre destination — les correspondances sont calculées automatiquement.", color: "#3b82f6", appOnly: true },
-              { icon: "G", title: "Arrêts près de moi", desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous.", color: "#10b981", appOnly: true },
-              { icon: "F", title: "Lignes favorites", desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste.", color: "#f59e0b", appOnly: true },
-              { icon: "J", title: "Jeux & récompenses", desc: "Sudoku et quiz sur les lignes de Tana. Gagnez des lots en jouant.", color: "#8b5cf6", appOnly: true },
-              { icon: "A", title: "Actualités & emplois", desc: "Restez informé des nouvelles et offres d'emploi à Antananarivo.", color: "#06b6d4", appOnly: true },
+              {
+                title: "Par numéro de ligne",
+                desc: "Entrez le numéro et obtenez tous les arrêts, le trajet complet et les terminus.",
+                appOnly: false,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>,
+              },
+              {
+                title: "Par arrêt ou quartier",
+                desc: "Indiquez votre départ et votre destination — les correspondances sont calculées automatiquement.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>,
+              },
+              {
+                title: "Arrêts près de moi",
+                desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+              },
+              {
+                title: "Lignes favorites",
+                desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFB800" stroke="#FFB800" strokeWidth="1.5" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+              },
+              {
+                title: "Jeux & récompenses",
+                desc: "Sudoku et quiz sur les lignes de Tana. Gagnez des lots en jouant.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>,
+              },
+              {
+                title: "Actualités & emplois",
+                desc: "Restez informé des nouvelles et offres d'emploi à Antananarivo.",
+                appOnly: true,
+                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
+              },
             ].map((f) => (
               <div key={f.title} style={{
-                background: "white", borderRadius: 12, padding: "24px 20px",
+                background: "white", borderRadius: 14, padding: "24px 22px",
                 border: "1px solid #E8ECF0",
                 boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
                 position: "relative",
@@ -112,24 +321,81 @@ export default async function Home() {
                   </span>
                 )}
                 <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: `${f.color}18`,
-                  border: `1.5px solid ${f.color}30`,
+                  width: 52, height: 52, borderRadius: 14,
+                  background: "rgba(255,184,0,0.1)",
+                  border: "1.5px solid rgba(255,184,0,0.22)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  marginBottom: 16,
+                  marginBottom: 18,
                 }}>
-                  <div style={{ width: 18, height: 18, borderRadius: 3, background: f.color, opacity: 0.9 }} />
+                  {f.icon}
                 </div>
-                <h3 style={{ fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", marginBottom: 8 }}>{f.title}</h3>
+                <h3 style={{ fontWeight: 800, fontSize: "0.92rem", color: "#0D1525", marginBottom: 8 }}>{f.title}</h3>
                 <p style={{ fontSize: "0.82rem", color: "#64748B", lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
-          <p style={{ textAlign: "center", marginTop: 28, fontSize: "0.78rem", color: "#64748B" }}>
-            Les fonctionnalités <strong style={{ color: "#0D1525" }}>APP</strong> sont disponibles après téléchargement — toujours gratuitement.
-          </p>
+          <div style={{ marginTop: 40, background: "#0D1525", borderRadius: 16, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <div>
+              <p style={{ margin: "0 0 4px", fontWeight: 900, color: "white", fontSize: "1rem", letterSpacing: "-0.01em" }}>
+                5 fonctionnalités sur 6 sont exclusives à l&apos;app
+              </p>
+              <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+                GPS, favoris, correspondances, jeux — accessibles uniquement après téléchargement.
+              </p>
+            </div>
+            <Link href="/telecharger" style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              padding: "12px 24px", background: "#FFB800", borderRadius: 10,
+              fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", textDecoration: "none",
+              flexShrink: 0, whiteSpace: "nowrap",
+            }}>
+              Télécharger gratuitement →
+            </Link>
+          </div>
         </div>
       </section>
+
+      {/* ── Spotlight ── */}
+      <SpotlightSection />
+
+      {/* ── Vidéo ── */}
+      {videoEmbed && (
+        <section style={{ padding: "88px 24px", background: "white" }}>
+          <div style={{ maxWidth: 860, margin: "0 auto" }}>
+            <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
+              Découvrir
+            </p>
+            <h2 style={{ textAlign: "center", fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em" }}>
+              {videoTitre}
+            </h2>
+            <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 560, margin: "0 auto 44px", lineHeight: 1.75 }}>
+              {videoSousTexte}
+            </p>
+            <div style={{
+              position: "relative", width: "100%", paddingTop: "56.25%",
+              borderRadius: 18, overflow: "hidden",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+              border: "1px solid #E8ECF0",
+            }}>
+              {videoEmbed.type === "youtube" ? (
+                <iframe
+                  src={videoEmbed.src}
+                  title={videoTitre}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+                />
+              ) : (
+                <video
+                  src={videoEmbed.src}
+                  controls
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Actualités ── */}
       {articles.length > 0 && (
@@ -155,7 +421,7 @@ export default async function Home() {
 
             <div className="actu-grid">
               {articles.map((a) => (
-                <Link key={a.id} href={`/blog/${a.id}`} className="actu-card">
+                <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="actu-card">
                   {a.image_url ? (
                     <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
                       <Image
@@ -194,24 +460,84 @@ export default async function Home() {
       )}
 
       {/* ── CTA Téléchargement ── */}
-      <section style={{ background: "#FFB800", padding: "72px 24px" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em" }}>
-            Toutes les fonctionnalités dans l&apos;app
-          </h2>
-          <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: 32 }}>
-            Favoris, GPS, correspondances, jeux — entièrement gratuit sur Android.
-          </p>
-          <Link href="/telecharger" style={{
-            display: "inline-block", padding: "14px 36px", borderRadius: 8,
-            background: "#0D1525", color: "#FFB800",
-            fontWeight: 800, fontSize: "1rem", textDecoration: "none",
-            letterSpacing: "-0.01em",
-          }}>
-            Télécharger l&apos;app
-          </Link>
-        </div>
-      </section>
+      <div style={{ position: "relative", zIndex: 0 }}>
+        <style>{`
+          .cta-section {
+            background: #FFB800;
+            position: relative;
+            overflow: visible;
+          }
+          .cta-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 72px 40px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 40px; align-items: center;
+            position: relative;
+          }
+          .cta-phone-col {
+            display: flex; justify-content: center; align-items: flex-end;
+            position: relative;
+          }
+          .cta-phone-img {
+            width: 100%; max-width: 320px;
+            margin-bottom: -72px;
+            margin-top: -72px;
+            filter: drop-shadow(0 32px 48px rgba(0,0,0,0.22));
+          }
+          @media (max-width: 720px) {
+            .cta-inner { grid-template-columns: 1fr; padding: 56px 24px; }
+            .cta-phone-col { display: none; }
+          }
+        `}</style>
+        <section className="cta-section">
+          <div className="cta-inner">
+            {/* Texte */}
+            <div>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+                Toutes les fonctionnalités dans l&apos;app
+              </h2>
+              <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36, maxWidth: 400 }}>
+                Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
+              </p>
+              <Link href="/telecharger" style={{
+                display: "inline-block", padding: "15px 36px", borderRadius: 10,
+                background: "#0D1525", color: "#FFB800",
+                fontWeight: 800, fontSize: "1rem", textDecoration: "none",
+                letterSpacing: "-0.01em",
+              }}>
+                Télécharger l&apos;app
+              </Link>
+            </div>
+
+            {/* Téléphone */}
+            <div className="cta-phone-col">
+              {ctaPhoneUrl ? (
+                <Image
+                  src={ctaPhoneUrl}
+                  alt="Application TaxiBe sur téléphone"
+                  width={320}
+                  height={580}
+                  sizes="320px"
+                  className="cta-phone-img"
+                  style={{ objectFit: "contain" }}
+                />
+              ) : (
+                /* Placeholder si pas d'image uploadée */
+                <div className="cta-phone-img" style={{
+                  width: 220, background: "#0D1525", borderRadius: 32,
+                  padding: "12px 8px", boxShadow: "0 32px 48px rgba(0,0,0,0.22)",
+                }}>
+                  <div style={{ width: 60, height: 10, background: "#1a2a40", borderRadius: 5, margin: "0 auto 10px" }} />
+                  <div style={{ background: "#F8FAFC", borderRadius: 20, height: 320, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: "2rem", fontWeight: 900, color: "#FFB800", opacity: 0.3 }}>TXB</span>
+                  </div>
+                  <div style={{ width: 50, height: 5, background: "rgba(255,255,255,0.2)", borderRadius: 3, margin: "10px auto 0" }} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* ── Comment ça marche ── */}
       <section id="comment" style={{ padding: "88px 24px", background: "#F8F9FB" }}>
@@ -224,10 +550,10 @@ export default async function Home() {
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {[
-              { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site ou sur l'application — accès immédiat, sans compte ni inscription." },
+              { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site pour la recherche rapide, ou dans l'application pour l'expérience complète." },
               { num: "2", title: "Cherchez par numéro de ligne", desc: "Tapez le numéro (ex : 147) pour voir tous les arrêts et le trajet complet en détail." },
               { num: "3", title: "Trouvez vos correspondances", desc: "Indiquez votre point de départ et votre destination — TaxiBe calcule les correspondances." },
-              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, jeux et récompenses sont disponibles dans l'application — gratuitement." },
+              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, jeux et récompenses — toutes les fonctionnalités sont dans l'application pour les membres." },
             ].map((step, i) => (
               <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
                 <div style={{
@@ -254,3 +580,6 @@ export default async function Home() {
     </>
   );
 }
+
+
+

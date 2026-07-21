@@ -17,6 +17,7 @@ const NAV_SECTIONS = [
       { href: "/gestion/spotlight",  label: "Spotlight",   icon: "📣" },
       { href: "/gestion/emplois",    label: "Carrières",   icon: "💼" },
       { href: "/gestion/messages",   label: "Messages",    icon: "✉️" },
+      { href: "/gestion/chat",       label: "Chat live",   icon: "💬" },
     ],
   },
   {
@@ -30,11 +31,14 @@ const NAV_SECTIONS = [
   },
   {
     label: "Administration",
-    items: [{ href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" }],
+    items: [
+      { href: "/gestion/parametres",   label: "Paramètres",   icon: "⚙️" },
+      { href: "/gestion/utilisateurs", label: "Accès & rôles", icon: "🔑" },
+    ],
   },
 ];
 
-function NavContent({ nom, onClose }: { nom: string; onClose?: () => void }) {
+function NavContent({ nom, onClose, unreadChat }: { nom: string; onClose?: () => void; unreadChat?: number }) {
   return (
     <>
       {/* Logo */}
@@ -77,7 +81,12 @@ function NavContent({ nom, onClose }: { nom: string; onClose?: () => void }) {
               className="admin-nav-item"
               >
                 <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>
-                {item.label}
+                <span style={{ flex: 1 }}>{item.label}</span>
+                {item.href === "/gestion/chat" && unreadChat && unreadChat > 0 ? (
+                  <span style={{ background: "#FFB800", color: "#0D1525", fontSize: "0.6rem", fontWeight: 800, minWidth: 17, height: 17, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", padding: "0 3px" }}>
+                    {unreadChat > 99 ? "99+" : unreadChat}
+                  </span>
+                ) : null}
               </Link>
             ))}
           </div>
@@ -112,7 +121,7 @@ function NavContent({ nom, onClose }: { nom: string; onClose?: () => void }) {
   );
 }
 
-export default function AdminSidebar({ nom }: { nom: string }) {
+export default function AdminSidebar({ nom, unreadChat }: { nom: string; unreadChat?: number }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -180,7 +189,7 @@ export default function AdminSidebar({ nom }: { nom: string }) {
 
       {/* ── Desktop sidebar ── */}
       <aside className="admin-sidebar-desktop">
-        <NavContent nom={nom} />
+        <NavContent nom={nom} unreadChat={unreadChat} />
       </aside>
 
       {/* ── Mobile topbar ── */}
@@ -215,7 +224,7 @@ export default function AdminSidebar({ nom }: { nom: string }) {
 
       {/* ── Drawer panel ── */}
       <aside className={`admin-drawer-panel${drawerOpen ? " open" : ""}`}>
-        <NavContent nom={nom} onClose={() => setDrawerOpen(false)} />
+        <NavContent nom={nom} onClose={() => setDrawerOpen(false)} unreadChat={unreadChat} />
       </aside>
     </>
   );

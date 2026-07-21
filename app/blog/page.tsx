@@ -1,67 +1,133 @@
+import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-
-// ── Types ──────────────────────────────────────────────────────────────────────
+import SpotlightSection from "@/app/components/SpotlightSection";
+import HeroIllustration from "@/app/components/HeroIllustration";
 
 type Article = {
   id: string;
+  slug: string | null;
   image_url: string | null;
   texte: string;
-  contenu: string | null;
   lien: string | null;
   publie: boolean;
   ordre: number;
   created_at: string;
 };
 
-// ── Données Supabase ───────────────────────────────────────────────────────────
-
-async function getArticles(): Promise<Article[]> {
-  const { data } = await supabase
-    .from("actualites")
-    .select("id, image_url, texte, contenu, lien, publie, ordre, created_at")
-    .eq("publie", true)
-    .order("created_at", { ascending: false });
-  return data ?? [];
+async function getHeroImageUrl(): Promise<string | null> {
+  try {
+    const { data } = await Promise.race([
+      supabase.from("parametres").select("valeur").eq("cle", "blog_hero_image_url").single(),
+      new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
+    ]);
+    return (data as { valeur: string } | null)?.valeur ?? null;
+  } catch {
+    return null;
+  }
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+async function getArticles(q?: string): Promise<Article[]> {
+  let req = supabase
+    .from("actualites")
+    .select("id, slug, image_url, texte, lien, publie, ordre, created_at")
+    .eq("publie", true)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (q) req = req.or(`texte.ilike.%${q}%`);
+
+  return Promise.race([
+    Promise.resolve(req).then((r) => (r.data as Article[]) ?? []).catch(() => []),
+    new Promise<Article[]>((res) => setTimeout(() => res([]), 8000)),
+  ]);
+}
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();
 }
 
 const CATEGORIES = [
-  { label: "Conseils pratiques", icon: "💡" },
-  { label: "Actualités",         icon: "📰" },
-  { label: "Lignes & trajets",   icon: "🚌" },
-  { label: "Arrêts & correspondances", icon: "📍" },
-  { label: "Sécurité",           icon: "🔒" },
-  { label: "Application TaxiBe", icon: "📱" },
+  { label: "Conseils pratiques", icon: "💡", q: "conseils" },
+  { label: "Actualités",         icon: "📰", q: "actualités" },
+  { label: "Lignes & trajets",   icon: "🚌", q: "ligne" },
+  { label: "Arrêts",             icon: "📍", q: "arrêt" },
+  { label: "Sécurité",           icon: "🔑", q: "sécurité" },
+  { label: "Application TaxiBe", icon: "📱", q: "application" },
 ];
 
-// ── Composant ──────────────────────────────────────────────────────────────────
+export const metadata = {
+  title: "Blog",
+  description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+    url: "/blog",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe — Blog" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Blog — TaxiBe",
+    description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
+};
 
-export const metadata = { title: "Blog — TaxiBe" };
+export const revalidate = 60;
 
-export default async function BlogPage() {
-  const articles = await getArticles();
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+  const query = q?.trim() ?? "";
+  const [articles, heroImageUrl] = await Promise.all([getArticles(query || undefined), getHeroImageUrl()]);
 
   const featured = articles[0] ?? null;
   const dernieres = articles.slice(1, 4);
   const recents = articles.slice(4, 7);
   const populaires = articles.slice(0, 5);
 
+  const BASE = "https://taxibemada.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${BASE}/blog` },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        "name": "Articles du blog TaxiBe",
+        "url": `${BASE}/blog`,
+        "itemListElement": articles.slice(0, 10).map((a, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": a.texte.length > 110 ? a.texte.slice(0, 107) + "…" : a.texte,
+          "url": `${BASE}/blog/${a.slug || a.id}`,
+        })),
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <div style={{ background: "#F8F9FB", minHeight: "100vh" }}>
         <style>{`
           .blog-layout   { display: grid; grid-template-columns: 1fr 320px; gap: 32px; max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
-          .blog-hero     { max-width: 1100px; margin: 0 auto; padding: 28px 24px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+          .blog-hero     { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
           .blog-hero-img { display: flex; align-items: center; justify-content: center; }
           .featured-img-wrap { width: 100%; background: #F1F5F9; border-radius: 14px 14px 0 0; overflow: hidden; }
           .featured-img-ph { width: 100%; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%); border-radius: 14px 14px 0 0; }
@@ -91,7 +157,7 @@ export default async function BlogPage() {
 
           @media (max-width: 900px) {
             .blog-layout  { grid-template-columns: 1fr; }
-            .blog-hero    { grid-template-columns: 1fr; }
+            .blog-hero    { grid-template-columns: 1fr; padding: 40px 20px; }
             .blog-hero-img { display: none; }
             .article-grid { grid-template-columns: 1fr 1fr; }
           }
@@ -104,86 +170,52 @@ export default async function BlogPage() {
           }
         `}</style>
 
-        {/* Breadcrumb */}
-        <div className="breadcrumb">
-          <Link href="/">Accueil</Link>
-          <span style={{ margin: "0 8px" }}>›</span>
-          <span style={{ color: "#0D1525", fontWeight: 600 }}>Blog</span>
-        </div>
-
         {/* Hero */}
-        <div className="blog-hero">
-          <div>
-            <span style={{
-              display: "inline-block", background: "#FFB800", color: "#0D1525",
-              fontSize: "0.65rem", fontWeight: 900, textTransform: "uppercase",
-              letterSpacing: "0.1em", padding: "4px 12px", borderRadius: 6, marginBottom: 18,
-            }}>
-              Le blog TaxiBe
-            </span>
-            <h1 style={{ fontSize: "2.2rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.2, margin: "0 0 16px" }}>
-              Le média de la mobilité<br />à Antananarivo
-            </h1>
-            <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.65, margin: 0, maxWidth: 420 }}>
-              Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
-            </p>
-          </div>
+        <section style={{ borderBottom: "1px solid #E8ECF0" }}>
+          <div className="blog-hero">
+            <div>
+              <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
+                <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
+                  Blog
+                </span>
+              </div>
+              <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
+                Le média de la <span style={{ color: "#FFB800" }}>mobilité</span> à Antananarivo
+              </h1>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.75, margin: 0, maxWidth: 480 }}>
+                Actualités, conseils et guides pour mieux comprendre et optimiser vos déplacements au quotidien.
+              </p>
+            </div>
           <div className="blog-hero-img">
-            <svg viewBox="0 0 460 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 440 }}>
-              <rect width="460" height="280" fill="#F8F9FB" rx="16"/>
-              <ellipse cx="230" cy="230" rx="240" ry="90" fill="#E8ECF0"/>
-              <ellipse cx="110" cy="210" rx="130" ry="60" fill="#EEF1F5"/>
-              <ellipse cx="370" cy="220" rx="120" ry="55" fill="#E8ECF0"/>
-              <rect x="40"  y="130" width="30" height="90" rx="3" fill="#D1D9E6"/>
-              <rect x="75"  y="110" width="35" height="110" rx="3" fill="#C8D2E0"/>
-              <rect x="115" y="125" width="25" height="95" rx="3" fill="#D1D9E6"/>
-              <rect x="320" y="115" width="35" height="105" rx="3" fill="#C8D2E0"/>
-              <rect x="360" y="130" width="28" height="90" rx="3" fill="#D1D9E6"/>
-              <rect x="393" y="118" width="32" height="102" rx="3" fill="#C8D2E0"/>
-              <rect x="200" y="60" width="60" height="160" rx="4" fill="#B8C5D6"/>
-              <rect x="210" y="40" width="40" height="30" rx="3" fill="#A8B8CC"/>
-              <rect x="224" y="28" width="12" height="20" rx="2" fill="#94A3B8"/>
-              {[75,95,115,135,155,175].map((y, i) => (
-                <g key={i}>
-                  <rect x="210" y={y} width="10" height="12" rx="1" fill="#E2E8F0" opacity="0.8"/>
-                  <rect x="240" y={y} width="10" height="12" rx="1" fill="#E2E8F0" opacity="0.8"/>
-                </g>
-              ))}
-              <rect x="0" y="230" width="460" height="50" rx="0" fill="#D8E0EA"/>
-              <rect x="0" y="248" width="460" height="6" fill="#C8D2DF"/>
-              {[20,80,140,200,260,320,380].map((x, i) => (
-                <rect key={i} x={x} y="252" width="30" height="3" rx="1" fill="white" opacity="0.6"/>
-              ))}
-              <g transform="translate(160, 210)">
-                <rect x="0" y="8" width="80" height="36" rx="8" fill="#FFB800"/>
-                <rect x="8"  y="2"  width="64" height="26" rx="6" fill="#FFB800"/>
-                <rect x="12" y="5"  width="24" height="18" rx="3" fill="#E8F4FF" opacity="0.9"/>
-                <rect x="44" y="5"  width="24" height="18" rx="3" fill="#E8F4FF" opacity="0.9"/>
-                <circle cx="16" cy="46" r="9" fill="#1a2a3a"/>
-                <circle cx="16" cy="46" r="5" fill="#E2E8F0"/>
-                <circle cx="64" cy="46" r="9" fill="#1a2a3a"/>
-                <circle cx="64" cy="46" r="5" fill="#E2E8F0"/>
-                <rect x="2" y="12" width="8" height="6" rx="2" fill="#FFF9E6" opacity="0.9"/>
-                <rect x="70" y="12" width="8" height="6" rx="2" fill="#FF6B6B" opacity="0.8"/>
-              </g>
-              <g transform="translate(290, 130)">
-                <circle cx="20" cy="20" r="20" fill="#FFB800" opacity="0.15"/>
-                <path d="M20 4C13.4 4 8 9.4 8 16C8 24 20 36 20 36C20 36 32 24 32 16C32 9.4 26.6 4 20 4Z" fill="#FFB800"/>
-                <circle cx="20" cy="16" r="6" fill="white"/>
-              </g>
-              <ellipse cx="80"  cy="50" rx="30" ry="12" fill="white" opacity="0.7"/>
-              <ellipse cx="100" cy="44" rx="22" ry="10" fill="white" opacity="0.8"/>
-              <ellipse cx="350" cy="40" rx="28" ry="11" fill="white" opacity="0.7"/>
-              <ellipse cx="370" cy="34" rx="20" ry="9"  fill="white" opacity="0.8"/>
-            </svg>
+            {heroImageUrl ? (
+              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+            ) : (
+              <HeroIllustration />
+            )}
           </div>
         </div>
+        </section>
+
+        {/* Spotlight */}
+        <SpotlightSection />
 
         {/* Contenu + Sidebar */}
         <div className="blog-layout">
 
-          {/* ── Contenu principal ── */}
+          {/* Contenu principal */}
           <div>
+
+            {/* Indicateur de recherche */}
+            {query && (
+              <div style={{ marginBottom: 24, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <p style={{ margin: 0, fontSize: "0.84rem", color: "#64748B" }}>
+                  <strong>{articles.length}</strong> résultat{articles.length !== 1 ? "s" : ""} pour <strong>«&nbsp;{query}&nbsp;»</strong>
+                </p>
+                <a href="/blog" style={{ fontSize: "0.75rem", color: "#94A3B8", textDecoration: "none", border: "1px solid #E2E8F0", padding: "2px 9px", borderRadius: 5, background: "white" }}>
+                  ✕ Effacer
+                </a>
+              </div>
+            )}
 
             {/* Article à la une */}
             {featured && (
@@ -208,15 +240,10 @@ export default async function BlogPage() {
                     <span className="badge-cat">ACTUALITÉS</span>
                     <span style={{ fontSize: "0.75rem", color: "#64748B" }}>{formatDate(featured.created_at)}</span>
                   </div>
-                  <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 12px" }}>
+                  <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 20px" }}>
                     {featured.texte}
                   </h2>
-                  {featured.contenu && (
-                    <p style={{ fontSize: "0.9rem", color: "#64748B", lineHeight: 1.65, margin: "0 0 20px" }}>
-                      {featured.contenu.slice(0, 180)}{featured.contenu.length > 180 ? "…" : ""}
-                    </p>
-                  )}
-                  <Link href={`/blog/${featured.id}`} className="lire-link">Lire l&apos;article →</Link>
+                  <Link href={`/blog/${featured.slug || featured.id}`} className="lire-link">Lire l&apos;article →</Link>
                 </div>
               </div>
             )}
@@ -244,13 +271,8 @@ export default async function BlogPage() {
                           <span className="badge-cat">ACTUALITÉS</span>
                           <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
                         </div>
-                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 6px", lineHeight: 1.35 }}>{a.texte}</h3>
-                        {a.contenu && (
-                          <p style={{ fontSize: "0.8rem", color: "#64748B", margin: "0 0 8px", lineHeight: 1.55 }}>
-                            {a.contenu.slice(0, 120)}{a.contenu.length > 120 ? "…" : ""}
-                          </p>
-                        )}
-                        <Link href={`/blog/${a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
+                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{a.texte}</h3>
+                        <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
                       </div>
                     </div>
                   ))}
@@ -266,7 +288,7 @@ export default async function BlogPage() {
                 </div>
                 <div className="article-grid">
                   {recents.map((a) => (
-                    <Link key={a.id} href={`/blog/${a.id}`} className="article-card">
+                    <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="article-card">
                       {a.image_url ? (
                         <div className="card-img-wrap">
                           <Image
@@ -301,16 +323,18 @@ export default async function BlogPage() {
             )}
           </div>
 
-          {/* ── Sidebar ── */}
+          {/* Sidebar */}
           <aside>
 
             {/* Recherche */}
             <div className="sidebar-widget">
               <p className="sidebar-title">Rechercher</p>
               <div style={{ padding: "0 18px 16px" }}>
-                <div style={{ position: "relative" }}>
+                <form action="/blog" method="get" style={{ position: "relative" }}>
                   <input
                     type="text"
+                    name="q"
+                    defaultValue={query}
                     placeholder="Rechercher un article…"
                     style={{
                       width: "100%", padding: "9px 36px 9px 12px", borderRadius: 8,
@@ -318,11 +342,16 @@ export default async function BlogPage() {
                       outline: "none", boxSizing: "border-box", color: "#0D1525",
                     }}
                   />
-                  <svg style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", color: "#64748B" }}
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                  </svg>
-                </div>
+                  <button type="submit" style={{
+                    position: "absolute", right: 0, top: 0, height: "100%",
+                    background: "none", border: "none", cursor: "pointer",
+                    padding: "0 10px", color: "#94A3B8", display: "flex", alignItems: "center",
+                  }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                  </button>
+                </form>
               </div>
             </div>
 
@@ -330,19 +359,19 @@ export default async function BlogPage() {
             <div className="sidebar-widget">
               <p className="sidebar-title">Catégories</p>
               {CATEGORIES.map((c) => (
-                <Link key={c.label} href="#" className="cat-item">
+                <Link key={c.label} href={`/blog?q=${encodeURIComponent(c.q)}`} className="cat-item">
                   <span style={{ fontSize: "1rem" }}>{c.icon}</span>
                   {c.label}
                 </Link>
               ))}
             </div>
 
-            {/* Articles populaires (les plus récents) */}
+            {/* Articles populaires */}
             {populaires.length > 0 && (
               <div className="sidebar-widget">
                 <p className="sidebar-title">Articles récents</p>
                 {populaires.map((a, i) => (
-                  <Link key={a.id} href={`/blog/${a.id}`} className="pop-item">
+                  <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="pop-item">
                     <span className="pop-num">{i + 1}</span>
                     <span className="pop-title">{a.texte}</span>
                   </Link>
@@ -353,35 +382,28 @@ export default async function BlogPage() {
             {/* Télécharger l'app */}
             <div style={{ background: "#0D1525", borderRadius: 14, padding: "20px 18px", marginBottom: 20 }}>
               <p style={{ fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 8px" }}>
-                Télécharger l&apos;application
+                Application TaxiBe
               </p>
-              <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.7)", margin: "0 0 16px", lineHeight: 1.5 }}>
-                Tous vos trajets, arrêts et lignes dans votre poche.
+              <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.65)", margin: "0 0 16px", lineHeight: 1.55 }}>
+                Arrêts GPS, favoris, itinéraires, correspondances — tout dans votre poche.
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <Link href="/telecharger" style={{
-                  display: "flex", alignItems: "center", gap: 10, padding: "10px 14px",
-                  background: "rgba(255,255,255,0.08)", borderRadius: 10, textDecoration: "none",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.35l14 8.5c.5.3.5 1 0 1.3l-14 8.5c-.5.48-1.5.48-1.5-.35z" fill="#34A853"/><path d="M3 3.5l8.5 8.5-8.5 8.5V3.5z" fill="#EA4335"/><path d="M11.5 12l8.5 8.5H3l8.5-8.5z" fill="#FBBC05"/><path d="M3 3.5H20L11.5 12 3 3.5z" fill="#4285F4"/></svg>
-                  <div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.5)", lineHeight: 1 }}>Disponible sur</div>
-                    <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", lineHeight: 1.3 }}>Google Play</div>
-                  </div>
-                </Link>
-                <Link href="/telecharger" style={{
-                  display: "flex", alignItems: "center", gap: 10, padding: "10px 14px",
-                  background: "rgba(255,255,255,0.08)", borderRadius: 10, textDecoration: "none",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                  <div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.5)", lineHeight: 1 }}>Télécharger dans</div>
-                    <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", lineHeight: 1.3 }}>l&apos;App Store</div>
-                  </div>
-                </Link>
-              </div>
+              <Link href="/telecharger" style={{
+                display: "flex", alignItems: "center", gap: 10, padding: "11px 14px",
+                background: "#FFB800", borderRadius: 10, textDecoration: "none",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <div>
+                  <div style={{ fontSize: "0.56rem", color: "rgba(13,21,37,0.55)", lineHeight: 1, textTransform: "uppercase", letterSpacing: "0.06em" }}>Android · Gratuit</div>
+                  <div style={{ fontSize: "0.82rem", fontWeight: 800, color: "#0D1525", lineHeight: 1.3 }}>Télécharger TaxiBe</div>
+                </div>
+              </Link>
+              <p style={{ margin: "8px 0 0", fontSize: "0.68rem", color: "rgba(255,255,255,0.2)" }}>
+                Google Play · bientôt disponible
+              </p>
             </div>
 
             {/* Ligne la plus recherchée */}
@@ -410,6 +432,7 @@ export default async function BlogPage() {
           </aside>
         </div>
       </div>
+      <CtaApp />
       <Footer />
     </>
   );

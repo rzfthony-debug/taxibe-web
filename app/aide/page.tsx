@@ -1,25 +1,40 @@
 ﻿import { safeJsonLd } from "@/lib/sanitize";
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import HeroIllustration from "@/app/components/HeroIllustration";
+
+export const revalidate = 3600;
 
 export const metadata = {
-  title: "FAQ — Questions fréquentes",
-  description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
-  alternates: { canonical: "/faq" },
+  title: "Aide",
+  description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+  alternates: { canonical: "/aide" },
   openGraph: {
-    title: "FAQ TaxiBe — Questions fréquentes",
-    description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
-    url: "/faq",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "FAQ TaxiBe" }],
+    title: "Aide — TaxiBe",
+    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    url: "/aide",
+    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Aide TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "FAQ TaxiBe — Questions fréquentes",
-    description: "Toutes les réponses sur l'utilisation de TaxiBe.",
+    title: "Aide — TaxiBe",
+    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
     images: ["/logo_taxibe.png"],
   },
 };
+
+async function getHeroImageUrl(): Promise<string | null> {
+  const { data } = await supabase
+    .from("parametres")
+    .select("valeur")
+    .eq("cle", "aide_hero_image_url")
+    .single();
+  return data?.valeur ?? null;
+}
 
 const FAQ_SECTIONS = [
   {
@@ -65,11 +80,11 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Une ligne ou un arrêt a changé, comment le signaler ?",
-        r: "Utilisez la page « Signaler une erreur » avec le numéro de ligne concerné. Notre équipe vérifie et met à jour la base dans les meilleurs délais.",
+        r: "Utilisez la section « Signaler » dans l'application avec le numéro de ligne concerné. Notre équipe vérifie et met à jour la base dans les meilleurs délais.",
       },
       {
         q: "Puis-je contribuer à améliorer la base de données ?",
-        r: "Oui. TaxiBe s'appuie en partie sur les usagers qui connaissent le terrain. Consultez la page « Devenir contributeur » pour proposer votre aide.",
+        r: "Oui. TaxiBe s'appuie en partie sur les usagers qui connaissent le terrain. Consultez la page « Communauté » pour proposer votre aide.",
       },
     ],
   },
@@ -88,7 +103,8 @@ const FAQ_SECTIONS = [
   },
 ];
 
-export default function FaqPage() {
+export default async function AidePage() {
+  const heroImageUrl = await getHeroImageUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -109,17 +125,35 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
-
-        <div style={{ background: "#0D1525", padding: "56px 24px 64px" }}>
-          <div style={{ maxWidth: 760, margin: "0 auto" }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#FFB800", marginBottom: 14 }}>
-              Questions fréquentes
-            </p>
-            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "white", margin: 0, letterSpacing: "-0.02em" }}>
-              Tout ce qu&apos;il faut savoir sur TaxiBe
-            </h1>
+        <style>{`
+          .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
+          .page-hero-img { display: flex; align-items: center; justify-content: center; }
+          @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } }
+        `}</style>
+        <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
+          <div className="page-hero-inner">
+            <div>
+              <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
+                <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
+                  Questions fréquentes
+                </span>
+              </div>
+              <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
+                Tout ce qu&apos;il faut savoir sur <span style={{ color: "#FFB800" }}>TaxiBe</span>
+              </h1>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 480, margin: 0, lineHeight: 1.75 }}>
+                Recherche de ligne, correspondances, compte, favoris — toutes les réponses pour bien utiliser TaxiBe.
+              </p>
+            </div>
+            <div className="page-hero-img">
+              {heroImageUrl ? (
+                <Image src={heroImageUrl} alt="Aide TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+              ) : (
+                <HeroIllustration />
+              )}
+            </div>
           </div>
-        </div>
+        </section>
 
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -173,9 +207,11 @@ export default function FaqPage() {
           </div>
         </div>
       </main>
+      <CtaApp />
       <Footer />
     </>
   );
 }
+
 
 

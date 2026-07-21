@@ -1,0 +1,43 @@
+{
+  "name": "TaxiBe — Lignes de taxi-be Antananarivo",
+  "short_name": "TaxiBe",
+  "description": "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, arrêt ou trajet.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FFB800",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "scope": "/",
+  "categories": ["travel", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Rechercher une ligne",
+      "short_name": "Recherche",
+      "description": "Recherchez une ligne de taxi-be par numéro",
+      "url": "/recherche",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Blog TaxiBe",
+      "short_name": "Blog",
+      "description": "Actualités et conseils TaxiBe",
+      "url": "/blog",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

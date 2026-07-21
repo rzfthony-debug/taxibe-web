@@ -61,10 +61,10 @@ const NAV_SECTIONS = [
     label: "Decouvrir",
     headerIcon: I.compass,
     items: [
-      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/guide",           icon: I.book },
-      { label: "Les nouveautes",          desc: "Restez informe",             href: "/actualites",      icon: I.bell },
-      { label: "FAQ",                     desc: "Questions frequentes",       href: "/faq",             icon: I.help },
-      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/conseils",        icon: I.lightbulb },
+      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/aide",            icon: I.book },
+      { label: "Les nouveautes",          desc: "Restez informe",             href: "/blog",            icon: I.bell },
+      { label: "FAQ",                     desc: "Questions frequentes",       href: "/aide",            icon: I.help },
+      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/aide",            icon: I.lightbulb },
     ],
   },
   {
@@ -72,8 +72,8 @@ const NAV_SECTIONS = [
     label: "Communaute",
     headerIcon: I.users,
     items: [
-      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/signaler",        icon: I.alert },
-      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/contribuer",      icon: I.userPlus },
+      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/communaute",      icon: I.alert },
+      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/communaute",      icon: I.userPlus },
       { label: "Blog",                   desc: "Actualites & conseils",       href: "/blog",            icon: I.edit },
     ],
   },
@@ -82,8 +82,8 @@ const NAV_SECTIONS = [
     label: "Entreprises",
     headerIcon: I.briefcase,
     items: [
-      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/publicite",       icon: I.megaphone },
-      { label: "Partenaires",           desc: "Nos partenaires",              href: "/partenaires",     icon: I.handshake },
+      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/entreprises",     icon: I.megaphone },
+      { label: "Partenaires",           desc: "Nos partenaires",              href: "/entreprises",     icon: I.handshake },
     ],
   },
   {
@@ -95,7 +95,7 @@ const NAV_SECTIONS = [
       { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "/a-propos#equipe", icon: I.users },
       { label: "Carrieres",             desc: "Rejoignez l'aventure",         href: "/emplois",         icon: I.briefcase },
       { label: "Contact",               desc: "Parlez-nous",                  href: "/contact",         icon: I.mail },
-      { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/mentions-legales", icon: I.shield },
+      { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/legal",           icon: I.shield },
     ],
   },
 ];
@@ -160,7 +160,7 @@ export default function Nav() {
     setOpen(true);
   }
   function scheduleClose() {
-    closeTimer.current = setTimeout(() => setOpen(false), 100);
+    closeTimer.current = setTimeout(() => setOpen(false), 300);
   }
 
   return (
@@ -199,7 +199,6 @@ export default function Nav() {
         .sec-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #0D1525; }
         .nav-desktop { display: flex; align-items: center; gap: 1px; }
         .nav-burger  { display: none; }
-        .nav-mobile-panel { display: none; }
         .nav-cta-btn { display: flex; }
         .admin-btn { transition: background 0.15s, border-color 0.15s; }
         .admin-btn:hover { background: #0D1525 !important; border-color: #0D1525 !important; }
@@ -207,11 +206,7 @@ export default function Nav() {
         @media (max-width: 900px) {
           .nav-desktop { display: none !important; }
           .nav-burger  { display: flex !important; }
-          .nav-mobile-panel { display: block !important; }
           .nav-cta-btn { display: none !important; }
-        }
-        @media (min-width: 901px) {
-          .nav-mobile-panel { display: none !important; }
         }
       `}</style>
 
@@ -230,7 +225,9 @@ export default function Nav() {
           <div className="nav-desktop" onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
             {NAV_SECTIONS.map((s) => (
               <button key={s.key} className={`nav-trigger${open ? " open" : ""}`}
-                onMouseEnter={openMenu} aria-expanded={open}>
+                onMouseEnter={openMenu}
+                onClick={openMenu}
+                aria-expanded={open}>
                 {s.label}
                 {I.chevron(open)}
               </button>
@@ -239,15 +236,6 @@ export default function Nav() {
 
           {/* Droite */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <Link href="/gestion/login" title="Espace administrateur" className="admin-btn" style={{
-              width: 36, height: 36, borderRadius: "50%",
-              background: "#F1F5F9", border: "1.5px solid #E2E8F0",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              textDecoration: "none",
-            }}>
-              {I.lock}
-            </Link>
-
             <Link href="/telecharger" className="nav-cta-btn" style={{
               padding: "9px 20px", borderRadius: 8,
               background: "#FFB800", color: "#0D1525",
@@ -311,12 +299,27 @@ export default function Nav() {
               {/* Widget ligne la plus recherchee */}
               <FeaturedLine />
             </div>
+
+            {/* Bandeau app exclusif */}
+            <div style={{ borderTop: "1px solid #F1F5F9", padding: "10px 0 4px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748B" }}>
+                <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.58rem", fontWeight: 800, padding: "1px 6px", borderRadius: 3, letterSpacing: "0.06em", marginRight: 7 }}>APP</span>
+                Arrêts GPS, favoris, itinéraires et correspondances — fonctionnalités exclusives à l&apos;application.
+              </p>
+              <a href="/telecharger" onClick={() => setOpen(false)} style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "6px 14px", background: "#FFB800", borderRadius: 7,
+                fontWeight: 800, fontSize: "0.78rem", color: "#0D1525", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0,
+              }}>
+                Télécharger gratuitement →
+              </a>
+            </div>
           </div>
         )}
 
         {/* ── Menu mobile ── */}
         {mobileOpen && (
-          <div className="nav-mobile-panel" style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "80vh", overflowY: "auto" }}>
+          <div style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "80vh", overflowY: "auto" }}>
             {NAV_SECTIONS.map((s) => (
               <div key={s.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
                 <button onClick={() => setMobileExpanded(mobileExpanded === s.key ? null : s.key)}
@@ -332,8 +335,15 @@ export default function Nav() {
                     {s.items.map((item) => (
                       <Link key={item.label} href={item.href} className="mega-item" onClick={() => setMobileOpen(false)}>
                         <div className="mico">{item.icon}</div>
-                        <div>
-                          <p className="mlabel">{item.label}</p>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                            <p className="mlabel">{item.label}</p>
+                            {"badge" in item && item.badge && (
+                              <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.55rem", fontWeight: 800, padding: "1px 5px", borderRadius: 3, letterSpacing: "0.06em", flexShrink: 0 }}>
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
                           <p className="mdesc">{item.desc}</p>
                         </div>
                       </Link>
@@ -345,7 +355,7 @@ export default function Nav() {
 
             <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
               <Link href="/gestion/login" style={{ flex: 1, padding: "12px", borderRadius: 8, textAlign: "center", background: "#F1F5F9", color: "#0D1525", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
-                Espace admin
+                Accès
               </Link>
               <Link href="/telecharger" style={{ flex: 2, padding: "12px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none" }}>
                 Telecharger l&apos;app

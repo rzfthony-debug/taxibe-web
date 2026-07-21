@@ -1,15 +1,22 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ChatWidgetLoader from "@/app/components/ChatWidgetLoader";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "700", "800", "900"],
   variable: "--font-inter",
   display: "swap",
 });
 
 const BASE_URL = "https://taxibemada.vercel.app";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#FFB800",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -18,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s — TaxiBe",
   },
   description:
-    "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, sans inscription.",
+    "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, disponible sur Android.",
   keywords: [
     "taxi-be", "taxibe", "Antananarivo", "Tananarive", "transport", "bus",
     "ligne", "arrêt", "trajet", "Madagascar", "Tana",
@@ -27,7 +34,6 @@ export const metadata: Metadata = {
   creator: "TaxiBe",
   publisher: "TaxiBe",
   robots: { index: true, follow: true },
-  alternates: { canonical: BASE_URL },
   openGraph: {
     type: "website",
     locale: "fr_MG",
@@ -35,7 +41,7 @@ export const metadata: Metadata = {
     siteName: "TaxiBe",
     title: "TaxiBe — Lignes de taxi-be à Antananarivo",
     description:
-      "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, sans inscription.",
+      "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, disponible sur Android.",
     images: [
       {
         url: "/logo_taxibe.png",
@@ -47,6 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@taxibemada",
+    creator: "@taxibemada",
     title: "TaxiBe — Lignes de taxi-be à Antananarivo",
     description:
       "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet.",
@@ -56,13 +64,15 @@ export const metadata: Metadata = {
     icon: "/icon-192.png",
     apple: "/icon-192.png",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={inter.variable}>
-      <body style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+      <body>
         {children}
+        <ChatWidgetLoader />
       </body>
     </html>
   );
