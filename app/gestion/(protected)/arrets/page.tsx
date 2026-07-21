@@ -16,7 +16,7 @@ export default async function ArretsPage() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Arrets</h1>
-          <p style={{ margin: "4px 0 0", fontSize: "0.82rem", color: "#94A3B8" }}>
+          <p style={{ margin: "4px 0 0", fontSize: "0.82rem", color: "#64748B" }}>
             {arrets.length} arret{arrets.length !== 1 ? "s" : ""} au total
           </p>
         </div>
@@ -55,7 +55,7 @@ export default async function ArretsPage() {
             ))}
             {arrets.length === 0 && (
               <tr>
-                <td colSpan={5} style={{ textAlign: "center", color: "#94A3B8", padding: "40px" }}>
+                <td colSpan={5} style={{ textAlign: "center", color: "#64748B", padding: "40px" }}>
                   Aucun arret enregistre
                 </td>
               </tr>

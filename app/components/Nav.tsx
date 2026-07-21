@@ -108,7 +108,7 @@ function FeaturedLine() {
       <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 4px" }}>
         Ligne la plus recherchee
       </p>
-      <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#94A3B8", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#64748B", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
         Aujourd&apos;hui
       </p>
 
@@ -134,7 +134,7 @@ function FeaturedLine() {
       <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0D1525", margin: "0 0 2px" }}>
         Antananarivo et ses environs
       </p>
-      <p style={{ fontSize: "0.7rem", color: "#94A3B8", margin: 0, fontWeight: 500 }}>
+      <p style={{ fontSize: "0.7rem", color: "#64748B", margin: 0, fontWeight: 500 }}>
         + de 50 communes couvertes
       </p>
     </div>

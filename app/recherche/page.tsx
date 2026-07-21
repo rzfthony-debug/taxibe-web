@@ -63,7 +63,7 @@ export default async function RecherchePage({
         {/* État vide */}
         {!query && (
           <div style={{ textAlign: "center", paddingTop: 80 }}>
-            <p style={{ fontSize: "1rem", color: "#94A3B8", fontWeight: 500 }}>
+            <p style={{ fontSize: "1rem", color: "#64748B", fontWeight: 500 }}>
               Entrez un numéro de ligne pour commencer.
             </p>
           </div>
@@ -72,7 +72,7 @@ export default async function RecherchePage({
         {/* Résultats */}
         {query && (
           <>
-            <p style={{ fontSize: "0.82rem", color: "#94A3B8", marginBottom: 20, fontWeight: 500 }}>
+            <p style={{ fontSize: "0.82rem", color: "#64748B", marginBottom: 20, fontWeight: 500 }}>
               {results.length > 0
                 ? `${results.length} ligne${results.length > 1 ? "s" : ""} pour « ${query} »`
                 : `Aucune ligne trouvée pour « ${query} »`}
@@ -127,11 +127,11 @@ export default async function RecherchePage({
                       </div>
                       <div style={{ display: "flex", gap: 12, marginTop: 5 }}>
                         {ligne.cooperative && (
-                          <span style={{ fontSize: "0.75rem", color: "#94A3B8", fontWeight: 500 }}>
+                          <span style={{ fontSize: "0.75rem", color: "#64748B", fontWeight: 500 }}>
                             {ligne.cooperative}
                           </span>
                         )}
-                        <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>
+                        <span style={{ fontSize: "0.75rem", color: "#64748B" }}>
                           {ligne.nb_arrets} arrêt{ligne.nb_arrets > 1 ? "s" : ""}
                         </span>
                       </div>

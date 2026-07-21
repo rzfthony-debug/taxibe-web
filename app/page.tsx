@@ -125,7 +125,7 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          <p style={{ textAlign: "center", marginTop: 28, fontSize: "0.78rem", color: "#94A3B8" }}>
+          <p style={{ textAlign: "center", marginTop: 28, fontSize: "0.78rem", color: "#64748B" }}>
             Les fonctionnalités <strong style={{ color: "#0D1525" }}>APP</strong> sont disponibles après téléchargement — toujours gratuitement.
           </p>
         </div>
@@ -176,7 +176,7 @@ export default async function Home() {
                     </div>
                   )}
                   <div style={{ padding: "18px 20px 22px" }}>
-                    <p style={{ fontSize: "0.7rem", color: "#94A3B8", margin: "0 0 10px", fontWeight: 500 }}>
+                    <p style={{ fontSize: "0.7rem", color: "#64748B", margin: "0 0 10px", fontWeight: 500 }}>
                       {formatDate(a.created_at)}
                     </p>
                     <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.4 }}>

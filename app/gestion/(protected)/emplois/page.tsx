@@ -8,7 +8,7 @@ export default async function EmploisAdminPage() {
     <div>
       <div className="page-header">
         <h1 className="page-title">Offres d&apos;emploi</h1>
-        <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
+        <span style={{ fontSize: "0.82rem", color: "#64748B" }}>
           {offres.length} offre{offres.length > 1 ? "s" : ""} &middot; {enAttente.length} en attente
         </span>
       </div>
@@ -28,7 +28,7 @@ export default async function EmploisAdminPage() {
           <tbody>
             {offres.length === 0 && (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", color: "#94A3B8", padding: 40 }}>
+                <td colSpan={6} style={{ textAlign: "center", color: "#64748B", padding: 40 }}>
                   Aucune offre pour l&apos;instant.
                 </td>
               </tr>

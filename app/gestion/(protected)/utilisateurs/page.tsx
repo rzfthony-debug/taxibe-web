@@ -40,7 +40,7 @@ export default async function UtilisateursPage() {
           {u.email && <div>{u.email}</div>}
         </td>
         <td><StatutBadge statut={u.statut} /></td>
-        <td style={{ fontFamily: "monospace", fontSize: "0.72rem", color: "#94A3B8" }}>
+        <td style={{ fontFamily: "monospace", fontSize: "0.72rem", color: "#64748B" }}>
           {u.cle ?? "-"}
         </td>
         <td style={{ fontSize: "0.8rem", color: "#64748B", whiteSpace: "nowrap" }}>
@@ -76,7 +76,7 @@ export default async function UtilisateursPage() {
     <div>
       <div className="page-header">
         <h1 className="page-title">Utilisateurs</h1>
-        <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
+        <span style={{ fontSize: "0.82rem", color: "#64748B" }}>
           {users.length} membre{users.length > 1 ? "s" : ""} &middot; {enAttente.length} en attente
         </span>
       </div>
@@ -100,7 +100,7 @@ export default async function UtilisateursPage() {
       )}
 
       <div>
-        <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#94A3B8", marginBottom: 10 }}>
+        <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#64748B", marginBottom: 10 }}>
           Tous les membres
         </p>
         <div className="card">
@@ -110,7 +110,7 @@ export default async function UtilisateursPage() {
             </thead>
             <tbody>
               {autres.length === 0 && enAttente.length === 0 && (
-                <tr><td colSpan={6} style={{ textAlign: "center", color: "#94A3B8", padding: 40 }}>Aucun membre.</td></tr>
+                <tr><td colSpan={6} style={{ textAlign: "center", color: "#64748B", padding: 40 }}>Aucun membre.</td></tr>
               )}
               {autres.map((u: { id: string; nom: string; telephone: string | null; email: string | null; statut: string; cle: string | null; created_at: string }) => <UserRow key={u.id} u={u} />)}
             </tbody>

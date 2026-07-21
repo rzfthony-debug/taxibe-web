@@ -19,9 +19,9 @@ const RACCOURCIS = [
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ statut?: string }>;
+  searchParams: Promise<{ statut?: string; poste?: string }>;
 }) {
-  const { statut } = await searchParams;
+  const { statut, poste } = await searchParams;
 
   return (
     <>
@@ -40,11 +40,12 @@ export default async function ContactPage({
               Contact
             </p>
             <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "white", margin: "0 0 12px", letterSpacing: "-0.02em" }}>
-              Parlons de votre trajet
+              {poste ? "Postuler chez TaxiBe" : "Parlons de votre trajet"}
             </h1>
             <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.55)", maxWidth: 520, margin: 0, lineHeight: 1.7 }}>
-              Une question, une remarque ou une idée pour améliorer TaxiBe ? Écrivez-nous, notre équipe
-              vous répond directement par email.
+              {poste
+                ? `Votre candidature pour le poste « ${poste} » sera transmise directement à notre équipe RH.`
+                : "Une question, une remarque ou une idée pour améliorer TaxiBe ? Écrivez-nous, notre équipe vous répond directement par email."}
             </p>
           </div>
         </div>
@@ -53,7 +54,7 @@ export default async function ContactPage({
 
           {/* Raccourcis */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 4px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748B", margin: "0 0 4px" }}>
               Une demande précise ?
             </p>
             {RACCOURCIS.map((r) => (
@@ -64,7 +65,7 @@ export default async function ContactPage({
                 <p style={{ margin: "0 0 3px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {r.titre} →
                 </p>
-                <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: "0.78rem", color: "#64748B", lineHeight: 1.5 }}>
                   {r.desc}
                 </p>
               </Link>
@@ -80,7 +81,7 @@ export default async function ContactPage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Envoyer un message
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
               Réponse sous 2 à 3 jours ouvrés.
             </p>
             <MessageForm
@@ -88,9 +89,14 @@ export default async function ContactPage({
               redirectTo="/contact"
               sujetLabel="Sujet"
               sujetPlaceholder="Ex : suggestion, question générale…"
-              messageLabel="Votre message"
-              messagePlaceholder="Dites-nous en plus sur votre demande…"
-              submitLabel="Envoyer le message"
+              sujetDefaultValue={poste ? `Candidature — ${poste}` : undefined}
+              messageLabel={poste ? "Votre message de motivation" : "Votre message"}
+              messagePlaceholder={
+                poste
+                  ? "Présentez-vous et expliquez pourquoi ce poste vous intéresse…"
+                  : "Dites-nous en plus sur votre demande…"
+              }
+              submitLabel={poste ? "Envoyer ma candidature" : "Envoyer le message"}
               status={statut}
             />
           </div>

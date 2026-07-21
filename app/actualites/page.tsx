@@ -41,7 +41,7 @@ export default async function ActualitesPage() {
               border: "1px solid #E8ECF0", textAlign: "center",
             }}>
               <p style={{ fontWeight: 700, color: "#0D1525", marginBottom: 8 }}>Aucune actualité pour l&apos;instant</p>
-              <p style={{ fontSize: "0.875rem", color: "#94A3B8", margin: 0 }}>Revenez bientôt pour les dernières nouvelles.</p>
+              <p style={{ fontSize: "0.875rem", color: "#64748B", margin: 0 }}>Revenez bientôt pour les dernières nouvelles.</p>
             </div>
           )}
 

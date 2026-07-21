@@ -28,7 +28,7 @@ export default async function SpotlightAdminPage() {
           <tbody>
             {items.length === 0 && (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", color: "#94A3B8", padding: "40px" }}>
+                <td colSpan={6} style={{ textAlign: "center", color: "#64748B", padding: "40px" }}>
                   Aucun spotlight pour l&apos;instant.
                 </td>
               </tr>
@@ -44,7 +44,7 @@ export default async function SpotlightAdminPage() {
                 <td style={{ fontWeight: 600 }}>{s.titre}</td>
                 <td style={{ fontSize: "0.8rem", color: "#64748B" }}>
                   {s.cta_label && <span>{s.cta_label}</span>}
-                  {s.cta_url && <span style={{ display: "block", color: "#94A3B8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 180 }}>{s.cta_url}</span>}
+                  {s.cta_url && <span style={{ display: "block", color: "#64748B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 180 }}>{s.cta_url}</span>}
                 </td>
                 <td style={{ textAlign: "center", fontWeight: 700 }}>{s.ordre}</td>
                 <td>

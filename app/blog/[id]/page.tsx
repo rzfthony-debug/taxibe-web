@@ -144,8 +144,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   fontSize: "0.65rem", fontWeight: 900, textTransform: "uppercase",
                   letterSpacing: "0.08em", color: "#FFB800",
                 }}>ACTUALITÉS</span>
-                <span style={{ fontSize: "0.8rem", color: "#94A3B8" }}>·</span>
-                <span style={{ fontSize: "0.8rem", color: "#94A3B8" }}>{formatDate(article.created_at)}</span>
+                <span style={{ fontSize: "0.8rem", color: "#64748B" }}>·</span>
+                <span style={{ fontSize: "0.8rem", color: "#64748B" }}>{formatDate(article.created_at)}</span>
               </div>
               <h1 style={{ fontSize: "1.9rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
                 {article.texte}
@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               {article.contenu ? (
                 <div dangerouslySetInnerHTML={{ __html: article.contenu.replace(/\n/g, "<br/>") }} />
               ) : (
-                <p style={{ color: "#94A3B8", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
+                <p style={{ color: "#64748B", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
               )}
             </div>
 

@@ -17,7 +17,7 @@ export default async function LignesPage() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Lignes</h1>
-          <p style={{ margin: "4px 0 0", fontSize: "0.82rem", color: "#94A3B8" }}>
+          <p style={{ margin: "4px 0 0", fontSize: "0.82rem", color: "#64748B" }}>
             {lignes.length} ligne{lignes.length !== 1 ? "s" : ""} au total
           </p>
         </div>
@@ -71,7 +71,7 @@ export default async function LignesPage() {
             ))}
             {lignes.length === 0 && (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", color: "#94A3B8", padding: "40px" }}>
+                <td colSpan={6} style={{ textAlign: "center", color: "#64748B", padding: "40px" }}>
                   Aucune ligne enregistree
                 </td>
               </tr>

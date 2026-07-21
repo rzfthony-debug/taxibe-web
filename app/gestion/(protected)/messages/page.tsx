@@ -51,7 +51,7 @@ export default async function MessagesAdminPage({
     <div>
       <div className="page-header">
         <h1 className="page-title">Messages</h1>
-        <span style={{ fontSize: "0.82rem", color: "#94A3B8" }}>
+        <span style={{ fontSize: "0.82rem", color: "#64748B" }}>
           {messages.length} message{messages.length > 1 ? "s" : ""} &middot; {nouveaux.length} nouveau{nouveaux.length > 1 ? "x" : ""}
         </span>
       </div>
@@ -88,7 +88,7 @@ export default async function MessagesAdminPage({
           <tbody>
             {affiches.length === 0 && (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", color: "#94A3B8", padding: 40 }}>
+                <td colSpan={6} style={{ textAlign: "center", color: "#64748B", padding: 40 }}>
                   Aucun message pour l&apos;instant.
                 </td>
               </tr>
@@ -116,7 +116,7 @@ export default async function MessagesAdminPage({
                     {CATEGORIE_LABELS[m.categorie] ?? m.categorie}
                   </span>
                   {m.ligne_numero && (
-                    <div style={{ marginTop: 4, fontSize: "0.72rem", color: "#94A3B8" }}>Ligne {m.ligne_numero}</div>
+                    <div style={{ marginTop: 4, fontSize: "0.72rem", color: "#64748B" }}>Ligne {m.ligne_numero}</div>
                   )}
                 </td>
                 <td style={{ maxWidth: 280 }}>

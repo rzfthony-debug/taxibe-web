@@ -40,6 +40,7 @@ export default function MessageForm({
   sujetLabel = "Sujet",
   sujetPlaceholder = "En quelques mots",
   showSujet = true,
+  sujetDefaultValue,
   showLigneNumero = false,
   messageLabel = "Votre message",
   messagePlaceholder = "Decrivez votre demande le plus precisement possible…",
@@ -51,6 +52,7 @@ export default function MessageForm({
   sujetLabel?: string;
   sujetPlaceholder?: string;
   showSujet?: boolean;
+  sujetDefaultValue?: string;
   showLigneNumero?: boolean;
   messageLabel?: string;
   messagePlaceholder?: string;
@@ -127,7 +129,7 @@ export default function MessageForm({
       {showSujet && (
         <div>
           <label style={labelStyle}>{sujetLabel}</label>
-          <input name="sujet" type="text" placeholder={sujetPlaceholder} style={inputStyle} />
+          <input name="sujet" type="text" placeholder={sujetPlaceholder} defaultValue={sujetDefaultValue} style={inputStyle} />
         </div>
       )}
 

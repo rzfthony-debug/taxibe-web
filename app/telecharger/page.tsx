@@ -130,7 +130,7 @@ export default function TelechargerPage() {
             </div>
             <PhoneMockup screen="result" />
           </div>
-          <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#94A3B8" }}>
+          <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#64748B" }}>
             Interface rapide, simple et lisible — conçue pour Antananarivo.
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function TelechargerPage() {
             }}>
               Télécharger TaxiBe — Gratuit
             </a>
-            <p style={{ textAlign: "center", margin: "12px 0 0", fontSize: "0.75rem", color: "#94A3B8" }}>
+            <p style={{ textAlign: "center", margin: "12px 0 0", fontSize: "0.75rem", color: "#64748B" }}>
               Android 6.0 et supérieur · Aucune donnée personnelle requise
             </p>
           </div>
