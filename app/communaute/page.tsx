@@ -100,7 +100,7 @@ export default async function CommunautePage({
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Communauté TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Communauté TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 600px" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}

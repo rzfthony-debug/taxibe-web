@@ -202,7 +202,7 @@ export default async function LegalPage() {
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Informations légales TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Informations légales TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 600px" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
               ) : (
                 <HeroIllustration />
               )}

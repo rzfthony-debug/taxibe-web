@@ -299,7 +299,7 @@ export default async function RecherchePage({
                   width={600}
                   height={430}
                   priority
-                  sizes="(max-width: 900px) 0px, 50vw"
+                  sizes="(max-width: 900px) 0px, 600px"
                   style={{ width: "100%", height: "auto", maxHeight: 440, objectFit: "contain" }}
                 />
               </div>

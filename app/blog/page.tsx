@@ -188,7 +188,7 @@ export default async function BlogPage({
             </div>
           <div className="blog-hero-img">
             {heroImageUrl ? (
-              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 50vw" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+              <Image src={heroImageUrl} alt="Blog TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 600px" priority style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
             ) : (
               <HeroIllustration />
             )}
