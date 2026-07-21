@@ -45,8 +45,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/logo_taxibe.png",
-        width: 1200,
-        height: 630,
+        width: 1842,
+        height: 1466,
         alt: "TaxiBe — Lignes de taxi-be à Antananarivo",
       },
     ],
@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <ChatWidgetLoader />
+        <script defer src="/_vercel/insights/script.js" />
       </body>
     </html>
   );

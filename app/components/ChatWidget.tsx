@@ -168,7 +168,7 @@ export default function ChatWidget() {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               </div>
               <p style={{ margin: 0, fontWeight: 700, fontSize: "0.9rem", color: "#0D1525" }}>Conversation terminée</p>
-              <p style={{ margin: 0, fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.5 }}>Cette session a été fermée par l&apos;équipe TaxiBe.</p>
+              <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B", lineHeight: 1.5 }}>Cette session a été fermée par l&apos;équipe TaxiBe.</p>
               <button onClick={newConversation} style={{ background: "#FFB800", border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 800, fontSize: "0.82rem", color: "#0D1525", cursor: "pointer", fontFamily: "inherit" }}>
                 Nouvelle conversation
               </button>
@@ -188,7 +188,7 @@ export default function ChatWidget() {
                 placeholder="Votre nom (optionnel)"
                 style={{ padding: "9px 12px", borderRadius: 8, border: "1.5px solid #E2E8F0", fontSize: "0.84rem", fontFamily: "inherit", color: "#0D1525", outline: "none" }}
               />
-              <p style={{ margin: 0, fontSize: "0.7rem", color: "#94A3B8", textAlign: "center" }}>
+              <p style={{ margin: 0, fontSize: "0.7rem", color: "#64748B", textAlign: "center" }}>
                 Réponse généralement sous quelques minutes
               </p>
             </div>
@@ -196,14 +196,14 @@ export default function ChatWidget() {
             // Messages
             <div style={{ flex: 1, overflowY: "auto", padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
               {visitorName && (
-                <p style={{ margin: "0 0 4px", fontSize: "0.7rem", color: "#94A3B8", textAlign: "center" }}>
+                <p style={{ margin: "0 0 4px", fontSize: "0.7rem", color: "#64748B", textAlign: "center" }}>
                   Conversation de {visitorName}
                 </p>
               )}
               {messages.map((msg) => (
                 <div key={msg.id} style={{ display: "flex", flexDirection: "column", alignItems: msg.expediteur === "visiteur" ? "flex-end" : "flex-start", gap: 2 }}>
                   {msg.expediteur === "admin" && (
-                    <span style={{ fontSize: "0.62rem", color: "#94A3B8", marginLeft: 4, fontWeight: 600 }}>
+                    <span style={{ fontSize: "0.62rem", color: "#64748B", marginLeft: 4, fontWeight: 600 }}>
                       {msg.admin_nom ?? "Équipe TaxiBe"}
                     </span>
                   )}
@@ -219,7 +219,7 @@ export default function ChatWidget() {
                 </div>
               ))}
               {messages.length === 0 && (
-                <p style={{ margin: "auto", fontSize: "0.78rem", color: "#94A3B8", textAlign: "center" }}>
+                <p style={{ margin: "auto", fontSize: "0.78rem", color: "#64748B", textAlign: "center" }}>
                   Votre message a été envoyé.<br/>Un conseiller va vous répondre.
                 </p>
               )}

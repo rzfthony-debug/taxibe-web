@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${offre.nom} — TaxiBe Carrières`,
       description: desc,
       url: `/emplois/${canonicalSlug}`,
-      images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Carrières TaxiBe" }],
+      images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Carrières TaxiBe" }],
     },
     twitter: {
       card: "summary_large_image",
@@ -232,7 +232,7 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
                   {paragraphes.length > 0 ? paragraphes.map((p, i) => (
                     <p key={i} style={{ margin: 0, fontSize: "0.9rem", color: "#374151", lineHeight: 1.75 }}>{p}</p>
                   )) : (
-                    <p style={{ margin: 0, fontSize: "0.9rem", color: "#94A3B8" }}>Aucune description disponible pour ce poste.</p>
+                    <p style={{ margin: 0, fontSize: "0.9rem", color: "#64748B" }}>Aucune description disponible pour ce poste.</p>
                   )}
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
                     <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                       <div style={{ marginTop: 1, flexShrink: 0 }}>{row.icon}</div>
                       <div>
-                        <p style={{ margin: 0, fontSize: "0.68rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>{row.label}</p>
+                        <p style={{ margin: 0, fontSize: "0.68rem", fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em" }}>{row.label}</p>
                         <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: 700, color: "#0D1525" }}>{row.value}</p>
                       </div>
                     </div>

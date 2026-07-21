@@ -68,7 +68,7 @@ export const metadata = {
     title: "Blog — TaxiBe",
     description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
     url: "/blog",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe — Blog" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe — Blog" }],
   },
   twitter: {
     card: "summary_large_image" as const,
@@ -211,7 +211,7 @@ export default async function BlogPage({
                 <p style={{ margin: 0, fontSize: "0.84rem", color: "#64748B" }}>
                   <strong>{articles.length}</strong> résultat{articles.length !== 1 ? "s" : ""} pour <strong>«&nbsp;{query}&nbsp;»</strong>
                 </p>
-                <a href="/blog" style={{ fontSize: "0.75rem", color: "#94A3B8", textDecoration: "none", border: "1px solid #E2E8F0", padding: "2px 9px", borderRadius: 5, background: "white" }}>
+                <a href="/blog" style={{ fontSize: "0.75rem", color: "#64748B", textDecoration: "none", border: "1px solid #E2E8F0", padding: "2px 9px", borderRadius: 5, background: "white" }}>
                   ✕ Effacer
                 </a>
               </div>
@@ -238,7 +238,7 @@ export default async function BlogPage({
                 <div style={{ padding: "24px 28px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
                     <span className="badge-cat">ACTUALITÉS</span>
-                    <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>{formatDate(featured.created_at)}</span>
+                    <span style={{ fontSize: "0.75rem", color: "#64748B" }}>{formatDate(featured.created_at)}</span>
                   </div>
                   <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 20px" }}>
                     {featured.texte}
@@ -269,7 +269,7 @@ export default async function BlogPage({
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                           <span className="badge-cat">ACTUALITÉS</span>
-                          <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
+                          <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
                         </div>
                         <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{a.texte}</h3>
                         <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
@@ -305,7 +305,7 @@ export default async function BlogPage({
                       )}
                       <div style={{ padding: "14px 16px" }}>
                         <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                          <span style={{ fontSize: "0.7rem", color: "#94A3B8" }}>{formatDate(a.created_at)}</span>
+                          <span style={{ fontSize: "0.7rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
                         </div>
                         <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0D1525", margin: "0 0 12px", lineHeight: 1.35 }}>{a.texte}</h3>
                         <span className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</span>
@@ -318,7 +318,7 @@ export default async function BlogPage({
 
             {articles.length === 0 && (
               <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontSize: "1rem", color: "#94A3B8" }}>Aucun article publié pour l&apos;instant.</p>
+                <p style={{ fontSize: "1rem", color: "#64748B" }}>Aucun article publié pour l&apos;instant.</p>
               </div>
             )}
           </div>
@@ -345,7 +345,7 @@ export default async function BlogPage({
                   <button type="submit" style={{
                     position: "absolute", right: 0, top: 0, height: "100%",
                     background: "none", border: "none", cursor: "pointer",
-                    padding: "0 10px", color: "#94A3B8", display: "flex", alignItems: "center",
+                    padding: "0 10px", color: "#64748B", display: "flex", alignItems: "center",
                   }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
@@ -411,7 +411,7 @@ export default async function BlogPage({
               <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 2px" }}>
                 Ligne la plus recherchée
               </p>
-              <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#94A3B8", margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#64748B", margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 Aujourd&apos;hui
               </p>
               <div style={{ background: "#0D1525", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
@@ -426,7 +426,7 @@ export default async function BlogPage({
                 </Link>
               </div>
               <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0D1525", margin: "0 0 2px" }}>Antananarivo et ses environs</p>
-              <p style={{ fontSize: "0.7rem", color: "#94A3B8", margin: 0 }}>+ de 50 communes couvertes</p>
+              <p style={{ fontSize: "0.7rem", color: "#64748B", margin: 0 }}>+ de 50 communes couvertes</p>
             </div>
 
           </aside>

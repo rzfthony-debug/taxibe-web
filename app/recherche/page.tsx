@@ -377,7 +377,7 @@ export default async function RecherchePage({
                     </svg>
                   </div>
                   <p style={{ margin: "0 0 3px", fontWeight: 800, fontSize: "0.88rem", color: "#0D1525" }}>Recherche rapide</p>
-                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#94A3B8", lineHeight: 1.55 }}>Trouvez votre ligne en quelques secondes.</p>
+                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#64748B", lineHeight: 1.55 }}>Trouvez votre ligne en quelques secondes.</p>
                 </div>
 
                 <div className="feature-card">
@@ -387,7 +387,7 @@ export default async function RecherchePage({
                     </svg>
                   </div>
                   <p style={{ margin: "0 0 3px", fontWeight: 800, fontSize: "0.88rem", color: "#0D1525" }}>Infos précises</p>
-                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#94A3B8", lineHeight: 1.55 }}>Arrêts, itinéraires et correspondances à jour.</p>
+                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#64748B", lineHeight: 1.55 }}>Arrêts, itinéraires et correspondances à jour.</p>
                 </div>
 
                 <div className="feature-card">
@@ -397,7 +397,7 @@ export default async function RecherchePage({
                     </svg>
                   </div>
                   <p style={{ margin: "0 0 3px", fontWeight: 800, fontSize: "0.88rem", color: "#0D1525" }}>Notifications</p>
-                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#94A3B8", lineHeight: 1.55 }}>Restez informé des changements en temps réel.</p>
+                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#64748B", lineHeight: 1.55 }}>Restez informé des changements en temps réel.</p>
                 </div>
 
                 <div className="feature-card">
@@ -407,7 +407,7 @@ export default async function RecherchePage({
                     </svg>
                   </div>
                   <p style={{ margin: "0 0 3px", fontWeight: 800, fontSize: "0.88rem", color: "#0D1525" }}>Disponible sur l&apos;app</p>
-                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#94A3B8", lineHeight: 1.55 }}>Encore plus de fonctionnalités vous attendent.</p>
+                  <p style={{ margin: 0, fontSize: "0.76rem", color: "#64748B", lineHeight: 1.55 }}>Encore plus de fonctionnalités vous attendent.</p>
                 </div>
 
               </div>
@@ -437,7 +437,7 @@ export default async function RecherchePage({
         {/* ── RÉSULTATS ────────────────────────────────────────── */}
         {query && (
           <div style={{ maxWidth: 860, margin: "0 auto", padding: "28px 24px" }}>
-            <p style={{ fontSize: "0.82rem", color: "#94A3B8", marginBottom: 20, fontWeight: 500 }}>
+            <p style={{ fontSize: "0.82rem", color: "#64748B", marginBottom: 20, fontWeight: 500 }}>
               {results.length > 0
                 ? `${results.length} ligne${results.length > 1 ? "s" : ""} pour « ${query} »`
                 : `Aucune ligne trouvée pour « ${query} »`}

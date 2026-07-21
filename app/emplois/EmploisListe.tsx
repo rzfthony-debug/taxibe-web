@@ -112,7 +112,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
         </div>
       </div>
 
-      <p style={{ fontSize: "0.75rem", color: "#94A3B8", margin: "0 0 14px", fontWeight: 600 }}>
+      <p style={{ fontSize: "0.75rem", color: "#64748B", margin: "0 0 14px", fontWeight: 600 }}>
         {filtered.length} poste{filtered.length !== 1 ? "s" : ""}
       </p>
 
@@ -126,7 +126,7 @@ export default function EmploisListe({ offres }: { offres: Offre[] }) {
             <p style={{ fontWeight: 700, color: "#0D1525", margin: "0 0 6px", fontSize: "0.9rem" }}>
               Aucun poste ne correspond
             </p>
-            <p style={{ fontSize: "0.8rem", color: "#94A3B8", margin: 0 }}>
+            <p style={{ fontSize: "0.8rem", color: "#64748B", margin: 0 }}>
               Essayez d&apos;autres termes ou envoyez une candidature spontanée.
             </p>
           </div>

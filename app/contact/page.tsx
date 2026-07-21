@@ -18,7 +18,7 @@ export const metadata = {
     title: "Contact — TaxiBe",
     description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
     url: "/contact",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Contact TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Contact TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
@@ -114,7 +114,7 @@ export default async function ContactPage({
 
           {/* Raccourcis */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 4px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748B", margin: "0 0 4px" }}>
               Une demande précise ?
             </p>
             {RACCOURCIS.map((r) => (
@@ -125,7 +125,7 @@ export default async function ContactPage({
                 <p style={{ margin: "0 0 3px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {r.titre} →
                 </p>
-                <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: "0.78rem", color: "#64748B", lineHeight: 1.5 }}>
                   {r.desc}
                 </p>
               </Link>
@@ -141,7 +141,7 @@ export default async function ContactPage({
             <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
               Envoyer un message
             </h2>
-            <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: "0 0 22px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#64748B", margin: "0 0 22px" }}>
               Réponse sous 2 à 3 jours ouvrés.
             </p>
             <MessageForm

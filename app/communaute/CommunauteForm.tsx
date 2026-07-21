@@ -144,7 +144,7 @@ export default function CommunauteForm({ status }: { status?: string }) {
                 <p style={{ margin: "0 0 2px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                   {t.label}
                 </p>
-                <p style={{ margin: 0, fontSize: "0.76rem", color: "#94A3B8" }}>
+                <p style={{ margin: 0, fontSize: "0.76rem", color: "#64748B" }}>
                   {t.desc}
                 </p>
               </div>

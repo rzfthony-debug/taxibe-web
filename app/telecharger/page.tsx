@@ -16,7 +16,7 @@ export const metadata = {
     title: "Télécharger TaxiBe — Gratuit sur Android",
     description: "Téléchargez TaxiBe sur Android. Gratuit, sans compte requis, sans publicité. Accès complet aux lignes de taxi-be d'Antananarivo.",
     url: "/telecharger",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Télécharger TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Télécharger TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
@@ -202,7 +202,7 @@ export default async function TelechargerPage() {
             </div>
           )}
 
-          <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#94A3B8" }}>
+          <p style={{ marginTop: 40, fontSize: "0.8rem", color: "#64748B" }}>
             Interface rapide, simple et lisible — conçue pour Antananarivo.
           </p>
         </div>

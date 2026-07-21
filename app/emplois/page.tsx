@@ -16,7 +16,7 @@ export const metadata = {
     title: "Carrières — TaxiBe",
     description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
     url: "/emplois",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Carrières TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Carrières TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
@@ -264,7 +264,7 @@ export default async function EmploisPage() {
                     <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
                     <polyline points="21 15 16 10 5 21"/>
                   </svg>
-                  <span style={{ fontSize: "0.75rem", color: "#94A3B8", fontWeight: 600 }}>
+                  <span style={{ fontSize: "0.75rem", color: "#64748B", fontWeight: 600 }}>
                     Ajoutez une photo depuis l&apos;admin
                   </span>
                 </div>
@@ -287,7 +287,7 @@ export default async function EmploisPage() {
                 <span style={{ fontSize: "clamp(1.4rem, 4vw, 1.9rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
                   {s.value}
                 </span>
-                <span style={{ fontSize: "0.72rem", color: "#94A3B8", fontWeight: 600, marginTop: 4, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <span style={{ fontSize: "0.72rem", color: "#64748B", fontWeight: 600, marginTop: 4, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                   {s.label}
                 </span>
               </div>
@@ -305,7 +305,7 @@ export default async function EmploisPage() {
                 <h2 style={{ fontSize: "1.3rem", fontWeight: 900, color: "#0D1525", margin: "0 0 4px", letterSpacing: "-0.02em" }}>
                   Nos offres d&apos;emploi
                 </h2>
-                <p style={{ fontSize: "0.82rem", color: "#94A3B8", margin: 0 }}>
+                <p style={{ fontSize: "0.82rem", color: "#64748B", margin: 0 }}>
                   Postes internes ouverts au sein de la société TaxiBe
                 </p>
               </div>

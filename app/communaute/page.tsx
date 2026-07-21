@@ -39,7 +39,7 @@ export const metadata = {
     title: "Communauté — TaxiBe",
     description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
     url: "/communaute",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "Communauté TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Communauté TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,

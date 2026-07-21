@@ -43,7 +43,7 @@ export const metadata = {
     title: "Entreprises — TaxiBe",
     description: "Partenariats et visibilité sur TaxiBe : coopératives de transport, institutions, entreprises et annonceurs à Antananarivo.",
     url: "/entreprises",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "TaxiBe Entreprises" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe Entreprises" }],
   },
   twitter: {
     card: "summary_large_image" as const,
@@ -149,7 +149,7 @@ export default async function EntreprisesPage() {
 
           {/* Section Partenariats */}
           <div>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B", margin: "0 0 16px" }}>
               Partenariats
             </p>
             <div className="ent-grid">
@@ -160,7 +160,7 @@ export default async function EntreprisesPage() {
                   <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: "0.92rem", color: "#0D1525" }}>
                     {p.titre}
                   </p>
-                  <p style={{ margin: 0, fontSize: "0.82rem", color: "#94A3B8", lineHeight: 1.6 }}>
+                  <p style={{ margin: 0, fontSize: "0.82rem", color: "#64748B", lineHeight: 1.6 }}>
                     {p.desc}
                   </p>
                 </div>
@@ -180,7 +180,7 @@ export default async function EntreprisesPage() {
 
           {/* Section Visibilité */}
           <div>
-            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
+            <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B", margin: "0 0 16px" }}>
               Visibilité commerciale
             </p>
             <p style={{ fontSize: "0.95rem", color: "#64748B", margin: "0 0 20px", lineHeight: 1.7 }}>
@@ -197,7 +197,7 @@ export default async function EntreprisesPage() {
                   <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: "0.86rem", color: "#0D1525" }}>
                     {a.titre}
                   </p>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
+                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B", lineHeight: 1.6 }}>
                     {a.desc}
                   </p>
                 </div>

@@ -166,7 +166,7 @@ function SectionBlock({ sections }: { sections: { titre: string; contenu: string
           </div>
         </section>
       ))}
-      <p style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", paddingTop: 16, borderTop: "1px solid #F1F5F9" }}>
+      <p style={{ margin: 0, fontSize: "0.78rem", color: "#64748B", paddingTop: 16, borderTop: "1px solid #F1F5F9" }}>
         Dernière mise à jour : juillet 2026
       </p>
     </div>
@@ -212,13 +212,13 @@ export default async function LegalPage() {
 
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px", display: "flex", flexDirection: "column", gap: 40 }}>
           <div>
-            <h2 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
+            <h2 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B", margin: "0 0 16px" }}>
               Mentions légales
             </h2>
             <SectionBlock sections={MENTIONS} />
           </div>
           <div>
-            <h2 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 16px" }}>
+            <h2 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B", margin: "0 0 16px" }}>
               Conditions d&apos;utilisation
             </h2>
             <SectionBlock sections={CONDITIONS} />

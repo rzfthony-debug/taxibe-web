@@ -11,7 +11,7 @@ export const metadata = {
     title: "FAQ TaxiBe — Questions fréquentes",
     description: "Toutes les réponses sur l'utilisation de TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
     url: "/faq",
-    images: [{ url: "/logo_taxibe.png", width: 1200, height: 630, alt: "FAQ TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "FAQ TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,

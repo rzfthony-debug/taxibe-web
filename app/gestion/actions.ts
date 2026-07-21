@@ -337,6 +337,32 @@ export async function deleteMessage(id: string) {
   await adminDb.from("messages_contact").delete().eq("id", id);
 }
 
+// ── Signalements (table app mobile, schema non documente cote web) ────────────
+// select("*") volontairement : la table est alimentee par l'app mobile et son
+// schema exact n'est pas connu cote web, donc on evite de nommer des colonnes.
+
+export async function getSignalements() {
+  const { data } = await adminDb.from("signalements").select("*");
+  const rows = data ?? [];
+  return [...rows].sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+    const ad = typeof a.created_at === "string" ? a.created_at : "";
+    const bd = typeof b.created_at === "string" ? b.created_at : "";
+    return bd.localeCompare(ad);
+  });
+}
+
+export async function updateStatutSignalement(id: string, statut: string) {
+  await requireAdmin();
+  const clean = statut.trim().slice(0, 50);
+  if (!clean) return;
+  await adminDb.from("signalements").update({ statut: clean }).eq("id", id);
+}
+
+export async function deleteSignalement(id: string) {
+  await requireAdmin();
+  await adminDb.from("signalements").delete().eq("id", id);
+}
+
 // ── Dashboard stats ───────────────────────────────────────────────────────────
 
 export async function getDashboardStats() {
