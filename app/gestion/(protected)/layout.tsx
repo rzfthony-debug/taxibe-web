@@ -1,8 +1,17 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
 import { getUnreadChatCount } from "@/app/gestion/actions";
+import { requireAdmin } from "@/lib/auth";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  // Validate session against DB — middleware only checks cookie presence
+  try {
+    await requireAdmin();
+  } catch {
+    redirect("/gestion/login");
+  }
+
   const jar = await cookies();
   const nom = jar.get("taxibe_admin_nom")?.value ?? "Admin";
   const unreadChat = await getUnreadChatCount();
