@@ -112,6 +112,36 @@ export default function TelechargerPage() {
           </div>
         </section>
 
+        {/* ── Accès direct ── */}
+        <section style={{ background: "#FFFBEB", borderBottom: "1px solid #FDE68A" }}>
+          <div style={{ maxWidth: 860, margin: "0 auto", padding: "18px 24px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <p style={{ margin: 0, fontWeight: 800, fontSize: "0.9rem", color: "#92400e" }}>
+                Vous voulez utiliser l&apos;app tout de suite ?
+              </p>
+              <p style={{ margin: "2px 0 0", fontSize: "0.78rem", color: "#B45309" }}>
+                Ouvrez ce lien sur votre mobile — aucune installation requise.
+              </p>
+            </div>
+            <a
+              href="https://app.taxibe.mg"
+              style={{
+                flexShrink: 0, padding: "11px 22px", borderRadius: 10,
+                background: "#FFB800", color: "#0D1525",
+                fontWeight: 800, fontSize: "0.88rem", textDecoration: "none",
+                whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 8,
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Ouvrir app.taxibe.mg
+            </a>
+          </div>
+        </section>
+
         {/* ── Deux options ── */}
         <section style={{ maxWidth: 860, margin: "0 auto", padding: "40px 24px" }}>
           <div className="tl-grid">
