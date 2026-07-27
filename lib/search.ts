@@ -60,6 +60,61 @@ export async function searchLignesByNumero(query: string): Promise<LigneResult[]
   return withTerminus(lignes);
 }
 
+export interface ArretItem {
+  id: string;
+  arret: string;
+  denomination: string | null;
+  position: number;
+  direction: string;
+}
+
+export interface LigneDetail {
+  id: string;
+  numero: string;
+  cooperative: string | null;
+  telephone: string | null;
+  couleur_bus: string | null;
+  type_circuit: string | null;
+  statut: string | null;
+  terminus_debut: string;
+  terminus_fin: string;
+  arrets: ArretItem[];
+  retourArrets: ArretItem[];
+}
+
+export async function getLigneById(id: string): Promise<LigneDetail | null> {
+  const [{ data: ligne }, { data: la }] = await Promise.all([
+    adminDb.from("lignes").select("*").eq("id", id).single(),
+    adminDb
+      .from("ligne_arrets")
+      .select("id, ligne_id, direction, position, arret, denomination")
+      .eq("ligne_id", id)
+      .order("direction")
+      .order("position"),
+  ]);
+
+  if (!ligne) return null;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const allArrets: ArretItem[] = (la ?? []) as any[];
+  const allerArrets = allArrets.filter((a) => a.direction === "aller" || a.direction === "unique");
+  const retourArrets = allArrets.filter((a) => a.direction === "retour");
+
+  return {
+    id: ligne.id,
+    numero: ligne.numero,
+    cooperative: ligne.cooperative ?? null,
+    telephone: ligne.telephone ?? null,
+    couleur_bus: ligne.couleur_bus ?? null,
+    type_circuit: ligne.type_circuit ?? null,
+    statut: ligne.statut ?? null,
+    terminus_debut: allerArrets[0]?.arret ?? "—",
+    terminus_fin: allerArrets[allerArrets.length - 1]?.arret ?? "—",
+    arrets: allerArrets,
+    retourArrets,
+  };
+}
+
 export async function searchLignesByQuartier(quartier: string): Promise<LigneResult[]> {
   if (!quartier.trim()) return [];
 

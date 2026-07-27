@@ -1,0 +1,248 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import type { Metadata } from "next";
+import Nav from "@/app/components/Nav";
+import CtaApp from "@/app/components/CtaApp";
+import Footer from "@/app/components/Footer";
+import { getLigneById } from "@/lib/search";
+import type { ArretItem } from "@/lib/search";
+
+export const revalidate = 3600;
+
+interface Props { params: Promise<{ id: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const ligne = await getLigneById(id);
+  if (!ligne) return { title: "Ligne introuvable" };
+  return {
+    title: `Ligne ${ligne.numero} — ${ligne.terminus_debut} → ${ligne.terminus_fin}`,
+    description: `Arrêts et itinéraire de la ligne taxi-be ${ligne.numero} à Antananarivo.`,
+  };
+}
+
+const STATUT_STYLE: Record<string, { label: string; color: string; bg: string }> = {
+  verifie:    { label: "Vérifié",    color: "#15803d", bg: "rgba(34,197,94,0.1)" },
+  a_verifier: { label: "À vérifier", color: "#92400e", bg: "rgba(245,158,11,0.1)" },
+  obsolete:   { label: "Obsolète",   color: "#b91c1c", bg: "rgba(239,68,68,0.1)" },
+};
+
+function StopTimeline({ arrets, label }: { arrets: ArretItem[]; label: string }) {
+  if (!arrets.length) return null;
+  const total = arrets.length;
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <p style={{ margin: 0, fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
+          {label}
+        </p>
+        <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#0D1525", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 6, padding: "2px 10px" }}>
+          {total} arrêts
+        </span>
+      </div>
+
+      <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", overflow: "hidden" }}>
+        {arrets.map((arret, i) => {
+          const isFirst = i === 0;
+          const isLast = i === total - 1;
+          const isTerm = isFirst || isLast;
+          return (
+            <div key={arret.id} style={{
+              display: "flex", alignItems: "stretch",
+              padding: "0 20px",
+              borderBottom: isLast ? "none" : "1px solid #F8FAFC",
+            }}>
+              {/* Rail */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 20, flexShrink: 0, marginRight: 14 }}>
+                <div style={{ width: 2, flex: 1, minHeight: 12, background: isFirst ? "transparent" : "#0D1525" }} />
+                {isTerm ? (
+                  <div style={{ width: 11, height: 11, borderRadius: 3, background: "#0D1525", border: "2.5px solid #FFB800", flexShrink: 0, zIndex: 1 }} />
+                ) : (
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "white", border: "2px solid #CBD5E0", flexShrink: 0, zIndex: 1 }} />
+                )}
+                <div style={{ width: 2, flex: 1, minHeight: 12, background: isLast ? "transparent" : "#0D1525" }} />
+              </div>
+
+              {/* Contenu */}
+              <div style={{
+                flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8,
+                paddingTop: isFirst ? 18 : 9, paddingBottom: isLast ? 18 : 9,
+              }}>
+                <div>
+                  <span style={{
+                    display: "block",
+                    fontSize: isTerm ? "0.92rem" : "0.82rem",
+                    fontWeight: isTerm ? 800 : 400,
+                    color: isTerm ? "#0D1525" : "#475569",
+                    lineHeight: 1.3,
+                  }}>
+                    {arret.arret}
+                  </span>
+                  {arret.denomination && (
+                    <span style={{ display: "block", fontSize: "0.65rem", color: "#94A3B8", marginTop: 1 }}>
+                      {arret.denomination}
+                    </span>
+                  )}
+                </div>
+                {isTerm && (
+                  <span style={{
+                    fontSize: "0.6rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em",
+                    color: "white", background: isFirst ? "#22c55e" : "#FFB800",
+                    padding: "2px 8px", borderRadius: 4, flexShrink: 0,
+                  }}>
+                    {isFirst ? "Départ" : "Arrivée"}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default async function LignePage({ params }: Props) {
+  const { id } = await params;
+  const ligne = await getLigneById(id);
+  if (!ligne) notFound();
+
+  const statut = STATUT_STYLE[ligne.statut ?? ""] ?? STATUT_STYLE.a_verifier;
+  const isAllerRet = ligne.type_circuit === "aller_retour";
+  const color = ligne.couleur_bus ?? "#FFB800";
+
+  return (
+    <>
+      <Nav />
+      <style>{`
+        @media (max-width: 700px) {
+          .ligne-hero-grid { grid-template-columns: 1fr !important; }
+          .ligne-hero-img { display: none !important; }
+        }
+        @keyframes stop-in {
+          from { opacity: 0; transform: translateX(-6px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
+
+      <div style={{ background: "#F8FAFC", minHeight: "100vh" }}>
+
+        {/* ── Breadcrumb ── */}
+        <div style={{ background: "white", borderBottom: "1px solid #E8ECF0" }}>
+          <div style={{ maxWidth: 860, margin: "0 auto", padding: "10px 24px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.78rem", color: "#94A3B8" }}>
+            <Link href="/recherche" style={{ color: "#64748B", textDecoration: "none", fontWeight: 500 }}>← Recherche</Link>
+            <span>/</span>
+            <span style={{ color: "#0D1525", fontWeight: 600 }}>Ligne {ligne.numero}</span>
+          </div>
+        </div>
+
+        {/* ── Hero ligne ── */}
+        <div style={{ background: "white", borderBottom: "1px solid #E8ECF0" }}>
+          <div style={{ maxWidth: 860, margin: "0 auto", padding: "32px 24px 28px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+
+              {/* Badge numéro */}
+              <div style={{
+                flexShrink: 0,
+                background: color, borderRadius: 14,
+                padding: "10px 20px",
+                boxShadow: `0 4px 20px ${color}50`,
+                minWidth: 72, textAlign: "center",
+              }}>
+                <span style={{ fontWeight: 900, fontSize: "2rem", color: "white", lineHeight: 1, letterSpacing: "-0.02em" }}>
+                  {ligne.numero}
+                </span>
+                <p style={{ margin: "2px 0 0", fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.7)" }}>Taxi-be</p>
+              </div>
+
+              {/* Info */}
+              <div style={{ flex: 1, minWidth: 200 }}>
+                <h1 style={{ margin: "0 0 6px", fontSize: "clamp(1.1rem, 3vw, 1.5rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.2 }}>
+                  {ligne.terminus_debut}
+                  <span style={{ color: "#FFB800", margin: "0 8px", fontWeight: 400 }}>→</span>
+                  {ligne.terminus_fin}
+                </h1>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: "0.72rem", fontWeight: 700, color: statut.color, background: statut.bg, padding: "2px 8px", borderRadius: 99 }}>
+                    {statut.label}
+                  </span>
+                  {ligne.cooperative && (
+                    <span style={{ fontSize: "0.75rem", color: "#64748B", fontWeight: 500 }}>· {ligne.cooperative}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div style={{ display: "flex", gap: 16, flexShrink: 0, flexWrap: "wrap" }}>
+                <div style={{ textAlign: "center" }}>
+                  <p style={{ margin: 0, fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1 }}>{ligne.arrets.length}</p>
+                  <p style={{ margin: "2px 0 0", fontSize: "0.62rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8" }}>arrêts</p>
+                </div>
+                {ligne.telephone && (
+                  <a href={`tel:${ligne.telephone}`} style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "8px 14px", borderRadius: 10,
+                    background: "#FFF7E6", border: "1px solid #FFE4A0",
+                    textDecoration: "none",
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/>
+                    </svg>
+                    <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "#0D1525" }}>{ligne.telephone}</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Contenu principal ── */}
+        <div style={{ maxWidth: 860, margin: "0 auto", padding: "32px 24px 60px" }}>
+
+          <StopTimeline arrets={ligne.arrets} label={isAllerRet ? "Arrêts — Aller" : "Arrêts"} />
+          {isAllerRet && ligne.retourArrets.length > 0 && (
+            <StopTimeline arrets={ligne.retourArrets} label="Arrêts — Retour" />
+          )}
+
+          {/* CTA app */}
+          <div style={{
+            background: "#0D1525", borderRadius: 16, padding: "28px 32px",
+            display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap",
+          }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: "50%",
+              background: "rgba(255,184,0,0.12)", border: "1.5px solid rgba(255,184,0,0.3)",
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div style={{ flex: 1, minWidth: 180 }}>
+              <p style={{ margin: "0 0 4px", fontWeight: 800, color: "white", fontSize: "0.95rem" }}>
+                GPS, favoris, correspondances…
+              </p>
+              <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
+                Retrouvez cette ligne et bien plus dans l&apos;application TaxiBe.
+              </p>
+            </div>
+            <a href="/telecharger" style={{
+              padding: "11px 24px", borderRadius: 10, background: "#FFB800",
+              color: "#0D1525", fontWeight: 800, fontSize: "0.9rem",
+              textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap",
+            }}>
+              Télécharger l&apos;app →
+            </a>
+          </div>
+
+          <p style={{ textAlign: "center", fontSize: "0.68rem", color: "#CBD5E1", marginTop: 32 }}>
+            Données indicatives — aucun horaire ni tarif garanti.
+          </p>
+        </div>
+      </div>
+
+      <CtaApp />
+      <Footer />
+    </>
+  );
+}
