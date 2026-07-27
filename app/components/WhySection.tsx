@@ -82,7 +82,7 @@ const userTypes = [
   {
     label: "Étudiants",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
         <path d="M6 12v5c3 3 9 3 12 0v-5"/>
       </svg>
@@ -91,7 +91,7 @@ const userTypes = [
   {
     label: "Travailleurs",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
       </svg>
@@ -100,7 +100,7 @@ const userTypes = [
   {
     label: "Habitants",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
       </svg>
@@ -109,7 +109,7 @@ const userTypes = [
   {
     label: "Voyageurs",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
         <line x1="12" y1="12" x2="12" y2="16"/>
@@ -120,7 +120,7 @@ const userTypes = [
   {
     label: "Touristes",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <line x1="2" y1="12" x2="22" y2="12"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -132,7 +132,7 @@ const userTypes = [
 const questions = [
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="3" width="15" height="13" rx="2"/>
         <path d="M16 8h4l3 5v3h-7V8z"/>
         <circle cx="5.5" cy="18.5" r="2.5"/>
@@ -143,7 +143,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
         <circle cx="12" cy="10" r="3"/>
       </svg>
@@ -152,7 +152,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -161,7 +161,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="17 1 21 5 17 9"/>
         <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
         <polyline points="7 23 3 19 7 15"/>
@@ -172,7 +172,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -203,17 +203,19 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
           display: inline-flex;
           align-items: center;
           gap: 9px;
-          background: #0D1525;
+          background: white;
+          border: 1.5px solid #E8ECF0;
           border-radius: 50px;
-          padding: 8px 16px 8px 8px;
+          padding: 7px 16px 7px 7px;
           font-size: 0.82rem;
           font-weight: 700;
-          color: white;
+          color: #0D1525;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
         .why-chip-icon {
           width: 30px; height: 30px;
           border-radius: 50%;
-          background: rgba(255,184,0,0.18);
+          background: #FFB800;
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
         }
