@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 
-export default function MissionSection() {
+export default function MissionSection({ beneficiairesImageUrl }: { beneficiairesImageUrl?: string | null }) {
   return (
     <>
       {/* ── Au service de tous ── */}
@@ -35,6 +36,22 @@ export default function MissionSection() {
           <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 520, margin: "0 auto", lineHeight: 1.75 }}>
             TaxiBe s&apos;adresse à ceux qui se déplacent, à ceux qui organisent les transports, et à ceux qui planifient la mobilité.
           </p>
+
+          {beneficiairesImageUrl && (
+            <div style={{
+              position: "relative", width: "100%", aspectRatio: "16/9",
+              borderRadius: 18, overflow: "hidden", marginTop: 36,
+              border: "1px solid #E8ECF0",
+            }}>
+              <Image
+                src={beneficiairesImageUrl}
+                alt="TaxiBe au service de tous"
+                fill
+                sizes="(max-width: 860px) 100vw, 1100px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          )}
 
           <div className="beneficiaires-grid">
             {/* Usagers */}

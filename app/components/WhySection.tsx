@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const BusScene = () => (
   <svg viewBox="0 0 560 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 520 }} aria-hidden="true">
@@ -180,7 +181,7 @@ const questions = [
   },
 ];
 
-export default function WhySection() {
+export default function WhySection({ illustrationUrl }: { illustrationUrl?: string | null }) {
   return (
     <section style={{ padding: "88px 24px", background: "white" }}>
       <style>{`
@@ -256,16 +257,29 @@ export default function WhySection() {
             <strong style={{ color: "#0D1525" }}>en quelques secondes.</strong>
           </p>
 
-          {/* Illustration bus */}
+          {/* Illustration bus ou photo uploadée */}
           <div style={{
             background: "#F8F9FB",
             borderRadius: 18,
             border: "1px solid #E8ECF0",
-            padding: "24px 20px 8px",
-            marginBottom: 24,
             overflow: "hidden",
+            marginBottom: 24,
+            aspectRatio: illustrationUrl ? "16/9" : "auto",
+            position: "relative",
           }}>
-            <BusScene />
+            {illustrationUrl ? (
+              <Image
+                src={illustrationUrl}
+                alt="Illustration TaxiBe"
+                fill
+                sizes="(max-width: 860px) 100vw, 55vw"
+                style={{ objectFit: "cover" }}
+              />
+            ) : (
+              <div style={{ padding: "24px 20px 8px" }}>
+                <BusScene />
+              </div>
+            )}
           </div>
 
           {/* Chips utilisateurs */}

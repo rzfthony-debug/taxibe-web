@@ -28,14 +28,18 @@ export const metadata = {
   },
 };
 
-async function getHeroImageUrl(): Promise<string | null> {
+async function getParams(): Promise<{ heroUrl: string | null; missionImageUrl: string | null }> {
   try {
     const { data } = await Promise.race([
-      supabase.from("parametres").select("valeur").eq("cle", "apropos_hero_image_url").single(),
+      supabase.from("parametres").select("cle, valeur").in("cle", ["apropos_hero_image_url", "apropos_beneficiaires_image_url"]),
       new Promise<{ data: null }>((r) => setTimeout(() => r({ data: null }), 8000)),
     ]);
-    return data?.valeur ?? null;
-  } catch { return null; }
+    const map = Object.fromEntries(((data as { cle: string; valeur: string }[] | null) ?? []).map((r) => [r.cle, r.valeur]));
+    return {
+      heroUrl: map["apropos_hero_image_url"] ?? null,
+      missionImageUrl: map["apropos_beneficiaires_image_url"] ?? null,
+    };
+  } catch { return { heroUrl: null, missionImageUrl: null }; }
 }
 
 const jsonLdAPropos = {
@@ -50,7 +54,7 @@ const jsonLdAPropos = {
 };
 
 export default async function AProposPage() {
-  const heroImageUrl = await getHeroImageUrl();
+  const { heroUrl: heroImageUrl, missionImageUrl } = await getParams();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLdAPropos) }} />
@@ -187,7 +191,7 @@ export default async function AProposPage() {
           </div>
         </div>
         {/* ── Mission, bénéficiaires et vision ── */}
-        <MissionSection />
+        <MissionSection beneficiairesImageUrl={missionImageUrl} />
       </main>
       <CtaApp />
       <Footer />

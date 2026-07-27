@@ -23,6 +23,7 @@ export default async function ParametresPage() {
     contactEmail, recrutementEmail, contactPhone,
     fbUrl, igUrl, liUrl,
     videoUrl, videoTitre, videoSousTexte,
+    whyIllustrationUrl, aproposMissionImageUrl,
   ] = await Promise.all([
     getParam("home_hero_image_url"),
     getParam("home_hero_image_mobile_url"),
@@ -46,6 +47,8 @@ export default async function ParametresPage() {
     getParam("home_video_url"),
     getParam("home_video_titre"),
     getParam("home_video_sous_texte"),
+    getParam("home_why_illustration_url"),
+    getParam("apropos_beneficiaires_image_url"),
   ]);
 
   return (
@@ -85,6 +88,13 @@ export default async function ParametresPage() {
               description="Recommandé : PNG avec fond transparent, portrait, ~320 × 580 px. Le téléphone déborde au-dessus et en dessous de la section."
               ratio="9/16"
               currentUrl={homeCtaPhone}
+            />
+            <HeroUpload
+              cle="home_why_illustration_url"
+              label="Illustration section « Notre mission »"
+              description="Remplace l'illustration SVG du bus par une vraie photo. Recommandé : 1200 × 675 px (16/9), JPG ou WebP, max 8 Mo. Ex : photo de taxi-be, de passagers, d'Antananarivo."
+              ratio="16/9"
+              currentUrl={whyIllustrationUrl}
             />
           </div>
         </div>
@@ -131,13 +141,22 @@ export default async function ParametresPage() {
           <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
             Page À propos (/a-propos)
           </p>
-          <HeroUpload
-            cle="apropos_hero_image_url"
-            label="Image hero — Page À propos"
-            description={HERO_DESC}
-            ratio="3/2"
-            currentUrl={aproposHero}
-          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <HeroUpload
+              cle="apropos_hero_image_url"
+              label="Image hero — Page À propos"
+              description={HERO_DESC}
+              ratio="3/2"
+              currentUrl={aproposHero}
+            />
+            <HeroUpload
+              cle="apropos_beneficiaires_image_url"
+              label="Image section « Pour qui ? »"
+              description="Apparaît au-dessus des 3 cartes (Usagers, Coopératives, Collectivités). Recommandé : 1400 × 788 px (16/9), JPG ou WebP, max 8 Mo. Ex : photo illustrant la diversité des usagers."
+              ratio="16/9"
+              currentUrl={aproposMissionImageUrl}
+            />
+          </div>
         </div>
 
         {/* ── Aide ── */}

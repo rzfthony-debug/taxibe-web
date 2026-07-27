@@ -27,6 +27,7 @@ async function getHomeParams() {
       .in("cle", [
         "home_hero_image_url", "home_hero_image_mobile_url", "home_cta_phone_url",
         "home_video_url", "home_video_titre", "home_video_sous_texte",
+        "home_why_illustration_url",
       ]);
     const { data } = await Promise.race([
       req,
@@ -40,6 +41,7 @@ async function getHomeParams() {
       videoUrl: map["home_video_url"] ?? null,
       videoTitre: map["home_video_titre"] ?? "Voyez TaxiBe en action",
       videoSousTexte: map["home_video_sous_texte"] ?? "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone.",
+      whyIllustrationUrl: map["home_why_illustration_url"] ?? null,
     };
   } catch {
     return { desktop: null, mobile: null, ctaPhone: null, videoUrl: null, videoTitre: "Voyez TaxiBe en action", videoSousTexte: "En 60 secondes, découvrez comment trouver votre ligne, localiser les arrêts et planifier vos trajets à Antananarivo — directement depuis votre téléphone." };
@@ -141,7 +143,7 @@ async function ActualitesSection() {
 
 export default async function Home() {
   const params = await getHomeParams();
-  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
+  const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte, whyIllustrationUrl } = params;
   const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
   const BASE = "https://taxibe.mg";
@@ -589,7 +591,7 @@ export default async function Home() {
       </section>
 
       {/* ── Pourquoi TaxiBe (illustration + questions) ── */}
-      <WhySection />
+      <WhySection illustrationUrl={whyIllustrationUrl} />
 
     </main>
     <Footer />
