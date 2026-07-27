@@ -49,7 +49,7 @@ async function getAutresOffres(excludeId: string): Promise<Pick<Offre, "id" | "s
   return data ?? [];
 }
 
-const BASE = "https://taxibemada.vercel.app";
+const BASE = "https://taxibe.mg";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;

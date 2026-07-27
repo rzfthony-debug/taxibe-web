@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
 
-const BASE = "https://taxibemada.vercel.app";
+const BASE = "https://taxibe.mg";
 
 const entreprisesJsonLd = {
   "@context": "https://schema.org",

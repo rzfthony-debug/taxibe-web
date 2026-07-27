@@ -49,12 +49,12 @@ const jsonLdContact = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   "name": "Contact TaxiBe",
-  "url": "https://taxibemada.vercel.app/contact",
+  "url": "https://taxibe.mg/contact",
   "description": "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
   "mainEntity": {
     "@type": "Organization",
     "name": "TaxiBe",
-    "url": "https://taxibemada.vercel.app",
+    "url": "https://taxibe.mg",
     "address": { "@type": "PostalAddress", "addressLocality": "Antananarivo", "addressCountry": "MG" },
   },
 };

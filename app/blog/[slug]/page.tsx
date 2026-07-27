@@ -54,7 +54,7 @@ async function getAutresArticles(excludeId: string): Promise<ArticleMini[]> {
   return (data ?? []) as ArticleMini[];
 }
 
-const BASE = "https://taxibemada.vercel.app";
+const BASE = "https://taxibe.mg";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;

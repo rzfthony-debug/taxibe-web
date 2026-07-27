@@ -143,7 +143,7 @@ export default async function Home() {
   const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte } = params;
   const videoEmbed = videoUrl ? getVideoEmbedSrc(videoUrl) : null;
 
-  const BASE = "https://taxibemada.vercel.app";
+  const BASE = "https://taxibe.mg";
 
   const jsonLdGraph = {
     "@context": "https://schema.org",

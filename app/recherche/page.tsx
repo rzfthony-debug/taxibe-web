@@ -484,7 +484,7 @@ export default async function RecherchePage({
                         <span>{ligne.nb_arrets} arrêt{ligne.nb_arrets > 1 ? "s" : ""}</span>
                       </div>
                     </div>
-                    <a href={`https://taxibemada.vercel.app/ligne/${ligne.id}`} target="_blank" rel="noopener noreferrer" className="result-btn">
+                    <a href={`https://taxibe.mg/ligne/${ligne.id}`} target="_blank" rel="noopener noreferrer" className="result-btn">
                       Voir le trajet →
                     </a>
                   </div>

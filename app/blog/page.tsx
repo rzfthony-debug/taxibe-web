@@ -94,7 +94,7 @@ export default async function BlogPage({
   const recents = articles.slice(4, 7);
   const populaires = articles.slice(0, 5);
 
-  const BASE = "https://taxibemada.vercel.app";
+  const BASE = "https://taxibe.mg";
 
   const jsonLd = {
     "@context": "https://schema.org",

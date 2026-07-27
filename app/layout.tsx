@@ -10,7 +10,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const BASE_URL = "https://taxibemada.vercel.app";
+const BASE_URL = "https://taxibe.mg";
 
 export const viewport: Viewport = {
   width: "device-width",

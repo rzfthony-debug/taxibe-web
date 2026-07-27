@@ -47,8 +47,8 @@ const jsonLdTelecharger = {
   "applicationCategory": "TransportationApplication",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MGA" },
   "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
-  "url": "https://taxibemada.vercel.app/telecharger",
-  "author": { "@type": "Organization", "name": "TaxiBe", "url": "https://taxibemada.vercel.app" },
+  "url": "https://taxibe.mg/telecharger",
+  "author": { "@type": "Organization", "name": "TaxiBe", "url": "https://taxibe.mg" },
 };
 
 export default async function TelechargerPage() {

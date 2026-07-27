@@ -13,16 +13,16 @@ TaxiBe est un service d'information sur les transports en commun de la capitale 
 
 ## Pages principales
 
-- [Accueil](https://taxibemada.vercel.app/) : Recherche de lignes de taxi-be par numéro ou arrêt, actualités et téléchargement de l'app
-- [Recherche de ligne](https://taxibemada.vercel.app/recherche) : Recherche en temps réel dans la base de données des lignes de taxi-be d'Antananarivo
-- [Télécharger l'application](https://taxibemada.vercel.app/telecharger) : Télécharger TaxiBe gratuitement sur Android
-- [Blog & Actualités](https://taxibemada.vercel.app/blog) : Conseils de déplacement, actualités du réseau, nouveautés de l'application
-- [Aide & FAQ](https://taxibemada.vercel.app/aide) : Comment utiliser TaxiBe, questions fréquentes
-- [Communauté](https://taxibemada.vercel.app/communaute) : Signaler une erreur, devenir contributeur
-- [À propos](https://taxibemada.vercel.app/a-propos) : Mission, équipe et histoire de TaxiBe
-- [Contact](https://taxibemada.vercel.app/contact) : Contacter l'équipe TaxiBe
-- [Entreprises & Partenariats](https://taxibemada.vercel.app/entreprises) : Collaborer avec TaxiBe
-- [Carrières](https://taxibemada.vercel.app/emplois) : Rejoindre l'équipe TaxiBe
+- [Accueil](https://taxibe.mg/) : Recherche de lignes de taxi-be par numéro ou arrêt, actualités et téléchargement de l'app
+- [Recherche de ligne](https://taxibe.mg/recherche) : Recherche en temps réel dans la base de données des lignes de taxi-be d'Antananarivo
+- [Télécharger l'application](https://taxibe.mg/telecharger) : Télécharger TaxiBe gratuitement sur Android
+- [Blog & Actualités](https://taxibe.mg/blog) : Conseils de déplacement, actualités du réseau, nouveautés de l'application
+- [Aide & FAQ](https://taxibe.mg/aide) : Comment utiliser TaxiBe, questions fréquentes
+- [Communauté](https://taxibe.mg/communaute) : Signaler une erreur, devenir contributeur
+- [À propos](https://taxibe.mg/a-propos) : Mission, équipe et histoire de TaxiBe
+- [Contact](https://taxibe.mg/contact) : Contacter l'équipe TaxiBe
+- [Entreprises & Partenariats](https://taxibe.mg/entreprises) : Collaborer avec TaxiBe
+- [Carrières](https://taxibe.mg/emplois) : Rejoindre l'équipe TaxiBe
 
 ## Informations clés pour les IA
 
@@ -45,6 +45,6 @@ Les habitants d'Antananarivo qui utilisent quotidiennement les taxi-be pour se d
 
 ## Contact
 
-- Site web : https://taxibemada.vercel.app
-- Page contact : https://taxibemada.vercel.app/contact
+- Site web : https://taxibe.mg
+- Page contact : https://taxibe.mg/contact
 - Localisation : Antananarivo, Madagascar

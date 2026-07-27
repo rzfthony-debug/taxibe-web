@@ -41,11 +41,11 @@ const jsonLdAPropos = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "TaxiBe",
-  "url": "https://taxibemada.vercel.app",
-  "logo": "https://taxibemada.vercel.app/logo_taxibe.png",
+  "url": "https://taxibe.mg",
+  "logo": "https://taxibe.mg/logo_taxibe.png",
   "description": "Application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
   "address": { "@type": "PostalAddress", "addressLocality": "Antananarivo", "addressCountry": "MG" },
-  "sameAs": ["https://taxibemada.vercel.app"],
+  "sameAs": ["https://taxibe.mg"],
 };
 
 export default async function AProposPage() {

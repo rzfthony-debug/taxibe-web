@@ -19,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "cohere-ai",        allow: "/" },
       { userAgent: "Meta-ExternalAgent", allow: "/" },
     ],
-    sitemap: "https://taxibemada.vercel.app/sitemap.xml",
+    sitemap: "https://taxibe.mg/sitemap.xml",
   };
 }

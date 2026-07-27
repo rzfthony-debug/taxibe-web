@@ -63,7 +63,7 @@ export default async function EmploisPage() {
   const liste = offresResult.data ?? [];
   const totalOffres = countResult.count;
 
-  const BASE = "https://taxibemada.vercel.app";
+  const BASE = "https://taxibe.mg";
 
   const jsonLd = {
     "@context": "https://schema.org",
