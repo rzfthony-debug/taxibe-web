@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ChatWidgetLoader from "@/app/components/ChatWidgetLoader";
+import AppBanner from "@/app/components/AppBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={inter.variable}>
       <body>
         {children}
+        <AppBanner />
         <ChatWidgetLoader />
         <script defer src="/_vercel/insights/script.js" />
       </body>
