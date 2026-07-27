@@ -6,6 +6,7 @@ import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
+import MissionSection from "@/app/components/MissionSection";
 
 export const revalidate = 3600;
 
@@ -185,6 +186,8 @@ export default async function AProposPage() {
             </section>
           </div>
         </div>
+        {/* ── Mission, bénéficiaires et vision ── */}
+        <MissionSection />
       </main>
       <CtaApp />
       <Footer />

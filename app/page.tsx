@@ -6,7 +6,7 @@ import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import SearchForm from "@/app/components/SearchForm";
 import SpotlightSection from "@/app/components/SpotlightSection";
-import MissionSection from "@/app/components/MissionSection";
+import WhySection from "@/app/components/WhySection";
 import { supabase } from "@/lib/supabase";
 
 export const revalidate = 60;
@@ -588,8 +588,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Mission, bénéficiaires et vision ── */}
-      <MissionSection />
+      {/* ── Pourquoi TaxiBe (illustration + questions) ── */}
+      <WhySection />
 
     </main>
     <Footer />
