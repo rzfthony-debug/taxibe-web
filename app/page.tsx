@@ -323,6 +323,9 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* ── Notre mission ── */}
+      <WhySection illustrationUrl={whyIllustrationUrl} />
+
       {/* ── Fonctionnalités ── */}
       <section id="fonctionnalites" style={{ padding: "88px 24px", background: "#F8F9FB" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -589,9 +592,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── Pourquoi TaxiBe (illustration + questions) ── */}
-      <WhySection illustrationUrl={whyIllustrationUrl} />
 
     </main>
     <Footer />
