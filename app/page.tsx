@@ -6,6 +6,7 @@ import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import SearchForm from "@/app/components/SearchForm";
 import SpotlightSection from "@/app/components/SpotlightSection";
+import MissionSection from "@/app/components/MissionSection";
 import { supabase } from "@/lib/supabase";
 
 export const revalidate = 60;
@@ -586,6 +587,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── Mission, bénéficiaires et vision ── */}
+      <MissionSection />
 
     </main>
     <Footer />
