@@ -11,19 +11,10 @@ export interface LigneResult {
   nb_arrets: number;
 }
 
-export async function searchLignesByNumero(query: string): Promise<LigneResult[]> {
-  if (!query.trim()) return [];
-
-  const { data: lignes } = await adminDb
-    .from("lignes")
-    .select("id, numero, cooperative, couleur_bus, type_circuit")
-    .eq("actif", true)
-    .ilike("numero", `%${query.trim()}%`)
-    .order("numero")
-    .limit(20);
-
-  if (!lignes || lignes.length === 0) return [];
-
+async function withTerminus(
+  lignes: { id: string; numero: string; cooperative: string | null; couleur_bus: string | null; type_circuit: string }[]
+): Promise<LigneResult[]> {
+  if (!lignes.length) return [];
   const ids = lignes.map((l) => l.id);
 
   const { data: arrets } = await adminDb
@@ -53,4 +44,41 @@ export async function searchLignesByNumero(query: string): Promise<LigneResult[]
       nb_arrets: stops.length,
     };
   });
+}
+
+export async function searchLignesByNumero(query: string): Promise<LigneResult[]> {
+  if (!query.trim()) return [];
+
+  const { data: lignes } = await adminDb
+    .from("lignes")
+    .select("id, numero, cooperative, couleur_bus, type_circuit")
+    .eq("actif", true)
+    .ilike("numero", `${query.trim()}%`)
+    .order("numero")
+    .limit(20);
+
+  if (!lignes?.length) return [];
+  return withTerminus(lignes);
+}
+
+export async function searchLignesByQuartier(quartier: string): Promise<LigneResult[]> {
+  if (!quartier.trim()) return [];
+
+  const { data: la } = await adminDb
+    .from("ligne_arrets")
+    .select("ligne_id")
+    .ilike("arret", `%${quartier.trim()}%`);
+
+  if (!la?.length) return [];
+  const ligneIds = [...new Set(la.map((r) => r.ligne_id))];
+
+  const { data: lignes } = await adminDb
+    .from("lignes")
+    .select("id, numero, cooperative, couleur_bus, type_circuit")
+    .eq("actif", true)
+    .in("id", ligneIds)
+    .order("numero");
+
+  if (!lignes?.length) return [];
+  return withTerminus(lignes);
 }
