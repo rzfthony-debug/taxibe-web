@@ -266,16 +266,15 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
             border: "1px solid #E8ECF0",
             overflow: "hidden",
             marginBottom: 24,
-            aspectRatio: illustrationUrl ? "16/9" : "auto",
-            position: "relative",
           }}>
             {illustrationUrl ? (
               <Image
                 src={illustrationUrl}
                 alt="Illustration TaxiBe"
-                fill
+                width={900}
+                height={600}
                 sizes="(max-width: 860px) 100vw, 55vw"
-                style={{ objectFit: "cover" }}
+                style={{ width: "100%", height: "auto", display: "block" }}
               />
             ) : (
               <div style={{ padding: "24px 20px 8px" }}>

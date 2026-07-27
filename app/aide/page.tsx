@@ -1,4 +1,4 @@
-﻿import { safeJsonLd } from "@/lib/sanitize";
+import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -6,130 +6,126 @@ import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import HeroIllustration from "@/app/components/HeroIllustration";
+import FaqAccordion from "@/app/components/FaqAccordion";
 
 export const revalidate = 3600;
 
 export const metadata = {
-  title: "Aide",
-  description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+  title: "FAQ — Questions fréquentes sur TaxiBe et les lignes de taxi-be à Antananarivo",
+  description: "Toutes les réponses sur TaxiBe : comment trouver une ligne de taxi-be à Antananarivo, calculer une correspondance, télécharger l'app et signaler une erreur.",
   alternates: { canonical: "/aide" },
   openGraph: {
-    title: "Aide — TaxiBe",
-    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    title: "FAQ TaxiBe — Lignes de taxi-be à Antananarivo",
+    description: "Questions fréquentes sur la recherche de lignes de taxi-be, les correspondances et l'utilisation de l'application TaxiBe.",
     url: "/aide",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Aide TaxiBe" }],
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "FAQ TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "Aide — TaxiBe",
-    description: "Centre d'aide TaxiBe : recherche de ligne, correspondances, compte, favoris et signalement d'erreurs.",
+    title: "FAQ TaxiBe — Lignes de taxi-be à Antananarivo",
+    description: "Questions fréquentes sur la recherche de lignes de taxi-be et l'utilisation de TaxiBe.",
     images: ["/logo_taxibe.png"],
   },
 };
 
 async function getHeroImageUrl(): Promise<string | null> {
-  const { data } = await supabase
-    .from("parametres")
-    .select("valeur")
-    .eq("cle", "aide_hero_image_url")
-    .single();
-  return data?.valeur ?? null;
+  try {
+    const { data } = await supabase.from("parametres").select("valeur").eq("cle", "aide_hero_image_url").single();
+    return data?.valeur ?? null;
+  } catch { return null; }
 }
 
 const FAQ_SECTIONS = [
   {
-    theme: "Utiliser l'application",
+    theme: "Trouver et utiliser les lignes",
     questions: [
       {
-        q: "Comment trouver une ligne de taxi-be avec TaxiBe ?",
-        r: "Deux façons de faire : tapez directement le numéro de la ligne dans la barre de recherche, ou indiquez votre point de départ et votre destination pour que TaxiBe calcule le trajet et les correspondances à votre place.",
+        q: "Qu'est-ce qu'un taxi-be et comment fonctionne-t-il à Antananarivo ?",
+        r: "Un taxi-be est un minibus collectif qui constitue le principal moyen de transport en commun à Antananarivo. Chaque ligne est identifiée par un numéro (ex. : 147, 183, 163) ou une lettre (ex. : D). Les taxi-be circulent sur des itinéraires fixes entre des arrêts définis, sans horaires fixes.",
       },
+      {
+        q: "Comment trouver une ligne de taxi-be à Antananarivo avec TaxiBe ?",
+        r: "Tapez le numéro de la ligne dans la barre de recherche (ex. : 147) pour obtenir tous les arrêts et l'itinéraire complet. Vous pouvez aussi rechercher par nom de quartier ou d'arrêt pour trouver les lignes qui desservent une zone précise.",
+      },
+      {
+        q: "Comment calculer une correspondance entre deux lignes de taxi-be ?",
+        r: "Dans l'application, indiquez votre point de départ et votre destination. TaxiBe calcule automatiquement le meilleur enchaînement de lignes, y compris les correspondances doubles si aucune ligne directe n'existe entre les deux points.",
+      },
+      {
+        q: "Comment trouver les arrêts de taxi-be près de chez moi ?",
+        r: "Activez la localisation GPS dans l'application. TaxiBe affiche les arrêts et lignes disponibles autour de votre position. Vous pouvez aussi utiliser la fonction « Ma position » pour voir les lignes qui passent à proximité.",
+      },
+    ],
+  },
+  {
+    theme: "Application et fonctionnalités",
+    questions: [
       {
         q: "TaxiBe fonctionne-t-il sans connexion internet ?",
-        r: "Les lignes que vous avez ajoutées en favori restent consultables hors connexion. La recherche en temps réel et la localisation GPS nécessitent en revanche une connexion internet.",
+        r: "Les lignes que vous avez ajoutées en favori restent consultables hors connexion. La recherche en temps réel, la localisation GPS et les correspondances nécessitent une connexion internet active.",
       },
       {
-        q: "L'application propose-t-elle les horaires en temps réel ?",
-        r: "Non — les taxi-be d'Antananarivo n'ont pas d'horaires fixes. TaxiBe indique les trajets, les arrêts et les correspondances, mais pas d'heure de passage en direct.",
+        q: "Les horaires des taxi-be sont-ils disponibles sur TaxiBe ?",
+        r: "Non — les taxi-be d'Antananarivo ne fonctionnent pas sur des horaires fixes. TaxiBe indique les trajets, les arrêts et les correspondances, mais ne peut pas afficher d'heure de passage en temps réel. C'est une limite du réseau de transport actuel, pas de l'application.",
       },
       {
-        q: "Comment fonctionnent les correspondances automatiques ?",
-        r: "Indiquez votre départ et votre arrivée : si aucune ligne directe n'existe, TaxiBe calcule le meilleur enchaînement de lignes, y compris avec une double correspondance si nécessaire.",
-      },
-    ],
-  },
-  {
-    theme: "Compte et favoris",
-    questions: [
-      {
-        q: "Ai-je besoin d'un compte pour utiliser TaxiBe ?",
-        r: "La recherche de base est accessible sur le site web. Pour accéder à toutes les fonctionnalités de l'application — favoris, GPS, correspondances, jeux — un compte membre est requis. L'inscription est gratuite.",
-      },
-      {
-        q: "Comment sauvegarder une ligne en favori ?",
-        r: "Depuis la fiche d'une ligne dans l'application, appuyez sur l'icône étoile. Vos favoris sont accessibles d'un seul geste depuis l'écran d'accueil, même hors connexion.",
+        q: "Comment sauvegarder mes lignes favorites dans TaxiBe ?",
+        r: "Depuis la fiche d'une ligne dans l'application, appuyez sur l'icône étoile pour l'ajouter à vos favoris. Vos lignes favorites sont accessibles depuis l'écran d'accueil, même sans connexion internet.",
       },
     ],
   },
   {
-    theme: "Fiabilité des données",
+    theme: "Téléchargement et accès",
     questions: [
       {
-        q: "Les informations sur les lignes sont-elles fiables ?",
-        r: "Nous mettons à jour la base autant que possible, mais les itinéraires et arrêts des taxi-be peuvent évoluer sans préavis. Si vous constatez une erreur, signalez-la : elle nous aide à corriger la base pour tous les usagers.",
+        q: "Comment télécharger l'application TaxiBe sur Android ?",
+        r: "TaxiBe est disponible en téléchargement direct au format APK depuis la page Télécharger du site. L'application est compatible Android 6.0 et supérieur. Elle n'est pas encore disponible sur le Play Store — le téléchargement se fait directement via le fichier APK.",
       },
       {
-        q: "Une ligne ou un arrêt a changé, comment le signaler ?",
-        r: "Utilisez la section « Signaler » dans l'application avec le numéro de ligne concerné. Notre équipe vérifie et met à jour la base dans les meilleurs délais.",
-      },
-      {
-        q: "Puis-je contribuer à améliorer la base de données ?",
-        r: "Oui. TaxiBe s'appuie en partie sur les usagers qui connaissent le terrain. Consultez la page « Communauté » pour proposer votre aide.",
+        q: "TaxiBe est-il gratuit ?",
+        r: "Oui, TaxiBe est entièrement gratuit. Aucune inscription n'est requise pour utiliser la recherche de base sur le site web. L'application mobile donne accès à toutes les fonctionnalités (GPS, favoris, correspondances) après une inscription gratuite.",
       },
     ],
   },
   {
-    theme: "Tarifs et disponibilité",
+    theme: "Fiabilité et contribution",
     questions: [
       {
-        q: "TaxiBe est-il vraiment gratuit ?",
-        r: "Oui, TaxiBe est gratuit. L'inscription est libre et donne accès à l'ensemble des fonctionnalités de l'application. L'expérience complète se trouve dans l'app mobile.",
-      },
-      {
-        q: "Sur quels téléphones TaxiBe est-il disponible ?",
-        r: "TaxiBe est disponible sur Android 6.0 et supérieur, via téléchargement direct du fichier APK depuis la page Télécharger.",
+        q: "Comment signaler une erreur sur une ligne ou un arrêt de taxi-be ?",
+        r: "Utilisez la fonction « Signaler » dans l'application en indiquant le numéro de ligne concerné et la nature de l'erreur (arrêt manquant, itinéraire incorrect, ligne supprimée). Notre équipe vérifie et met à jour la base dans les meilleurs délais. Votre contribution aide tous les usagers.",
       },
     ],
   },
 ];
 
+
 export default async function AidePage() {
   const heroImageUrl = await getHeroImageUrl();
+
+  const allQuestions = FAQ_SECTIONS.flatMap((s) => s.questions);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_SECTIONS.flatMap((s) =>
-      s.questions.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.r },
-      }))
-    ),
+    mainEntity: allQuestions.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.r },
+    })),
   };
 
   return (
     <>
       <Nav />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
           .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
           .page-hero-img { display: flex; align-items: center; justify-content: center; }
           @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } }
         `}</style>
+
+        {/* ── Hero ── */}
         <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
           <div className="page-hero-inner">
             <div>
@@ -142,12 +138,12 @@ export default async function AidePage() {
                 Tout ce qu&apos;il faut savoir sur <span style={{ color: "#FFB800" }}>TaxiBe</span>
               </h1>
               <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 480, margin: 0, lineHeight: 1.75 }}>
-                Recherche de ligne, correspondances, compte, favoris — toutes les réponses pour bien utiliser TaxiBe.
+                Recherche de ligne, correspondances, téléchargement, signalement — toutes les réponses pour bien utiliser TaxiBe à Antananarivo.
               </p>
             </div>
             <div className="page-hero-img">
               {heroImageUrl ? (
-                <Image src={heroImageUrl} alt="Aide TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 600px" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} />
+                <Image src={heroImageUrl} alt="Aide TaxiBe" width={600} height={420} sizes="(max-width: 768px) 0px, 600px" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} priority />
               ) : (
                 <HeroIllustration />
               )}
@@ -155,37 +151,13 @@ export default async function AidePage() {
           </div>
         </section>
 
+        {/* ── FAQ accordéon ── */}
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-            {FAQ_SECTIONS.map((section) => (
-              <div key={section.theme} style={{
-                background: "white", borderRadius: 14, padding: "32px 36px",
-                border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-              }}>
-                <h2 style={{ fontSize: "1.05rem", fontWeight: 900, color: "#0D1525", marginBottom: 20, letterSpacing: "-0.01em" }}>
-                  {section.theme}
-                </h2>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {section.questions.map((item, i) => (
-                    <div key={item.q} style={{
-                      padding: "18px 0",
-                      borderTop: i === 0 ? "none" : "1px solid #F1F5F9",
-                    }}>
-                      <p style={{ margin: "0 0 8px", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525" }}>
-                        {item.q}
-                      </p>
-                      <p style={{ margin: 0, fontSize: "0.86rem", color: "#64748B", lineHeight: 1.75 }}>
-                        {item.r}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <FaqAccordion sections={FAQ_SECTIONS} />
 
+          {/* CTA contact */}
           <div style={{
-            marginTop: 32, background: "#0D1525", borderRadius: 14,
+            marginTop: 24, background: "#0D1525", borderRadius: 14,
             padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: 16,
           }}>
@@ -212,6 +184,3 @@ export default async function AidePage() {
     </>
   );
 }
-
-
-
