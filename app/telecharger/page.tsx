@@ -2,6 +2,7 @@ import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
+import OpenAppLink from "@/app/components/OpenAppLink";
 
 export const revalidate = 3600;
 
@@ -123,8 +124,7 @@ export default function TelechargerPage() {
                 Ouvrez ce lien sur votre mobile — aucune installation requise.
               </p>
             </div>
-            <a
-              href="https://app.taxibe.mg"
+            <OpenAppLink
               style={{
                 flexShrink: 0, padding: "11px 22px", borderRadius: 10,
                 background: "#FFB800", color: "#0D1525",
@@ -138,7 +138,7 @@ export default function TelechargerPage() {
                 <line x1="10" y1="14" x2="21" y2="3"/>
               </svg>
               Ouvrir app.taxibe.mg
-            </a>
+            </OpenAppLink>
           </div>
         </section>
 
@@ -237,14 +237,14 @@ export default function TelechargerPage() {
               </div>
 
               <div className="tl-card-body">
-                <a href="https://app.taxibe.mg" className="tl-btn-secondary">
+                <OpenAppLink className="tl-btn-secondary">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                     <polyline points="15 3 21 3 21 9"/>
                     <line x1="10" y1="14" x2="21" y2="3"/>
                   </svg>
                   Ouvrir app.taxibe.mg
-                </a>
+                </OpenAppLink>
                 <p style={{ margin: "0 0 20px", fontSize: "0.72rem", color: "#94A3B8", textAlign: "center" }}>
                   Fonctionne sur iPhone, Android, et ordinateur
                 </p>
