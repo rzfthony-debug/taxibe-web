@@ -5,15 +5,14 @@ export interface LigneResult {
   numero: string;
   cooperative: string | null;
   couleur_bus: string | null;
-  type_circuit: string;
+  type_circuit: string | null;
   terminus_debut: string;
   terminus_fin: string;
   nb_arrets: number;
 }
 
-async function withTerminus(
-  lignes: { id: string; numero: string; cooperative: string | null; couleur_bus: string | null; type_circuit: string }[]
-): Promise<LigneResult[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function withTerminus(lignes: any[]): Promise<LigneResult[]> {
   if (!lignes.length) return [];
   const ids = lignes.map((l) => l.id);
 
@@ -32,13 +31,13 @@ async function withTerminus(
   }
 
   return lignes.map((l) => {
-    const stops = (arretsMap.get(l.id) ?? []).sort((a, b) => a.position - b.position);
+    const stops = (arretsMap.get(l.id) ?? []).sort((a: { position: number }, b: { position: number }) => a.position - b.position);
     return {
       id: l.id,
       numero: l.numero,
-      cooperative: l.cooperative,
-      couleur_bus: l.couleur_bus,
-      type_circuit: l.type_circuit,
+      cooperative: l.cooperative ?? null,
+      couleur_bus: l.couleur_bus ?? null,
+      type_circuit: l.type_circuit ?? null,
       terminus_debut: stops[0]?.arret ?? "—",
       terminus_fin: stops[stops.length - 1]?.arret ?? "—",
       nb_arrets: stops.length,
@@ -51,7 +50,7 @@ export async function searchLignesByNumero(query: string): Promise<LigneResult[]
 
   const { data: lignes } = await adminDb
     .from("lignes")
-    .select("id, numero, cooperative, couleur_bus, type_circuit")
+    .select("*")
     .eq("actif", true)
     .ilike("numero", `${query.trim()}%`)
     .order("numero")
@@ -70,11 +69,11 @@ export async function searchLignesByQuartier(quartier: string): Promise<LigneRes
     .ilike("arret", `%${quartier.trim()}%`);
 
   if (!la?.length) return [];
-  const ligneIds = [...new Set(la.map((r) => r.ligne_id))];
+  const ligneIds = [...new Set(la.map((r: { ligne_id: string }) => r.ligne_id))];
 
   const { data: lignes } = await adminDb
     .from("lignes")
-    .select("id, numero, cooperative, couleur_bus, type_circuit")
+    .select("*")
     .eq("actif", true)
     .in("id", ligneIds)
     .order("numero");
