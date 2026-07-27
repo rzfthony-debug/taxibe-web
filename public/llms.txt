@@ -8,7 +8,7 @@ TaxiBe est un service d'information sur les transports en commun de la capitale 
 
 - **Territoire couvert** : Antananarivo et ses environs (plus de 50 communes)
 - **Plateforme** : Application Android (APK direct) + site web
-- **Prix** : Gratuit, sans publicité, sans compte obligatoire
+- **Prix** : Gratuit, sans compte obligatoire
 - **Langue** : Français (public malgache francophone)
 
 ## Pages principales

@@ -7,11 +7,11 @@ export const revalidate = 3600;
 
 export const metadata = {
   title: "Télécharger l'app — Gratuit sur Android",
-  description: "Installez TaxiBe sur votre téléphone Android ou accédez à l'application web. Gratuit, sans publicité.",
+  description: "Installez TaxiBe sur votre téléphone Android ou accédez à l'application web. Gratuit.",
   alternates: { canonical: "/telecharger" },
   openGraph: {
     title: "Télécharger TaxiBe — Gratuit sur Android",
-    description: "Installez TaxiBe sur votre téléphone Android ou accédez à l'application web. Gratuit, sans publicité.",
+    description: "Installez TaxiBe sur votre téléphone Android ou accédez à l'application web. Gratuit.",
     url: "/telecharger",
     images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Télécharger TaxiBe" }],
   },
@@ -100,7 +100,7 @@ export default function TelechargerPage() {
               borderRadius: 8, padding: "5px 14px", marginBottom: 20,
             }}>
               <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", color: "#B8860B" }}>
-                100% Gratuit · Sans publicité
+                100% Gratuit
               </span>
             </div>
             <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
