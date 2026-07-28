@@ -7,136 +7,166 @@ import { usePathname } from "next/navigation";
 
 // ── Icônes ────────────────────────────────────────────────────────────────────
 
-const I = {
-  search:       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>,
-  hash:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>,
-  mapPin:       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
-  list:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
-  route:        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>,
-  git:          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>,
-  map:          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
-  compass:      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>,
-  book:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
-  grid:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
-  bell:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
-  star:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-  help:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
-  lightbulb:    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>,
-  users:        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-  alert:        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
-  plusCircle:   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>,
-  userPlus:     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>,
-  edit:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-  megaphone:    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>,
-  code:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
-  link:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
-  handshake:    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg>,
-  mail:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
-  info:         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
-  heart:        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
-  newspaper:    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>,
-  shield:       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-  briefcase:    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
-  chevron:      (open: boolean) => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "none", flexShrink: 0 }}><polyline points="6 9 12 15 18 9"/></svg>,
-  lock:         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+const Ico = {
+  chevron: (open: boolean) => (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+      style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "none", flexShrink: 0 }}>
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  ),
+  search: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>,
+  heart: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+  barChart: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+  map: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
+  users: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  building: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M8 9V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/><line x1="12" y1="12" x2="12" y2="15"/></svg>,
+  globe: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+  megaphone: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>,
+  mail: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+  lock: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  arrowRight: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
 };
 
-// ── Structure du menu (copie exacte du modèle de référence) ───────────────────
+// ── Contenu des panneaux ───────────────────────────────────────────────────────
 
-const NAV_SECTIONS = [
-  {
-    key: "rechercher",
-    label: "Rechercher",
-    headerIcon: I.search,
+type PanelItem = { label: string; desc: string; href: string; icon: React.ReactNode };
+type PanelDef = {
+  items: PanelItem[];
+  featured?: {
+    eyebrow?: string;
+    title: string;
+    cta: string;
+    href: string;
+    subtleLink?: { label: string; href: string };
+  };
+};
+
+const PANELS: Record<string, PanelDef> = {
+  projet: {
     items: [
-      { label: "Trouver une ligne",    desc: "Recherchez par numero",         href: "/recherche",       icon: I.hash },
-      { label: "Tous les arrets",      desc: "Trouvez un arret precis",       href: "/telecharger",     icon: I.mapPin,  badge: "APP" },
-      { label: "Toutes les lignes",    desc: "Liste complete des lignes",     href: "/telecharger",     icon: I.list,    badge: "APP" },
-      { label: "Itineraire A vers B",  desc: "Calculez votre trajet",         href: "/telecharger",     icon: I.route, badge: "APP" },
-      { label: "Correspondances",      desc: "Trouvez vos correspondances",   href: "/telecharger",     icon: I.git,   badge: "APP" },
+      { label: "Notre mission",    desc: "Pourquoi TaxiBe existe",           href: "/le-projet#mission",  icon: Ico.heart },
+      { label: "Impact & données", desc: "Ce qu'on construit et pourquoi",   href: "/le-projet#impact",   icon: Ico.barChart },
+      { label: "Feuille de route", desc: "Les prochaines étapes du projet",  href: "/le-projet#roadmap",  icon: Ico.map },
+    ],
+    featured: {
+      eyebrow: "Le projet",
+      title: "Cartographier le transport collectif d'Antananarivo pour tous.",
+      cta: "Découvrir le projet",
+      href: "/le-projet",
+    },
+  },
+  partenaires: {
+    items: [
+      { label: "Coopératives de transport",    desc: "Opérateurs du réseau taxi-be",          href: "/partenaires#cooperatives", icon: Ico.users },
+      { label: "Institutions & collectivités", desc: "Mairies, ministères, bailleurs",         href: "/partenaires#institutions", icon: Ico.building },
+      { label: "Acteurs de la mobilité",       desc: "ONG, startups, chercheurs",              href: "/partenaires#mobilite",     icon: Ico.globe },
+    ],
+    featured: {
+      eyebrow: "Partenaires",
+      title: "Vous portez un projet commun autour de la mobilité urbaine ?",
+      cta: "Parlons-en",
+      href: "/contact",
+      subtleLink: { label: "Vous êtes investisseur ?", href: "/partenaires#investisseurs" },
+    },
+  },
+  entreprises: {
+    items: [
+      { label: "Visibilité commerciale", desc: "Touchez les usagers du taxi-be",    href: "/entreprises#visibilite", icon: Ico.megaphone },
+      { label: "Contact commercial",     desc: "Parlez-nous de votre projet",       href: "/entreprises#contact",    icon: Ico.mail },
     ],
   },
-  {
-    key: "decouvrir",
-    label: "Decouvrir",
-    headerIcon: I.compass,
-    items: [
-      { label: "Comment utiliser TaxiBe", desc: "Guide pas a pas",           href: "/aide",            icon: I.book },
-      { label: "Les nouveautes",          desc: "Restez informe",             href: "/blog",            icon: I.bell },
-      { label: "FAQ",                     desc: "Questions frequentes",       href: "/aide",            icon: I.help },
-      { label: "Conseils de deplacement", desc: "Nos astuces",                href: "/aide",            icon: I.lightbulb },
-    ],
-  },
-  {
-    key: "communaute",
-    label: "Communaute",
-    headerIcon: I.users,
-    items: [
-      { label: "Signaler une erreur",    desc: "Aidez-nous a ameliorer",      href: "/communaute",      icon: I.alert },
-      { label: "Devenir contributeur",   desc: "Rejoignez la communaute",     href: "/communaute",      icon: I.userPlus },
-      { label: "Blog",                   desc: "Actualites & conseils",       href: "/blog",            icon: I.edit },
-    ],
-  },
-  {
-    key: "entreprises",
-    label: "Entreprises",
-    headerIcon: I.briefcase,
-    items: [
-      { label: "Publicite",             desc: "Promouvez votre activite",     href: "/entreprises",     icon: I.megaphone },
-      { label: "Partenaires",           desc: "Nos partenaires",              href: "/entreprises",     icon: I.handshake },
-    ],
-  },
-  {
-    key: "apropos",
-    label: "A propos",
-    headerIcon: I.info,
-    items: [
-      { label: "Notre mission",         desc: "Pourquoi TaxiBe ?",            href: "/a-propos",        icon: I.heart },
-      { label: "Notre equipe",          desc: "Decouvrez-nous",               href: "/a-propos#equipe", icon: I.users },
-      { label: "Carrieres",             desc: "Rejoignez l'aventure",         href: "/emplois",         icon: I.briefcase },
-      { label: "Contact",               desc: "Parlez-nous",                  href: "/contact",         icon: I.mail },
-      { label: "Mentions legales",      desc: "CGU & confidentialite",        href: "/legal",           icon: I.shield },
-    ],
-  },
+};
+
+// ── Éléments de navigation ────────────────────────────────────────────────────
+
+const NAV_ITEMS = [
+  { key: "rechercher",   label: "Rechercher",  href: "/recherche",    hasPanel: false },
+  { key: "projet",       label: "Le Projet",   href: "/le-projet",    hasPanel: true  },
+  { key: "partenaires",  label: "Partenaires", href: "/partenaires",  hasPanel: true  },
+  { key: "entreprises",  label: "Entreprises", href: "/entreprises",  hasPanel: true  },
 ];
 
-// ── Widget "Ligne la plus recherchee" ─────────────────────────────────────────
+// ── Panel desktop ─────────────────────────────────────────────────────────────
 
-function FeaturedLine() {
+function Panel({ sectionKey, onClose }: { sectionKey: string; onClose: () => void }) {
+  const panel = PANELS[sectionKey];
+  if (!panel) return null;
+
+  const hasFeatured = !!panel.featured;
+
   return (
-    <div style={{ borderLeft: "1px solid #F1F5F9", paddingLeft: 20, minWidth: 200 }}>
-      <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 4px" }}>
-        Ligne la plus recherchee
-      </p>
-      <p style={{ fontSize: "0.62rem", fontWeight: 600, color: "#64748B", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-        Aujourd&apos;hui
-      </p>
-
-      <div style={{ background: "#0D1525", borderRadius: 12, padding: "16px", marginBottom: 12 }}>
-        <div style={{ fontSize: "2.4rem", fontWeight: 900, color: "white", lineHeight: 1, marginBottom: 6 }}>
-          147
-        </div>
-        <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", marginBottom: 4 }}>
-          Ambatomaro &rarr; 67Ha
-        </div>
-        <div style={{ fontSize: "0.72rem", fontWeight: 800, color: "#FFB800", marginBottom: 12 }}>
-          23 541 recherches
-        </div>
-        <a href="/recherche?q=147" style={{
-          display: "block", padding: "8px 14px", borderRadius: 8, textAlign: "center",
-          background: "#FFB800", color: "#0D1525",
-          fontSize: "0.78rem", fontWeight: 800, textDecoration: "none",
-        }}>
-          Voir la ligne &rarr;
-        </a>
+    <div style={{
+      maxWidth: 1200, margin: "0 auto",
+      padding: "28px 24px 24px",
+      display: "grid",
+      gridTemplateColumns: hasFeatured ? "1fr 280px" : "1fr",
+      gap: 32,
+      alignItems: "start",
+    }}>
+      {/* Items */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {panel.items.map((item) => (
+          <Link key={item.label} href={item.href} onClick={onClose}
+            style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 12px", borderRadius: 10, textDecoration: "none", transition: "background 0.12s" }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#FFFBEB")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            <div style={{
+              width: 34, height: 34, borderRadius: 9, flexShrink: 0,
+              background: "#F1F5F9", color: "#64748B",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "background 0.12s",
+            }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFB800"; (e.currentTarget as HTMLElement).style.color = "#0D1525"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#F1F5F9"; (e.currentTarget as HTMLElement).style.color = "#64748B"; }}
+            >
+              {item.icon}
+            </div>
+            <div>
+              <p style={{ margin: "0 0 2px", fontWeight: 700, fontSize: "0.82rem", color: "#0D1525", lineHeight: 1.3 }}>{item.label}</p>
+              <p style={{ margin: 0, fontSize: "0.72rem", color: "#94A3B8", lineHeight: 1.35 }}>{item.desc}</p>
+            </div>
+          </Link>
+        ))}
       </div>
 
-      <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0D1525", margin: "0 0 2px" }}>
-        Antananarivo et ses environs
-      </p>
-      <p style={{ fontSize: "0.7rem", color: "#64748B", margin: 0, fontWeight: 500 }}>
-        + de 50 communes couvertes
-      </p>
+      {/* Featured */}
+      {panel.featured && (
+        <div style={{
+          background: "#0D1525", borderRadius: 14, padding: "22px 20px",
+          display: "flex", flexDirection: "column", gap: 14,
+        }}>
+          {panel.featured.eyebrow && (
+            <span style={{ fontSize: "0.6rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>
+              {panel.featured.eyebrow}
+            </span>
+          )}
+          <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: 700, color: "white", lineHeight: 1.55 }}>
+            {panel.featured.title}
+          </p>
+          <Link href={panel.featured.href} onClick={onClose} style={{
+            display: "inline-flex", alignItems: "center", gap: 7,
+            padding: "9px 16px", borderRadius: 8,
+            background: "#FFB800", color: "#0D1525",
+            fontWeight: 800, fontSize: "0.78rem", textDecoration: "none", alignSelf: "flex-start",
+          }}>
+            {panel.featured.cta}
+            {Ico.arrowRight}
+          </Link>
+          {panel.featured.subtleLink && (
+            <Link href={panel.featured.subtleLink.href} onClick={onClose} style={{
+              fontSize: "0.7rem", color: "rgba(255,255,255,0.35)",
+              textDecoration: "none", textAlign: "center",
+              transition: "color 0.15s",
+            }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
+            >
+              {panel.featured.subtleLink.label}
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -144,7 +174,7 @@ function FeaturedLine() {
 // ── Nav principal ─────────────────────────────────────────────────────────────
 
 export default function Nav() {
-  const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -152,16 +182,23 @@ export default function Nav() {
 
   useEffect(() => {
     setMobileOpen(false);
-    setOpen(false);
+    setActiveSection(null);
   }, [pathname]);
 
-  function openMenu() {
+  function openSection(key: string) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpen(true);
+    setActiveSection(key);
   }
+
   function scheduleClose() {
-    closeTimer.current = setTimeout(() => setOpen(false), 300);
+    closeTimer.current = setTimeout(() => setActiveSection(null), 220);
   }
+
+  function cancelClose() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }
+
+  const isPanelOpen = activeSection !== null;
 
   return (
     <>
@@ -171,42 +208,25 @@ export default function Nav() {
           padding: 8px 12px; border-radius: 8px;
           font-size: 0.875rem; font-weight: 600; color: #64748B;
           background: none; border: none; cursor: pointer;
-          font-family: var(--font-inter), system-ui;
+          font-family: inherit;
           transition: color 0.15s, background 0.15s; white-space: nowrap;
         }
-        .nav-trigger:hover, .nav-trigger.open { color: #0D1525; background: #F8F9FB; }
-        .mega-item {
-          display: flex; align-items: flex-start; gap: 10px;
-          padding: 8px 10px; border-radius: 8px; text-decoration: none;
-          transition: background 0.12s;
+        .nav-trigger:hover, .nav-trigger.active { color: #0D1525; background: #F8F9FB; }
+        .nav-link {
+          display: flex; align-items: center; gap: 5px;
+          padding: 8px 12px; border-radius: 8px;
+          font-size: 0.875rem; font-weight: 600; color: #64748B;
+          text-decoration: none;
+          transition: color 0.15s, background 0.15s; white-space: nowrap;
         }
-        .mega-item:hover { background: #FFFBEB; }
-        .mega-item:hover .mico { background: #FFB800 !important; color: #0D1525 !important; }
-        .mega-item:hover .mlabel { color: #92400E !important; }
-        .mico {
-          width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
-          background: #F1F5F9; color: #64748B;
-          display: flex; align-items: center; justify-content: center;
-          transition: background 0.12s, color 0.12s;
-        }
-        .mlabel { font-weight: 700; font-size: 0.8rem; color: #0D1525; margin: 0 0 1px; transition: color 0.12s; line-height: 1.3; }
-        .mdesc  { font-size: 0.7rem; color: #94A3B8; margin: 0; font-weight: 400; line-height: 1.3; }
-        .sec-header {
-          display: flex; align-items: center; gap: 7px;
-          padding: 0 10px 10px; margin-bottom: 4px;
-          border-bottom: 1px solid #F1F5F9;
-        }
-        .sec-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #0D1525; }
+        .nav-link:hover { color: #0D1525; background: #F8F9FB; }
         .nav-desktop { display: flex; align-items: center; gap: 1px; }
         .nav-burger  { display: none; }
-        .nav-cta-btn { display: flex; }
-        .admin-btn { transition: background 0.15s, border-color 0.15s; }
-        .admin-btn:hover { background: #0D1525 !important; border-color: #0D1525 !important; }
-        .admin-btn:hover svg { stroke: #FFB800; }
-        @media (max-width: 900px) {
+        .nav-ctas    { display: flex; align-items: center; gap: 8px; }
+        @media (max-width: 940px) {
           .nav-desktop { display: none !important; }
           .nav-burger  { display: flex !important; }
-          .nav-cta-btn { display: none !important; }
+          .nav-ctas    { display: none !important; }
         }
       `}</style>
 
@@ -221,144 +241,137 @@ export default function Nav() {
               style={{ height: 36, width: "auto", objectFit: "contain" }} priority />
           </Link>
 
-          {/* Triggers desktop */}
-          <div className="nav-desktop" onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
-            {NAV_SECTIONS.map((s) => (
-              <button key={s.key} className={`nav-trigger${open ? " open" : ""}`}
-                onMouseEnter={openMenu}
-                onClick={openMenu}
-                aria-expanded={open}>
-                {s.label}
-                {I.chevron(open)}
-              </button>
-            ))}
+          {/* Navigation desktop */}
+          <div className="nav-desktop">
+            {NAV_ITEMS.map((item) =>
+              item.hasPanel ? (
+                <button
+                  key={item.key}
+                  className={`nav-trigger${activeSection === item.key ? " active" : ""}`}
+                  onMouseEnter={() => openSection(item.key)}
+                  onMouseLeave={scheduleClose}
+                  onClick={() => activeSection === item.key ? setActiveSection(null) : openSection(item.key)}
+                  aria-expanded={activeSection === item.key}
+                  aria-haspopup="true"
+                >
+                  {item.label}
+                  {Ico.chevron(activeSection === item.key)}
+                </button>
+              ) : (
+                <Link key={item.key} href={item.href} className="nav-link">
+                  {Ico.search}
+                  {item.label}
+                </Link>
+              )
+            )}
           </div>
 
-          {/* Droite */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <Link href="/telecharger" className="nav-cta-btn" style={{
+          {/* CTAs droite */}
+          <div className="nav-ctas">
+            <Link href="/le-projet" style={{
               padding: "9px 20px", borderRadius: 8,
               background: "#FFB800", color: "#0D1525",
               fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", whiteSpace: "nowrap",
             }}>
-              Telecharger l&apos;app
+              Voir le projet
             </Link>
-
-            {/* Burger */}
-            <button className="nav-burger" onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 8, borderRadius: 8, color: "#0D1525" }}
-              aria-label="Menu">
-              {mobileOpen
-                ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/></svg>
-              }
-            </button>
+            <Link href="/telecharger" style={{
+              padding: "8px 18px", borderRadius: 8,
+              border: "1.5px solid #E2E8F0", color: "#64748B",
+              fontWeight: 700, fontSize: "0.875rem", textDecoration: "none", whiteSpace: "nowrap",
+              background: "white",
+            }}>
+              Télécharger l&apos;app
+            </Link>
           </div>
+
+          {/* Burger mobile */}
+          <button className="nav-burger" onClick={() => setMobileOpen(!mobileOpen)}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 8, borderRadius: 8, color: "#0D1525", display: "none" }}
+            aria-label="Menu">
+            {mobileOpen
+              ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/></svg>
+            }
+          </button>
         </div>
 
-        {/* ── Mega menu panel ── */}
-        {open && (
-          <div onMouseEnter={openMenu} onMouseLeave={scheduleClose} style={{
-            position: "absolute", left: 0, right: 0,
-            background: "white",
-            borderTop: "1px solid #F1F5F9",
-            borderBottom: "1px solid #E2E8F0",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.10)",
-            zIndex: 300,
-          }}>
-            <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 24px 20px", display: "flex", gap: 0 }}>
-
-              {/* 5 colonnes */}
-              <div style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
-                {NAV_SECTIONS.map((s) => (
-                  <div key={s.key}>
-                    <div className="sec-header">
-                      <span style={{ color: "#FFB800", display: "flex" }}>{s.headerIcon}</span>
-                      <span className="sec-label">{s.label}</span>
-                    </div>
-                    {s.items.map((item) => (
-                      <Link key={item.label} href={item.href} className="mega-item" onClick={() => setOpen(false)}>
-                        <div className="mico">{item.icon}</div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                            <p className="mlabel">{item.label}</p>
-                            {"badge" in item && item.badge && (
-                              <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.55rem", fontWeight: 800, padding: "1px 5px", borderRadius: 3, letterSpacing: "0.06em", flexShrink: 0 }}>
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          <p className="mdesc">{item.desc}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              {/* Widget ligne la plus recherchee */}
-              <FeaturedLine />
-            </div>
-
-            {/* Bandeau app exclusif */}
-            <div style={{ borderTop: "1px solid #F1F5F9", padding: "10px 0 4px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-              <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748B" }}>
-                <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.58rem", fontWeight: 800, padding: "1px 6px", borderRadius: 3, letterSpacing: "0.06em", marginRight: 7 }}>APP</span>
-                Arrêts GPS, favoris, itinéraires et correspondances — fonctionnalités exclusives à l&apos;application.
-              </p>
-              <a href="/telecharger" onClick={() => setOpen(false)} style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                padding: "6px 14px", background: "#FFB800", borderRadius: 7,
-                fontWeight: 800, fontSize: "0.78rem", color: "#0D1525", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0,
-              }}>
-                Télécharger gratuitement →
-              </a>
-            </div>
+        {/* ── Panneau mega menu ── */}
+        {isPanelOpen && (
+          <div
+            onMouseEnter={cancelClose}
+            onMouseLeave={scheduleClose}
+            style={{
+              position: "absolute", left: 0, right: 0,
+              background: "white",
+              borderTop: "1px solid #F1F5F9",
+              borderBottom: "1px solid #E2E8F0",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.09)",
+              zIndex: 300,
+            }}
+          >
+            <Panel sectionKey={activeSection!} onClose={() => setActiveSection(null)} />
           </div>
         )}
 
         {/* ── Menu mobile ── */}
         {mobileOpen && (
-          <div style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "80vh", overflowY: "auto" }}>
-            {NAV_SECTIONS.map((s) => (
-              <div key={s.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
-                <button onClick={() => setMobileExpanded(mobileExpanded === s.key ? null : s.key)}
-                  style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", fontFamily: "var(--font-inter), system-ui" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ color: "#FFB800", display: "flex" }}>{s.headerIcon}</span>
-                    {s.label}
-                  </span>
-                  {I.chevron(mobileExpanded === s.key)}
-                </button>
-                {mobileExpanded === s.key && (
-                  <div style={{ paddingBottom: 8, display: "flex", flexDirection: "column", gap: 2 }}>
-                    {s.items.map((item) => (
-                      <Link key={item.label} href={item.href} className="mega-item" onClick={() => setMobileOpen(false)}>
-                        <div className="mico">{item.icon}</div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                            <p className="mlabel">{item.label}</p>
-                            {"badge" in item && item.badge && (
-                              <span style={{ background: "#0D1525", color: "#FFB800", fontSize: "0.55rem", fontWeight: 800, padding: "1px 5px", borderRadius: 3, letterSpacing: "0.06em", flexShrink: 0 }}>
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          <p className="mdesc">{item.desc}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+          <div style={{ background: "white", borderTop: "1px solid #F1F5F9", padding: "8px 20px 20px", maxHeight: "85vh", overflowY: "auto" }}>
 
-            <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-              <Link href="/gestion/login" style={{ flex: 1, padding: "12px", borderRadius: 8, textAlign: "center", background: "#F1F5F9", color: "#0D1525", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
-                Accès
+            {/* Lien direct Rechercher */}
+            <Link href="/recherche" onClick={() => setMobileOpen(false)}
+              style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0", borderBottom: "1px solid #F1F5F9", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", textDecoration: "none" }}>
+              <span style={{ color: "#FFB800", display: "flex" }}>{Ico.search}</span>
+              Rechercher
+            </Link>
+
+            {/* Sections avec sous-menus */}
+            {NAV_ITEMS.filter((i) => i.hasPanel).map((item) => {
+              const panel = PANELS[item.key];
+              return (
+                <div key={item.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
+                  <button
+                    onClick={() => setMobileExpanded(mobileExpanded === item.key ? null : item.key)}
+                    style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", fontFamily: "inherit" }}
+                  >
+                    {item.label}
+                    {Ico.chevron(mobileExpanded === item.key)}
+                  </button>
+                  {mobileExpanded === item.key && (
+                    <div style={{ paddingBottom: 12, display: "flex", flexDirection: "column", gap: 2 }}>
+                      {panel.items.map((pItem) => (
+                        <Link key={pItem.label} href={pItem.href} onClick={() => setMobileOpen(false)}
+                          style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 8px", borderRadius: 8, textDecoration: "none" }}>
+                          <div style={{ width: 30, height: 30, borderRadius: 8, flexShrink: 0, background: "#F1F5F9", color: "#64748B", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            {pItem.icon}
+                          </div>
+                          <div>
+                            <p style={{ margin: 0, fontWeight: 700, fontSize: "0.82rem", color: "#0D1525" }}>{pItem.label}</p>
+                            <p style={{ margin: 0, fontSize: "0.7rem", color: "#94A3B8" }}>{pItem.desc}</p>
+                          </div>
+                        </Link>
+                      ))}
+                      {panel.featured?.subtleLink && (
+                        <Link href={panel.featured.subtleLink.href} onClick={() => setMobileOpen(false)}
+                          style={{ padding: "8px 8px", fontSize: "0.78rem", color: "#64748B", textDecoration: "none", fontWeight: 600 }}>
+                          {panel.featured.subtleLink.label} →
+                        </Link>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* CTAs mobile */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 16 }}>
+              <Link href="/le-projet" onClick={() => setMobileOpen(false)}
+                style={{ padding: "13px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.95rem", textDecoration: "none" }}>
+                Voir le projet
               </Link>
-              <Link href="/telecharger" style={{ flex: 2, padding: "12px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.9375rem", textDecoration: "none" }}>
-                Telecharger l&apos;app
+              <Link href="/telecharger" onClick={() => setMobileOpen(false)}
+                style={{ padding: "12px", borderRadius: 8, textAlign: "center", border: "1.5px solid #E2E8F0", color: "#64748B", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
+                Télécharger l&apos;app
               </Link>
             </div>
           </div>
