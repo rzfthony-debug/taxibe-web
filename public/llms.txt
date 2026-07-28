@@ -37,8 +37,8 @@ TaxiBe permet de :
 4. Trouver les correspondances entre lignes
 5. Planifier un trajet de point A à point B
 
-### Lignes les plus recherchées
-Les lignes les plus utilisées à Antananarivo incluent : 147 (Ambatomaro–67Ha), 183, D, 163, 133.
+### Lignes courantes
+Parmi les lignes disponibles sur TaxiBe : 147, 183, D, 163, 133.
 
 ### Qui utilise TaxiBe ?
 Les habitants d'Antananarivo qui utilisent quotidiennement les taxi-be pour se déplacer dans la ville. L'audience est 100% locale, concentrée sur Antananarivo et ses environs.
