@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   creator: "TaxiBe",
   publisher: "TaxiBe",
   robots: { index: true, follow: true },
+  verification: { google: "COoFqNcRSrvYLlfgTTaPodbb_ZZgjfg0lnXAXiFuGfc" },
   openGraph: {
     type: "website",
     locale: "fr_MG",
