@@ -43,6 +43,7 @@ const COLS = [
     links: [
       { label: "Blog",               href: "/blog" },
       { label: "Aide & FAQ",         href: "/aide" },
+      { label: "Carrières",          href: "/emplois" },
       { label: "Contribuer",         href: "/communaute" },
       { label: "Signaler une erreur", href: "/communaute" },
     ],

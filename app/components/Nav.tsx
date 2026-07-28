@@ -25,6 +25,7 @@ const Ico = {
   mail: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
   lock: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
   arrowRight: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  briefcase: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/></svg>,
 };
 
 // ── Contenu des panneaux ───────────────────────────────────────────────────────
@@ -47,6 +48,7 @@ const PANELS: Record<string, PanelDef> = {
       { label: "Notre mission",    desc: "Pourquoi TaxiBe existe",           href: "/le-projet#mission",  icon: Ico.heart },
       { label: "Impact & données", desc: "Ce qu'on construit et pourquoi",   href: "/le-projet#impact",   icon: Ico.barChart },
       { label: "Feuille de route", desc: "Les prochaines étapes du projet",  href: "/le-projet#roadmap",  icon: Ico.map },
+      { label: "Carrières",        desc: "Rejoindre l'équipe TaxiBe",        href: "/emplois",             icon: Ico.briefcase },
     ],
     featured: {
       eyebrow: "Le projet",
