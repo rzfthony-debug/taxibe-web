@@ -6,6 +6,18 @@ export const metadata = {
   title: "Conseils de déplacement à Antananarivo",
   description: "Nos astuces pour se déplacer sereinement en taxi-be à Antananarivo : horaires, heures d'affluence, sécurité et bonnes pratiques.",
   alternates: { canonical: "/conseils" },
+  openGraph: {
+    title: "Conseils de déplacement en taxi-be à Antananarivo — TaxiBe",
+    description: "Astuces pour se déplacer sereinement en taxi-be à Antananarivo : horaires, heures d'affluence et bonnes pratiques.",
+    url: "/conseils",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Conseils TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Conseils de déplacement en taxi-be à Antananarivo",
+    description: "Astuces pour se déplacer sereinement en taxi-be à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const THEMES = [

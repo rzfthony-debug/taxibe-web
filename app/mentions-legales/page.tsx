@@ -3,6 +3,20 @@ import Footer from "@/app/components/Footer";
 
 export const metadata = {
   title: "Mentions légales — TaxiBe",
+  description: "Mentions légales de TaxiBe : éditeur, hébergement, données personnelles et propriété intellectuelle.",
+  alternates: { canonical: "/mentions-legales" },
+  openGraph: {
+    title: "Mentions légales — TaxiBe",
+    description: "Mentions légales de TaxiBe : éditeur, hébergement et données personnelles.",
+    url: "/mentions-legales",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe" }],
+  },
+  twitter: {
+    card: "summary" as const,
+    title: "Mentions légales — TaxiBe",
+    description: "Mentions légales de TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 export default function MentionsLegalesPage() {

@@ -3,6 +3,20 @@ import Footer from "@/app/components/Footer";
 
 export const metadata = {
   title: "Conditions d'utilisation — TaxiBe",
+  description: "Conditions générales d'utilisation de TaxiBe, l'application de recherche de lignes de taxi-be à Antananarivo.",
+  alternates: { canonical: "/conditions" },
+  openGraph: {
+    title: "Conditions d'utilisation — TaxiBe",
+    description: "Conditions générales d'utilisation de TaxiBe à Antananarivo.",
+    url: "/conditions",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe" }],
+  },
+  twitter: {
+    card: "summary" as const,
+    title: "Conditions d'utilisation — TaxiBe",
+    description: "Conditions générales d'utilisation de TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 export default function ConditionsPage() {

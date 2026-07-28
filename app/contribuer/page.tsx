@@ -3,9 +3,21 @@ import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
 export const metadata = {
-  title: "Devenir contributeur",
+  title: "Devenir contributeur — TaxiBe",
   description: "Rejoignez la communauté de contributeurs TaxiBe et aidez à maintenir à jour la base des lignes de taxi-be d'Antananarivo.",
   alternates: { canonical: "/contribuer" },
+  openGraph: {
+    title: "Devenir contributeur — TaxiBe",
+    description: "Rejoignez la communauté et aidez à maintenir la base des lignes de taxi-be d'Antananarivo.",
+    url: "/contribuer",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Contribuer à TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Devenir contributeur — TaxiBe",
+    description: "Rejoignez la communauté et aidez à maintenir la base des lignes de taxi-be.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const APPORTS = [

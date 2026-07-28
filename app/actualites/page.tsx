@@ -4,9 +4,24 @@ import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 
+export const revalidate = 3600;
+
 export const metadata = {
   title: "Actualités — TaxiBe",
-  description: "Nouvelles et annonces de TaxiBe Antananarivo.",
+  description: "Dernières nouvelles et annonces de TaxiBe : nouvelles lignes, mises à jour de l'application et informations sur le transport collectif à Antananarivo.",
+  alternates: { canonical: "/actualites" },
+  openGraph: {
+    title: "Actualités — TaxiBe",
+    description: "Dernières nouvelles et annonces de TaxiBe à Antananarivo.",
+    url: "/actualites",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Actualités TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Actualités — TaxiBe",
+    description: "Dernières nouvelles et annonces de TaxiBe à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 export default async function ActualitesPage() {

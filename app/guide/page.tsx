@@ -6,6 +6,18 @@ export const metadata = {
   title: "Comment utiliser TaxiBe — Guide pas à pas",
   description: "Le guide complet pour se repérer dans les taxi-be d'Antananarivo avec TaxiBe : rechercher une ligne, trouver un arrêt, calculer un trajet avec correspondances.",
   alternates: { canonical: "/guide" },
+  openGraph: {
+    title: "Comment utiliser TaxiBe — Guide pas à pas",
+    description: "Guide complet pour trouver votre ligne de taxi-be à Antananarivo : recherche, arrêts, correspondances.",
+    url: "/guide",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Guide TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Comment utiliser TaxiBe — Guide pas à pas",
+    description: "Guide complet pour trouver votre ligne de taxi-be à Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const ETAPES = [

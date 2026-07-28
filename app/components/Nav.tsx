@@ -238,6 +238,7 @@ export default function Nav() {
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
             <Image src="/logo_taxibe_vertcal.png" alt="TaxiBe" width={360} height={180}
+              sizes="180px"
               style={{ height: 36, width: "auto", objectFit: "contain" }} priority />
           </Link>
 

@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
       { source: "/faq", destination: "/aide", permanent: true },
       { source: "/contribuer", destination: "/communaute", permanent: true },
       { source: "/signaler", destination: "/communaute", permanent: true },
-      { source: "/partenaires", destination: "/entreprises", permanent: true },
       { source: "/publicite", destination: "/entreprises", permanent: true },
     ];
   },

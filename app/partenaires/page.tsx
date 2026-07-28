@@ -2,10 +2,24 @@ import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
+export const revalidate = 3600;
+
 export const metadata = {
-  title: "Partenaires",
-  description: "Coopératives de transport, institutions, projets urbains : découvrez comment collaborer avec TaxiBe à Antananarivo.",
+  title: "Partenaires — TaxiBe",
+  description: "Coopératives de transport, institutions et projets urbains : découvrez comment collaborer avec TaxiBe pour améliorer la mobilité à Antananarivo.",
   alternates: { canonical: "/partenaires" },
+  openGraph: {
+    title: "Partenaires — TaxiBe",
+    description: "Coopératives de transport, institutions et projets urbains : collaborer avec TaxiBe à Antananarivo.",
+    url: "/partenaires",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Partenaires TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Partenaires — TaxiBe",
+    description: "Coopératives de transport, institutions et projets urbains : collaborer avec TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const PROFILS = [

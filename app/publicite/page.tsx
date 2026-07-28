@@ -6,6 +6,18 @@ export const metadata = {
   title: "Publicité — Annoncez sur TaxiBe",
   description: "Touchez les usagers quotidiens des taxi-be à Antananarivo. Découvrez les espaces publicitaires disponibles sur l'application TaxiBe.",
   alternates: { canonical: "/publicite" },
+  openGraph: {
+    title: "Annoncez sur TaxiBe — Visibilité locale à Antananarivo",
+    description: "Touchez les usagers quotidiens des taxi-be d'Antananarivo. Espaces publicitaires disponibles sur TaxiBe.",
+    url: "/publicite",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Publicité TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Annoncez sur TaxiBe",
+    description: "Touchez les usagers quotidiens des taxi-be d'Antananarivo.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const ATOUTS = [

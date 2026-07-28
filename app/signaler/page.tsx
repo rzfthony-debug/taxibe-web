@@ -3,9 +3,21 @@ import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
 export const metadata = {
-  title: "Signaler une erreur",
+  title: "Signaler une erreur — TaxiBe",
   description: "Un arrêt, un trajet ou un tarif de taxi-be a changé ? Signalez-le en quelques secondes pour aider tous les usagers de TaxiBe.",
   alternates: { canonical: "/signaler" },
+  openGraph: {
+    title: "Signaler une erreur — TaxiBe",
+    description: "Aidez à maintenir TaxiBe à jour : signalez un arrêt déplacé, une ligne modifiée ou une information incorrecte.",
+    url: "/signaler",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Signaler TaxiBe" }],
+  },
+  twitter: {
+    card: "summary" as const,
+    title: "Signaler une erreur — TaxiBe",
+    description: "Signalez un arrêt déplacé ou une ligne modifiée sur TaxiBe.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 const EXEMPLES = [
