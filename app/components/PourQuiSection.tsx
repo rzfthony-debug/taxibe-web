@@ -45,6 +45,10 @@ export default function PourQuiSection() {
   return (
     <section className="sec" style={{ background: "#F8F9FB" }}>
       <style>{`
+        @keyframes pourquiFadeUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
         .pourqui-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -59,16 +63,26 @@ export default function PourQuiSection() {
           overflow: hidden;
           display: flex;
           flex-direction: column;
+          transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
+          opacity: 0;
+          animation: pourquiFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .pourqui-card:nth-child(1) { animation-delay: 0.05s; }
+        .pourqui-card:nth-child(2) { animation-delay: 0.18s; }
+        .pourqui-card:nth-child(3) { animation-delay: 0.31s; }
+        .pourqui-card:hover {
+          transform: translateY(-8px) scale(1.01);
+          box-shadow: 0 16px 48px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.06);
         }
         .pourqui-img-wrap {
           position: relative;
           width: 100%;
-          aspect-ratio: 3/2;
+          aspect-ratio: 4/3;
         }
         .pourqui-gradient {
           position: absolute;
           bottom: 0; left: 0; right: 0;
-          height: 45%;
+          height: 28%;
           background: linear-gradient(to bottom, transparent, white);
           pointer-events: none;
         }
@@ -78,8 +92,20 @@ export default function PourQuiSection() {
           flex-direction: column;
           gap: 10px;
         }
+        .pourqui-icon {
+          width: 44px; height: 44px; border-radius: 50%;
+          background: #FFB800;
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 4px;
+          transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .pourqui-card:hover .pourqui-icon {
+          transform: scale(1.15) rotate(-6deg);
+        }
         @media (max-width: 860px) {
           .pourqui-grid { grid-template-columns: 1fr; max-width: 460px; margin: 52px auto 0; }
+          .pourqui-card:nth-child(2) { animation-delay: 0.10s; }
+          .pourqui-card:nth-child(3) { animation-delay: 0.18s; }
         }
       `}</style>
 
@@ -111,7 +137,7 @@ export default function PourQuiSection() {
                 <div className="pourqui-gradient" />
               </div>
               <div className="pourqui-body">
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 4 }}>
+                <div className="pourqui-icon">
                   {c.icon}
                 </div>
                 <h3 style={{ fontWeight: 900, fontSize: "1.05rem", color: "#0D1525", margin: 0 }}>{c.title}</h3>
