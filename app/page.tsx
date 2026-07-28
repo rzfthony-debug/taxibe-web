@@ -323,6 +323,57 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* ── Points forts ── */}
+      <div style={{ background: "white", borderBottom: "1px solid #E8ECF0" }}>
+        <style>{`
+          .points-forts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+          .point-fort { display: flex; align-items: center; gap: 14px; padding: 20px 28px; border-right: 1px solid #E8ECF0; }
+          .point-fort:last-child { border-right: none; }
+          @media (max-width: 720px) {
+            .points-forts { grid-template-columns: repeat(2, 1fr); }
+            .point-fort { border-right: none; border-bottom: 1px solid #E8ECF0; padding: 16px 20px; }
+            .point-fort:nth-child(odd) { border-right: 1px solid #E8ECF0; }
+            .point-fort:nth-last-child(-n+2) { border-bottom: none; }
+          }
+        `}</style>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }} className="points-forts">
+          <div className="point-fort">
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0D1525", lineHeight: 1.35 }}>Informations sur les lignes</span>
+          </div>
+          <div className="point-fort">
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0D1525", lineHeight: 1.35 }}>Consultation des arrêts</span>
+          </div>
+          <div className="point-fort">
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round">
+                <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0D1525", lineHeight: 1.35 }}>Disponible sur le web et mobile</span>
+          </div>
+          <div className="point-fort">
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round">
+                <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+                <path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0D1525", lineHeight: 1.35 }}>Projet développé à Madagascar</span>
+          </div>
+        </div>
+      </div>
+
       {/* ── Notre mission ── */}
       <WhySection illustrationUrl={whyIllustrationUrl} />
 
