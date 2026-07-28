@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -39,13 +39,13 @@ export const metadata = {
     title: "Communauté — TaxiBe",
     description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
     url: "/communaute",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Communauté TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Communauté TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Communauté — TaxiBe",
     description: "Signalez une erreur, devenez contributeur ou envoyez une remarque à l'équipe TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

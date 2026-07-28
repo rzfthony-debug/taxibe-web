@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -16,13 +16,13 @@ export const metadata = {
     title: "Carrières — TaxiBe",
     description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
     url: "/emplois",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Carrières TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Carrières TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Carrières — TaxiBe",
     description: "Rejoignez l'équipe TaxiBe et participez à la transformation de la mobilité à Madagascar.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

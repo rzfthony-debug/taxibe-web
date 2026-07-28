@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 
 export const metadata = {
@@ -9,13 +9,13 @@ export const metadata = {
     title: "Conditions d'utilisation — TaxiBe",
     description: "Conditions générales d'utilisation de TaxiBe à Antananarivo.",
     url: "/conditions",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "TaxiBe" }],
   },
   twitter: {
     card: "summary" as const,
     title: "Conditions d'utilisation — TaxiBe",
     description: "Conditions générales d'utilisation de TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

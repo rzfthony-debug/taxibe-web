@@ -1,4 +1,4 @@
-import { safeJsonLd } from "@/lib/sanitize";
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
@@ -18,13 +18,13 @@ export const metadata = {
     title: "FAQ TaxiBe — Lignes de taxi-be à Antananarivo",
     description: "Questions fréquentes sur la recherche de lignes de taxi-be, les correspondances et l'utilisation de l'application TaxiBe.",
     url: "/aide",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "FAQ TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "FAQ TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "FAQ TaxiBe — Lignes de taxi-be à Antananarivo",
     description: "Questions fréquentes sur la recherche de lignes de taxi-be et l'utilisation de TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

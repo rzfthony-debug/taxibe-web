@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
@@ -10,13 +10,13 @@ export const metadata = {
     title: "Signaler une erreur — TaxiBe",
     description: "Aidez à maintenir TaxiBe à jour : signalez un arrêt déplacé, une ligne modifiée ou une information incorrecte.",
     url: "/signaler",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Signaler TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Signaler TaxiBe" }],
   },
   twitter: {
     card: "summary" as const,
     title: "Signaler une erreur — TaxiBe",
     description: "Signalez un arrêt déplacé ou une ligne modifiée sur TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

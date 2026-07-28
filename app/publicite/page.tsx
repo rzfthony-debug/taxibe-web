@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
@@ -10,13 +10,13 @@ export const metadata = {
     title: "Annoncez sur TaxiBe — Visibilité locale à Antananarivo",
     description: "Touchez les usagers quotidiens des taxi-be d'Antananarivo. Espaces publicitaires disponibles sur TaxiBe.",
     url: "/publicite",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Publicité TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Publicité TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Annoncez sur TaxiBe",
     description: "Touchez les usagers quotidiens des taxi-be d'Antananarivo.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

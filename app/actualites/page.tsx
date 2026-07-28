@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+﻿import { supabase } from "@/lib/supabase";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
@@ -14,13 +14,13 @@ export const metadata = {
     title: "Actualités — TaxiBe",
     description: "Dernières nouvelles et annonces de TaxiBe à Antananarivo.",
     url: "/actualites",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Actualités TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Actualités TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Actualités — TaxiBe",
     description: "Dernières nouvelles et annonces de TaxiBe à Antananarivo.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: "summary_large_image",
       title: `${offre.nom} — TaxiBe Carrières`,
       description: desc,
-      images: ["/logo_taxibe.png"],
+      images: ["/og-image.jpg"],
     },
   };
 }

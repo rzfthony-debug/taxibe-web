@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 
@@ -10,13 +10,13 @@ export const metadata = {
     title: "Comment utiliser TaxiBe — Guide pas à pas",
     description: "Guide complet pour trouver votre ligne de taxi-be à Antananarivo : recherche, arrêts, correspondances.",
     url: "/guide",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Guide TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Guide TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Comment utiliser TaxiBe — Guide pas à pas",
     description: "Guide complet pour trouver votre ligne de taxi-be à Antananarivo.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

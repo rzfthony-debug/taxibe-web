@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
@@ -12,13 +12,13 @@ export const metadata = {
     title: "Partenaires — TaxiBe",
     description: "Coopératives de transport, institutions et projets urbains : collaborer avec TaxiBe à Antananarivo.",
     url: "/partenaires",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Partenaires TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Partenaires TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Partenaires — TaxiBe",
     description: "Coopératives de transport, institutions et projets urbains : collaborer avec TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

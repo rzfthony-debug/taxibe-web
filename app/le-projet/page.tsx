@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import CtaApp from "@/app/components/CtaApp";
 import Link from "next/link";
@@ -11,13 +11,13 @@ export const metadata = {
     title: "Le Projet TaxiBe — Cartographier le transport collectif d'Antananarivo",
     description: "TaxiBe construit la première base de données ouverte du réseau de taxi-be d'Antananarivo. Mission, impact et feuille de route.",
     url: "/le-projet",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Le Projet TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Le Projet TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Le Projet TaxiBe — Infrastructure du transport collectif à Antananarivo",
     description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

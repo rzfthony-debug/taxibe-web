@@ -1,4 +1,4 @@
-import Nav from "@/app/components/Nav";
+﻿import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import MessageForm from "@/app/components/MessageForm";
 
@@ -10,13 +10,13 @@ export const metadata = {
     title: "Devenir contributeur — TaxiBe",
     description: "Rejoignez la communauté et aidez à maintenir la base des lignes de taxi-be d'Antananarivo.",
     url: "/contribuer",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Contribuer à TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Contribuer à TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Devenir contributeur — TaxiBe",
     description: "Rejoignez la communauté et aidez à maintenir la base des lignes de taxi-be.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

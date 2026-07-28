@@ -45,9 +45,9 @@ export const metadata: Metadata = {
       "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet. Gratuit, rapide, disponible sur Android.",
     images: [
       {
-        url: "/logo_taxibe.png",
-        width: 1842,
-        height: 1466,
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "TaxiBe — Lignes de taxi-be à Antananarivo",
       },
     ],
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: "TaxiBe — Lignes de taxi-be à Antananarivo",
     description:
       "Trouvez votre ligne de taxi-be à Antananarivo. Recherche par numéro, par arrêt ou par trajet.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: "/icon-192.png",

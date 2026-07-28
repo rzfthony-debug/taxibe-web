@@ -18,13 +18,13 @@ export const metadata = {
     title: "Contact — TaxiBe",
     description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
     url: "/contact",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Contact TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Contact TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "Contact — TaxiBe",
     description: "Une question, une suggestion ou un partenariat ? Contactez l'équipe TaxiBe.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

@@ -18,13 +18,13 @@ export const metadata = {
     title: "À propos de TaxiBe",
     description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo, Madagascar.",
     url: "/a-propos",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "À propos de TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "À propos de TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: "À propos de TaxiBe",
     description: "Découvrez TaxiBe, l'application de référence pour les lignes de taxi-be à Antananarivo.",
-    images: ["/logo_taxibe.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

@@ -1,4 +1,4 @@
-import { safeJsonLd } from "@/lib/sanitize";
+﻿import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
@@ -14,7 +14,7 @@ export const metadata = {
     title: "Télécharger TaxiBe — Gratuit sur Android",
     description: "Installez TaxiBe sur votre téléphone Android ou accédez à l'application web. Gratuit.",
     url: "/telecharger",
-    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Télécharger TaxiBe" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Télécharger TaxiBe" }],
   },
 };
 
