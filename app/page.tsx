@@ -142,6 +142,49 @@ async function ActualitesSection() {
   );
 }
 
+const FEATURES = [
+  {
+    title: "Rechercher une ligne",
+    desc: "Retrouvez rapidement une ligne grâce à son numéro.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+  },
+  {
+    title: "Rechercher un arrêt ou un quartier",
+    desc: "Trouvez les arrêts et les lignes disponibles autour d'un quartier ou d'un point d'intérêt.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+  },
+  {
+    title: "Correspondances",
+    desc: "Identifiez facilement les changements de ligne nécessaires pour atteindre votre destination.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10"/><path d="M3.51 15a9 9 0 0 0 14.85 3.36L23 14"/></svg>,
+  },
+  {
+    title: "Mes favoris",
+    desc: "Enregistrez vos lignes et arrêts favoris pour y accéder en un instant.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(184,134,11,0.15)" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  },
+  {
+    title: "Carte interactive",
+    desc: "Explorez les lignes, les arrêts et le réseau directement sur une carte interactive.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
+  },
+  {
+    title: "Partager ma position",
+    desc: "Partagez facilement votre position avec vos proches ou pour obtenir de l'aide.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+  },
+  {
+    title: "Actualités & emplois",
+    desc: "Restez informé des nouvelles et offres d'emploi liées au transport collectif.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
+  },
+  {
+    title: "Et bien plus à venir",
+    desc: "TaxiBe évolue continuellement pour proposer de nouvelles fonctionnalités adaptées à vos besoins.",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>,
+  },
+];
+
 export default async function Home() {
   const params = await getHomeParams();
   const { desktop: heroImageUrl, mobile: heroImageMobileUrl, ctaPhone: ctaPhoneUrl, videoUrl, videoTitre, videoSousTexte, whyIllustrationUrl } = params;
@@ -382,103 +425,85 @@ export default async function Home() {
       <PourQuiSection />
 
       {/* ── Fonctionnalités ── */}
-      <section id="fonctionnalites" className="sec" style={{ background: "#F8F9FB" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
-            Fonctionnalités
-          </p>
-          <h2 style={{ textAlign: "center", fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", marginBottom: 12, letterSpacing: "-0.01em" }}>
-            Tout pour se déplacer à Tana
-          </h2>
-          <p style={{ textAlign: "center", color: "#64748B", fontSize: "0.9rem", maxWidth: 480, margin: "0 auto 52px", lineHeight: 1.7 }}>
-            Recherche disponible sur le web. Toutes les fonctionnalités sont accessibles aux membres dans l&apos;application.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
-            {[
-              {
-                title: "Par numéro de ligne",
-                desc: "Entrez le numéro et obtenez tous les arrêts, le trajet complet et les terminus.",
-                appOnly: false,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>,
-              },
-              {
-                title: "Par arrêt ou quartier",
-                desc: "Indiquez votre départ et votre destination — les correspondances sont calculées automatiquement.",
-                appOnly: true,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>,
-              },
-              {
-                title: "Arrêts près de moi",
-                desc: "Activez la localisation pour voir toutes les lignes disponibles autour de vous.",
-                appOnly: true,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
-              },
-              {
-                title: "Lignes favorites",
-                desc: "Sauvegardez vos lignes du quotidien pour y accéder d'un seul geste.",
-                appOnly: true,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFB800" stroke="#FFB800" strokeWidth="1.5" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-              },
-              {
-                title: "Jeux & récompenses",
-                desc: "Sudoku et quiz sur les lignes de Tana. Gagnez des lots en jouant.",
-                appOnly: true,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>,
-              },
-              {
-                title: "Actualités & emplois",
-                desc: "Restez informé des nouvelles et offres d'emploi à Antananarivo.",
-                appOnly: true,
-                icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
-              },
-            ].map((f) => (
-              <div key={f.title} style={{
-                background: "white", borderRadius: 14, padding: "24px 22px",
-                border: "1px solid #E8ECF0",
-                boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
-                position: "relative",
-              }}>
-                {f.appOnly && (
-                  <span style={{
-                    position: "absolute", top: 14, right: 14,
-                    background: "#0D1525", color: "#FFB800",
-                    fontSize: "0.6rem", fontWeight: 800, padding: "2px 8px", borderRadius: 4,
-                    letterSpacing: "0.06em",
-                  }}>
-                    APP
-                  </span>
-                )}
-                <div style={{
-                  width: 52, height: 52, borderRadius: 14,
-                  background: "rgba(255,184,0,0.1)",
-                  border: "1.5px solid rgba(255,184,0,0.22)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  marginBottom: 18,
-                }}>
-                  {f.icon}
-                </div>
-                <h3 style={{ fontWeight: 800, fontSize: "0.92rem", color: "#0D1525", marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: "0.82rem", color: "#64748B", lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 40, background: "#0D1525", borderRadius: 16, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
-            <div>
-              <p style={{ margin: "0 0 4px", fontWeight: 900, color: "white", fontSize: "1rem", letterSpacing: "-0.01em" }}>
-                5 fonctionnalités sur 6 sont exclusives à l&apos;app
+      <section id="fonctionnalites" style={{ background: "#FFFDF5" }}>
+        <style>{`
+          .fonc-wrap { max-width: 1200px; margin: 0 auto; padding: 88px 40px; }
+          .fonc-layout { display: grid; grid-template-columns: 320px 1fr; gap: 64px; align-items: start; }
+          .fonc-sticky { position: sticky; top: 80px; }
+          .fonc-phone { width: 100%; height: auto; display: block; margin-top: 28px; filter: drop-shadow(0 28px 48px rgba(0,0,0,0.14)); }
+          .fonc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+          .fonc-card {
+            background: white; border-radius: 16px; padding: 22px 18px 20px;
+            border: 1px solid #EDE8D8;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+          }
+          .fonc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+          .fonc-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,184,0,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+          .fonc-card-title { font-weight: 800; font-size: 0.87rem; color: #0D1525; margin: 0 0 8px; line-height: 1.3; }
+          .fonc-dash { width: 22px; height: 3px; background: #FFB800; border-radius: 2px; margin-bottom: 10px; }
+          .fonc-card-desc { font-size: 0.76rem; color: #64748B; line-height: 1.65; margin: 0; }
+          @media (max-width: 980px) {
+            .fonc-layout { grid-template-columns: 1fr; gap: 40px; }
+            .fonc-sticky { position: static; display: flex; gap: 32px; align-items: flex-start; }
+            .fonc-phone { margin-top: 0; max-width: 180px; flex-shrink: 0; }
+            .fonc-cards { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (max-width: 560px) {
+            .fonc-wrap { padding: 52px 20px; }
+            .fonc-sticky { flex-direction: column; }
+            .fonc-phone { max-width: 100%; }
+            .fonc-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+          }
+        `}</style>
+        <div className="fonc-wrap">
+          <div className="fonc-layout">
+
+            {/* Colonne gauche */}
+            <div className="fonc-sticky">
+              <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
+                Fonctionnalités
               </p>
-              <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
-                GPS, favoris, correspondances, jeux — accessibles uniquement après téléchargement.
+              <h2 style={{ fontSize: "clamp(1.5rem, 3.5vw, 2.3rem)", fontWeight: 900, color: "#0D1525", letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 18 }}>
+                Votre compagnon pour tous vos déplacements.
+              </h2>
+              <p style={{ fontSize: "0.88rem", color: "#64748B", lineHeight: 1.75, margin: 0 }}>
+                Retrouvez facilement une ligne, un arrêt ou un quartier, préparez votre trajet, découvrez les correspondances et accédez à toutes les informations utiles, où que vous soyez.
               </p>
+              <Image
+                src="/phone_function.png"
+                alt="Application TaxiBe"
+                width={320}
+                height={580}
+                className="fonc-phone"
+                sizes="(max-width: 980px) 180px, 320px"
+                style={{ objectFit: "contain" }}
+              />
             </div>
-            <Link href="/telecharger" style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "12px 24px", background: "#FFB800", borderRadius: 10,
-              fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", textDecoration: "none",
-              flexShrink: 0, whiteSpace: "nowrap",
-            }}>
-              Télécharger gratuitement →
-            </Link>
+
+            {/* Colonne droite */}
+            <div>
+              <div className="fonc-cards">
+                {FEATURES.map((f) => (
+                  <div key={f.title} className="fonc-card">
+                    <div className="fonc-icon">{f.icon}</div>
+                    <h3 className="fonc-card-title">{f.title}</h3>
+                    <div className="fonc-dash" />
+                    <p className="fonc-card-desc">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 28, textAlign: "center" }}>
+                <Link href="/telecharger" style={{
+                  display: "inline-flex", alignItems: "center", gap: 10,
+                  padding: "14px 36px", background: "#FFB800", borderRadius: 10,
+                  fontWeight: 800, fontSize: "0.95rem", color: "#0D1525", textDecoration: "none",
+                }}>
+                  Essayer TaxiBe gratuitement →
+                </Link>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
