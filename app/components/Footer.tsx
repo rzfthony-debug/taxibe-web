@@ -123,8 +123,10 @@ export default async function Footer() {
         }
         @media (max-width: 580px) {
           .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; padding: 36px 20px 24px; }
+          .footer-grid > div:first-child { grid-column: 1 / -1; }
           .footer-bottom { flex-direction: column; text-align: center; }
         }
+        footer { padding-bottom: var(--app-banner-h, 0px); }
       `}</style>
 
       <div className="footer-grid">

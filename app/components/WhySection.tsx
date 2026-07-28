@@ -183,7 +183,7 @@ const questions = [
 
 export default function WhySection({ illustrationUrl }: { illustrationUrl?: string | null }) {
   return (
-    <section style={{ padding: "88px 24px", background: "white" }}>
+    <section className="sec" style={{ background: "white" }}>
       <style>{`
         .why-grid {
           display: grid;

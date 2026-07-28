@@ -5,7 +5,7 @@ export default function MissionSection({ beneficiairesImageUrl }: { beneficiaire
   return (
     <>
       {/* ── Au service de tous ── */}
-      <section style={{ padding: "88px 24px", background: "#F8F9FB" }}>
+      <section className="sec" style={{ background: "#F8F9FB" }}>
         <style>{`
           .beneficiaires-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
@@ -155,7 +155,7 @@ export default function MissionSection({ beneficiairesImageUrl }: { beneficiaire
       </section>
 
       {/* ── Vision ── */}
-      <section style={{ padding: "88px 24px", background: "#0D1525" }}>
+      <section className="sec" style={{ background: "#0D1525" }}>
         <style>{`
           .vision-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);

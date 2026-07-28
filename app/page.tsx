@@ -80,7 +80,7 @@ async function ActualitesSection() {
   if (articles.length === 0) return null;
 
   return (
-    <section style={{ padding: "88px 24px", background: "white" }}>
+    <section className="sec" style={{ background: "white" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 12 }}>
           <div>
@@ -327,7 +327,7 @@ export default async function Home() {
       <WhySection illustrationUrl={whyIllustrationUrl} />
 
       {/* ── Fonctionnalités ── */}
-      <section id="fonctionnalites" style={{ padding: "88px 24px", background: "#F8F9FB" }}>
+      <section id="fonctionnalites" className="sec" style={{ background: "#F8F9FB" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
             Fonctionnalités
@@ -435,7 +435,7 @@ export default async function Home() {
 
       {/* ── Vidéo ── */}
       {videoEmbed && (
-        <section style={{ padding: "88px 24px", background: "white" }}>
+        <section className="sec" style={{ background: "white" }}>
           <div style={{ maxWidth: 860, margin: "0 auto" }}>
             <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
               Découvrir
@@ -558,7 +558,7 @@ export default async function Home() {
       </div>
 
       {/* ── Comment ça marche ── */}
-      <section id="comment" style={{ padding: "88px 24px", background: "#F8F9FB" }}>
+      <section id="comment" className="sec" style={{ background: "#F8F9FB" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
             Utilisation
