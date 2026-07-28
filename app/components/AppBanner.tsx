@@ -9,19 +9,19 @@ export default function AppBanner() {
     const dismissed = sessionStorage.getItem("app_banner_dismissed");
     if (dismissed) return;
 
-    // Afficher uniquement sur mobile
     const isMobile = /android|iphone|ipad|mobile/i.test(navigator.userAgent);
-    // Ne pas afficher si déjà dans la PWA installée
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
 
     if (isMobile && !isStandalone) {
       setVisible(true);
+      document.body.style.setProperty("--app-banner-h", "76px");
     }
   }, []);
 
   const dismiss = () => {
     sessionStorage.setItem("app_banner_dismissed", "1");
     setVisible(false);
+    document.body.style.setProperty("--app-banner-h", "0px");
   };
 
   if (!visible) return null;

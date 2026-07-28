@@ -131,7 +131,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <div style={{ position: "fixed", bottom: 24, right: 24, zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12 }}>
+    <div style={{ position: "fixed", bottom: "calc(24px + var(--app-banner-h, 0px))", right: 24, zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12 }}>
 
       {/* Panel */}
       {open && (
