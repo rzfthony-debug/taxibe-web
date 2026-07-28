@@ -179,7 +179,7 @@ export default async function EntreprisesPage() {
           </div>
 
           {/* Section Visibilité */}
-          <div>
+          <div id="visibilite" style={{ scrollMarginTop: 80 }}>
             <p style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B", margin: "0 0 16px" }}>
               Visibilité commerciale
             </p>
@@ -204,11 +204,11 @@ export default async function EntreprisesPage() {
               ))}
             </div>
             <div>
-              <Link href="/contact" style={{
+              <Link id="contact" href="/contact" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "#0D1525", color: "#FFB800",
                 fontWeight: 800, fontSize: "0.875rem", padding: "12px 24px",
-                borderRadius: 9, textDecoration: "none",
+                borderRadius: 9, textDecoration: "none", scrollMarginTop: 80,
               }}>
                 Demander une offre commerciale →
               </Link>
