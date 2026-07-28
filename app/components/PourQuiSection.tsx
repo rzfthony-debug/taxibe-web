@@ -116,7 +116,7 @@ export default function PourQuiSection() {
             Pour qui ?
           </p>
           <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2.1rem)", fontWeight: 900, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-            Une plateforme pensée pour tous les acteurs du transport collectif.
+            Une plateforme pensée pour <span style={{ color: "#FFB800" }}>tous les acteurs</span> du transport collectif.
           </h2>
           <p style={{ color: "#64748B", fontSize: "0.9rem", lineHeight: 1.75, margin: 0 }}>
             TaxiBe accompagne progressivement les citoyens, les coopératives et les institutions en facilitant l&apos;accès aux informations essentielles sur la mobilité.
