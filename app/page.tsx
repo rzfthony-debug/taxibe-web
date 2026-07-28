@@ -7,6 +7,7 @@ import Footer from "@/app/components/Footer";
 import SearchForm from "@/app/components/SearchForm";
 import SpotlightSection from "@/app/components/SpotlightSection";
 import WhySection from "@/app/components/WhySection";
+import PourQuiSection from "@/app/components/PourQuiSection";
 import { supabase } from "@/lib/supabase";
 
 export const revalidate = 300;
@@ -376,6 +377,9 @@ export default async function Home() {
 
       {/* ── Notre mission ── */}
       <WhySection illustrationUrl={whyIllustrationUrl} />
+
+      {/* ── Pour qui ? ── */}
+      <PourQuiSection />
 
       {/* ── Fonctionnalités ── */}
       <section id="fonctionnalites" className="sec" style={{ background: "#F8F9FB" }}>
