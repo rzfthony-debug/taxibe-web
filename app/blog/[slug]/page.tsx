@@ -279,19 +279,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <p style={{ margin: "8px 0 0", fontSize: "0.68rem", color: "rgba(255,255,255,0.2)" }}>Google Play · bientôt disponible</p>
             </div>
 
-            <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "18px" }}>
-              <p style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", margin: "0 0 14px" }}>
-                Ligne la plus recherchée
-              </p>
-              <div style={{ background: "#0D1525", borderRadius: 10, padding: "14px 16px" }}>
-                <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "white", lineHeight: 1, marginBottom: 4 }}>147</div>
-                <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "white", marginBottom: 4 }}>Ambatomaro → 67Ha</div>
-                <div style={{ fontSize: "0.72rem", fontWeight: 800, color: "#FFB800", marginBottom: 12 }}>23 541 recherches</div>
-                <Link href="/recherche?q=147" style={{ display: "block", padding: "8px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontSize: "0.78rem", fontWeight: 800, textDecoration: "none" }}>
-                  Voir la ligne →
-                </Link>
-              </div>
-            </div>
+            {/* Ligne la plus recherchée — masqué, données non vérifiées */}
 
           </aside>
         </div>
