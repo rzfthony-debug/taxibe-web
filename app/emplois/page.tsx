@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import EmploisListe from "./EmploisListe";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Carrières",

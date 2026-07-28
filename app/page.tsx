@@ -9,7 +9,7 @@ import SpotlightSection from "@/app/components/SpotlightSection";
 import WhySection from "@/app/components/WhySection";
 import { supabase } from "@/lib/supabase";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 type Article = {
   id: string;
