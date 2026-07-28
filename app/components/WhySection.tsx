@@ -82,7 +82,7 @@ const userTypes = [
   {
     label: "Étudiants",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
         <path d="M6 12v5c3 3 9 3 12 0v-5"/>
       </svg>
@@ -91,7 +91,7 @@ const userTypes = [
   {
     label: "Travailleurs",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
       </svg>
@@ -100,7 +100,7 @@ const userTypes = [
   {
     label: "Habitants",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
       </svg>
@@ -109,7 +109,7 @@ const userTypes = [
   {
     label: "Voyageurs",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
         <line x1="12" y1="12" x2="12" y2="16"/>
@@ -120,7 +120,7 @@ const userTypes = [
   {
     label: "Touristes",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <line x1="2" y1="12" x2="22" y2="12"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -132,7 +132,7 @@ const userTypes = [
 const questions = [
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="3" width="15" height="13" rx="2"/>
         <path d="M16 8h4l3 5v3h-7V8z"/>
         <circle cx="5.5" cy="18.5" r="2.5"/>
@@ -143,7 +143,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
         <circle cx="12" cy="10" r="3"/>
       </svg>
@@ -152,7 +152,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -161,7 +161,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="17 1 21 5 17 9"/>
         <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
         <polyline points="7 23 3 19 7 15"/>
@@ -172,7 +172,7 @@ const questions = [
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -230,7 +230,8 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
         .why-q-icon {
           width: 44px; height: 44px;
           border-radius: 50%;
-          background: #0D1525;
+          background: rgba(255,184,0,0.12);
+          border: 1.5px solid rgba(255,184,0,0.3);
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
         }
@@ -243,20 +244,17 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
         {/* ── Colonne gauche ── */}
         <div>
           <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 18 }}>
-            Notre mission
+            Pourquoi TaxiBe ?
           </p>
 
           <h2 style={{ fontSize: "clamp(1.7rem, 4vw, 2.4rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.18, letterSpacing: "-0.02em", marginBottom: 18 }}>
-            Le transport collectif,{" "}
-            <br />
-            enfin{" "}
-            <span style={{ color: "#FFB800" }}>simple</span>
-            {" "}à comprendre.
+            Trouver son{" "}
+            <span style={{ color: "#FFB800" }}>taxi-be</span>
+            {" "}devrait être simple.
           </h2>
 
           <p style={{ fontSize: "0.95rem", lineHeight: 1.75, color: "#64748B", maxWidth: 440, marginBottom: 28 }}>
-            TaxiBe vous aide à trouver le bon bus, les arrêts et l&apos;itinéraire adapté à votre destination,{" "}
-            <strong style={{ color: "#0D1525" }}>en quelques secondes.</strong>
+            TaxiBe centralise les informations essentielles pour vous aider à préparer vos déplacements plus facilement.
           </p>
 
           {/* Illustration bus ou photo uploadée */}
@@ -283,15 +281,6 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
             )}
           </div>
 
-          {/* Chips utilisateurs */}
-          <div className="why-chips">
-            {userTypes.map((u) => (
-              <span key={u.label} className="why-chip">
-                <span className="why-chip-icon">{u.icon}</span>
-                {u.label}
-              </span>
-            ))}
-          </div>
         </div>
 
         {/* ── Colonne droite ── */}
@@ -336,19 +325,18 @@ export default function WhySection({ illustrationUrl }: { illustrationUrl?: stri
               </svg>
             </div>
             <p style={{ fontSize: "0.875rem", color: "#92400E", lineHeight: 1.65, margin: 0 }}>
-              <strong>Une seule application</strong> pour préparer vos déplacements en{" "}
-              <strong>toute simplicité.</strong>
+              TaxiBe évolue progressivement pour répondre aux besoins des usagers du transport collectif.
             </p>
           </div>
 
           <div style={{ marginTop: 24 }}>
-            <Link href="/telecharger" style={{
+            <Link href="/#fonctionnalites" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               padding: "12px 22px", borderRadius: 10,
               background: "#0D1525", color: "#FFB800",
               fontWeight: 800, fontSize: "0.88rem", textDecoration: "none",
             }}>
-              Télécharger gratuitement
+              Découvrir les fonctionnalités
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
