@@ -146,42 +146,42 @@ const FEATURES = [
   {
     title: "Rechercher une ligne",
     desc: "Retrouvez rapidement une ligne grâce à son numéro.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
   },
   {
     title: "Rechercher un arrêt ou un quartier",
     desc: "Trouvez les arrêts et les lignes disponibles autour d'un quartier ou d'un point d'intérêt.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
   },
   {
     title: "Correspondances",
     desc: "Identifiez facilement les changements de ligne nécessaires pour atteindre votre destination.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10"/><path d="M3.51 15a9 9 0 0 0 14.85 3.36L23 14"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10"/><path d="M3.51 15a9 9 0 0 0 14.85 3.36L23 14"/></svg>,
   },
   {
     title: "Mes favoris",
     desc: "Enregistrez vos lignes et arrêts favoris pour y accéder en un instant.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(184,134,11,0.15)" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(13,21,37,0.15)" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
   },
   {
     title: "Carte interactive",
     desc: "Explorez les lignes, les arrêts et le réseau directement sur une carte interactive.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
   },
   {
     title: "Partager ma position",
     desc: "Partagez facilement votre position avec vos proches ou pour obtenir de l'aide.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
   },
   {
     title: "Actualités & emplois",
     desc: "Restez informé des nouvelles et offres d'emploi liées au transport collectif.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
   },
   {
     title: "Et bien plus à venir",
     desc: "TaxiBe évolue continuellement pour proposer de nouvelles fonctionnalités adaptées à vos besoins.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>,
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>,
   },
 ];
 
@@ -425,63 +425,63 @@ export default async function Home() {
       <PourQuiSection />
 
       {/* ── Fonctionnalités ── */}
-      <section id="fonctionnalites" style={{ background: "#FFFDF5" }}>
+      <section id="fonctionnalites" style={{ background: "white" }}>
         <style>{`
           .fonc-wrap { max-width: 1200px; margin: 0 auto; padding: 88px 40px; }
-          .fonc-layout { display: grid; grid-template-columns: 320px 1fr; gap: 64px; align-items: start; }
-          .fonc-sticky { position: sticky; top: 80px; }
-          .fonc-phone { width: 100%; height: auto; display: block; margin-top: 28px; filter: drop-shadow(0 28px 48px rgba(0,0,0,0.14)); }
+          .fonc-header { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+          .fonc-layout { display: grid; grid-template-columns: 380px 1fr; gap: 56px; align-items: center; }
+          .fonc-phone { width: 100%; height: auto; display: block; filter: drop-shadow(0 32px 56px rgba(0,0,0,0.13)); }
           .fonc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
           .fonc-card {
-            background: white; border-radius: 16px; padding: 22px 18px 20px;
-            border: 1px solid #EDE8D8;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            background: #F8F9FB; border-radius: 16px; padding: 22px 16px 20px;
+            border: 1px solid #E8ECF0;
             transition: transform 0.22s ease, box-shadow 0.22s ease;
           }
-          .fonc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-          .fonc-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,184,0,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+          .fonc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: white; }
+          .fonc-icon { width: 46px; height: 46px; border-radius: 50%; background: #FFB800; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; flex-shrink: 0; }
           .fonc-card-title { font-weight: 800; font-size: 0.87rem; color: #0D1525; margin: 0 0 8px; line-height: 1.3; }
           .fonc-dash { width: 22px; height: 3px; background: #FFB800; border-radius: 2px; margin-bottom: 10px; }
           .fonc-card-desc { font-size: 0.76rem; color: #64748B; line-height: 1.65; margin: 0; }
           @media (max-width: 980px) {
-            .fonc-layout { grid-template-columns: 1fr; gap: 40px; }
-            .fonc-sticky { position: static; display: flex; gap: 32px; align-items: flex-start; }
-            .fonc-phone { margin-top: 0; max-width: 180px; flex-shrink: 0; }
+            .fonc-layout { grid-template-columns: 1fr; }
+            .fonc-phone { max-width: 280px; margin: 0 auto; }
             .fonc-cards { grid-template-columns: repeat(2, 1fr); }
           }
           @media (max-width: 560px) {
             .fonc-wrap { padding: 52px 20px; }
-            .fonc-sticky { flex-direction: column; }
-            .fonc-phone { max-width: 100%; }
-            .fonc-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .fonc-cards { gap: 10px; }
           }
         `}</style>
         <div className="fonc-wrap">
-          <div className="fonc-layout">
 
-            {/* Colonne gauche */}
-            <div className="fonc-sticky">
-              <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
-                Fonctionnalités
-              </p>
-              <h2 style={{ fontSize: "clamp(1.5rem, 3.5vw, 2.3rem)", fontWeight: 900, color: "#0D1525", letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 18 }}>
-                Votre compagnon pour tous vos déplacements.
-              </h2>
-              <p style={{ fontSize: "0.88rem", color: "#64748B", lineHeight: 1.75, margin: 0 }}>
-                Retrouvez facilement une ligne, un arrêt ou un quartier, préparez votre trajet, découvrez les correspondances et accédez à toutes les informations utiles, où que vous soyez.
-              </p>
+          {/* En-tête centré */}
+          <div className="fonc-header">
+            <p style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800", marginBottom: 12 }}>
+              Fonctionnalités
+            </p>
+            <h2 style={{ fontSize: "clamp(1.5rem, 3.5vw, 2.3rem)", fontWeight: 900, color: "#0D1525", letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 16 }}>
+              Votre compagnon pour tous vos déplacements.
+            </h2>
+            <p style={{ fontSize: "0.9rem", color: "#64748B", lineHeight: 1.75, margin: 0 }}>
+              Retrouvez facilement une ligne, un arrêt ou un quartier, préparez votre trajet, découvrez les correspondances et accédez à toutes les informations utiles, où que vous soyez.
+            </p>
+          </div>
+
+          <div className="fonc-layout">
+            {/* Téléphone */}
+            <div>
               <Image
                 src="/phone_function.png"
                 alt="Application TaxiBe"
-                width={320}
-                height={580}
+                width={380}
+                height={700}
                 className="fonc-phone"
-                sizes="(max-width: 980px) 180px, 320px"
+                sizes="(max-width: 980px) 280px, 380px"
                 style={{ objectFit: "contain" }}
               />
             </div>
 
-            {/* Colonne droite */}
+            {/* Cards + CTA */}
             <div>
               <div className="fonc-cards">
                 {FEATURES.map((f) => (
@@ -503,8 +503,8 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-
           </div>
+
         </div>
       </section>
 
