@@ -109,6 +109,14 @@ export default async function Footer() {
           gap: 16px; flex-wrap: wrap;
           font-size: 0.72rem; color: rgba(255,255,255,0.2);
         }
+        .footer-social {
+          width: 30px; height: 30px; border-radius: 7px;
+          background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(255,255,255,0.38); text-decoration: none;
+          transition: background 0.15s, color 0.15s;
+        }
+        .footer-social:hover { background: #FFB800; color: #0D1525; }
         @media (max-width: 1000px) {
           .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
         }
@@ -169,15 +177,7 @@ export default async function Footer() {
                 target={s.href !== "#" ? "_blank" : undefined}
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                style={{
-                  width: 30, height: 30, borderRadius: 7,
-                  background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "rgba(255,255,255,0.38)", textDecoration: "none",
-                  transition: "background 0.15s, color 0.15s",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFB800"; (e.currentTarget as HTMLElement).style.color = "#0D1525"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; }}
+                className="footer-social"
               >
                 {s.icon}
               </a>
