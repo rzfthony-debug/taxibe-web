@@ -5,8 +5,20 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Le Projet — TaxiBe, infrastructure du transport collectif à Antananarivo",
-  description: "Découvrez la mission de TaxiBe : cartographier le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous.",
+  description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous. Mission, impact, feuille de route et partenariats.",
   alternates: { canonical: "/le-projet" },
+  openGraph: {
+    title: "Le Projet TaxiBe — Cartographier le transport collectif d'Antananarivo",
+    description: "TaxiBe construit la première base de données ouverte du réseau de taxi-be d'Antananarivo. Mission, impact et feuille de route.",
+    url: "/le-projet",
+    images: [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "Le Projet TaxiBe" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Le Projet TaxiBe — Infrastructure du transport collectif à Antananarivo",
+    description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous.",
+    images: ["/logo_taxibe.png"],
+  },
 };
 
 export default function LeProjetPage() {

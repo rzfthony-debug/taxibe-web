@@ -1,4 +1,4 @@
-﻿import { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
 
 const BASE = "https://taxibe.mg";
@@ -10,17 +10,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [
+    // ── Priorité haute ──
     { url: BASE,                      lastModified: new Date(), changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE}/telecharger`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/le-projet`,       lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/recherche`,       lastModified: new Date(), changeFrequency: "weekly",  priority: 0.8 },
     { url: `${BASE}/blog`,            lastModified: new Date(), changeFrequency: "weekly",  priority: 0.8 },
     { url: `${BASE}/emplois`,         lastModified: new Date(), changeFrequency: "daily",   priority: 0.8 },
-    { url: `${BASE}/recherche`,       lastModified: new Date(), changeFrequency: "weekly",  priority: 0.7 },
+    // ── Priorité moyenne ──
+    { url: `${BASE}/partenaires`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/aide`,            lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/a-propos`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/entreprises`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/contact`,         lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/communaute`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE}/faq`,             lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE}/aide`,            lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    // ── Priorité basse ──
     { url: `${BASE}/legal`,           lastModified: new Date(), changeFrequency: "yearly",  priority: 0.2 },
   ];
 
@@ -40,4 +44,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticPages, ...articlePages, ...emploiPages];
 }
-
