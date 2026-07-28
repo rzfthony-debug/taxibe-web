@@ -264,6 +264,7 @@ export default function ChatWidget() {
       {/* Toggle button */}
       <button
         onClick={() => setOpen(o => !o)}
+        aria-label={open ? "Fermer le chat" : "Ouvrir le chat TaxiBe"}
         style={{
           width: 54, height: 54, borderRadius: "50%",
           background: open ? "#0D1525" : "#FFB800",
