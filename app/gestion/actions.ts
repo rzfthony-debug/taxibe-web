@@ -4,6 +4,7 @@ import { adminDb } from "@/lib/supabase";
 import { requireAdmin } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const MAX_ATTEMPTS = 5;
 const BLOCK_MINUTES = 15;
@@ -100,6 +101,7 @@ export async function saveParam(formData: FormData) {
   const valeur = ((formData.get("valeur") as string) ?? "").trim().slice(0, 2000);
   if (!cle) return;
   await adminDb.from("parametres").upsert({ cle, valeur }, { onConflict: "cle" });
+  revalidatePath("/", "layout");
 }
 
 // ── Chat ──────────────────────────────────────────────────────────────────────
@@ -145,11 +147,15 @@ export async function getActualites() {
 export async function toggleActualite(id: string, publie: boolean) {
   await requireAdmin();
   await adminDb.from("actualites").update({ publie }).eq("id", id);
+  revalidatePath("/blog");
+  revalidatePath("/");
 }
 
 export async function deleteActualite(id: string) {
   await requireAdmin();
   await adminDb.from("actualites").delete().eq("id", id);
+  revalidatePath("/blog");
+  revalidatePath("/");
 }
 
 export async function createActualite(formData: FormData) {
@@ -164,6 +170,8 @@ export async function createActualite(formData: FormData) {
   if (!image_url || !texte) { redirect("/gestion/actualites"); return; }
 
   await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, publie, ordre });
+  revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/gestion/actualites");
 }
 
@@ -177,6 +185,8 @@ export async function updateActualite(id: string, formData: FormData) {
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   await adminDb.from("actualites").update({ image_url, texte, contenu, lien, publie, ordre }).eq("id", id);
+  revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/gestion/actualites");
 }
 
@@ -193,11 +203,13 @@ export async function getSpotlight() {
 export async function toggleSpotlight(id: string, publie: boolean) {
   await requireAdmin();
   await adminDb.from("spotlight").update({ publie }).eq("id", id);
+  revalidatePath("/");
 }
 
 export async function deleteSpotlight(id: string) {
   await requireAdmin();
   await adminDb.from("spotlight").delete().eq("id", id);
+  revalidatePath("/");
 }
 
 export async function createSpotlight(formData: FormData) {
@@ -214,6 +226,7 @@ export async function createSpotlight(formData: FormData) {
   if (!image_url || !titre) { redirect("/gestion/spotlight"); return; }
 
   await adminDb.from("spotlight").insert({ image_url, titre, sous_titre, cta_label, cta_url, publie, ordre });
+  revalidatePath("/");
   redirect("/gestion/spotlight");
 }
 
@@ -229,6 +242,7 @@ export async function updateSpotlight(id: string, formData: FormData) {
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   await adminDb.from("spotlight").update({ image_url, titre, sous_titre, cta_label, cta_url, publie, ordre }).eq("id", id);
+  revalidatePath("/");
   redirect("/gestion/spotlight");
 }
 
@@ -280,11 +294,13 @@ export async function updateStatutEmploi(id: string, statut: string) {
   const STATUTS = ["en_attente", "publie", "ferme", "refuse"];
   if (!STATUTS.includes(statut)) return;
   await adminDb.from("offres_emploi").update({ statut }).eq("id", id);
+  revalidatePath("/emplois");
 }
 
 export async function deleteEmploi(id: string) {
   await requireAdmin();
   await adminDb.from("offres_emploi").delete().eq("id", id);
+  revalidatePath("/emplois");
 }
 
 export async function createEmploiInterne(formData: FormData) {
@@ -307,12 +323,14 @@ export async function createEmploiInterne(formData: FormData) {
     statut: "publie",
     telephone: "",
   });
+  revalidatePath("/emplois");
   redirect("/gestion/emplois");
 }
 
 export async function toggleInterneEmploi(id: string, interne: boolean) {
   await requireAdmin();
   await adminDb.from("offres_emploi").update({ interne }).eq("id", id);
+  revalidatePath("/emplois");
 }
 
 // ── Messages (contact, signalement, contribution, publicite, partenariat) ─────
