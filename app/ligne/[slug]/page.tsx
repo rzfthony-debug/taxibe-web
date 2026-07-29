@@ -4,8 +4,11 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
+import dynamic from "next/dynamic";
 import { getLigneBySlugOrId } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
+
+const LigneMap = dynamic(() => import("@/app/components/LigneMap"), { ssr: false });
 
 export const revalidate = 3600;
 
@@ -198,6 +201,16 @@ export default async function LignePage({ params }: Props) {
 
         {/* ── Contenu principal ── */}
         <div style={{ maxWidth: 860, margin: "0 auto", padding: "32px 24px 60px" }}>
+
+          {/* Carte */}
+          {ligne.arrets.some((a) => a.lat && a.lng) && (
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ margin: "0 0 10px", fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
+                Itinéraire
+              </p>
+              <LigneMap arrets={ligne.arrets} color={color} />
+            </div>
+          )}
 
           <StopTimeline arrets={ligne.arrets} label={isAllerRet ? "Arrêts — Aller" : "Arrêts"} />
           {isAllerRet && ligne.retourArrets.length > 0 && (

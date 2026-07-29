@@ -68,6 +68,8 @@ export interface ArretItem {
   denomination: string | null;
   position: number;
   direction: string;
+  lat: number | null;
+  lng: number | null;
 }
 
 export interface LigneDetail {
@@ -99,7 +101,7 @@ export async function getLigneBySlugOrId(slugOrId: string): Promise<LigneDetail 
 
   const { data: la } = await adminDb
     .from("ligne_arrets")
-    .select("id, ligne_id, direction, position, arret, denomination")
+    .select("id, ligne_id, direction, position, arret, denomination, lat, lng")
     .eq("ligne_id", ligne.id)
     .order("direction")
     .order("position");
