@@ -93,40 +93,31 @@ const NAV_ITEMS = [
 function Panel({ sectionKey, onClose }: { sectionKey: string; onClose: () => void }) {
   const panel = PANELS[sectionKey];
   if (!panel) return null;
-
   const hasFeatured = !!panel.featured;
+  const cols = panel.items.length;
 
   return (
     <div style={{
       maxWidth: 1200, margin: "0 auto",
-      padding: "28px 24px 24px",
+      padding: "32px 24px 28px",
       display: "grid",
-      gridTemplateColumns: hasFeatured ? "1fr 280px" : "1fr",
-      gap: 32,
+      gridTemplateColumns: hasFeatured ? "1fr 260px" : "1fr",
+      gap: 40,
       alignItems: "start",
     }}>
-      {/* Items */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+
+      {/* Items en colonnes */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gap: 4,
+      }}>
         {panel.items.map((item) => (
-          <Link key={item.label} href={item.href} onClick={onClose}
-            style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 12px", borderRadius: 10, textDecoration: "none", transition: "background 0.12s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#FFFBEB")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-          >
-            <div style={{
-              width: 34, height: 34, borderRadius: 9, flexShrink: 0,
-              background: "#F1F5F9", color: "#64748B",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "background 0.12s",
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#FFB800"; (e.currentTarget as HTMLElement).style.color = "#0D1525"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#F1F5F9"; (e.currentTarget as HTMLElement).style.color = "#64748B"; }}
-            >
-              {item.icon}
-            </div>
+          <Link key={item.label} href={item.href} onClick={onClose} className="nav-panel-card">
+            <div className="nav-panel-icon">{item.icon}</div>
             <div>
-              <p style={{ margin: "0 0 2px", fontWeight: 700, fontSize: "0.82rem", color: "#0D1525", lineHeight: 1.3 }}>{item.label}</p>
-              <p style={{ margin: 0, fontSize: "0.72rem", color: "#94A3B8", lineHeight: 1.35 }}>{item.desc}</p>
+              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: "0.85rem", color: "#0D1525", lineHeight: 1.3 }}>{item.label}</p>
+              <p style={{ margin: 0, fontSize: "0.73rem", color: "#94A3B8", lineHeight: 1.45 }}>{item.desc}</p>
             </div>
           </Link>
         ))}
@@ -135,7 +126,7 @@ function Panel({ sectionKey, onClose }: { sectionKey: string; onClose: () => voi
       {/* Featured */}
       {panel.featured && (
         <div style={{
-          background: "#0D1525", borderRadius: 14, padding: "22px 20px",
+          background: "#0D1525", borderRadius: 14, padding: "24px 20px",
           display: "flex", flexDirection: "column", gap: 14,
         }}>
           {panel.featured.eyebrow && (
@@ -158,8 +149,7 @@ function Panel({ sectionKey, onClose }: { sectionKey: string; onClose: () => voi
           {panel.featured.subtleLink && (
             <Link href={panel.featured.subtleLink.href} onClick={onClose} style={{
               fontSize: "0.7rem", color: "rgba(255,255,255,0.35)",
-              textDecoration: "none", textAlign: "center",
-              transition: "color 0.15s",
+              textDecoration: "none", textAlign: "center", transition: "color 0.15s",
             }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
@@ -205,6 +195,29 @@ export default function Nav() {
   return (
     <>
       <style>{`
+        @keyframes nav-icon-pop {
+          0%   { transform: scale(1)    rotate(0deg); }
+          35%  { transform: scale(1.22) rotate(-8deg); }
+          65%  { transform: scale(1.15) rotate(4deg); }
+          100% { transform: scale(1)    rotate(0deg); }
+        }
+        .nav-panel-card {
+          display: flex; flex-direction: column; gap: 16px;
+          padding: 20px 16px; border-radius: 14px;
+          text-decoration: none; transition: background 0.15s;
+        }
+        .nav-panel-card:hover { background: #F8F9FB; }
+        .nav-panel-icon {
+          width: 56px; height: 56px; border-radius: 14px;
+          background: #F1F5F9; color: #64748B;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.2s, color 0.2s;
+        }
+        .nav-panel-icon svg { width: 24px; height: 24px; }
+        .nav-panel-card:hover .nav-panel-icon {
+          background: #FFB800; color: #0D1525;
+          animation: nav-icon-pop 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
         .nav-trigger {
           display: flex; align-items: center; gap: 5px;
           padding: 8px 12px; border-radius: 8px;
