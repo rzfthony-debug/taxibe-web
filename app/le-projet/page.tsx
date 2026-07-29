@@ -267,16 +267,7 @@ export default async function LeProjetPage() {
               </p>
             </div>
             <div className="lp-pb-map">
-              {/* Placeholder carte — remplaçable par une image */}
-              <svg width="100%" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.18 }}>
-                <rect width="400" height="300" fill="#CBD5E1"/>
-                <line x1="0" y1="80" x2="400" y2="80" stroke="#94A3B8" strokeWidth="2"/>
-                <line x1="0" y1="160" x2="400" y2="160" stroke="#94A3B8" strokeWidth="2"/>
-                <line x1="0" y1="240" x2="400" y2="240" stroke="#94A3B8" strokeWidth="2"/>
-                <line x1="80" y1="0" x2="80" y2="300" stroke="#94A3B8" strokeWidth="2"/>
-                <line x1="200" y1="0" x2="200" y2="300" stroke="#94A3B8" strokeWidth="2"/>
-                <line x1="320" y1="0" x2="320" y2="300" stroke="#94A3B8" strokeWidth="2"/>
-              </svg>
+              <Image src="/img_cartes.png" alt="Carte du réseau taxi-be à Antananarivo" width={600} height={450} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </div>
 
