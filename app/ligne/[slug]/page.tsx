@@ -4,16 +4,16 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
-import { getLigneById } from "@/lib/search";
+import { getLigneBySlugOrId } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 
 export const revalidate = 3600;
 
-interface Props { params: Promise<{ id: string }> }
+interface Props { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  const ligne = await getLigneById(id);
+  const { slug } = await params;
+  const ligne = await getLigneBySlugOrId(slug);
   if (!ligne) return { title: "Ligne introuvable" };
   return {
     title: `Ligne ${ligne.numero} — ${ligne.terminus_debut} → ${ligne.terminus_fin}`,
@@ -103,8 +103,8 @@ function StopTimeline({ arrets, label }: { arrets: ArretItem[]; label: string })
 }
 
 export default async function LignePage({ params }: Props) {
-  const { id } = await params;
-  const ligne = await getLigneById(id);
+  const { slug } = await params;
+  const ligne = await getLigneBySlugOrId(slug);
   if (!ligne) notFound();
 
   const statut = STATUT_STYLE[ligne.statut ?? ""] ?? STATUT_STYLE.a_verifier;

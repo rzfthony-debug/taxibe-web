@@ -2,6 +2,7 @@ import { adminDb } from "./supabase";
 
 export interface LigneResult {
   id: string;
+  slug: string | null;
   numero: string;
   cooperative: string | null;
   couleur_bus: string | null;
@@ -34,6 +35,7 @@ async function withTerminus(lignes: any[]): Promise<LigneResult[]> {
     const stops = (arretsMap.get(l.id) ?? []).sort((a: { position: number }, b: { position: number }) => a.position - b.position);
     return {
       id: l.id,
+      slug: l.slug ?? null,
       numero: l.numero,
       cooperative: l.cooperative ?? null,
       couleur_bus: l.couleur_bus ?? null,
@@ -70,6 +72,7 @@ export interface ArretItem {
 
 export interface LigneDetail {
   id: string;
+  slug: string | null;
   numero: string;
   cooperative: string | null;
   telephone: string | null;
@@ -82,18 +85,24 @@ export interface LigneDetail {
   retourArrets: ArretItem[];
 }
 
-export async function getLigneById(id: string): Promise<LigneDetail | null> {
-  const [{ data: ligne }, { data: la }] = await Promise.all([
-    adminDb.from("lignes").select("*").eq("id", id).single(),
-    adminDb
-      .from("ligne_arrets")
-      .select("id, ligne_id, direction, position, arret, denomination")
-      .eq("ligne_id", id)
-      .order("direction")
-      .order("position"),
-  ]);
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export async function getLigneBySlugOrId(slugOrId: string): Promise<LigneDetail | null> {
+  const isUuid = UUID_RE.test(slugOrId);
+  const { data: ligne } = await adminDb
+    .from("lignes")
+    .select("*")
+    .eq(isUuid ? "id" : "slug", slugOrId)
+    .single();
 
   if (!ligne) return null;
+
+  const { data: la } = await adminDb
+    .from("ligne_arrets")
+    .select("id, ligne_id, direction, position, arret, denomination")
+    .eq("ligne_id", ligne.id)
+    .order("direction")
+    .order("position");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const allArrets: ArretItem[] = (la ?? []) as any[];
@@ -102,6 +111,7 @@ export async function getLigneById(id: string): Promise<LigneDetail | null> {
 
   return {
     id: ligne.id,
+    slug: ligne.slug ?? null,
     numero: ligne.numero,
     cooperative: ligne.cooperative ?? null,
     telephone: ligne.telephone ?? null,
@@ -114,6 +124,9 @@ export async function getLigneById(id: string): Promise<LigneDetail | null> {
     retourArrets,
   };
 }
+
+/** @deprecated use getLigneBySlugOrId */
+export const getLigneById = getLigneBySlugOrId;
 
 export async function searchLignesByQuartier(quartier: string): Promise<LigneResult[]> {
   if (!quartier.trim()) return [];
