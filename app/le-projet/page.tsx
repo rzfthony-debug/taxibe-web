@@ -228,24 +228,159 @@ export default async function LeProjetPage() {
         </div>
 
         {/* ── Pourquoi TaxiBe existe ── */}
-        <section id="mission" style={{ scrollMarginTop: 80 }}>
-          <div className="lp-section">
-            <div style={{ marginBottom: 48 }}>
+        <section id="mission" style={{ scrollMarginTop: 80, background: "white" }}>
+          <style>{`
+            .lp-pb-header { max-width: 1200px; margin: 0 auto; padding: 64px 40px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+            .lp-pb-map    { border-radius: 16px; overflow: hidden; background: #F1F5F9; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+            .lp-pb-cards  { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; align-items: stretch; }
+            .lp-pb-col    { display: flex; flex-direction: column; gap: 16px; }
+            .lp-pb-card   { background: #F8F9FB; border: 1px solid #E8ECF0; border-radius: 16px; padding: 24px; position: relative; overflow: hidden; }
+            .lp-pb-num    { font-size: 4.5rem; font-weight: 900; color: #E8ECF0; line-height: 1; position: absolute; top: 12px; right: 16px; font-variant-numeric: tabular-nums; pointer-events: none; }
+            .lp-pb-title  { font-size: 1rem; font-weight: 900; color: #0D1525; margin: 0 0 8px; line-height: 1.25; }
+            .lp-pb-line   { width: 32px; height: 3px; background: #FFB800; border-radius: 2px; margin-bottom: 16px; }
+            .lp-pb-illu   { margin-bottom: 14px; }
+            .lp-pb-desc   { font-size: 0.82rem; color: #64748B; line-height: 1.7; margin: 0; }
+            .lp-pb-spine  { display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 28px 0; }
+            .lp-pb-dot    { width: 14px; height: 14px; border-radius: 50%; background: #FFB800; border: 3px solid white; box-shadow: 0 0 0 2px #FFB800; flex-shrink: 0; }
+            .lp-pb-vline  { flex: 1; width: 2px; background: #E8ECF0; }
+            .lp-pb-banner { max-width: 1200px; margin: 40px auto 0; border-radius: 16px; background: #0D1525; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+            @media (max-width: 900px) {
+              .lp-pb-header { grid-template-columns: 1fr; padding: 40px 20px 32px; }
+              .lp-pb-map    { display: none; }
+              .lp-pb-cards  { grid-template-columns: 1fr; padding: 0 20px; }
+              .lp-pb-spine  { display: none; }
+              .lp-pb-col    { gap: 12px; }
+              .lp-pb-banner { flex-direction: column; text-align: center; margin: 24px 20px 0; }
+            }
+          `}</style>
+
+          {/* Header 2 colonnes */}
+          <div className="lp-pb-header">
+            <div>
               <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Pourquoi TaxiBe existe</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2, maxWidth: 560 }}>
-                Se déplacer à Tana ne devrait pas<br />demander autant d&apos;effort.
+              <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 900, color: "#0D1525", margin: "14px 0 0", letterSpacing: "-0.025em", lineHeight: 1.1 }}>
+                Se déplacer à Antananarivo<br />ne devrait pas demander<br />autant d&apos;efforts.
               </h2>
+              <div style={{ width: 40, height: 4, background: "#FFB800", borderRadius: 2, margin: "20px 0 18px" }} />
+              <p style={{ margin: 0, fontSize: "0.9rem", color: "#64748B", lineHeight: 1.75, maxWidth: 440 }}>
+                Le réseau taxi-be est essentiel à la mobilité quotidienne.<br />Pourtant, s&apos;y retrouver reste compliqué pour la majorité des usagers.
+              </p>
             </div>
-            <div className="lp-pb-grid">
-              {PROBLEMES.map((p) => (
-                <div key={p.num} style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", padding: "28px 28px 28px 24px", display: "flex", gap: 20, alignItems: "flex-start" }}>
-                  <div style={{ flexShrink: 0, fontWeight: 900, fontSize: "1.1rem", color: "#E2E8F0", lineHeight: 1, paddingTop: 2, fontVariantNumeric: "tabular-nums" }}>{p.num}</div>
-                  <div>
-                    <h3 style={{ margin: "0 0 10px", fontWeight: 800, fontSize: "0.95rem", color: "#0D1525", lineHeight: 1.3 }}>{p.titre}</h3>
-                    <p style={{ margin: 0, fontSize: "0.83rem", color: "#64748B", lineHeight: 1.7 }}>{p.desc}</p>
-                  </div>
+            <div className="lp-pb-map">
+              {/* Placeholder carte — remplaçable par une image */}
+              <svg width="100%" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.18 }}>
+                <rect width="400" height="300" fill="#CBD5E1"/>
+                <line x1="0" y1="80" x2="400" y2="80" stroke="#94A3B8" strokeWidth="2"/>
+                <line x1="0" y1="160" x2="400" y2="160" stroke="#94A3B8" strokeWidth="2"/>
+                <line x1="0" y1="240" x2="400" y2="240" stroke="#94A3B8" strokeWidth="2"/>
+                <line x1="80" y1="0" x2="80" y2="300" stroke="#94A3B8" strokeWidth="2"/>
+                <line x1="200" y1="0" x2="200" y2="300" stroke="#94A3B8" strokeWidth="2"/>
+                <line x1="320" y1="0" x2="320" y2="300" stroke="#94A3B8" strokeWidth="2"/>
+              </svg>
+            </div>
+          </div>
+
+          {/* 2×2 cartes + spine central */}
+          <div className="lp-pb-cards" style={{ paddingBottom: 0 }}>
+
+            {/* Colonne gauche */}
+            <div className="lp-pb-col">
+              {/* Card 01 */}
+              <div className="lp-pb-card">
+                <span className="lp-pb-num">01</span>
+                <div className="lp-pb-illu">
+                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                    <rect x="18" y="6" width="20" height="26" rx="4" fill="#FFB800" stroke="#0D1525" strokeWidth="2"/>
+                    <text x="28" y="24" textAnchor="middle" fontSize="10" fontWeight="900" fill="#0D1525" fontFamily="system-ui">123</text>
+                    <line x1="28" y1="32" x2="28" y2="50" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round"/>
+                    <line x1="20" y1="50" x2="36" y2="50" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round"/>
+                  </svg>
                 </div>
-              ))}
+                <h3 className="lp-pb-title">Des lignes difficiles à lire</h3>
+                <div className="lp-pb-line"/>
+                <p className="lp-pb-desc">{PROBLEMES[0].desc}</p>
+              </div>
+
+              {/* Card 03 */}
+              <div className="lp-pb-card">
+                <span className="lp-pb-num">03</span>
+                <div className="lp-pb-illu">
+                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                    <circle cx="22" cy="32" r="12" fill="#FFB800" stroke="#0D1525" strokeWidth="2"/>
+                    <text x="22" y="37" textAnchor="middle" fontSize="14" fontWeight="900" fill="#0D1525" fontFamily="system-ui">?</text>
+                    <circle cx="36" cy="22" r="10" fill="white" stroke="#0D1525" strokeWidth="2"/>
+                    <circle cx="32" cy="22" r="1.5" fill="#0D1525"/>
+                    <circle cx="36" cy="22" r="1.5" fill="#0D1525"/>
+                    <circle cx="40" cy="22" r="1.5" fill="#0D1525"/>
+                  </svg>
+                </div>
+                <h3 className="lp-pb-title">Des trajets qui demandent des questions</h3>
+                <div className="lp-pb-line"/>
+                <p className="lp-pb-desc">{PROBLEMES[2].desc}</p>
+              </div>
+            </div>
+
+            {/* Spine vertical */}
+            <div className="lp-pb-spine">
+              <div className="lp-pb-dot"/>
+              <div className="lp-pb-vline"/>
+              <div className="lp-pb-dot"/>
+              <div className="lp-pb-vline"/>
+              <div className="lp-pb-dot"/>
+            </div>
+
+            {/* Colonne droite */}
+            <div className="lp-pb-col">
+              {/* Card 02 */}
+              <div className="lp-pb-card">
+                <span className="lp-pb-num">02</span>
+                <div className="lp-pb-illu">
+                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                    <rect x="10" y="28" width="36" height="20" rx="3" fill="#FFB800" stroke="#0D1525" strokeWidth="2"/>
+                    <rect x="16" y="20" width="24" height="12" rx="2" fill="white" stroke="#0D1525" strokeWidth="2"/>
+                    <circle cx="22" cy="26" r="3" fill="#0D1525"/>
+                    <line x1="28" y1="8" x2="28" y2="20" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round"/>
+                    <line x1="8" y1="48" x2="48" y2="48" stroke="#0D1525" strokeWidth="2.5" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <h3 className="lp-pb-title">Des arrêts sans signalétique</h3>
+                <div className="lp-pb-line"/>
+                <p className="lp-pb-desc">{PROBLEMES[1].desc}</p>
+              </div>
+
+              {/* Card 04 */}
+              <div className="lp-pb-card">
+                <span className="lp-pb-num">04</span>
+                <div className="lp-pb-illu">
+                  <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                    <rect x="16" y="6" width="24" height="40" rx="5" fill="white" stroke="#0D1525" strokeWidth="2"/>
+                    <circle cx="28" cy="42" r="2" fill="#0D1525"/>
+                    <path d="M28 16c-4 0-7 3-7 7 0 5 7 12 7 12s7-7 7-12c0-4-3-7-7-7z" fill="#FFB800" stroke="#0D1525" strokeWidth="1.5"/>
+                    <circle cx="28" cy="23" r="2.5" fill="white"/>
+                  </svg>
+                </div>
+                <h3 className="lp-pb-title">Aucun outil numérique local</h3>
+                <div className="lp-pb-line"/>
+                <p className="lp-pb-desc">{PROBLEMES[3].desc}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bannière bas */}
+          <div style={{ padding: "0 40px 56px", maxWidth: 1280, margin: "0 auto" }}>
+            <div className="lp-pb-banner" style={{ marginTop: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 50, background: "#FFB800", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="8" cy="13" r="1" fill="#0D1525"/><circle cx="16" cy="13" r="1" fill="#0D1525"/></svg>
+                </div>
+                <p style={{ margin: 0, fontSize: "0.88rem", color: "white", lineHeight: 1.55, maxWidth: 480 }}>
+                  TaxiBe construit une <span style={{ color: "#FFB800", fontWeight: 800 }}>carte intelligente</span> du réseau taxi-be pour simplifier les déplacements de tous les Antananariviens.
+                </p>
+              </div>
+              <div style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.5)", fontSize: "0.8rem", fontWeight: 700, whiteSpace: "nowrap" }}>
+                <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#FFB800", display: "inline-block" }}/>
+                Projet pilote en cours &nbsp;•&nbsp; Antananarivo
+              </div>
             </div>
           </div>
         </section>
