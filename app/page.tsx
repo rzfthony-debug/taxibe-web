@@ -249,7 +249,7 @@ export default async function Home() {
               borderRadius: 8, padding: "5px 12px", marginBottom: 24,
             }}>
               <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
-                Antananarivo · 100% Gratuit
+                Antananarivo · 100% Gratuit · Inscription simple
               </span>
             </div>
 
@@ -472,7 +472,7 @@ export default async function Home() {
                 L&apos;app TaxiBe, sur Android et sur le web
               </h2>
               <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36, maxWidth: 400 }}>
-                Favoris, GPS, correspondances — toutes les fonctionnalités disponibles gratuitement, sans inscription.
+                Favoris, GPS, correspondances — toutes les fonctionnalités accessibles gratuitement après une inscription simple.
               </p>
               <Link href="/telecharger" style={{
                 display: "inline-block", padding: "15px 36px", borderRadius: 10,
@@ -528,7 +528,7 @@ export default async function Home() {
               { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site pour la recherche rapide, ou dans l'application pour l'expérience complète." },
               { num: "2", title: "Cherchez par numéro de ligne", desc: "Tapez le numéro (ex : 147) pour voir tous les arrêts et le trajet complet en détail." },
               { num: "3", title: "Trouvez vos correspondances", desc: "Indiquez votre point de départ et votre destination — TaxiBe calcule les correspondances." },
-              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, carte interactive — l'application Android offre l'expérience complète, gratuitement." },
+              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, carte interactive — l'expérience complète dans l'app Android, gratuite après inscription." },
             ].map((step, i) => (
               <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
                 <div style={{
