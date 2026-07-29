@@ -440,21 +440,17 @@ export async function saveArrets(
 ) {
   await requireAdmin();
 
-  await adminDb.from("ligne_arrets").delete().eq("ligne_id", ligneId).eq("direction", direction);
-
-  if (arrets.length > 0) {
-    await adminDb.from("ligne_arrets").insert(
-      arrets.map((a, i) => ({
-        ligne_id: ligneId,
-        direction,
-        position: i + 1,
-        arret: a.arret || `Arrêt ${i + 1}`,
-        denomination: a.denomination || null,
-        lat: a.lat,
-        lng: a.lng,
-      }))
-    );
-  }
+  // Appel RPC transactionnel — évite la fenêtre vide entre DELETE et INSERT
+  await adminDb.rpc("replace_arrets", {
+    p_ligne_id: ligneId,
+    p_direction: direction,
+    p_arrets: arrets.map((a, i) => ({
+      arret: a.arret || `Arrêt ${i + 1}`,
+      denomination: a.denomination || null,
+      lat: a.lat,
+      lng: a.lng,
+    })),
+  });
 
   revalidatePath(`/ligne/${ligneId}`);
 }
