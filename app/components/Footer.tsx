@@ -51,7 +51,7 @@ const COLS = [
     title: "Légal",
     links: [
       { label: "Informations légales", href: "/legal" },
-      { label: "Mentions légales",     href: "/mentions-legales" },
+      { label: "Mentions légales",     href: "/legal" },
       { label: "Accès admin",          href: "/gestion/login" },
     ],
   },
