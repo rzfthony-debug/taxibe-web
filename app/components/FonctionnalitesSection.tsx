@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -60,38 +60,9 @@ const RIGHT: Feature[] = [
   },
 ];
 
-type LineData = { d: string; dur: number };
-
 export default function FonctionnalitesSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
   const iconRefs = useRef<(HTMLDivElement | null)[]>(Array(8).fill(null));
-  const [lines, setLines] = useState<LineData[]>([]);
-
-  const calcLines = useCallback(() => {
-    if (!containerRef.current || !phoneRef.current) return;
-    const cRect = containerRef.current.getBoundingClientRect();
-    const pRect = phoneRef.current.getBoundingClientRect();
-    const px = pRect.left - cRect.left + pRect.width / 2;
-    const py = pRect.top - cRect.top + pRect.height / 2;
-
-    const result: LineData[] = iconRefs.current.map((ref, i) => {
-      if (!ref) return { d: "", dur: 2 };
-      const r = ref.getBoundingClientRect();
-      const ix = r.left - cRect.left + r.width / 2;
-      const iy = r.top - cRect.top + r.height / 2;
-      const cpx = ix + (px - ix) * 0.45;
-      const d = `M ${ix.toFixed(0)} ${iy.toFixed(0)} Q ${cpx.toFixed(0)} ${iy.toFixed(0)} ${px.toFixed(0)} ${py.toFixed(0)}`;
-      return { d, dur: 1.8 + (i % 4) * 0.3 };
-    });
-    setLines(result);
-  }, []);
-
-  useEffect(() => {
-    const t = setTimeout(calcLines, 150);
-    window.addEventListener("resize", calcLines);
-    return () => { clearTimeout(t); window.removeEventListener("resize", calcLines); };
-  }, [calcLines]);
 
   function radarStyle(delay: string) {
     return {
@@ -180,39 +151,8 @@ export default function FonctionnalitesSection() {
         </div>
 
         {/* ── Desktop : 3 colonnes ── */}
-        <div ref={containerRef} style={{ position: "relative" }} className="fnc-desktop">
-
-          {/* SVG lignes animées */}
-          {lines.length > 0 && (
-            <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible", zIndex: 0 }}>
-              {lines.map(({ d, dur }, i) =>
-                !d ? null : (
-                  <g key={i}>
-                    {/* Ligne de base */}
-                    <path d={d} stroke="rgba(255,184,0,0.15)" strokeWidth="1.5" strokeDasharray="5 5" fill="none" />
-                    {/* Dot aller */}
-                    <circle r="3" fill="#FFB800" opacity="0.85">
-                      <animateMotion dur={`${dur}s`} repeatCount="indefinite" path={d} calcMode="linear" />
-                    </circle>
-                    {/* Dot retour */}
-                    <circle r="2.5" fill="#FFB800" opacity="0.45">
-                      <animateMotion
-                        dur={`${dur}s`}
-                        begin={`${(dur / 2).toFixed(2)}s`}
-                        repeatCount="indefinite"
-                        path={d}
-                        keyPoints="1;0"
-                        keyTimes="0;1"
-                        calcMode="linear"
-                      />
-                    </circle>
-                  </g>
-                )
-              )}
-            </svg>
-          )}
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 300px 1fr", gap: 28, alignItems: "center", position: "relative", zIndex: 1 }}>
+        <div className="fnc-desktop">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 300px 1fr", gap: 28, alignItems: "center" }}>
             {/* Gauche */}
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {LEFT.map((f, i) => renderCard(f, "left", i))}
