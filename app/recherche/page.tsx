@@ -452,24 +452,54 @@ export default async function RecherchePage({
             </p>
 
             {results.length === 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ background: "white", borderRadius: 12, padding: "32px", border: "1px solid #E8ECF0", textAlign: "center" }}>
-                  <p style={{ fontWeight: 700, color: "#0D1525", marginBottom: 6, fontSize: "0.95rem" }}>Aucune ligne trouvée</p>
-                  <p style={{ fontSize: "0.84rem", color: "#64748B", margin: 0, lineHeight: 1.6 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+                {/* Message principal */}
+                <div style={{ background: "white", borderRadius: 16, padding: "32px 28px", border: "1px solid #E8ECF0", textAlign: "center" }}>
+                  <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#FFF8E6", border: "1.5px solid #FFE08A", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2.2" strokeLinecap="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                  </div>
+                  <p style={{ fontWeight: 900, color: "#0D1525", margin: "0 0 8px", fontSize: "1rem" }}>
                     {isQuartier
-                      ? "Vérifiez l'orthographe du quartier ou essayez un terme plus court."
-                      : "Vérifiez le numéro ou essayez une partie — ex : « 14 » pour trouver 147."}
+                      ? `« ${query} » n'est pas encore disponible`
+                      : `La ligne « ${query} » n'est pas encore disponible`}
+                  </p>
+                  <p style={{ fontSize: "0.84rem", color: "#64748B", margin: 0, lineHeight: 1.65 }}>
+                    {isQuartier
+                      ? "Ce quartier n'est pas encore dans notre base — vérifiez l'orthographe ou essayez un terme plus court."
+                      : "Cette ligne n'est pas encore dans notre base. Les données sont enrichies en continu — revenez bientôt."}
                   </p>
                 </div>
-                <div style={{ background: "#0D1525", borderRadius: 12, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-                  <div>
-                    <p style={{ margin: "0 0 4px", fontWeight: 800, color: "white", fontSize: "0.88rem" }}>Essayez la recherche GPS</p>
-                    <p style={{ margin: 0, fontSize: "0.78rem", color: "rgba(255,255,255,0.45)" }}>Disponible dans l&apos;application TaxiBe.</p>
+
+                {/* Suggestions */}
+                <div style={{ background: "#F8F9FB", borderRadius: 16, padding: "24px 28px", border: "1px solid #E8ECF0" }}>
+                  <p style={{ fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8", margin: "0 0 14px" }}>
+                    {isQuartier ? "Quartiers disponibles" : "Lignes disponibles"}
+                  </p>
+                  <div className="chips-wrap">
+                    {!isQuartier
+                      ? LIGNES_POPULAIRES.map((n) => (
+                          <a key={n} href={`/recherche?q=${n}`} className="ligne-chip">{n}</a>
+                        ))
+                      : QUARTIERS_POPULAIRES.map((qp) => (
+                          <a key={qp} href={`/recherche?q=${encodeURIComponent(qp)}&mode=quartier`} className="quartier-chip">{qp}</a>
+                        ))
+                    }
                   </div>
-                  <a href="/telecharger" style={{ padding: "9px 18px", background: "#FFB800", borderRadius: 8, fontWeight: 800, fontSize: "0.82rem", color: "#0D1525", textDecoration: "none", flexShrink: 0 }}>
-                    Télécharger →
+                </div>
+
+                {/* Signalement */}
+                <div style={{ borderRadius: 14, padding: "18px 22px", border: "1px solid #E8ECF0", background: "white", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                  <p style={{ margin: 0, fontSize: "0.82rem", color: "#64748B" }}>
+                    Vous connaissez cette ligne ? Aidez-nous à l&apos;ajouter.
+                  </p>
+                  <a href="/contact?sujet=signalement" style={{ padding: "8px 16px", background: "#0D1525", borderRadius: 8, fontWeight: 800, fontSize: "0.8rem", color: "#FFB800", textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap" }}>
+                    Signaler →
                   </a>
                 </div>
+
               </div>
             )}
 
@@ -506,7 +536,7 @@ export default async function RecherchePage({
               <div style={{ marginTop: 32, background: "#0D1525", borderRadius: 14, padding: "24px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
                 <div>
                   <p style={{ margin: "0 0 4px", fontWeight: 800, color: "white", fontSize: "0.95rem" }}>Recherche GPS, favoris, correspondances…</p>
-                  <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.55)" }}>Toutes les fonctionnalités sont disponibles dans l&apos;application pour les membres.</p>
+                  <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.55)" }}>GPS, favoris, correspondances — disponibles dans l&apos;application après inscription gratuite.</p>
                 </div>
                 <Link href="/telecharger" style={{ padding: "10px 24px", borderRadius: 8, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", flexShrink: 0 }}>
                   Télécharger l&apos;app →
