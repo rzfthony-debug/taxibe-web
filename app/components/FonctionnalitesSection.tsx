@@ -143,7 +143,7 @@ export default function FonctionnalitesSection() {
             Fonctionnalités
           </p>
           <h2 style={{ fontSize: "clamp(1.5rem, 3.5vw, 2.3rem)", fontWeight: 900, color: "#0D1525", letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 16 }}>
-            Votre compagnon pour tous vos déplacements.
+            Votre compagnon pour <span style={{ color: "#FFB800" }}>tous vos déplacements.</span>
           </h2>
           <p style={{ fontSize: "0.9rem", color: "#64748B", lineHeight: 1.75, margin: 0 }}>
             Tout ce qu&apos;il vous faut pour trouver votre ligne, préparer votre trajet et découvrir les correspondances à Antananarivo.
