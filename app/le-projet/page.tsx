@@ -130,10 +130,9 @@ export default async function LeProjetPage() {
         <style>{`
           .lp-hero-inner { max-width: 1200px; margin: 0 auto; padding: 52px 40px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
           .lp-hero-img   { display: flex; align-items: center; justify-content: center; }
-          .lp-stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid #E8ECF0; }
-          .lp-stat-card  { padding: 28px 32px; border-right: 1px solid #E8ECF0; position: relative; background: white; }
-          .lp-stat-card:last-child { border-right: none; }
-          .lp-stat-card::before { content: ""; position: absolute; top: 0; left: 32px; right: 32px; height: 3px; background: #FFB800; border-radius: 0 0 3px 3px; }
+          .lp-stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1200px; margin: 0 auto; padding: 0 40px 48px; }
+          .lp-stat-card  { padding: 20px 22px; border-radius: 14px; background: white; border: 1px solid #E8ECF0; position: relative; overflow: hidden; }
+          .lp-stat-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #FFB800; }
           .lp-section    { max-width: 1100px; margin: 0 auto; padding: 72px 32px; }
           .lp-pb-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
           .lp-sol-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -142,9 +141,8 @@ export default async function LeProjetPage() {
           @media (max-width: 900px) {
             .lp-hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; }
             .lp-hero-img   { display: none; }
-            .lp-stat-cards { grid-template-columns: 1fr 1fr; }
-            .lp-stat-card:nth-child(2) { border-right: none; }
-            .lp-stat-card:nth-child(3) { border-top: 1px solid #E8ECF0; grid-column: 1 / -1; }
+            .lp-stat-cards { grid-template-columns: 1fr; padding: 0 20px 36px; }
+
             .lp-section    { padding: 48px 20px; }
             .lp-pb-grid    { grid-template-columns: 1fr; }
             .lp-sol-grid   { grid-template-columns: 1fr; }
@@ -196,27 +194,24 @@ export default async function LeProjetPage() {
             </div>
           </div>
 
-          {/* 3 cartes badge stats */}
+        </section>
+
+        {/* 3 cartes badge stats — hors hero */}
+        <div style={{ background: "#F8F9FB", borderBottom: "1px solid #E8ECF0", paddingTop: 32 }}>
           <div className="lp-stat-cards">
             {[
-              { val: "67",    label: "Lignes recensées",    sub: "Réseau complet d'Antananarivo",  icon: "🗺️" },
-              { val: "1 336", label: "Points d'arrêt",      sub: "Aller et retour confondus",       icon: "📍" },
-              { val: "570",   label: "Arrêts géolocalisés", sub: "43 % de couverture GPS actuelle", icon: "📡" },
+              { val: "67",    label: "Lignes recensées",    sub: "Réseau complet d'Antananarivo" },
+              { val: "1 336", label: "Points d'arrêt",      sub: "Aller et retour confondus" },
+              { val: "570",   label: "Arrêts géolocalisés", sub: "43 % de couverture GPS — terrain" },
             ].map((s) => (
               <div key={s.label} className="lp-stat-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-                  <span style={{ fontSize: "1.1rem" }}>{s.icon}</span>
-                  <span style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", background: "rgba(255,184,0,0.1)", padding: "3px 8px", borderRadius: 4 }}>
-                    Données réelles
-                  </span>
-                </div>
-                <div style={{ fontSize: "2.6rem", fontWeight: 900, color: "#0D1525", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
-                <div style={{ fontWeight: 800, fontSize: "0.88rem", color: "#0D1525", marginBottom: 4 }}>{s.label}</div>
-                <div style={{ fontSize: "0.72rem", color: "#94A3B8", fontWeight: 500 }}>{s.sub}</div>
+                <div style={{ fontSize: "2.8rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 8, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
+                <div style={{ fontWeight: 800, fontSize: "0.9rem", color: "#0D1525", marginBottom: 3 }}>{s.label}</div>
+                <div style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{s.sub}</div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
 
         {/* ── Pourquoi TaxiBe existe ── */}
         <section id="mission" style={{ scrollMarginTop: 80 }}>
