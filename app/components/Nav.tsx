@@ -26,6 +26,9 @@ const Ico = {
   lock: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
   arrowRight: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
   briefcase: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/></svg>,
+  helpCircle: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+  flag: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>,
+  handshake: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.4 5.4 0 0 0 -.42-8.81"/><path d="m9 11 3 3 3-3"/></svg>,
 };
 
 // ── Contenu des panneaux ───────────────────────────────────────────────────────
@@ -62,30 +65,37 @@ const PANELS: Record<string, PanelDef> = {
       { label: "Coopératives de transport",    desc: "Opérateurs du réseau taxi-be",          href: "/partenaires#cooperatives", icon: Ico.users },
       { label: "Institutions & collectivités", desc: "Mairies, ministères, bailleurs",         href: "/partenaires#institutions", icon: Ico.building },
       { label: "Acteurs de la mobilité",       desc: "ONG, startups, chercheurs",              href: "/partenaires#mobilite",     icon: Ico.globe },
+      { label: "Collaborer avec nous",         desc: "Développeurs, designers, terrain",        href: "/contact#collaborer",       icon: Ico.handshake },
     ],
     featured: {
       eyebrow: "Partenaires",
-      title: "Vous portez un projet commun autour de la mobilité urbaine ?",
-      cta: "Parlons-en",
+      title: "Vous voulez contribuer à construire l'infrastructure du transport collectif à Tana ?",
+      cta: "Nous rejoindre",
       href: "/contact",
       subtleLink: { label: "Vous êtes investisseur ?", href: "/partenaires#investisseurs" },
     },
   },
-  entreprises: {
+  communaute: {
     items: [
-      { label: "Visibilité commerciale", desc: "Touchez les usagers du taxi-be",    href: "/entreprises#visibilite", icon: Ico.megaphone },
-      { label: "Contact commercial",     desc: "Parlez-nous de votre projet",       href: "/entreprises#contact",    icon: Ico.mail },
+      { label: "Aide & FAQ",         desc: "Questions fréquentes sur TaxiBe",      href: "/aide",              icon: Ico.helpCircle },
+      { label: "Signaler une erreur", desc: "Ligne incorrecte, arrêt manquant…",   href: "/contact#signalement", icon: Ico.flag },
     ],
+    featured: {
+      eyebrow: "Communauté",
+      title: "TaxiBe s'améliore grâce à ses utilisateurs. Signalez, questionnez, contribuez.",
+      cta: "Nous contacter",
+      href: "/contact",
+    },
   },
 };
 
 // ── Éléments de navigation ────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { key: "rechercher",   label: "Rechercher",  href: "/recherche",    hasPanel: false },
-  { key: "projet",       label: "Le Projet",   href: "/le-projet",    hasPanel: true  },
-  { key: "partenaires",  label: "Partenaires", href: "/partenaires",  hasPanel: true  },
-  { key: "entreprises",  label: "Entreprises", href: "/entreprises",  hasPanel: true  },
+  { key: "rechercher",  label: "Rechercher",  href: "/recherche",   hasPanel: false },
+  { key: "projet",      label: "Le Projet",   href: "/le-projet",   hasPanel: true  },
+  { key: "partenaires", label: "Partenaires", href: "/partenaires", hasPanel: true  },
+  { key: "communaute",  label: "Communauté",  href: "/communaute",  hasPanel: true  },
 ];
 
 // ── Panel desktop ─────────────────────────────────────────────────────────────
