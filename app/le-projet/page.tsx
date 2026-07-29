@@ -1,164 +1,376 @@
-﻿import Nav from "@/app/components/Nav";
+import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import CtaApp from "@/app/components/CtaApp";
+import Image from "next/image";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import HeroIllustration from "@/app/components/HeroIllustration";
+
+export const revalidate = 3600;
 
 export const metadata = {
-  title: "Le Projet — TaxiBe, infrastructure du transport collectif à Antananarivo",
-  description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous. Mission, impact, feuille de route et partenariats.",
+  title: "Le Projet — TaxiBe, la première carte du réseau taxi-be à Antananarivo",
+  description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous. 67 lignes, 1 336 arrêts, 570 géolocalisés. Mission, solution, feuille de route.",
   alternates: { canonical: "/le-projet" },
   openGraph: {
-    title: "Le Projet TaxiBe — Cartographier le transport collectif d'Antananarivo",
-    description: "TaxiBe construit la première base de données ouverte du réseau de taxi-be d'Antananarivo. Mission, impact et feuille de route.",
+    title: "Le Projet TaxiBe — La première carte intelligente du réseau taxi-be",
+    description: "TaxiBe construit la première base de données du réseau de taxi-be d'Antananarivo. 67 lignes recensées, 570 arrêts géolocalisés.",
     url: "/le-projet",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Le Projet TaxiBe" }],
   },
   twitter: {
     card: "summary_large_image" as const,
-    title: "Le Projet TaxiBe — Infrastructure du transport collectif à Antananarivo",
-    description: "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous.",
+    title: "Le Projet TaxiBe — La première carte du réseau taxi-be à Antananarivo",
+    description: "67 lignes recensées, 1 336 arrêts, 570 géolocalisés. TaxiBe aide les habitants à trouver leur ligne en quelques secondes.",
     images: ["/og-image.jpg"],
   },
 };
 
-export default function LeProjetPage() {
+async function getHeroImageUrl(): Promise<string | null> {
+  try {
+    const { data } = await supabase.from("parametres").select("valeur").eq("cle", "projet_hero_image_url").single();
+    return data?.valeur ?? null;
+  } catch { return null; }
+}
+
+const PROBLEMES = [
+  {
+    num: "01",
+    titre: "Des lignes difficiles à lire",
+    desc: "Les numéros de lignes ne suffisent pas toujours pour savoir où passe un taxi-be et dans quelle direction il va. L'information est dans les têtes, pas sur les murs.",
+  },
+  {
+    num: "02",
+    titre: "Des arrêts sans signalétique",
+    desc: "La majorité des arrêts n'ont pas de panneau, pas de nom officiel. Monter ou descendre au bon endroit s'apprend avec le temps — ou en posant la question.",
+  },
+  {
+    num: "03",
+    titre: "Des trajets qui demandent des questions",
+    desc: "Trouver la bonne correspondance nécessite souvent plusieurs échanges avec des passagers ou des chauffeurs. Une connaissance locale que tout le monde n'a pas.",
+  },
+  {
+    num: "04",
+    titre: "Aucun outil numérique local",
+    desc: "Il n'existe pas de solution pensée pour le réseau taxi-be d'Antananarivo. TaxiBe est la première réponse construite à partir du terrain, pour le terrain.",
+  },
+];
+
+const SOLUTION_STEPS = [
+  {
+    titre: "Rechercher une destination",
+    desc: "L'utilisateur indique où il veut aller. TaxiBe propose les lignes les plus pertinentes, en clair.",
+  },
+  {
+    titre: "Voir la ligne et les arrêts",
+    desc: "La direction, les arrêts et le trajet sont affichés de façon compréhensible — même sans connaître la ville.",
+  },
+  {
+    titre: "Se repérer sur la carte",
+    desc: "Les arrêts géolocalisés permettent de visualiser où monter, où descendre, et comment marcher jusqu'à destination.",
+  },
+  {
+    titre: "Un réseau qui s'améliore",
+    desc: "Les données sont enrichies en continu grâce au travail terrain et aux retours des usagers. Chaque correction compte.",
+  },
+];
+
+const PUBLICS = [
+  {
+    emoji: "🎓",
+    titre: "Étudiants",
+    desc: "Chaque matin, des milliers d'étudiants empruntent le taxi-be pour rejoindre leur université. TaxiBe leur permet de trouver la bonne ligne sans tâtonner, même dans un quartier qu'ils ne connaissent pas encore.",
+    note: "Lignes vers les campus disponibles dès le pilote",
+  },
+  {
+    emoji: "👷",
+    titre: "Travailleurs",
+    desc: "Le temps perdu dans les correspondances a un coût réel. Connaître à l'avance sa ligne, son arrêt et ses options de changement réduit l'incertitude — et le stress du matin.",
+    note: "Trajets domicile-travail sur les grands axes",
+  },
+  {
+    emoji: "🧭",
+    titre: "Nouveaux arrivants",
+    desc: "Comprendre le réseau taxi-be sans connaître la ville prend des semaines. TaxiBe compresse cette courbe d'apprentissage en quelques minutes — pour les arrivants, les visiteurs, comme pour les habitants qui découvrent un nouveau quartier.",
+    note: "Disponible pour toute l'agglomération",
+  },
+];
+
+const ROADMAP = [
+  {
+    period: "T3",
+    label: "T3 2026 · En cours",
+    titre: "70% de couverture GPS",
+    desc: "Priorité aux lignes pilotes et aux grands axes structurants d'Antananarivo. Enrichissement continu des données terrain.",
+    actif: true,
+  },
+  {
+    period: "T4",
+    label: "T4 2026",
+    titre: "15 lignes ouvertes au public",
+    desc: "Extension progressive après validation terrain. Amélioration de l'interface et premières contributions communautaires.",
+    actif: false,
+  },
+  {
+    period: "27",
+    label: "2027",
+    titre: "Couverture complète du réseau",
+    desc: "Base de données consolidée sur l'ensemble des 67 lignes. Fonctionnalités avancées et ouverture à l'écosystème partenaires.",
+    actif: false,
+  },
+];
+
+export default async function LeProjetPage() {
+  const heroImageUrl = await getHeroImageUrl();
+
   return (
     <>
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
-          .projet-hero { max-width: 760px; margin: 0 auto; padding: 80px 24px 56px; }
-          .projet-section { max-width: 760px; margin: 0 auto; padding: 0 24px 64px; }
-          .roadmap-item { display: flex; gap: 20px; align-items: flex-start; padding: 24px 0; border-bottom: 1px solid #F1F5F9; }
-          .roadmap-item:last-child { border-bottom: none; }
-          @media (max-width: 600px) { .projet-hero { padding: 48px 20px 40px; } .projet-section { padding: 0 20px 48px; } }
+          .lp-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; align-items: center; }
+          .lp-hero-img   { display: flex; align-items: center; justify-content: center; }
+          .lp-stats      { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E8ECF0; }
+          .lp-stat       { padding: 28px 32px; border-right: 1px solid #E8ECF0; }
+          .lp-stat:last-child { border-right: none; }
+          .lp-section    { max-width: 1100px; margin: 0 auto; padding: 72px 32px; }
+          .lp-pb-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+          .lp-sol-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          .lp-pub-grid   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+          .lp-roadmap    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+          @media (max-width: 900px) {
+            .lp-hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; }
+            .lp-hero-img   { display: none; }
+            .lp-stats      { grid-template-columns: 1fr 1fr; }
+            .lp-stat:nth-child(2) { border-right: none; }
+            .lp-stat:nth-child(3) { border-top: 1px solid #E8ECF0; grid-column: 1 / -1; }
+            .lp-section    { padding: 48px 20px; }
+            .lp-pb-grid    { grid-template-columns: 1fr; }
+            .lp-sol-grid   { grid-template-columns: 1fr; }
+            .lp-pub-grid   { grid-template-columns: 1fr; }
+            .lp-roadmap    { grid-template-columns: 1fr; }
+          }
         `}</style>
 
         {/* ── Hero ── */}
-        <div className="projet-hero">
-          <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
-            <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
-              Le projet
-            </span>
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.12, letterSpacing: "-0.02em", margin: "0 0 20px" }}>
-            L&apos;infrastructure digitale du transport collectif à{" "}
-            <span style={{ color: "#FFB800" }}>Antananarivo</span>
-          </h1>
-          <p style={{ fontSize: "1rem", color: "#64748B", lineHeight: 1.8, margin: "0 0 36px", maxWidth: 580 }}>
-            TaxiBe cartographie et rend accessibles les lignes de taxi-be d&apos;Antananarivo — un réseau informel de plusieurs centaines de lignes que des millions d&apos;habitants empruntent chaque jour sans information fiable.
-          </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link href="/partenaires" style={{ padding: "12px 24px", borderRadius: 9, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.9rem", textDecoration: "none" }}>
-              Devenir partenaire →
-            </Link>
-            <Link href="/contact" style={{ padding: "12px 24px", borderRadius: 9, border: "1.5px solid #E2E8F0", color: "#64748B", fontWeight: 700, fontSize: "0.9rem", textDecoration: "none", background: "white" }}>
-              Nous contacter
-            </Link>
-          </div>
-        </div>
+        <section style={{ background: "white", borderBottom: "1px solid #E8ECF0", overflow: "hidden" }}>
+          <div className="lp-hero-inner">
 
-        {/* ── Mission ── */}
-        <div id="mission" className="projet-section" style={{ scrollMarginTop: 80 }}>
-          <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)", padding: "40px" }}>
-            <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Notre mission</span>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 900, color: "#0D1525", margin: "12px 0 16px", letterSpacing: "-0.01em" }}>
-              Rendre le transport collectif lisible pour tous
-            </h2>
-            <p style={{ fontSize: "0.92rem", color: "#374151", lineHeight: 1.8, margin: "0 0 16px" }}>
-              À Antananarivo, le réseau de taxi-be est l&apos;épine dorsale de la mobilité urbaine. Pourtant, il reste invisible : pas de carte officielle, pas d&apos;arrêts signalés, pas d&apos;itinéraires documentés. Les habitants apprennent à naviguer par transmission orale, de voisin en voisin.
-            </p>
-            <p style={{ fontSize: "0.92rem", color: "#374151", lineHeight: 1.8, margin: 0 }}>
-              TaxiBe construit la première base de données ouverte de ce réseau — collectée, vérifiée et maintenue avec les usagers eux-mêmes. L&apos;application est la vitrine de cette donnée. La donnée est le vrai produit.
-            </p>
-          </div>
-        </div>
+            {/* Texte */}
+            <div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
+                  Projet pilote
+                </span>
+                <span style={{ display: "inline-flex", alignItems: "center", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 12px", fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#64748B" }}>
+                  Antananarivo
+                </span>
+              </div>
+              <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 20px", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+                La première carte<br />
+                <span style={{ color: "#FFB800" }}>intelligente</span> du réseau<br />
+                taxi-be
+              </h1>
+              <p style={{ fontSize: "1rem", color: "#64748B", lineHeight: 1.8, margin: "0 0 32px", maxWidth: 500 }}>
+                TaxiBe aide les habitants à comprendre les lignes, trouver les arrêts et choisir le bon trajet — en quelques secondes, sans devoir demander à personne.
+              </p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <Link href="/contact#collaborer" style={{ padding: "12px 22px", borderRadius: 9, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none" }}>
+                  Collaborer avec nous →
+                </Link>
+                <Link href="/recherche" style={{ padding: "12px 22px", borderRadius: 9, border: "1.5px solid #E2E8F0", color: "#64748B", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none", background: "white" }}>
+                  Essayer TaxiBe
+                </Link>
+              </div>
+            </div>
 
-        {/* ── Impact & données ── */}
-        <div id="impact" className="projet-section" style={{ scrollMarginTop: 80 }}>
-          <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Impact & données</span>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 900, color: "#0D1525", margin: "12px 0 32px", letterSpacing: "-0.01em" }}>
-            Ce qu&apos;on construit
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
+            {/* Image */}
+            <div className="lp-hero-img">
+              {heroImageUrl ? (
+                <Image src={heroImageUrl} alt="TaxiBe — Réseau taxi-be Antananarivo" width={600} height={420} sizes="(max-width: 900px) 0px, 560px" style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", mixBlendMode: "multiply" }} priority />
+              ) : (
+                <HeroIllustration />
+              )}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="lp-stats">
             {[
-              { valeur: "100+", label: "Lignes cartographiées", desc: "Itinéraires complets avec arrêts" },
-              { valeur: "2M+", label: "Habitants concernés", desc: "Usagers quotidiens du réseau" },
-              { valeur: "Ouvert", label: "Données accessibles", desc: "Gratuitement, sans inscription" },
+              { val: "67",   label: "Lignes recensées",      sub: "Réseau complet d'Antananarivo" },
+              { val: "1 336", label: "Points d'arrêt",       sub: "Aller et retour confondus" },
+              { val: "570",  label: "Arrêts géolocalisés",   sub: "43 % de couverture GPS actuelle" },
             ].map((s) => (
-              <div key={s.label} style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", padding: "24px 20px", boxShadow: "0 1px 6px rgba(0,0,0,0.04)" }}>
-                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 6 }}>{s.valeur}</div>
-                <div style={{ fontWeight: 800, fontSize: "0.85rem", color: "#0D1525", marginBottom: 4 }}>{s.label}</div>
-                <div style={{ fontSize: "0.78rem", color: "#94A3B8" }}>{s.desc}</div>
+              <div key={s.label} className="lp-stat">
+                <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
+                <div style={{ fontWeight: 800, fontSize: "0.85rem", color: "#0D1525", marginBottom: 3 }}>{s.label}</div>
+                <div style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{s.sub}</div>
               </div>
             ))}
           </div>
-          <div style={{ background: "#0D1525", borderRadius: 14, padding: "28px 32px" }}>
-            <p style={{ margin: "0 0 8px", fontWeight: 800, color: "white", fontSize: "0.95rem" }}>
-              La donnée comme bien commun
-            </p>
-            <p style={{ margin: 0, fontSize: "0.85rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>
-              TaxiBe vise à devenir la référence ouverte du transport informel à Madagascar — un modèle réplicable dans d&apos;autres villes africaines confrontées aux mêmes réseaux non documentés.
-            </p>
+        </section>
+
+        {/* ── Pourquoi TaxiBe existe ── */}
+        <section id="mission" style={{ scrollMarginTop: 80 }}>
+          <div className="lp-section">
+            <div style={{ marginBottom: 48 }}>
+              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Pourquoi TaxiBe existe</span>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2, maxWidth: 560 }}>
+                Se déplacer à Tana ne devrait pas<br />demander autant d&apos;effort.
+              </h2>
+            </div>
+            <div className="lp-pb-grid">
+              {PROBLEMES.map((p) => (
+                <div key={p.num} style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", padding: "28px 28px 28px 24px", display: "flex", gap: 20, alignItems: "flex-start" }}>
+                  <div style={{ flexShrink: 0, fontWeight: 900, fontSize: "1.1rem", color: "#E2E8F0", lineHeight: 1, paddingTop: 2, fontVariantNumeric: "tabular-nums" }}>{p.num}</div>
+                  <div>
+                    <h3 style={{ margin: "0 0 10px", fontWeight: 800, fontSize: "0.95rem", color: "#0D1525", lineHeight: 1.3 }}>{p.titre}</h3>
+                    <p style={{ margin: 0, fontSize: "0.83rem", color: "#64748B", lineHeight: 1.7 }}>{p.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* ── Notre solution ── */}
+        <section style={{ background: "#0D1525" }}>
+          <div className="lp-section">
+            <div style={{ marginBottom: 48 }}>
+              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Notre solution</span>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "white", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Simple.<br /><span style={{ color: "#FFB800" }}>Local.</span><br />Progressif.
+              </h2>
+            </div>
+            <div className="lp-sol-grid">
+              {SOLUTION_STEPS.map((s, i) => (
+                <div key={i} style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <span style={{ flexShrink: 0, color: "#FFB800", fontWeight: 900, fontSize: "1rem", lineHeight: 1, paddingTop: 2 }}>→</span>
+                  <div>
+                    <h3 style={{ margin: "0 0 8px", fontWeight: 800, fontSize: "0.92rem", color: "white", lineHeight: 1.3 }}>{s.titre}</h3>
+                    <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Où en sommes-nous ── */}
+        <section id="impact" style={{ scrollMarginTop: 80 }}>
+          <div className="lp-section">
+            <div style={{ marginBottom: 40 }}>
+              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Où en sommes-nous</span>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Un projet construit<br />lignes par lignes.
+              </h2>
+            </div>
+            <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", overflow: "hidden" }}>
+              <div style={{ padding: "32px 36px 28px" }}>
+                <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+                  <div>
+                    <p style={{ margin: "0 0 4px", fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8" }}>
+                      Couverture GPS du réseau
+                    </p>
+                    <p style={{ margin: 0, fontSize: "0.82rem", color: "#64748B" }}>
+                      570 arrêts géolocalisés sur 1 336 points d&apos;arrêt
+                    </p>
+                  </div>
+                  <div style={{ fontSize: "2.4rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>43%</div>
+                </div>
+                {/* Barre de progression */}
+                <div style={{ height: 10, background: "#F1F5F9", borderRadius: 99, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: "43%", background: "#FFB800", borderRadius: 99, position: "relative" }}>
+                    <div style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", width: 4, height: 18, background: "#FFB800", borderRadius: 2 }} />
+                  </div>
+                </div>
+                {/* Cibles */}
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
+                  <span style={{ fontSize: "0.68rem", color: "#94A3B8", fontWeight: 600 }}>Démarré · 6 mois de terrain</span>
+                  <span style={{ fontSize: "0.68rem", color: "#FFB800", fontWeight: 800 }}>Objectif T3 2026 : 70%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── À qui ça sert ── */}
+        <section style={{ background: "white", borderTop: "1px solid #E8ECF0", borderBottom: "1px solid #E8ECF0" }}>
+          <div className="lp-section">
+            <div style={{ marginBottom: 48 }}>
+              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>À qui ça sert</span>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2, maxWidth: 600 }}>
+                Le taxi-be transporte<br />la majorité des Tananariviens.<br /><span style={{ color: "#FFB800" }}>TaxiBe leur rend l&apos;info.</span>
+              </h2>
+            </div>
+            <div className="lp-pub-grid">
+              {PUBLICS.map((p) => (
+                <div key={p.titre} style={{ background: "#F8F9FB", borderRadius: 16, border: "1px solid #E8ECF0", padding: "28px 24px" }}>
+                  <div style={{ fontSize: "1.8rem", marginBottom: 16 }}>{p.emoji}</div>
+                  <h3 style={{ margin: "0 0 12px", fontWeight: 900, fontSize: "1.05rem", color: "#0D1525" }}>{p.titre}</h3>
+                  <p style={{ margin: "0 0 16px", fontSize: "0.83rem", color: "#64748B", lineHeight: 1.75 }}>{p.desc}</p>
+                  <p style={{ margin: 0, fontSize: "0.73rem", color: "#FFB800", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+                    <span>→</span> {p.note}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── Feuille de route ── */}
-        <div id="roadmap" className="projet-section" style={{ scrollMarginTop: 80 }}>
-          <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Feuille de route</span>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 900, color: "#0D1525", margin: "12px 0 32px", letterSpacing: "-0.01em" }}>
-            Les prochaines étapes
-          </h2>
-          <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", padding: "8px 32px", boxShadow: "0 1px 6px rgba(0,0,0,0.04)" }}>
-            {[
-              { phase: "Phase 1", titre: "Couverture complète d'Antananarivo", desc: "Cartographier l'ensemble des lignes urbaines et suburbaines, documenter chaque arrêt, valider avec les coopératives.", statut: "En cours" },
-              { phase: "Phase 2", titre: "Partenariats institutionnels", desc: "Intégrer les données officielles des coopératives de transport, ouvrir l'API aux acteurs de la mobilité urbaine.", statut: "Prochain" },
-              { phase: "Phase 3", titre: "Extension régionale", desc: "Répliquer le modèle dans d'autres villes malgaches, puis vers d'autres réseaux informels africains.", statut: "Vision" },
-            ].map((item) => (
-              <div key={item.phase} className="roadmap-item">
-                <div style={{
-                  flexShrink: 0, width: 48, height: 48, borderRadius: 12,
-                  background: item.statut === "En cours" ? "#FFB800" : item.statut === "Prochain" ? "#F1F5F9" : "#F8F9FB",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontWeight: 900, fontSize: "0.7rem", color: item.statut === "En cours" ? "#0D1525" : "#94A3B8",
-                  textAlign: "center", lineHeight: 1.2,
+        <section id="roadmap" style={{ scrollMarginTop: 80 }}>
+          <div className="lp-section">
+            <div style={{ marginBottom: 48 }}>
+              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Feuille de route</span>
+              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Ce qui vient ensuite.
+              </h2>
+            </div>
+            <div className="lp-roadmap">
+              {ROADMAP.map((r) => (
+                <div key={r.period} style={{
+                  background: r.actif ? "#0D1525" : "white",
+                  borderRadius: 16,
+                  border: r.actif ? "none" : "1px solid #E8ECF0",
+                  padding: "28px 24px",
+                  position: "relative",
+                  overflow: "hidden",
                 }}>
-                  {item.phase.split(" ")[1]}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
-                    <h3 style={{ margin: 0, fontWeight: 800, fontSize: "0.92rem", color: "#0D1525" }}>{item.titre}</h3>
-                    <span style={{
-                      fontSize: "0.6rem", fontWeight: 800, padding: "2px 8px", borderRadius: 4,
-                      background: item.statut === "En cours" ? "rgba(255,184,0,0.15)" : "#F1F5F9",
-                      color: item.statut === "En cours" ? "#B8860B" : "#94A3B8",
-                      letterSpacing: "0.06em", textTransform: "uppercase",
-                    }}>
-                      {item.statut}
-                    </span>
+                  {r.actif && (
+                    <div style={{ position: "absolute", top: 20, right: 20, background: "#FFB800", color: "#0D1525", fontSize: "0.58rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", padding: "3px 8px", borderRadius: 4 }}>
+                      En cours
+                    </div>
+                  )}
+                  <div style={{ fontSize: "2.5rem", fontWeight: 900, color: r.actif ? "rgba(255,184,0,0.15)" : "#F1F5F9", lineHeight: 1, marginBottom: 20, fontVariantNumeric: "tabular-nums" }}>
+                    {r.period}
                   </div>
-                  <p style={{ margin: 0, fontSize: "0.82rem", color: "#64748B", lineHeight: 1.65 }}>{item.desc}</p>
+                  <p style={{ margin: "0 0 6px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: r.actif ? "rgba(255,255,255,0.35)" : "#94A3B8" }}>
+                    {r.label}
+                  </p>
+                  <h3 style={{ margin: "0 0 12px", fontWeight: 800, fontSize: "0.95rem", color: r.actif ? "white" : "#0D1525", lineHeight: 1.3 }}>
+                    {r.titre}
+                  </h3>
+                  <p style={{ margin: 0, fontSize: "0.8rem", color: r.actif ? "rgba(255,255,255,0.5)" : "#64748B", lineHeight: 1.7 }}>
+                    {r.desc}
+                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
 
-        {/* ── Presse ── */}
-        <div id="presse" className="projet-section" style={{ scrollMarginTop: 80 }}>
-          <div style={{ background: "white", borderRadius: 16, border: "1px solid #E8ECF0", padding: "40px", boxShadow: "0 1px 6px rgba(0,0,0,0.04)", textAlign: "center" }}>
-            <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Presse</span>
-            <h2 style={{ fontSize: "1.3rem", fontWeight: 900, color: "#0D1525", margin: "12px 0 12px", letterSpacing: "-0.01em" }}>
-              Vous couvrez le projet ?
-            </h2>
-            <p style={{ fontSize: "0.88rem", color: "#64748B", lineHeight: 1.75, margin: "0 auto 24px", maxWidth: 480 }}>
-              Pour toute demande d&apos;interview, de visuels ou d&apos;informations sur TaxiBe, contactez-nous directement.
-            </p>
-            <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 24px", borderRadius: 9, background: "#0D1525", color: "#FFB800", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none" }}>
-              Contact presse →
-            </Link>
+            {/* CTA final */}
+            <div style={{ marginTop: 48, background: "#F1F5F9", borderRadius: 16, padding: "32px 36px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
+              <div>
+                <p style={{ margin: "0 0 6px", fontWeight: 800, fontSize: "1rem", color: "#0D1525" }}>Vous voulez contribuer au projet ?</p>
+                <p style={{ margin: 0, fontSize: "0.83rem", color: "#64748B" }}>Développeur, designer, connaisseur du terrain — toutes les compétences sont utiles.</p>
+              </div>
+              <Link href="/contact#collaborer" style={{ padding: "12px 22px", borderRadius: 9, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+                Rejoindre l&apos;équipe →
+              </Link>
+            </div>
           </div>
-        </div>
+        </section>
+
       </main>
       <CtaApp />
       <Footer />
