@@ -381,6 +381,84 @@ export async function deleteSignalement(id: string) {
   await adminDb.from("signalements").delete().eq("id", id);
 }
 
+// ── Lignes ────────────────────────────────────────────────────────────────────
+
+function slugify(s: string) {
+  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100);
+}
+
+export async function createLigne(formData: FormData) {
+  await requireAdmin();
+  const numero = (formData.get("numero") as string)?.trim().slice(0, 20);
+  const slug = slugify((formData.get("slug") as string) || numero);
+  const cooperative = (formData.get("cooperative") as string)?.trim().slice(0, 200) || null;
+  const telephone = (formData.get("telephone") as string)?.trim().slice(0, 50) || null;
+  const couleur_bus = (formData.get("couleur_bus") as string)?.trim() || null;
+  const type_circuit = (formData.get("type_circuit") as string) || "aller_retour";
+  const statut = (formData.get("statut") as string) || "a_verifier";
+
+  if (!numero) { redirect("/gestion/lignes"); return; }
+
+  const { data } = await adminDb
+    .from("lignes")
+    .insert({ numero, slug, cooperative, telephone, couleur_bus, type_circuit, statut, actif: true })
+    .select("id")
+    .single();
+
+  revalidatePath("/recherche");
+  redirect(`/gestion/lignes/${data?.id}`);
+}
+
+export async function updateLigne(id: string, formData: FormData) {
+  await requireAdmin();
+  const numero = (formData.get("numero") as string)?.trim().slice(0, 20);
+  const slug = slugify((formData.get("slug") as string) || numero);
+  const cooperative = (formData.get("cooperative") as string)?.trim().slice(0, 200) || null;
+  const telephone = (formData.get("telephone") as string)?.trim().slice(0, 50) || null;
+  const couleur_bus = (formData.get("couleur_bus") as string)?.trim() || null;
+  const type_circuit = (formData.get("type_circuit") as string) || null;
+  const statut = (formData.get("statut") as string) || "a_verifier";
+  const actif = formData.get("actif") === "true";
+
+  if (!numero) { redirect("/gestion/lignes"); return; }
+
+  await adminDb
+    .from("lignes")
+    .update({ numero, slug, cooperative, telephone, couleur_bus, type_circuit, statut, actif })
+    .eq("id", id);
+
+  revalidatePath(`/ligne/${slug}`);
+  revalidatePath(`/ligne/${id}`);
+  revalidatePath("/recherche");
+  redirect(`/gestion/lignes/${id}`);
+}
+
+export async function saveArrets(
+  ligneId: string,
+  direction: string,
+  arrets: Array<{ arret: string; denomination: string | null; lat: number | null; lng: number | null }>
+) {
+  await requireAdmin();
+
+  await adminDb.from("ligne_arrets").delete().eq("ligne_id", ligneId).eq("direction", direction);
+
+  if (arrets.length > 0) {
+    await adminDb.from("ligne_arrets").insert(
+      arrets.map((a, i) => ({
+        ligne_id: ligneId,
+        direction,
+        position: i + 1,
+        arret: a.arret || `Arrêt ${i + 1}`,
+        denomination: a.denomination || null,
+        lat: a.lat,
+        lng: a.lng,
+      }))
+    );
+  }
+
+  revalidatePath(`/ligne/${ligneId}`);
+}
+
 // ── Dashboard stats ───────────────────────────────────────────────────────────
 
 export async function getDashboardStats() {
