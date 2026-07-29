@@ -56,28 +56,6 @@ const PROBLEMES = [
   },
 ];
 
-const SOLUTION_STEPS = [
-  {
-    titre: "Chercher sa destination",
-    desc: "Une ligne ou un quartier — TaxiBe trouve la route en secondes.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
-  },
-  {
-    titre: "Voir ligne & arrêts",
-    desc: "Trajet clair, arrêts nommés, direction visible — même sans connaître la ville.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
-  },
-  {
-    titre: "Se repérer sur la carte",
-    desc: "Arrêts géolocalisés : savoir exactement où monter et descendre.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
-  },
-  {
-    titre: "Un réseau vivant",
-    desc: "Données enrichies en continu par le terrain et les retours usagers.",
-    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10"/><path d="M3.51 15a9 9 0 0 0 14.85 3.36L23 14"/></svg>,
-  },
-];
 
 const PUBLICS = [
   {
@@ -100,29 +78,6 @@ const PUBLICS = [
   },
 ];
 
-const ROADMAP = [
-  {
-    period: "T3",
-    label: "T3 2026 · En cours",
-    titre: "70% de couverture GPS",
-    desc: "Priorité aux lignes pilotes et aux grands axes structurants d'Antananarivo. Enrichissement continu des données terrain.",
-    actif: true,
-  },
-  {
-    period: "T4",
-    label: "T4 2026",
-    titre: "15 lignes ouvertes au public",
-    desc: "Extension progressive après validation terrain. Amélioration de l'interface et premières contributions communautaires.",
-    actif: false,
-  },
-  {
-    period: "27",
-    label: "2027",
-    titre: "Couverture complète du réseau",
-    desc: "Base de données consolidée sur l'ensemble des 67 lignes. Fonctionnalités avancées et ouverture à l'écosystème partenaires.",
-    actif: false,
-  },
-];
 
 export default async function LeProjetPage() {
   const heroImageUrl = await getHeroImageUrl();
@@ -380,80 +335,6 @@ export default async function LeProjetPage() {
           </div>
         </section>
 
-        {/* ── Notre solution ── */}
-        <section style={{ background: "#F8F9FB", borderTop: "1px solid #E8ECF0" }}>
-          <style>{`
-            .lp-sol-card { background: white; border: 1px solid #E8ECF0; border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, border-color 0.18s; cursor: default; }
-            .lp-sol-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); border-color: #FFB800; }
-            .lp-sol-icon { width: 48px; height: 48px; border-radius: 12px; background: #FFF8E6; border: 1px solid #FFE08A; display: flex; align-items: center; justify-content: center; color: #D97706; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); flex-shrink: 0; }
-            .lp-sol-card:hover .lp-sol-icon { transform: scale(1.15) rotate(-5deg); }
-            .lp-sol-step { font-size: 0.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #CBD5E1; }
-          `}</style>
-          <div className="lp-section">
-            <div style={{ marginBottom: 48 }}>
-              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Notre solution</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-                Simple, local,<br /><span style={{ color: "#FFB800" }}>progressif.</span>
-              </h2>
-            </div>
-            <div className="lp-sol-grid">
-              {SOLUTION_STEPS.map((s, i) => (
-                <div key={i} className="lp-sol-card">
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div className="lp-sol-icon">{s.icon}</div>
-                    <span className="lp-sol-step">Étape {i + 1}</span>
-                  </div>
-                  <div>
-                    <h3 style={{ margin: "0 0 6px", fontWeight: 800, fontSize: "0.95rem", color: "#0D1525", lineHeight: 1.3 }}>{s.titre}</h3>
-                    <p style={{ margin: 0, fontSize: "0.82rem", color: "#64748B", lineHeight: 1.65 }}>{s.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Où en sommes-nous ── */}
-        <section id="impact" style={{ scrollMarginTop: 80, background: "white", borderTop: "1px solid #E8ECF0" }}>
-          <div className="lp-section">
-            <div style={{ marginBottom: 40 }}>
-              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Avancement</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-                Construit ligne par ligne.
-              </h2>
-            </div>
-
-            {/* Barre de progression élargie */}
-            <div style={{ background: "#F8F9FB", borderRadius: 20, border: "1px solid #E8ECF0", padding: "32px 36px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
-                <div>
-                  <p style={{ margin: 0, fontWeight: 800, fontSize: "0.9rem", color: "#0D1525" }}>Couverture GPS du réseau taxi-be</p>
-                  <p style={{ margin: "4px 0 0", fontSize: "0.8rem", color: "#64748B" }}>570 arrêts géolocalisés sur 1 336 points d&apos;arrêt recensés</p>
-                </div>
-                <div style={{ fontSize: "2.8rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>43%</div>
-              </div>
-              <div style={{ position: "relative", height: 12, background: "#E8ECF0", borderRadius: 99, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: "43%", background: "linear-gradient(90deg, #F59E0B, #FFB800)", borderRadius: 99 }} />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 8 }}>
-                <div style={{ display: "flex", gap: 20 }}>
-                  {[
-                    { val: "67", label: "lignes" },
-                    { val: "6", label: "actives" },
-                    { val: "570", label: "GPS" },
-                  ].map((m) => (
-                    <div key={m.label} style={{ textAlign: "center" }}>
-                      <div style={{ fontWeight: 900, fontSize: "1.1rem", color: "#0D1525", fontVariantNumeric: "tabular-nums" }}>{m.val}</div>
-                      <div style={{ fontSize: "0.65rem", color: "#94A3B8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-                <span style={{ fontSize: "0.72rem", color: "#FFB800", fontWeight: 800, alignSelf: "center" }}>Objectif T3 2026 : 70%</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── À qui ça sert ── */}
         <section style={{ background: "#F8F9FB", borderTop: "1px solid #E8ECF0" }}>
           <style>{`
@@ -481,59 +362,6 @@ export default async function LeProjetPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Feuille de route ── */}
-        <section id="roadmap" style={{ scrollMarginTop: 80, background: "white", borderTop: "1px solid #E8ECF0" }}>
-          <style>{`
-            .lp-rm-card { border: 1.5px solid #E8ECF0; border-radius: 18px; padding: 28px 24px; position: relative; overflow: hidden; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, border-color 0.18s; cursor: default; background: white; }
-            .lp-rm-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.07); border-color: #FFB800; }
-            .lp-rm-card.actif { border-color: #FFB800; border-width: 2px; }
-            .lp-rm-card.actif::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, #FFF8E6 0%, white 60%); z-index: 0; }
-            .lp-rm-card > * { position: relative; z-index: 1; }
-            .lp-rm-period { font-size: 3.5rem; font-weight: 900; color: #F1F5F9; line-height: 1; margin-bottom: 16px; font-variant-numeric: tabular-nums; }
-            .lp-rm-card.actif .lp-rm-period { color: rgba(255,184,0,0.2); }
-          `}</style>
-          <div className="lp-section">
-            <div style={{ marginBottom: 48 }}>
-              <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#FFB800" }}>Feuille de route</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", margin: "12px 0 0", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-                Ce qui vient ensuite.
-              </h2>
-            </div>
-            <div className="lp-roadmap">
-              {ROADMAP.map((r) => (
-                <div key={r.period} className={`lp-rm-card${r.actif ? " actif" : ""}`}>
-                  {r.actif && (
-                    <div style={{ position: "absolute", top: 18, right: 18, zIndex: 2, display: "inline-flex", alignItems: "center", gap: 5, background: "#FFB800", color: "#0D1525", fontSize: "0.58rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", padding: "3px 10px", borderRadius: 99 }}>
-                      <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#0D1525", display: "inline-block" }}/>
-                      En cours
-                    </div>
-                  )}
-                  <div className="lp-rm-period">{r.period}</div>
-                  <p style={{ margin: "0 0 4px", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8" }}>{r.label}</p>
-                  <h3 style={{ margin: "0 0 10px", fontWeight: 800, fontSize: "0.95rem", color: "#0D1525", lineHeight: 1.3 }}>{r.titre}</h3>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B", lineHeight: 1.65 }}>{r.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA final */}
-            <div style={{ marginTop: 48, background: "#F8F9FB", borderRadius: 16, border: "1px solid #E8ECF0", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: "#0D1525", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
-                <div>
-                  <p style={{ margin: "0 0 3px", fontWeight: 800, fontSize: "0.95rem", color: "#0D1525" }}>Contribuer au projet</p>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "#64748B" }}>Développeur, designer, connaisseur du terrain — toutes les compétences comptent.</p>
-                </div>
-              </div>
-              <Link href="/contact#collaborer" style={{ padding: "12px 22px", borderRadius: 9, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
-                Rejoindre l&apos;équipe →
-              </Link>
             </div>
           </div>
         </section>
