@@ -128,10 +128,10 @@ export default async function LeProjetPage() {
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
-          .lp-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; align-items: center; }
+          .lp-hero-inner { max-width: 1200px; margin: 0 auto; padding: 52px 40px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
           .lp-hero-img   { display: flex; align-items: center; justify-content: center; }
-          .lp-stats      { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E8ECF0; }
-          .lp-stat       { padding: 28px 32px; border-right: 1px solid #E8ECF0; }
+          .lp-stats      { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E8ECF0; background: #0D1525; }
+          .lp-stat       { padding: 24px 28px; border-right: 1px solid rgba(255,255,255,0.07); }
           .lp-stat:last-child { border-right: none; }
           .lp-section    { max-width: 1100px; margin: 0 auto; padding: 72px 32px; }
           .lp-pb-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -158,20 +158,21 @@ export default async function LeProjetPage() {
 
             {/* Texte */}
             <div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>
-                  Projet pilote
+              {/* Badge unique punchy */}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0D1525", borderRadius: 99, padding: "6px 14px 6px 8px", marginBottom: 28 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#FFB800", borderRadius: 99, padding: "2px 10px", fontSize: "0.6rem", fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", color: "#0D1525" }}>
+                  Pilote
                 </span>
-                <span style={{ display: "inline-flex", alignItems: "center", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 12px", fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#64748B" }}>
-                  Antananarivo
+                <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.02em" }}>
+                  Antananarivo · 2026
                 </span>
               </div>
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 20px", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+              <h1 style={{ fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 18px", lineHeight: 1.08, letterSpacing: "-0.025em" }}>
                 La première carte<br />
                 <span style={{ color: "#FFB800" }}>intelligente</span> du réseau<br />
                 taxi-be
               </h1>
-              <p style={{ fontSize: "1rem", color: "#64748B", lineHeight: 1.8, margin: "0 0 32px", maxWidth: 500 }}>
+              <p style={{ fontSize: "0.95rem", color: "#64748B", lineHeight: 1.8, margin: "0 0 28px", maxWidth: 460 }}>
                 TaxiBe aide les habitants à comprendre les lignes, trouver les arrêts et choisir le bon trajet — en quelques secondes, sans devoir demander à personne.
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -194,17 +195,17 @@ export default async function LeProjetPage() {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Stats — fond sombre */}
           <div className="lp-stats">
             {[
-              { val: "67",   label: "Lignes recensées",      sub: "Réseau complet d'Antananarivo" },
-              { val: "1 336", label: "Points d'arrêt",       sub: "Aller et retour confondus" },
-              { val: "570",  label: "Arrêts géolocalisés",   sub: "43 % de couverture GPS actuelle" },
+              { val: "67",    label: "Lignes recensées",    sub: "Réseau complet d'Antananarivo" },
+              { val: "1 336", label: "Points d'arrêt",      sub: "Aller et retour confondus" },
+              { val: "570",   label: "Arrêts géolocalisés", sub: "43 % de couverture GPS actuelle" },
             ].map((s) => (
               <div key={s.label} className="lp-stat">
-                <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
-                <div style={{ fontWeight: 800, fontSize: "0.85rem", color: "#0D1525", marginBottom: 3 }}>{s.label}</div>
-                <div style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{s.sub}</div>
+                <div style={{ fontSize: "2.4rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
+                <div style={{ fontWeight: 800, fontSize: "0.82rem", color: "white", marginBottom: 3 }}>{s.label}</div>
+                <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.35)" }}>{s.sub}</div>
               </div>
             ))}
           </div>
