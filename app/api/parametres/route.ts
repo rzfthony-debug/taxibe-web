@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/supabase";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 async function getAdminId(): Promise<string | null> {
   const jar = await cookies();
@@ -35,6 +36,14 @@ export async function POST(req: NextRequest) {
     .upsert({ cle: safeCle, valeur: safeValeur, updated_at: new Date().toISOString() }, { onConflict: "cle" });
 
   if (error) return NextResponse.json({ error: "Erreur lors de la sauvegarde" }, { status: 500 });
+
+  // Purge le cache de toutes les pages publiques qui lisent les paramètres
+  const pagePaths = [
+    "/", "/le-projet", "/a-propos", "/aide", "/blog",
+    "/emplois", "/telecharger", "/legal", "/communaute",
+    "/contact", "/entreprises", "/partenaires",
+  ];
+  for (const p of pagePaths) revalidatePath(p);
 
   return NextResponse.json({ ok: true });
 }
