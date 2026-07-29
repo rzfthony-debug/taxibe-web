@@ -130,9 +130,10 @@ export default async function LeProjetPage() {
         <style>{`
           .lp-hero-inner { max-width: 1200px; margin: 0 auto; padding: 52px 40px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
           .lp-hero-img   { display: flex; align-items: center; justify-content: center; }
-          .lp-stats      { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E8ECF0; background: #0D1525; }
-          .lp-stat       { padding: 24px 28px; border-right: 1px solid rgba(255,255,255,0.07); }
-          .lp-stat:last-child { border-right: none; }
+          .lp-stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid #E8ECF0; }
+          .lp-stat-card  { padding: 28px 32px; border-right: 1px solid #E8ECF0; position: relative; background: white; }
+          .lp-stat-card:last-child { border-right: none; }
+          .lp-stat-card::before { content: ""; position: absolute; top: 0; left: 32px; right: 32px; height: 3px; background: #FFB800; border-radius: 0 0 3px 3px; }
           .lp-section    { max-width: 1100px; margin: 0 auto; padding: 72px 32px; }
           .lp-pb-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
           .lp-sol-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -141,9 +142,9 @@ export default async function LeProjetPage() {
           @media (max-width: 900px) {
             .lp-hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; }
             .lp-hero-img   { display: none; }
-            .lp-stats      { grid-template-columns: 1fr 1fr; }
-            .lp-stat:nth-child(2) { border-right: none; }
-            .lp-stat:nth-child(3) { border-top: 1px solid #E8ECF0; grid-column: 1 / -1; }
+            .lp-stat-cards { grid-template-columns: 1fr 1fr; }
+            .lp-stat-card:nth-child(2) { border-right: none; }
+            .lp-stat-card:nth-child(3) { border-top: 1px solid #E8ECF0; grid-column: 1 / -1; }
             .lp-section    { padding: 48px 20px; }
             .lp-pb-grid    { grid-template-columns: 1fr; }
             .lp-sol-grid   { grid-template-columns: 1fr; }
@@ -195,17 +196,23 @@ export default async function LeProjetPage() {
             </div>
           </div>
 
-          {/* Stats — fond sombre */}
-          <div className="lp-stats">
+          {/* 3 cartes badge stats */}
+          <div className="lp-stat-cards">
             {[
-              { val: "67",    label: "Lignes recensées",    sub: "Réseau complet d'Antananarivo" },
-              { val: "1 336", label: "Points d'arrêt",      sub: "Aller et retour confondus" },
-              { val: "570",   label: "Arrêts géolocalisés", sub: "43 % de couverture GPS actuelle" },
+              { val: "67",    label: "Lignes recensées",    sub: "Réseau complet d'Antananarivo",  icon: "🗺️" },
+              { val: "1 336", label: "Points d'arrêt",      sub: "Aller et retour confondus",       icon: "📍" },
+              { val: "570",   label: "Arrêts géolocalisés", sub: "43 % de couverture GPS actuelle", icon: "📡" },
             ].map((s) => (
-              <div key={s.label} className="lp-stat">
-                <div style={{ fontSize: "2.4rem", fontWeight: 900, color: "#FFB800", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
-                <div style={{ fontWeight: 800, fontSize: "0.82rem", color: "white", marginBottom: 3 }}>{s.label}</div>
-                <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.35)" }}>{s.sub}</div>
+              <div key={s.label} className="lp-stat-card">
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <span style={{ fontSize: "1.1rem" }}>{s.icon}</span>
+                  <span style={{ fontSize: "0.62rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#FFB800", background: "rgba(255,184,0,0.1)", padding: "3px 8px", borderRadius: 4 }}>
+                    Données réelles
+                  </span>
+                </div>
+                <div style={{ fontSize: "2.6rem", fontWeight: 900, color: "#0D1525", lineHeight: 1, marginBottom: 6, fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
+                <div style={{ fontWeight: 800, fontSize: "0.88rem", color: "#0D1525", marginBottom: 4 }}>{s.label}</div>
+                <div style={{ fontSize: "0.72rem", color: "#94A3B8", fontWeight: 500 }}>{s.sub}</div>
               </div>
             ))}
           </div>
