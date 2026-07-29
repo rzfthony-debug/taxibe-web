@@ -4,11 +4,9 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
-import dynamic from "next/dynamic";
 import { getLigneBySlugOrId } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
-
-const LigneMap = dynamic(() => import("@/app/components/LigneMap"), { ssr: false });
+import LigneMapWrapper from "@/app/components/LigneMapWrapper";
 
 export const revalidate = 3600;
 
@@ -208,7 +206,7 @@ export default async function LignePage({ params }: Props) {
               <p style={{ margin: "0 0 10px", fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
                 Itinéraire
               </p>
-              <LigneMap arrets={ligne.arrets} color={color} />
+              <LigneMapWrapper arrets={ligne.arrets} color={color} />
             </div>
           )}
 
