@@ -111,19 +111,18 @@ export default function ContactForm({ status }: { status?: string }) {
   return (
     <div>
       <style>{`
-        .cc-card { border: 1.5px solid #E8ECF0; border-radius: 14px; padding: 16px; cursor: pointer; background: white; display: flex; align-items: flex-start; gap: 12; transition: border-color 0.15s, box-shadow 0.15s, transform 0.18s cubic-bezier(0.34,1.56,0.64,1); text-align: left; width: 100%; font-family: inherit; }
+        .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .cc-card { border: 1.5px solid #E8ECF0; border-radius: 14px; padding: 14px 16px; cursor: pointer; background: white; display: flex; align-items: center; gap: 12px; transition: border-color 0.15s, box-shadow 0.15s, transform 0.18s cubic-bezier(0.34,1.56,0.64,1); text-align: left; width: 100%; font-family: inherit; }
         .cc-card:hover { border-color: #FFB800; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-        .cc-card.active { border-color: #FFB800; border-width: 2px; box-shadow: 0 6px 20px rgba(255,184,0,0.15); }
-        .cc-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, color 0.15s; }
+        .cc-card.active { border-color: #FFB800; border-width: 2px; background: #FFFBF0; box-shadow: 0 4px 16px rgba(255,184,0,0.14); }
+        .cc-icon { width: 38px; height: 38px; border-radius: 10px; background: #F1F5F9; color: #64748B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, color 0.15s; }
         .cc-card.active .cc-icon { background: #FFB800; color: #0D1525; }
-        .cc-icon-default { background: #F1F5F9; color: #64748B; }
-        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
-          border-color: #FFB800; box-shadow: 0 0 0 3px rgba(255,184,0,0.12);
-        }
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #FFB800; box-shadow: 0 0 0 3px rgba(255,184,0,0.12); }
+        @media (max-width: 480px) { .cc-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       {/* Cartes de choix */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 28 }}>
+      <div className="cc-grid" style={{ marginBottom: 28 }}>
         {CATEGORIES.map((c) => (
           <button
             key={c.id}
@@ -131,12 +130,10 @@ export default function ContactForm({ status }: { status?: string }) {
             onClick={() => setSelected(c.id)}
             className={`cc-card${selected === c.id ? " active" : ""}`}
           >
-            <div className={`cc-icon${selected === c.id ? "" : " cc-icon-default"}`}>
-              {c.icon}
-            </div>
+            <div className="cc-icon">{c.icon}</div>
             <div style={{ minWidth: 0 }}>
-              <p style={{ margin: "0 0 2px", fontWeight: 800, fontSize: "0.85rem", color: "#0D1525", lineHeight: 1.2 }}>{c.titre}</p>
-              <p style={{ margin: 0, fontSize: "0.73rem", color: "#64748B", lineHeight: 1.4 }}>{c.desc}</p>
+              <p style={{ margin: "0 0 2px", fontWeight: 800, fontSize: "0.84rem", color: "#0D1525", lineHeight: 1.2 }}>{c.titre}</p>
+              <p style={{ margin: 0, fontSize: "0.72rem", color: "#64748B", lineHeight: 1.4 }}>{c.desc}</p>
             </div>
           </button>
         ))}
