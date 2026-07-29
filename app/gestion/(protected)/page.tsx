@@ -1,5 +1,7 @@
 import { getDashboardStats } from "../actions";
 import Link from "next/link";
+import { Suspense } from "react";
+import VisitStats from "./VisitStats";
 
 export default async function DashboardPage() {
   const stats = await getDashboardStats();
@@ -57,6 +59,10 @@ export default async function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      <Suspense fallback={null}>
+        <VisitStats />
+      </Suspense>
 
       <div className="card">
         <div style={{ padding: "16px 22px", borderBottom: "1px solid #F1F5F9" }}>

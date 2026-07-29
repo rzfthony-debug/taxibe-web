@@ -3,6 +3,13 @@
 import { adminDb } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 
+export async function trackPageView(page: string) {
+  if (!page || page.startsWith("/gestion")) return;
+  try {
+    await adminDb.from("analytics_pageviews").insert({ page: page.slice(0, 300) });
+  } catch { /* ignore — table may not exist yet */ }
+}
+
 const CATEGORIES = ["contact", "erreur", "contribution", "publicite", "partenariat"] as const;
 export type MessageCategorie = (typeof CATEGORIES)[number];
 

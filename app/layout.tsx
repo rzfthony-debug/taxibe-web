@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ChatWidgetLoader from "@/app/components/ChatWidgetLoader";
 import AppBanner from "@/app/components/AppBanner";
+import TrackPageView from "@/app/components/TrackPageView";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <AppBanner />
         <ChatWidgetLoader />
+        <TrackPageView />
         <script defer src="/_vercel/insights/script.js" />
       </body>
     </html>
