@@ -135,7 +135,7 @@ export default async function LeProjetPage() {
           .lp-stat-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 16px 40px rgba(0,0,0,0.09); border-color: #FFB800; }
           .lp-stat-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: #FFB800; transition: height 0.2s; }
           .lp-stat-card:hover::after { height: 4px; }
-          .lp-stat-icon { width: 44px; height: 44px; border-radius: 50%; background: #FFB800; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); }
+          .lp-stat-icon { width: 44px; height: 44px; border-radius: 50%; background: #0D1525; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); }
           .lp-stat-card:hover .lp-stat-icon { transform: scale(1.15) rotate(-6deg); }
           .lp-section    { max-width: 1100px; margin: 0 auto; padding: 72px 32px; }
           .lp-pb-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -206,15 +206,15 @@ export default async function LeProjetPage() {
             {[
               {
                 val: "67", label: "Lignes recensées", sub: "Réseau complet d'Antananarivo",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
+                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
               },
               {
                 val: "1 336", label: "Points d'arrêt", sub: "Aller et retour confondus",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
               },
               {
                 val: "570", label: "Arrêts géolocalisés", sub: "43 % de couverture GPS — terrain",
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D1525" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg>,
+                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB800" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg>,
               },
             ].map((s) => (
               <div key={s.label} className="lp-stat-card">
