@@ -52,7 +52,6 @@ const COLS = [
     links: [
       { label: "Informations légales", href: "/legal" },
       { label: "Mentions légales",     href: "/legal" },
-      { label: "Accès admin",          href: "/gestion/login" },
     ],
   },
 ];

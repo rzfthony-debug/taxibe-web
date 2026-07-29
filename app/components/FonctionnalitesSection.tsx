@@ -124,10 +124,10 @@ export default function FonctionnalitesSection() {
           0%   { transform: scale(1);   opacity: 0.55; }
           100% { transform: scale(2.8); opacity: 0; }
         }
-        .fnc-desktop { display: grid; }
+        .fnc-desktop { display: block; }
         .fnc-mobile  { display: none; }
         @media (max-width: 860px) {
-          .fnc-desktop { display: none; }
+          .fnc-desktop { display: none !important; }
           .fnc-mobile  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         }
         @media (max-width: 480px) {

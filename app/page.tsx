@@ -469,10 +469,10 @@ export default async function Home() {
             {/* Texte */}
             <div>
               <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-                Toutes les fonctionnalités dans l&apos;app
+                L&apos;app TaxiBe, sur Android et sur le web
               </h2>
               <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36, maxWidth: 400 }}>
-                Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
+                Favoris, GPS, correspondances — toutes les fonctionnalités disponibles gratuitement, sans inscription.
               </p>
               <Link href="/telecharger" style={{
                 display: "inline-block", padding: "15px 36px", borderRadius: 10,
@@ -528,7 +528,7 @@ export default async function Home() {
               { num: "1", title: "Ouvrez TaxiBe", desc: "Sur ce site pour la recherche rapide, ou dans l'application pour l'expérience complète." },
               { num: "2", title: "Cherchez par numéro de ligne", desc: "Tapez le numéro (ex : 147) pour voir tous les arrêts et le trajet complet en détail." },
               { num: "3", title: "Trouvez vos correspondances", desc: "Indiquez votre point de départ et votre destination — TaxiBe calcule les correspondances." },
-              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, jeux et récompenses — toutes les fonctionnalités sont dans l'application pour les membres." },
+              { num: "4", title: "Téléchargez pour plus", desc: "GPS, favoris, carte interactive — l'application Android offre l'expérience complète, gratuitement." },
             ].map((step, i) => (
               <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
                 <div style={{

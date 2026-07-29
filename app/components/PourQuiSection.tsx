@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const CARDS = [
   {
@@ -12,6 +13,7 @@ const CARDS = [
     title: "Citoyens",
     subtitle: "Préparer ses déplacements plus facilement.",
     desc: "Retrouvez les informations utiles pour organiser vos trajets au quotidien, que vous soyez étudiant, travailleur, habitant ou visiteur.",
+    cta: null,
   },
   {
     image: "/cooperatives.png",
@@ -26,6 +28,7 @@ const CARDS = [
     title: "Coopératives",
     subtitle: "Valoriser les réseaux de transport.",
     desc: "Présentez plus facilement les lignes, les arrêts et les services proposés à vos usagers.",
+    cta: { label: "Collaborer avec nous →", href: "/partenaires#cooperatives" },
   },
   {
     image: "/institutions.png",
@@ -37,7 +40,8 @@ const CARDS = [
     ),
     title: "Institutions publiques",
     subtitle: "Contribuer à une mobilité mieux organisée.",
-    desc: "Des données structurées pour accompagner progressivement la réflexion autour de l'organisation du transport collectif.",
+    desc: "Des données structurées pour accompagner la réflexion autour de l'organisation du transport collectif à Antananarivo.",
+    cta: { label: "En savoir plus →", href: "/partenaires#institutions" },
   },
 ];
 
@@ -119,7 +123,7 @@ export default function PourQuiSection() {
             Une plateforme pensée pour <span style={{ color: "#FFB800" }}>tous les acteurs</span> du transport collectif.
           </h2>
           <p style={{ color: "#64748B", fontSize: "0.9rem", lineHeight: 1.75, margin: 0 }}>
-            TaxiBe accompagne progressivement les citoyens, les coopératives et les institutions en facilitant l&apos;accès aux informations essentielles sur la mobilité.
+            TaxiBe accompagne les citoyens, les coopératives et les institutions en facilitant l&apos;accès aux informations essentielles sur la mobilité.
           </p>
         </div>
 
@@ -143,6 +147,11 @@ export default function PourQuiSection() {
                 <h3 style={{ fontWeight: 900, fontSize: "1.05rem", color: "#0D1525", margin: 0 }}>{c.title}</h3>
                 <p style={{ fontWeight: 700, fontSize: "0.88rem", color: "#0D1525", margin: 0, lineHeight: 1.5 }}>{c.subtitle}</p>
                 <p style={{ fontSize: "0.82rem", color: "#64748B", margin: 0, lineHeight: 1.65 }}>{c.desc}</p>
+                {c.cta && (
+                  <Link href={c.cta.href} style={{ display: "inline-block", marginTop: 6, fontSize: "0.78rem", fontWeight: 700, color: "#B8860B", textDecoration: "none" }}>
+                    {c.cta.label}
+                  </Link>
+                )}
               </div>
             </div>
           ))}
