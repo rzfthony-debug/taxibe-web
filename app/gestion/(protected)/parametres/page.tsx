@@ -18,6 +18,7 @@ export default async function ParametresPage() {
     homeHero, homeHeroMobile, homeCtaPhone,
     emploisHero,
     telechargerHero, telechargerApercu,
+    projetHero,
     aproposHero, aideHero, legalHero,
     communauteHero, contactHero, entreprisesHero, blogHero,
     contactEmail, recrutementEmail, contactPhone,
@@ -31,6 +32,7 @@ export default async function ParametresPage() {
     getParam("emplois_hero_image_url"),
     getParam("telecharger_hero_image_url"),
     getParam("telecharger_apercu_image"),
+    getParam("projet_hero_image_url"),
     getParam("apropos_hero_image_url"),
     getParam("aide_hero_image_url"),
     getParam("legal_hero_image_url"),
@@ -134,6 +136,20 @@ export default async function ParametresPage() {
               currentUrl={telechargerApercu}
             />
           </div>
+        </div>
+
+        {/* ── Le Projet ── */}
+        <div>
+          <p style={{ margin: "0 0 10px", fontSize: "0.68rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94A3B8" }}>
+            Page Le Projet (/le-projet)
+          </p>
+          <HeroUpload
+            cle="projet_hero_image_url"
+            label="Image hero — Page Le Projet"
+            description={HERO_DESC}
+            ratio="3/2"
+            currentUrl={projetHero}
+          />
         </div>
 
         {/* ── À propos ── */}
