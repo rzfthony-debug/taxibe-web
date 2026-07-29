@@ -23,9 +23,9 @@ const COLS = [
   {
     title: "Le Projet",
     links: [
-      { label: "Notre mission",    href: "/le-projet#mission" },
-      { label: "Impact & données", href: "/le-projet#impact" },
-      { label: "Feuille de route", href: "/le-projet#roadmap" },
+      { label: "Notre mission",    href: "/le-projet" },
+      { label: "Pour qui ?",       href: "/le-projet#pour-qui" },
+      { label: "Partenaires",      href: "/partenaires" },
     ],
   },
   {
@@ -34,8 +34,7 @@ const COLS = [
       { label: "Coopératives de transport", href: "/partenaires#cooperatives" },
       { label: "Institutions",              href: "/partenaires#institutions" },
       { label: "Acteurs de la mobilité",    href: "/partenaires#mobilite" },
-      { label: "Rejoindre l'équipe",        href: "/contact#collaborer" },
-      { label: "Investir dans le projet",   href: "/partenaires#investisseurs" },
+      { label: "Rejoindre l'équipe",        href: "/contact" },
     ],
   },
   {

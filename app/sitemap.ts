@@ -18,14 +18,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/blog`,            lastModified: new Date(), changeFrequency: "weekly",  priority: 0.8 },
     { url: `${BASE}/emplois`,         lastModified: new Date(), changeFrequency: "daily",   priority: 0.8 },
     // ── Priorité moyenne ──
-    { url: `${BASE}/partenaires`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/partenaires`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/aide`,            lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/a-propos`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
-    { url: `${BASE}/entreprises`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/contact`,         lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/communaute`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     // ── Priorité basse ──
-    { url: `${BASE}/legal`,           lastModified: new Date(), changeFrequency: "yearly",  priority: 0.2 },
+    { url: `${BASE}/legal`,           lastModified: new Date(), changeFrequency: "yearly",  priority: 0.3 },
   ];
 
   const articlePages: MetadataRoute.Sitemap = (articles.data ?? []).map((a) => ({
