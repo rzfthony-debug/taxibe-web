@@ -31,6 +31,9 @@ export default function ChatWidget() {
   const [sending, setSending] = useState(false);
   const [unread, setUnread] = useState(0);
   const [sessionClosed, setSessionClosed] = useState(false);
+  const [wizz, setWizz] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
+  const previewTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Init visitor ID + restore session
@@ -78,7 +81,16 @@ export default function ChatWidget() {
       }, (payload: { new: Msg }) => {
         const msg = payload.new;
         setMessages((prev) => prev.find(m => m.id === msg.id) ? prev : [...prev, msg]);
-        if (msg.expediteur === "admin" && !open) setUnread(c => c + 1);
+        if (msg.expediteur === "admin" && !open) {
+          setUnread(c => c + 1);
+          // Wizz + preview bubble
+          setWizz(true);
+          setTimeout(() => setWizz(false), 800);
+          setPreview(msg.contenu.slice(0, 80) + (msg.contenu.length > 80 ? "…" : ""));
+          if (previewTimer.current) clearTimeout(previewTimer.current);
+          previewTimer.current = setTimeout(() => setPreview(null), 5000);
+          try { navigator.vibrate([80, 40, 80]); } catch {}
+        }
       })
       .on("postgres_changes", {
         event: "UPDATE",
@@ -92,8 +104,9 @@ export default function ChatWidget() {
     return () => { db().removeChannel(ch); };
   }, [sessionId, open]);
 
+  useEffect(() => { return () => { if (previewTimer.current) clearTimeout(previewTimer.current); }; }, []);
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
-  useEffect(() => { if (open) setUnread(0); }, [open]);
+  useEffect(() => { if (open) { setUnread(0); setPreview(null); } }, [open]);
 
   async function send() {
     const text = input.trim().slice(0, 500);
@@ -132,6 +145,21 @@ export default function ChatWidget() {
 
   return (
     <div style={{ position: "fixed", bottom: "calc(24px + var(--app-banner-h, 0px))", right: 24, zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12 }}>
+      <style>{`
+        @keyframes chat-wizz {
+          0%,100% { transform: rotate(0deg); }
+          15%      { transform: rotate(-12deg); }
+          30%      { transform: rotate(12deg); }
+          45%      { transform: rotate(-9deg); }
+          60%      { transform: rotate(9deg); }
+          75%      { transform: rotate(-5deg); }
+          90%      { transform: rotate(5deg); }
+        }
+        @keyframes chat-preview-in {
+          from { opacity: 0; transform: translateY(8px) scale(0.95); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      `}</style>
 
       {/* Panel */}
       {open && (
@@ -261,6 +289,27 @@ export default function ChatWidget() {
         </div>
       )}
 
+      {/* Preview bubble */}
+      {!open && preview && (
+        <button
+          onClick={() => { setOpen(true); setPreview(null); }}
+          style={{
+            background: "#0D1525", color: "white",
+            border: "none", borderRadius: "14px 14px 4px 14px",
+            padding: "10px 14px", maxWidth: 240,
+            fontSize: "0.8rem", lineHeight: 1.5, fontWeight: 500,
+            textAlign: "left", cursor: "pointer", fontFamily: "inherit",
+            boxShadow: "0 6px 24px rgba(13,21,37,0.28)",
+            animation: "chat-preview-in 0.25s ease both",
+          }}
+        >
+          <span style={{ display: "block", fontSize: "0.65rem", fontWeight: 700, color: "#FFB800", marginBottom: 3 }}>
+            Équipe TaxiBe
+          </span>
+          {preview}
+        </button>
+      )}
+
       {/* Toggle button */}
       <button
         onClick={() => setOpen(o => !o)}
@@ -274,6 +323,7 @@ export default function ChatWidget() {
           transition: "background 0.2s, box-shadow 0.2s",
           position: "relative",
           flexShrink: 0,
+          animation: wizz ? "chat-wizz 0.8s ease" : undefined,
         }}
       >
         {open ? (
