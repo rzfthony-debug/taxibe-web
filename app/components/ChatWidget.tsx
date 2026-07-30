@@ -230,11 +230,6 @@ export default function ChatWidget() {
               )}
               {messages.map((msg) => (
                 <div key={msg.id} style={{ display: "flex", flexDirection: "column", alignItems: msg.expediteur === "visiteur" ? "flex-end" : "flex-start", gap: 2 }}>
-                  {msg.expediteur === "admin" && (
-                    <span style={{ fontSize: "0.62rem", color: "#64748B", marginLeft: 4, fontWeight: 600 }}>
-                      {msg.admin_nom ?? "Équipe TaxiBe"}
-                    </span>
-                  )}
                   <div style={{
                     maxWidth: "82%", padding: "8px 12px",
                     borderRadius: msg.expediteur === "visiteur" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
