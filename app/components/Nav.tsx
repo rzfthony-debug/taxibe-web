@@ -395,8 +395,9 @@ export default function Nav() {
                 style={{ padding: "13px", borderRadius: 8, textAlign: "center", background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.95rem", textDecoration: "none" }}>
                 Voir le projet
               </Link>
-              <Link href="/telecharger" onClick={() => setMobileOpen(false)}
-                style={{ padding: "12px", borderRadius: 8, textAlign: "center", border: "1.5px solid #E2E8F0", color: "#64748B", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
+              <Link href="https://app.taxibe.mg" target="_blank" rel="noopener" onClick={() => setMobileOpen(false)}
+                style={{ padding: "12px", borderRadius: 8, textAlign: "center", background: "#0D1525", color: "white", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="3"/></svg>
                 Ouvrir l&apos;app
               </Link>
             </div>

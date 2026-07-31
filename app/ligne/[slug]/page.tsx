@@ -7,6 +7,7 @@ import Footer from "@/app/components/Footer";
 import { getLigneBySlugOrId } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 import LigneMapWrapper from "@/app/components/LigneMapWrapper";
+import StopTimeline from "@/app/components/StopTimeline";
 
 export const revalidate = 3600;
 
@@ -28,80 +29,6 @@ const STATUT_STYLE: Record<string, { label: string; color: string; bg: string }>
   obsolete:   { label: "Obsolète",   color: "#b91c1c", bg: "rgba(239,68,68,0.1)" },
 };
 
-function StopTimeline({ arrets, label }: { arrets: ArretItem[]; label: string }) {
-  if (!arrets.length) return null;
-  const total = arrets.length;
-  return (
-    <div style={{ marginBottom: 32 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <p style={{ margin: 0, fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
-          {label}
-        </p>
-        <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#0D1525", background: "#F1F5F9", border: "1px solid #E2E8F0", borderRadius: 6, padding: "2px 10px" }}>
-          {total} arrêts
-        </span>
-      </div>
-
-      <div style={{ background: "white", borderRadius: 14, border: "1px solid #E8ECF0", overflow: "hidden" }}>
-        {arrets.map((arret, i) => {
-          const isFirst = i === 0;
-          const isLast = i === total - 1;
-          const isTerm = isFirst || isLast;
-          return (
-            <div key={arret.id} style={{
-              display: "flex", alignItems: "stretch",
-              padding: "0 20px",
-              borderBottom: isLast ? "none" : "1px solid #F8FAFC",
-            }}>
-              {/* Rail */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 20, flexShrink: 0, marginRight: 14 }}>
-                <div style={{ width: 2, flex: 1, minHeight: 12, background: isFirst ? "transparent" : "#0D1525" }} />
-                {isTerm ? (
-                  <div style={{ width: 11, height: 11, borderRadius: 3, background: "#0D1525", border: "2.5px solid #FFB800", flexShrink: 0, zIndex: 1 }} />
-                ) : (
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "white", border: "2px solid #CBD5E0", flexShrink: 0, zIndex: 1 }} />
-                )}
-                <div style={{ width: 2, flex: 1, minHeight: 12, background: isLast ? "transparent" : "#0D1525" }} />
-              </div>
-
-              {/* Contenu */}
-              <div style={{
-                flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8,
-                paddingTop: isFirst ? 18 : 9, paddingBottom: isLast ? 18 : 9,
-              }}>
-                <div>
-                  <span style={{
-                    display: "block",
-                    fontSize: isTerm ? "0.92rem" : "0.82rem",
-                    fontWeight: isTerm ? 800 : 400,
-                    color: isTerm ? "#0D1525" : "#475569",
-                    lineHeight: 1.3,
-                  }}>
-                    {arret.arret}
-                  </span>
-                  {arret.denomination && (
-                    <span style={{ display: "block", fontSize: "0.65rem", color: "#94A3B8", marginTop: 1 }}>
-                      {arret.denomination}
-                    </span>
-                  )}
-                </div>
-                {isTerm && (
-                  <span style={{
-                    fontSize: "0.6rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em",
-                    color: "white", background: isFirst ? "#22c55e" : "#FFB800",
-                    padding: "2px 8px", borderRadius: 4, flexShrink: 0,
-                  }}>
-                    {isFirst ? "Départ" : "Arrivée"}
-                  </span>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
 export default async function LignePage({ params }: Props) {
   const { slug } = await params;

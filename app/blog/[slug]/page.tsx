@@ -89,6 +89,11 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 }
 
+function readingTime(text: string): number {
+  const words = text.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = await getArticle(slug);
@@ -192,8 +197,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <span style={{ fontSize: "0.65rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.08em", color: "#FFB800" }}>ACTUALITÉS</span>
                 <span style={{ fontSize: "0.8rem", color: "#64748B" }}>·</span>
                 <span style={{ fontSize: "0.8rem", color: "#64748B" }}>{formatDate(article.created_at)}</span>
+                <span style={{ fontSize: "0.8rem", color: "#64748B" }}>·</span>
+                <span style={{ fontSize: "0.8rem", color: "#64748B" }}>{readingTime(article.contenu ?? "")} min de lecture</span>
               </div>
-              <h1 style={{ fontSize: "1.9rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
+              <h1 style={{ fontSize: "clamp(1.35rem, 5vw, 1.9rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
                 {article.texte}
               </h1>
               <div style={{ height: 3, width: 48, background: "#FFB800", borderRadius: 2, marginBottom: 20 }} />

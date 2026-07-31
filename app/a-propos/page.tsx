@@ -64,6 +64,7 @@ export default async function AProposPage() {
           .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
           .page-hero-img { display: flex; align-items: center; justify-content: center; }
           @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } }
+          @media (max-width: 540px) { .legal-card { padding: 24px 18px !important; } }
         `}</style>
         <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
           <div className="page-hero-inner">
@@ -91,8 +92,8 @@ export default async function AProposPage() {
         </section>
 
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
-          <div style={{
-            background: "white", borderRadius: 14, padding: "40px 40px",
+          <div className="legal-card" style={{
+            background: "white", borderRadius: 14, padding: "40px",
             border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
           }}>
             <section style={{ marginBottom: 40 }}>

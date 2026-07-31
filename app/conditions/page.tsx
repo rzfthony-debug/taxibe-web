@@ -23,6 +23,12 @@ export default function ConditionsPage() {
   return (
     <>
       <Nav />
+      <style>{`
+        @media (max-width: 540px) {
+          .legal-card { padding: 24px 18px !important; }
+          .legal-section-body { padding-left: 20px !important; }
+        }
+      `}</style>
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <div style={{ background: "#0D1525", padding: "56px 24px 64px" }}>
           <div style={{ maxWidth: 760, margin: "0 auto" }}>
@@ -36,7 +42,7 @@ export default function ConditionsPage() {
         </div>
 
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 24px" }}>
-          <div style={{
+          <div className="legal-card" style={{
             background: "white", borderRadius: 14, padding: "40px",
             border: "1px solid #E8ECF0", boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
             display: "flex", flexDirection: "column", gap: 32,
@@ -93,14 +99,19 @@ export default function ConditionsPage() {
                   "En cas de litige, une solution amiable sera recherchée en priorité.",
                 ],
               },
-            ].map((section) => (
-              <section key={section.titre}>
-                <h2 style={{ fontSize: "1rem", fontWeight: 800, color: "#0D1525", marginBottom: 14, letterSpacing: "-0.01em" }}>
-                  {section.titre}
-                </h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            ].map((section, idx) => (
+              <section key={section.titre} style={{ borderTop: idx === 0 ? "none" : "1px solid #F1F5F9", paddingTop: idx === 0 ? 0 : 28 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 14 }}>
+                  <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 8, background: "#FFF8E1", border: "1px solid #FFE4A0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 900, color: "#B8860B", marginTop: 1 }}>
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <h2 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 800, color: "#0D1525", letterSpacing: "-0.01em", lineHeight: 1.3 }}>
+                    {section.titre}
+                  </h2>
+                </div>
+                <div className="legal-section-body" style={{ paddingLeft: 40, display: "flex", flexDirection: "column", gap: 10 }}>
                   {section.contenu.map((ligne, i) => (
-                    <p key={i} style={{ margin: 0, fontSize: "0.875rem", color: "#374151", lineHeight: 1.75 }}>
+                    <p key={i} style={{ margin: 0, fontSize: "0.9rem", color: "#374151", lineHeight: 1.8 }}>
                       {ligne}
                     </p>
                   ))}

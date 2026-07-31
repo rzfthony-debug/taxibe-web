@@ -19,7 +19,7 @@ export default async function CtaApp() {
       <style>{`
         .cta-app-section {
           background: #FFB800;
-          overflow: visible;
+          overflow: hidden;
         }
         .cta-app-inner {
           max-width: 1200px; margin: 0 auto;

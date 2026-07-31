@@ -49,9 +49,9 @@ export default function SignalementBanner() {
           onClick={() => setOpen(true)}
           style={{
             background: "#FFB800", border: "none", borderRadius: 20,
-            padding: "4px 14px", fontSize: "0.72rem", fontWeight: 800,
+            padding: "6px 14px", fontSize: "0.72rem", fontWeight: 800,
             color: "#0D1525", cursor: "pointer", flexShrink: 0,
-            fontFamily: "inherit",
+            fontFamily: "inherit", minHeight: 34,
           }}
         >
           Signaler une erreur

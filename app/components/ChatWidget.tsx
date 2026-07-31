@@ -164,7 +164,9 @@ export default function ChatWidget() {
       {/* Panel */}
       {open && (
         <div style={{
-          width: 340, height: 480, background: "white", borderRadius: 18,
+          width: "min(340px, calc(100vw - 32px))",
+          height: "min(480px, calc(100dvh - 120px))",
+          background: "white", borderRadius: 18,
           boxShadow: "0 12px 48px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08)",
           display: "flex", flexDirection: "column", overflow: "hidden",
           border: "1px solid rgba(0,0,0,0.06)",
