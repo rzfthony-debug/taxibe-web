@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ChatWidgetLoader from "@/app/components/ChatWidgetLoader";
 import AppBanner from "@/app/components/AppBanner";
+import SignalementBanner from "@/app/components/SignalementBanner";
 import TrackPageView from "@/app/components/TrackPageView";
 
 const inter = Inter({
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" className={inter.variable}>
       <body>
+        <SignalementBanner />
         {children}
         <AppBanner />
         <ChatWidgetLoader />
