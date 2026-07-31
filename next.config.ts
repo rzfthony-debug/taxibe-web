@@ -6,6 +6,20 @@ const securityHeaders = [
   { key: "X-XSS-Protection", value: "1; mode=block" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel-scripts.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src * data: blob:",
+      "connect-src 'self' *.supabase.co https://vitals.vercel-analytics.com https://vercel.live",
+      "frame-src https://www.google.com/maps https://maps.google.com",
+      "frame-ancestors 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+    ].join("; "),
+  },
   ...(process.env.NODE_ENV === "production"
     ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]
     : []),

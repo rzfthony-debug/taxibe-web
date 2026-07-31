@@ -106,13 +106,13 @@ async function ActualitesSection() {
           {articles.map((a) => (
             <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="actu-card">
               {a.image_url ? (
-                <div style={{ width: "100%", background: "#F1F5F9", overflow: "hidden" }}>
+                <div style={{ width: "100%", aspectRatio: "16/9", background: "#F1F5F9", overflow: "hidden", position: "relative" }}>
                   <Image
                     src={a.image_url}
                     alt={a.texte}
-                    width={0} height={0}
+                    fill
                     sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
-                    style={{ width: "100%", height: "auto", display: "block" }}
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
               ) : (

@@ -23,7 +23,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
     if ((count ?? 0) >= 5) return false;
     await adminDb.from("rate_limits").insert({ ip, action: "signalement" });
     return true;
-  } catch { return true; }
+  } catch { return false; }
 }
 
 export async function submitSignalement(data: SignalementData): Promise<{ ok: boolean }> {
