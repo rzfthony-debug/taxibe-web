@@ -295,24 +295,36 @@ export default function TelechargerPage() {
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
                 <thead>
                   <tr style={{ background: "#F8FAFC" }}>
-                    <th style={{ padding: "10px 24px", textAlign: "left", fontWeight: 700, color: "#64748B", width: "40%" }}></th>
-                    <th style={{ padding: "10px 16px", textAlign: "center", fontWeight: 800, color: "#0D1525" }}>APK Android</th>
-                    <th style={{ padding: "10px 16px", textAlign: "center", fontWeight: 800, color: "#0D1525" }}>App Web</th>
+                    <th style={{ padding: "10px 20px", textAlign: "left", fontWeight: 700, color: "#64748B", width: "34%" }}></th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", fontWeight: 800, color: "#0D1525", width: "22%" }}>
+                      <div style={{ fontSize: "0.75rem" }}>🌐</div>
+                      Site web
+                    </th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", fontWeight: 800, color: "#0D1525", width: "22%" }}>
+                      <div style={{ fontSize: "0.75rem" }}>📱</div>
+                      App web
+                    </th>
+                    <th style={{ padding: "10px 12px", textAlign: "center", fontWeight: 800, color: "#FFB800", width: "22%", background: "rgba(255,184,0,0.06)" }}>
+                      <div style={{ fontSize: "0.75rem" }}>⭐</div>
+                      APK Android
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ["Fonctionne sur Android", "✅", "✅"],
-                    ["Fonctionne sur iPhone", "❌", "✅"],
-                    ["Mode hors ligne complet", "✅", "Partiel"],
-                    ["Installation requise", "Oui (APK)", "Non"],
-                    ["Toutes les fonctionnalités", "✅", "✅"],
-                    ["Mises à jour automatiques", "✅", "✅"],
-                  ].map(([label, apk, web], i) => (
+                    ["GPS & localisation",        "❌",       "✅",      "✅"],
+                    ["Favoris",                   "❌",       "✅",      "✅"],
+                    ["Mode hors ligne",           "❌",       "Partiel", "✅"],
+                    ["Correspondances auto",      "❌",       "✅",      "✅"],
+                    ["Informations lignes",       "✅",       "✅",      "✅"],
+                    ["Installation requise",      "Non",      "Non",     "Oui (APK)"],
+                    ["Mises à jour automatiques", "✅",       "✅",      "✅"],
+                  ].map(([label, site, web, apk], i) => (
                     <tr key={i} style={{ borderTop: "1px solid #F1F5F9" }}>
-                      <td style={{ padding: "11px 24px", color: "#374151", fontWeight: 500 }}>{label}</td>
-                      <td style={{ padding: "11px 16px", textAlign: "center", fontWeight: 600, color: "#0D1525" }}>{apk}</td>
-                      <td style={{ padding: "11px 16px", textAlign: "center", fontWeight: 600, color: "#0D1525" }}>{web}</td>
+                      <td style={{ padding: "11px 20px", color: "#374151", fontWeight: 500 }}>{label}</td>
+                      <td style={{ padding: "11px 12px", textAlign: "center", fontWeight: 600, color: "#64748B" }}>{site}</td>
+                      <td style={{ padding: "11px 12px", textAlign: "center", fontWeight: 600, color: "#0D1525" }}>{web}</td>
+                      <td style={{ padding: "11px 12px", textAlign: "center", fontWeight: 600, color: "#0D1525", background: "rgba(255,184,0,0.04)" }}>{apk}</td>
                     </tr>
                   ))}
                 </tbody>
