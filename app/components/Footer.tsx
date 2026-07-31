@@ -17,7 +17,7 @@ const COLS = [
     links: [
       { label: "Trouver une ligne",   href: "/recherche" },
       { label: "Comment ça marche",   href: "/#comment" },
-      { label: "Télécharger l'app",   href: "/telecharger" },
+      { label: "Ouvrir l'app",   href: "/telecharger" },
     ],
   },
   {

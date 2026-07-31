@@ -480,7 +480,7 @@ export default async function Home() {
                 fontWeight: 800, fontSize: "1rem", textDecoration: "none",
                 letterSpacing: "-0.01em",
               }}>
-                Télécharger l&apos;app
+                Ouvrir l&apos;app
               </Link>
             </div>
 

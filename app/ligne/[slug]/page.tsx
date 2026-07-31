@@ -242,7 +242,7 @@ export default async function LignePage({ params }: Props) {
               color: "#0D1525", fontWeight: 800, fontSize: "0.9rem",
               textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap",
             }}>
-              Télécharger l&apos;app →
+              Ouvrir l&apos;app →
             </a>
           </div>
 

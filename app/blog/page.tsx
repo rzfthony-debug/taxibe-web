@@ -398,7 +398,7 @@ export default async function BlogPage({
                 </svg>
                 <div>
                   <div style={{ fontSize: "0.56rem", color: "rgba(13,21,37,0.55)", lineHeight: 1, textTransform: "uppercase", letterSpacing: "0.06em" }}>Android · Gratuit</div>
-                  <div style={{ fontSize: "0.82rem", fontWeight: 800, color: "#0D1525", lineHeight: 1.3 }}>Télécharger TaxiBe</div>
+                  <div style={{ fontSize: "0.82rem", fontWeight: 800, color: "#0D1525", lineHeight: 1.3 }}>Ouvrir l'app</div>
                 </div>
               </Link>
               <p style={{ margin: "8px 0 0", fontSize: "0.68rem", color: "rgba(255,255,255,0.2)" }}>

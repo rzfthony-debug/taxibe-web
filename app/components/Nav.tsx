@@ -307,7 +307,7 @@ export default function Nav() {
               fontWeight: 700, fontSize: "0.875rem", textDecoration: "none", whiteSpace: "nowrap",
               background: "white",
             }}>
-              Télécharger l&apos;app
+              Ouvrir l&apos;app
             </Link>
           </div>
 
@@ -397,7 +397,7 @@ export default function Nav() {
               </Link>
               <Link href="/telecharger" onClick={() => setMobileOpen(false)}
                 style={{ padding: "12px", borderRadius: 8, textAlign: "center", border: "1.5px solid #E2E8F0", color: "#64748B", fontWeight: 700, fontSize: "0.875rem", textDecoration: "none" }}>
-                Télécharger l&apos;app
+                Ouvrir l&apos;app
               </Link>
             </div>
           </div>

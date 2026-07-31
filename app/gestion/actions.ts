@@ -445,6 +445,7 @@ export async function saveArrets(
     p_ligne_id: ligneId,
     p_direction: direction,
     p_arrets: arrets.map((a, i) => ({
+      position: i,
       arret: a.arret || `Arrêt ${i + 1}`,
       denomination: a.denomination || null,
       lat: a.lat,

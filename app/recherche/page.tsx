@@ -360,7 +360,7 @@ export default async function RecherchePage({
                   fontWeight: 800, fontSize: "0.9rem", color: "#0D1525",
                   textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap",
                 }}>
-                  Télécharger l&apos;app →
+                  Ouvrir l&apos;app →
                 </a>
               </div>
             </div>
@@ -539,7 +539,7 @@ export default async function RecherchePage({
                   <p style={{ margin: 0, fontSize: "0.82rem", color: "rgba(255,255,255,0.55)" }}>GPS, favoris, correspondances — disponibles dans l&apos;application après inscription gratuite.</p>
                 </div>
                 <Link href="/telecharger" style={{ padding: "10px 24px", borderRadius: 8, background: "#FFB800", color: "#0D1525", fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", flexShrink: 0 }}>
-                  Télécharger l&apos;app →
+                  Ouvrir l&apos;app →
                 </Link>
               </div>
             )}

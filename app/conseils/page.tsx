@@ -128,7 +128,7 @@ export default function ConseilsPage() {
               background: "#FFB800", color: "#0D1525",
               fontWeight: 800, fontSize: "0.875rem", textDecoration: "none", flexShrink: 0,
             }}>
-              Télécharger l&apos;app →
+              Ouvrir l&apos;app →
             </Link>
           </div>
         </div>

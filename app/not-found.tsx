@@ -11,7 +11,7 @@ const LIENS_RAPIDES = [
   { label: "Trouver une ligne",   href: "/recherche",  desc: "Recherchez par numéro" },
   { label: "Blog & actualités",   href: "/blog",       desc: "Conseils et nouveautés" },
   { label: "Aide & FAQ",          href: "/aide",       desc: "Réponses aux questions" },
-  { label: "Télécharger l'app",   href: "/telecharger", desc: "Android, gratuit" },
+  { label: "Ouvrir l'app",   href: "/telecharger", desc: "Android, gratuit" },
 ];
 
 export default function NotFound() {
