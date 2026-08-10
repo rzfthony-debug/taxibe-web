@@ -8,12 +8,14 @@ import type { Metadata } from "next";
 import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
 import { getVideoEmbed } from "@/lib/video";
+import { articleTitle } from "@/lib/article";
 import ShareButtons from "@/app/blog/ShareButtons";
 
 type Article = {
   id: string;
   slug: string | null;
   image_url: string | null;
+  titre: string | null;
   texte: string;
   contenu: string | null;
   lien: string | null;
@@ -23,7 +25,7 @@ type Article = {
   created_at: string;
 };
 
-const SELECT = "id, slug, image_url, texte, contenu, lien, video_url, publie, ordre, created_at";
+const SELECT = "id, slug, image_url, titre, texte, contenu, lien, video_url, publie, ordre, created_at";
 
 async function getArticle(slugOrId: string): Promise<Article | null> {
   const bySlug = await supabase
@@ -43,12 +45,12 @@ async function getArticle(slugOrId: string): Promise<Article | null> {
   return (byId.data as Article) ?? null;
 }
 
-type ArticleMini = Pick<Article, "id" | "slug" | "image_url" | "texte" | "created_at">;
+type ArticleMini = Pick<Article, "id" | "slug" | "image_url" | "titre" | "texte" | "created_at">;
 
 async function getAutresArticles(excludeId: string): Promise<ArticleMini[]> {
   const { data } = await supabase
     .from("actualites")
-    .select("id, slug, image_url, texte, created_at")
+    .select("id, slug, image_url, titre, texte, created_at")
     .eq("publie", true)
     .neq("id", excludeId)
     .order("created_at", { ascending: false })
@@ -63,24 +65,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await getArticle(slug);
   if (!article) return { title: "Article introuvable" };
   const canonicalSlug = article.slug || article.id;
+  const title = articleTitle(article);
   const desc = article.contenu?.slice(0, 160) ?? article.texte;
   return {
-    title: `${article.texte} — TaxiBe Blog`,
+    title: `${title} — TaxiBe Blog`,
     description: desc,
     alternates: { canonical: `/blog/${canonicalSlug}` },
     openGraph: {
-      title: `${article.texte} — TaxiBe`,
+      title: `${title} — TaxiBe`,
       description: desc,
       url: `/blog/${canonicalSlug}`,
       type: "article",
       publishedTime: article.created_at,
       images: article.image_url
-        ? [{ url: article.image_url, width: 1200, height: 630, alt: article.texte }]
+        ? [{ url: article.image_url, width: 1200, height: 630, alt: title }]
         : [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe Blog" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${article.texte} — TaxiBe`,
+      title: `${title} — TaxiBe`,
       description: desc,
       images: [article.image_url ?? "/logo_taxibe.png"],
     },
@@ -127,7 +130,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const autres = await getAutresArticles(article.id);
 
   const articleUrl = `${BASE}/blog/${article.slug || article.id}`;
-  const headline = article.texte.length > 110 ? article.texte.slice(0, 107) + "…" : article.texte;
+  const title = articleTitle(article);
+  const headline = title.length > 110 ? title.slice(0, 107) + "…" : title;
   const video = getVideoEmbed(article.video_url);
 
   const jsonLd = {
@@ -194,7 +198,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <span style={{ margin: "0 8px" }}>›</span>
           <Link href="/blog">Blog</Link>
           <span style={{ margin: "0 8px" }}>›</span>
-          <span style={{ color: "#0D1525", fontWeight: 600 }}>{article.texte}</span>
+          <span style={{ color: "#0D1525", fontWeight: 600 }}>{title}</span>
         </div>
 
         {/* Image hero */}
@@ -202,7 +206,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div style={{ maxWidth: 1100, margin: "24px auto 0", padding: "0 24px", borderRadius: 16, overflow: "hidden" }}>
             <Image
               src={article.image_url}
-              alt={article.texte}
+              alt={title}
               width={0} height={0}
               sizes="(max-width: 1100px) 100vw, 1060px"
               style={{ width: "100%", height: "auto", display: "block", borderRadius: 16 }}
@@ -217,7 +221,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {video.type === "iframe" ? (
                 <iframe
                   src={video.src}
-                  title={article.texte}
+                  title={title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
@@ -247,10 +251,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <span style={{ fontSize: "0.8rem", color: "#64748B" }}>{readingTime(article.contenu ?? "")} min de lecture</span>
               </div>
               <h1 style={{ fontSize: "clamp(1.35rem, 5vw, 1.9rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
-                {article.texte}
+                {title}
               </h1>
               <div style={{ height: 3, width: 48, background: "#FFB800", borderRadius: 2, marginBottom: 20 }} />
-              <ShareButtons url={articleUrl} title={article.texte} />
+              <ShareButtons url={articleUrl} title={title} />
             </div>
 
             <div className="article-body">
@@ -272,7 +276,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             )}
 
             <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #E8ECF0", display: "flex", flexDirection: "column", gap: 16 }}>
-              <ShareButtons url={articleUrl} title={article.texte} />
+              <ShareButtons url={articleUrl} title={title} />
               <div>
                 <Link href="/blog" style={{
                   display: "inline-flex", alignItems: "center", gap: 6,
@@ -295,7 +299,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="rel-item">
                     {a.image_url ? (
                       <div style={{ position: "relative", width: 80, minWidth: 80, height: 56, borderRadius: 8, overflow: "hidden", background: "#F1F5F9", flexShrink: 0 }}>
-                        <Image src={a.image_url} alt={a.texte} fill sizes="80px" style={{ objectFit: "contain" }} />
+                        <Image src={a.image_url} alt={articleTitle(a)} fill sizes="80px" style={{ objectFit: "contain" }} />
                       </div>
                     ) : (
                       <div style={{ width: 80, minWidth: 80, height: 56, borderRadius: 8, background: "#E8ECF0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -303,7 +307,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                       </div>
                     )}
                     <div>
-                      <p className="rel-title">{a.texte}</p>
+                      <p className="rel-title">{articleTitle(a)}</p>
                       <p className="rel-date">{formatDate(a.created_at)}</p>
                     </div>
                   </Link>

@@ -30,7 +30,8 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
         backHref="/gestion/actualites"
         submitLabel="Enregistrer →"
         defaultImageUrl={a.image_url}
-        defaultTexte={a.texte}
+        defaultTitre={a.titre ?? a.texte ?? ""}
+        defaultTexte={a.titre ? a.texte : ""}
         defaultContenu={a.contenu ?? ""}
         defaultLien={a.lien ?? ""}
         defaultVideoUrl={a.video_url ?? ""}

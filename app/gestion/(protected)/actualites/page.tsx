@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getActualites, toggleActualite, deleteActualite } from "@/app/gestion/actions";
+import { articleTitle } from "@/lib/article";
 
 export default async function ActualitesAdminPage() {
   const articles = await getActualites();
@@ -18,7 +19,7 @@ export default async function ActualitesAdminPage() {
           <thead>
             <tr>
               <th>Image</th>
-              <th>Resume</th>
+              <th>Titre</th>
               <th>Statut</th>
               <th>Date</th>
               <th>Actions</th>
@@ -32,7 +33,7 @@ export default async function ActualitesAdminPage() {
                 </td>
               </tr>
             )}
-            {articles.map((a: { id: string; image_url: string; texte: string; publie: boolean; created_at: string }) => (
+            {articles.map((a: { id: string; image_url: string; titre: string | null; texte: string; publie: boolean; created_at: string }) => (
               <tr key={a.id}>
                 <td style={{ width: 80 }}>
                   {a.image_url && (
@@ -42,7 +43,7 @@ export default async function ActualitesAdminPage() {
                 </td>
                 <td style={{ maxWidth: 320 }}>
                   <p style={{ margin: 0, fontWeight: 600, fontSize: "0.85rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {a.texte}
+                    {articleTitle(a)}
                   </p>
                 </td>
                 <td>

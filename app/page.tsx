@@ -10,6 +10,7 @@ import WhySection from "@/app/components/WhySection";
 import PourQuiSection from "@/app/components/PourQuiSection";
 import FonctionnalitesSection from "@/app/components/FonctionnalitesSection";
 import { supabase } from "@/lib/supabase";
+import { articleTitle } from "@/lib/article";
 
 export const revalidate = 300;
 
@@ -17,6 +18,7 @@ type Article = {
   id: string;
   slug: string | null;
   image_url: string | null;
+  titre: string | null;
   texte: string;
   created_at: string;
 };
@@ -61,7 +63,7 @@ async function getActualites(): Promise<Article[]> {
   try {
     const req = supabase
       .from("actualites")
-      .select("id, slug, image_url, texte, created_at")
+      .select("id, slug, image_url, titre, texte, created_at")
       .eq("publie", true)
       .order("created_at", { ascending: false })
       .limit(3);
@@ -109,7 +111,7 @@ async function ActualitesSection() {
                 <div style={{ width: "100%", aspectRatio: "16/9", background: "#F1F5F9", overflow: "hidden", position: "relative" }}>
                   <Image
                     src={a.image_url}
-                    alt={a.texte}
+                    alt={articleTitle(a)}
                     fill
                     sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
                     style={{ objectFit: "cover" }}
@@ -129,7 +131,7 @@ async function ActualitesSection() {
                   {formatDate(a.created_at)}
                 </p>
                 <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.4 }}>
-                  {a.texte}
+                  {articleTitle(a)}
                 </h3>
                 <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#FFB800" }}>
                   Lire l&apos;article →

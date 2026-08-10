@@ -8,6 +8,7 @@ type ArticleFormProps = {
   backHref: string;
   submitLabel: string;
   defaultImageUrl?: string;
+  defaultTitre?: string;
   defaultTexte?: string;
   defaultContenu?: string;
   defaultLien?: string;
@@ -62,6 +63,7 @@ export default function ArticleForm({
   backHref,
   submitLabel,
   defaultImageUrl = "",
+  defaultTitre = "",
   defaultTexte = "",
   defaultContenu = "",
   defaultLien = "",
@@ -197,9 +199,18 @@ export default function ArticleForm({
         </div>
 
         <div>
-          <label>Texte / Résumé *</label>
+          <label>Titre *</label>
+          <input name="titre" type="text" defaultValue={defaultTitre}
+            placeholder="Ex : Comment trouver le bon taxi-be à Antananarivo ?" required />
+          <p style={{ fontSize: "0.68rem", color: "#94A3B8", marginTop: 4 }}>
+            Le titre affiché en haut de l&apos;article et dans les listes. Une phrase courte, pas un paragraphe.
+          </p>
+        </div>
+
+        <div>
+          <label>Description / résumé</label>
           <textarea name="texte" rows={2} defaultValue={defaultTexte}
-            placeholder="Court résumé affiché dans la liste..." required style={{ resize: "vertical" }} />
+            placeholder="1 à 2 phrases pour les moteurs de recherche et les partages sur les réseaux..." style={{ resize: "vertical" }} />
         </div>
 
         <div>

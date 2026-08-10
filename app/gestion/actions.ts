@@ -140,7 +140,7 @@ export async function getUnreadChatCount(): Promise<number> {
 export async function getActualites() {
   const { data } = await adminDb
     .from("actualites")
-    .select("id, image_url, texte, publie, ordre, created_at")
+    .select("id, image_url, titre, texte, publie, ordre, created_at")
     .order("created_at", { ascending: false });
   return data ?? [];
 }
@@ -175,19 +175,20 @@ async function uniqueActualiteSlug(base: string, excludeId?: string): Promise<st
 export async function createActualite(formData: FormData) {
   await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const texte = (formData.get("texte") as string)?.slice(0, 300);
+  const titre = (formData.get("titre") as string)?.trim().slice(0, 200) || null;
+  const texte = ((formData.get("texte") as string)?.trim().slice(0, 300) || titre || "").slice(0, 300);
   const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
   const video_url = (formData.get("video_url") as string) || null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  if (!image_url || !texte) { redirect("/gestion/actualites"); return; }
+  if (!image_url || !titre) { redirect("/gestion/actualites"); return; }
 
   const rawSlug = (formData.get("slug") as string)?.trim();
-  const slug = await uniqueActualiteSlug(rawSlug || texte);
+  const slug = await uniqueActualiteSlug(rawSlug || titre);
 
-  await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, video_url, slug, publie, ordre });
+  await adminDb.from("actualites").insert({ image_url, titre, texte, contenu, lien, video_url, slug, publie, ordre });
   revalidatePath("/blog");
   revalidatePath("/");
   redirect("/gestion/actualites");
@@ -196,7 +197,8 @@ export async function createActualite(formData: FormData) {
 export async function updateActualite(id: string, formData: FormData) {
   await requireAdmin();
   const image_url = formData.get("image_url") as string;
-  const texte = (formData.get("texte") as string)?.slice(0, 300);
+  const titre = (formData.get("titre") as string)?.trim().slice(0, 200) || null;
+  const texte = ((formData.get("texte") as string)?.trim().slice(0, 300) || titre || "").slice(0, 300);
   const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
   const video_url = (formData.get("video_url") as string) || null;
@@ -204,9 +206,9 @@ export async function updateActualite(id: string, formData: FormData) {
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   const rawSlug = (formData.get("slug") as string)?.trim();
-  const slug = await uniqueActualiteSlug(rawSlug || texte, id);
+  const slug = await uniqueActualiteSlug(rawSlug || titre || texte, id);
 
-  await adminDb.from("actualites").update({ image_url, texte, contenu, lien, video_url, slug, publie, ordre }).eq("id", id);
+  await adminDb.from("actualites").update({ image_url, titre, texte, contenu, lien, video_url, slug, publie, ordre }).eq("id", id);
   revalidatePath("/blog");
   revalidatePath(`/blog/${slug}`);
   revalidatePath("/");

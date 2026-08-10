@@ -7,11 +7,13 @@ import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import SpotlightSection from "@/app/components/SpotlightSection";
 import HeroIllustration from "@/app/components/HeroIllustration";
+import { articleTitle } from "@/lib/article";
 
 type Article = {
   id: string;
   slug: string | null;
   image_url: string | null;
+  titre: string | null;
   texte: string;
   lien: string | null;
   publie: boolean;
@@ -34,12 +36,12 @@ async function getHeroImageUrl(): Promise<string | null> {
 async function getArticles(q?: string): Promise<Article[]> {
   let req = supabase
     .from("actualites")
-    .select("id, slug, image_url, texte, lien, publie, ordre, created_at")
+    .select("id, slug, image_url, titre, texte, lien, publie, ordre, created_at")
     .eq("publie", true)
     .order("created_at", { ascending: false })
     .limit(50);
 
-  if (q) req = req.or(`texte.ilike.%${q}%`);
+  if (q) req = req.or(`texte.ilike.%${q}%,titre.ilike.%${q}%`);
 
   return Promise.race([
     Promise.resolve(req).then((r) => (r.data as Article[]) ?? []).catch(() => []),
@@ -110,12 +112,15 @@ export default async function BlogPage({
         "@type": "ItemList",
         "name": "Articles du blog TaxiBe",
         "url": `${BASE}/blog`,
-        "itemListElement": articles.slice(0, 10).map((a, i) => ({
-          "@type": "ListItem",
-          "position": i + 1,
-          "name": a.texte.length > 110 ? a.texte.slice(0, 107) + "…" : a.texte,
-          "url": `${BASE}/blog/${a.slug || a.id}`,
-        })),
+        "itemListElement": articles.slice(0, 10).map((a, i) => {
+          const t = articleTitle(a);
+          return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": t.length > 110 ? t.slice(0, 107) + "…" : t,
+            "url": `${BASE}/blog/${a.slug || a.id}`,
+          };
+        }),
       },
     ],
   };
@@ -224,7 +229,7 @@ export default async function BlogPage({
                   <div className="featured-img-wrap">
                     <Image
                       src={featured.image_url}
-                      alt={featured.texte}
+                      alt={articleTitle(featured)}
                       width={0} height={0}
                       sizes="(max-width: 900px) 100vw, 700px"
                       style={{ width: "100%", height: "auto", display: "block" }}
@@ -241,7 +246,7 @@ export default async function BlogPage({
                     <span style={{ fontSize: "0.75rem", color: "#64748B" }}>{formatDate(featured.created_at)}</span>
                   </div>
                   <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "#0D1525", lineHeight: 1.3, margin: "0 0 20px" }}>
-                    {featured.texte}
+                    {articleTitle(featured)}
                   </h2>
                   <Link href={`/blog/${featured.slug || featured.id}`} className="lire-link">Lire l&apos;article →</Link>
                 </div>
@@ -259,7 +264,7 @@ export default async function BlogPage({
                     <div key={a.id} className="article-mini">
                       {a.image_url ? (
                         <div className="mini-img-wrap">
-                          <Image src={a.image_url} alt={a.texte} fill sizes="120px" style={{ objectFit: "contain" }} />
+                          <Image src={a.image_url} alt={articleTitle(a)} fill sizes="120px" style={{ objectFit: "contain" }} />
                         </div>
                       ) : (
                         <div className="mini-img-ph" style={{ background: "linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 100%)" }}>
@@ -271,7 +276,7 @@ export default async function BlogPage({
                           <span className="badge-cat">ACTUALITÉS</span>
                           <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
                         </div>
-                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{a.texte}</h3>
+                        <h3 style={{ fontSize: "0.92rem", fontWeight: 800, color: "#0D1525", margin: "0 0 8px", lineHeight: 1.35 }}>{articleTitle(a)}</h3>
                         <Link href={`/blog/${a.slug || a.id}`} className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</Link>
                       </div>
                     </div>
@@ -292,7 +297,7 @@ export default async function BlogPage({
                       {a.image_url ? (
                         <div className="card-img-wrap">
                           <Image
-                            src={a.image_url} alt={a.texte}
+                            src={a.image_url} alt={articleTitle(a)}
                             width={0} height={0}
                             sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 33vw"
                             style={{ width: "100%", height: "auto", display: "block" }}
@@ -307,7 +312,7 @@ export default async function BlogPage({
                         <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
                           <span style={{ fontSize: "0.7rem", color: "#64748B" }}>{formatDate(a.created_at)}</span>
                         </div>
-                        <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0D1525", margin: "0 0 12px", lineHeight: 1.35 }}>{a.texte}</h3>
+                        <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0D1525", margin: "0 0 12px", lineHeight: 1.35 }}>{articleTitle(a)}</h3>
                         <span className="lire-link" style={{ fontSize: "0.78rem" }}>Lire l&apos;article →</span>
                       </div>
                     </Link>
@@ -373,7 +378,7 @@ export default async function BlogPage({
                 {populaires.map((a, i) => (
                   <Link key={a.id} href={`/blog/${a.slug || a.id}`} className="pop-item">
                     <span className="pop-num">{i + 1}</span>
-                    <span className="pop-title">{a.texte}</span>
+                    <span className="pop-title">{articleTitle(a)}</span>
                   </Link>
                 ))}
               </div>
