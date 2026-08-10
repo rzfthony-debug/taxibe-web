@@ -164,12 +164,13 @@ export async function createActualite(formData: FormData) {
   const texte = (formData.get("texte") as string)?.slice(0, 300);
   const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
+  const video_url = (formData.get("video_url") as string) || null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
   if (!image_url || !texte) { redirect("/gestion/actualites"); return; }
 
-  await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, publie, ordre });
+  await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, video_url, publie, ordre });
   revalidatePath("/blog");
   revalidatePath("/");
   redirect("/gestion/actualites");
@@ -181,10 +182,11 @@ export async function updateActualite(id: string, formData: FormData) {
   const texte = (formData.get("texte") as string)?.slice(0, 300);
   const contenu = (formData.get("contenu") as string)?.slice(0, 50000) || null;
   const lien = (formData.get("lien") as string) || null;
+  const video_url = (formData.get("video_url") as string) || null;
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  await adminDb.from("actualites").update({ image_url, texte, contenu, lien, publie, ordre }).eq("id", id);
+  await adminDb.from("actualites").update({ image_url, texte, contenu, lien, video_url, publie, ordre }).eq("id", id);
   revalidatePath("/blog");
   revalidatePath("/");
   redirect("/gestion/actualites");

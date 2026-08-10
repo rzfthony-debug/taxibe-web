@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import type { Metadata } from "next";
 import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
+import { getVideoEmbed } from "@/lib/video";
 import ShareButtons from "@/app/blog/ShareButtons";
 
 type Article = {
@@ -16,12 +17,13 @@ type Article = {
   texte: string;
   contenu: string | null;
   lien: string | null;
+  video_url: string | null;
   publie: boolean;
   ordre: number;
   created_at: string;
 };
 
-const SELECT = "id, slug, image_url, texte, contenu, lien, publie, ordre, created_at";
+const SELECT = "id, slug, image_url, texte, contenu, lien, video_url, publie, ordre, created_at";
 
 async function getArticle(slugOrId: string): Promise<Article | null> {
   const bySlug = await supabase
@@ -106,6 +108,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const articleUrl = `${BASE}/blog/${article.slug || article.id}`;
   const headline = article.texte.length > 110 ? article.texte.slice(0, 107) + "…" : article.texte;
+  const video = getVideoEmbed(article.video_url);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -184,6 +187,29 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               sizes="(max-width: 1100px) 100vw, 1060px"
               style={{ width: "100%", height: "auto", display: "block", borderRadius: 16 }}
             />
+          </div>
+        )}
+
+        {/* Lecteur vidéo */}
+        {video && (
+          <div style={{ maxWidth: 1100, margin: "20px auto 0", padding: "0 24px" }}>
+            <div style={{ position: "relative", width: "100%", paddingTop: "56.25%", borderRadius: 16, overflow: "hidden", background: "#0D1525" }}>
+              {video.type === "iframe" ? (
+                <iframe
+                  src={video.src}
+                  title={article.texte}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+                />
+              ) : (
+                <video
+                  src={video.src}
+                  controls
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain" }}
+                />
+              )}
+            </div>
           </div>
         )}
 

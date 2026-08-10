@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 
 type ArticleFormProps = {
@@ -11,6 +11,7 @@ type ArticleFormProps = {
   defaultTexte?: string;
   defaultContenu?: string;
   defaultLien?: string;
+  defaultVideoUrl?: string;
   defaultPublie?: boolean;
   defaultOrdre?: number;
 };
@@ -30,10 +31,54 @@ export default function ArticleForm({
   defaultTexte = "",
   defaultContenu = "",
   defaultLien = "",
+  defaultVideoUrl = "",
   defaultPublie = true,
   defaultOrdre = 0,
 }: ArticleFormProps) {
   const contenuRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [imageUrl, setImageUrl] = useState(defaultImageUrl);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [uploadMsg, setUploadMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  function uploadFile(file: File) {
+    if (!file.type.startsWith("image/")) {
+      setUploadMsg({ type: "err", text: "Veuillez sélectionner une image (JPG, PNG, WebP)." });
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setUploadMsg({ type: "err", text: "L'image ne doit pas dépasser 8 Mo." });
+      return;
+    }
+
+    setUploadMsg(null);
+    setUploadProgress(0);
+
+    const fd = new FormData();
+    fd.append("file", file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) setUploadProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      setUploadProgress(null);
+      const json = JSON.parse(xhr.responseText || "{}");
+      if (xhr.status >= 200 && xhr.status < 300) {
+        setImageUrl(json.url);
+        setUploadMsg({ type: "ok", text: "Image téléversée avec succès." });
+      } else {
+        setUploadMsg({ type: "err", text: `Erreur : ${json.error ?? "Échec de l'upload."}` });
+      }
+    };
+    xhr.onerror = () => {
+      setUploadProgress(null);
+      setUploadMsg({ type: "err", text: "Erreur réseau. Réessayez." });
+    };
+    xhr.open("POST", "/api/upload-image");
+    xhr.send(fd);
+  }
 
   function applyFormat(open: string, close: string, placeholder: string) {
     const ta = contenuRef.current;
@@ -70,10 +115,27 @@ export default function ArticleForm({
       <div className="card" style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: 22 }}>
         <div>
           <label>URL de l&apos;image principale *</label>
-          <input name="image_url" type="url" defaultValue={defaultImageUrl} placeholder="https://..." required />
-          {defaultImageUrl && (
+          <input name="image_url" type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}
+            placeholder="https://..." required />
+
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
+            <button type="button" className="toolbar-btn" disabled={uploadProgress !== null}
+              onClick={() => fileInputRef.current?.click()}>
+              {uploadProgress !== null ? `Envoi… ${uploadProgress}%` : "📁 Téléverser une image"}
+            </button>
+            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFile(f); e.target.value = ""; }} />
+            {uploadMsg && (
+              <span style={{ fontSize: "0.78rem", fontWeight: 700, color: uploadMsg.type === "ok" ? "#16A34A" : "#EF4444" }}>
+                {uploadMsg.text}
+              </span>
+            )}
+          </div>
+
+          {imageUrl.trim() && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={defaultImageUrl} alt="" style={{ marginTop: 8, height: 140, borderRadius: 8, objectFit: "cover" }} />
+            <img src={imageUrl} alt="" style={{ marginTop: 10, height: 140, borderRadius: 8, objectFit: "cover", display: "block" }}
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0.3"; }} />
           )}
         </div>
 
@@ -98,11 +160,20 @@ export default function ArticleForm({
             style={{ resize: "vertical", lineHeight: 1.6, fontFamily: "inherit" }} />
           <p style={{ fontSize: "0.72rem", color: "#94A3B8", marginTop: 6 }}>
             Sélectionnez du texte puis cliquez sur Gras, Citation, Titre ou Sous-titre pour le mettre en forme.
+            Vous pouvez aussi écrire ou coller du HTML directement (listes, liens, images...).
           </p>
         </div>
       </div>
 
       <div className="card article-form-sidebar" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 18, position: "sticky", top: 24 }}>
+        <div>
+          <label>Lien vidéo (optionnel)</label>
+          <input name="video_url" type="url" defaultValue={defaultVideoUrl} placeholder="YouTube, Vimeo ou .mp4..." />
+          <p style={{ fontSize: "0.68rem", color: "#94A3B8", marginTop: 4 }}>
+            Affiché comme un lecteur vidéo en haut de l&apos;article.
+          </p>
+        </div>
+
         <div>
           <label>Lien externe (optionnel)</label>
           <input name="lien" type="url" defaultValue={defaultLien} placeholder="https://..." />
