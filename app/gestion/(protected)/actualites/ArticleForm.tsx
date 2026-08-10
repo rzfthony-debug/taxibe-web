@@ -16,6 +16,39 @@ type ArticleFormProps = {
   defaultOrdre?: number;
 };
 
+/** Redimensionne et recompresse une image côté navigateur avant l'envoi,
+ *  pour rester sous la limite de payload des fonctions serverless (~4,5 Mo)
+ *  sans que l'éditeur ait à y penser. Les GIF sont laissés intacts (animation). */
+function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
+  if (file.type === "image/gif") return Promise.resolve(file);
+
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, maxWidth / img.width);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { resolve(file); return; }
+      ctx.drawImage(img, 0, 0, w, h);
+      const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+      canvas.toBlob((blob) => {
+        if (!blob || blob.size >= file.size) { resolve(file); return; }
+        const ext = outputType === "image/png" ? "png" : "jpg";
+        const newName = file.name.replace(/\.[^.]+$/, "") + "." + ext;
+        resolve(new File([blob], newName, { type: outputType }));
+      }, outputType, quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 const TOOLBAR_ACTIONS = [
   { label: "Gras", open: "<strong>", close: "</strong>", placeholder: "texte en gras" },
   { label: "Citation", open: "\n<blockquote>\n", close: "\n</blockquote>\n", placeholder: "citation" },
@@ -39,20 +72,28 @@ export default function ArticleForm({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [imageUrl, setImageUrl] = useState(defaultImageUrl);
+  const [compressing, setCompressing] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadMsg, setUploadMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
-  function uploadFile(file: File) {
-    if (!file.type.startsWith("image/")) {
+  async function uploadFile(rawFile: File) {
+    if (!rawFile.type.startsWith("image/")) {
       setUploadMsg({ type: "err", text: "Veuillez sélectionner une image (JPG, PNG, WebP)." });
-      return;
-    }
-    if (file.size > 8 * 1024 * 1024) {
-      setUploadMsg({ type: "err", text: "L'image ne doit pas dépasser 8 Mo." });
       return;
     }
 
     setUploadMsg(null);
+    setCompressing(true);
+    const file = await compressImage(rawFile);
+    setCompressing(false);
+
+    // Vercel limite le corps des requêtes de fonctions serverless à ~4,5 Mo :
+    // au-delà, la requête est rejetée avant même d'atteindre la route API.
+    if (file.size > 4 * 1024 * 1024) {
+      setUploadMsg({ type: "err", text: "Image toujours trop volumineuse après compression (max 4 Mo). Essayez une photo plus petite." });
+      return;
+    }
+
     setUploadProgress(0);
 
     const fd = new FormData();
@@ -64,12 +105,25 @@ export default function ArticleForm({
     };
     xhr.onload = () => {
       setUploadProgress(null);
-      const json = JSON.parse(xhr.responseText || "{}");
       if (xhr.status >= 200 && xhr.status < 300) {
-        setImageUrl(json.url);
-        setUploadMsg({ type: "ok", text: "Image téléversée avec succès." });
-      } else {
+        try {
+          const json = JSON.parse(xhr.responseText);
+          setImageUrl(json.url);
+          setUploadMsg({ type: "ok", text: "Image téléversée avec succès." });
+        } catch {
+          setUploadMsg({ type: "err", text: "Réponse invalide du serveur." });
+        }
+        return;
+      }
+      if (xhr.status === 413) {
+        setUploadMsg({ type: "err", text: "Image trop lourde pour le serveur (max ~4 Mo). Compressez-la et réessayez." });
+        return;
+      }
+      try {
+        const json = JSON.parse(xhr.responseText);
         setUploadMsg({ type: "err", text: `Erreur : ${json.error ?? "Échec de l'upload."}` });
+      } catch {
+        setUploadMsg({ type: "err", text: `Échec de l'upload (code ${xhr.status}).` });
       }
     };
     xhr.onerror = () => {
@@ -119,12 +173,13 @@ export default function ArticleForm({
             placeholder="https://..." required />
 
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-            <button type="button" className="toolbar-btn" disabled={uploadProgress !== null}
+            <button type="button" className="toolbar-btn" disabled={compressing || uploadProgress !== null}
               onClick={() => fileInputRef.current?.click()}>
-              {uploadProgress !== null ? `Envoi… ${uploadProgress}%` : "📁 Téléverser une image"}
+              {compressing ? "Compression…" : uploadProgress !== null ? `Envoi… ${uploadProgress}%` : "📁 Téléverser une image"}
             </button>
             <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFile(f); e.target.value = ""; }} />
+            <span style={{ fontSize: "0.68rem", color: "#94A3B8" }}>JPG, PNG, WebP — compression automatique si nécessaire</span>
             {uploadMsg && (
               <span style={{ fontSize: "0.78rem", fontWeight: 700, color: uploadMsg.type === "ok" ? "#16A34A" : "#EF4444" }}>
                 {uploadMsg.text}
