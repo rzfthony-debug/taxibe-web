@@ -1,17 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { submitSignalement } from "@/app/actions-signalement";
 
 type Status = "idle" | "sending" | "done" | "error";
 
+const DISMISS_KEY = "txb:signalement-banner-dismissed";
+
 export default function SignalementBanner() {
   const [open, setOpen] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [ligne, setLigne] = useState("");
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+
+  useEffect(() => {
+    try { setDismissed(sessionStorage.getItem(DISMISS_KEY) === "true"); } catch { setDismissed(false); }
+  }, []);
+
+  function dismiss() {
+    setDismissed(true);
+    try { sessionStorage.setItem(DISMISS_KEY, "true"); } catch {}
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,33 +42,58 @@ export default function SignalementBanner() {
   return (
     <>
       {/* Bannière */}
-      <div style={{
-        background: "#FFFBEB",
-        borderBottom: "1px solid #FDE68A",
-        padding: "8px 20px",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        flexWrap: "wrap", gap: "8px 16px",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          <span style={{ fontSize: "0.78rem", color: "#78350F", fontWeight: 600 }}>
-            Données en cours de consolidation — vos signalements nous aident à améliorer les informations
-          </span>
+      {!dismissed && (
+        <div style={{
+          background: "#FFFBEB",
+          borderBottom: "1px solid #FDE68A",
+          padding: "7px 36px 7px 16px",
+          position: "relative",
+        }}>
+          <style>{`
+            .signalement-row { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 12px; max-width: 100%; }
+            .signalement-text { font-size: 0.78rem; color: #78350F; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .signalement-text .signalement-text-full { display: inline; }
+            .signalement-text .signalement-text-short { display: none; }
+            @media (max-width: 640px) {
+              .signalement-text .signalement-text-full { display: none; }
+              .signalement-text .signalement-text-short { display: inline; }
+            }
+          `}</style>
+          <div className="signalement-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0 }}>
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span className="signalement-text">
+              <span className="signalement-text-full">Données en cours de consolidation — vos signalements nous aident à améliorer les informations</span>
+              <span className="signalement-text-short">Données en cours de consolidation</span>
+            </span>
+            <button
+              onClick={() => setOpen(true)}
+              style={{
+                background: "#FFB800", border: "none", borderRadius: 20,
+                padding: "5px 12px", fontSize: "0.7rem", fontWeight: 800,
+                color: "#0D1525", cursor: "pointer", flexShrink: 0,
+                fontFamily: "inherit", whiteSpace: "nowrap",
+              }}
+            >
+              Signaler
+            </button>
+          </div>
+          <button
+            onClick={dismiss}
+            aria-label="Masquer ce message"
+            style={{
+              position: "absolute", top: "50%", right: 10, transform: "translateY(-50%)",
+              background: "none", border: "none", cursor: "pointer",
+              color: "#B45309", padding: 6, display: "flex",
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
         </div>
-        <button
-          onClick={() => setOpen(true)}
-          style={{
-            background: "#FFB800", border: "none", borderRadius: 20,
-            padding: "6px 14px", fontSize: "0.72rem", fontWeight: 800,
-            color: "#0D1525", cursor: "pointer", flexShrink: 0,
-            fontFamily: "inherit", minHeight: 34,
-          }}
-        >
-          Signaler une erreur
-        </button>
-      </div>
+      )}
 
       {/* Overlay modal */}
       {open && (

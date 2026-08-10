@@ -11,7 +11,19 @@ async function getPhoneUrl(): Promise<string | null> {
   return data?.valeur ?? null;
 }
 
-export default async function CtaApp() {
+type CtaAppProps = {
+  title?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export default async function CtaApp({
+  title = "Toutes les fonctionnalités dans l'app",
+  description = "Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.",
+  ctaLabel = "Ouvrir l'app",
+  ctaHref = "/telecharger",
+}: CtaAppProps = {}) {
   const phoneUrl = await getPhoneUrl();
 
   return (
@@ -46,18 +58,18 @@ export default async function CtaApp() {
         <div className="cta-app-inner">
           <div>
             <h2 style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", fontWeight: 900, color: "#0D1525", marginBottom: 16, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-              Toutes les fonctionnalités dans l&apos;app
+              {title}
             </h2>
             <p style={{ color: "rgba(13,21,37,0.65)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 36, maxWidth: 400 }}>
-              Favoris, GPS, correspondances, jeux — toutes les fonctionnalités pour les membres, sur Android.
+              {description}
             </p>
-            <Link href="/telecharger" style={{
+            <Link href={ctaHref} style={{
               display: "inline-block", padding: "15px 36px", borderRadius: 10,
               background: "#0D1525", color: "#FFB800",
               fontWeight: 800, fontSize: "1rem", textDecoration: "none",
               letterSpacing: "-0.01em",
             }}>
-              Ouvrir l&apos;app
+              {ctaLabel}
             </Link>
           </div>
 

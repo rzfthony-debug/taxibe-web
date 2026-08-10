@@ -179,7 +179,10 @@ export default async function LignePage({ params }: Props) {
         </div>
       </div>
 
-      <CtaApp />
+      <CtaApp
+        title={`Suivez la ligne ${ligne.numero} dans l'app`}
+        description="Ajoutez-la en favori, retrouvez ses correspondances et recevez les infos à jour — directement sur votre téléphone."
+      />
       <Footer />
     </>
   );

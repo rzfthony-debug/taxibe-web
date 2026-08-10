@@ -25,7 +25,7 @@ export default function SearchForm() {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Numéro de ligne — ex : 147"
+        placeholder="Numéro de ligne"
         style={{
           flex: 1, padding: "14px 16px",
           border: "none", outline: "none",

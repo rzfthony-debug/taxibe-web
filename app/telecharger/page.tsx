@@ -1,6 +1,5 @@
 ﻿import { safeJsonLd } from "@/lib/sanitize";
 import Nav from "@/app/components/Nav";
-import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
 import OpenAppLink from "@/app/components/OpenAppLink";
 
@@ -361,7 +360,6 @@ export default function TelechargerPage() {
 
       </main>
 
-      <CtaApp />
       <Footer />
     </>
   );
