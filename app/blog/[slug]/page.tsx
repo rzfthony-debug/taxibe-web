@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
 import { getVideoEmbed } from "@/lib/video";
-import { articleTitle } from "@/lib/article";
+import { articleTitle, articleDescription } from "@/lib/article";
 import ShareButtons from "@/app/blog/ShareButtons";
 
 type Article = {
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!article) return { title: "Article introuvable" };
   const canonicalSlug = article.slug || article.id;
   const title = articleTitle(article);
-  const desc = article.contenu?.slice(0, 160) ?? article.texte;
+  const desc = articleDescription(article);
   return {
     title: `${title} — TaxiBe Blog`,
     description: desc,
@@ -140,7 +140,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {
         "@type": "NewsArticle",
         "headline": headline,
-        "description": article.contenu?.slice(0, 200) ?? article.texte,
+        "description": articleDescription(article, 200),
         "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],
         "datePublished": article.created_at,
         "dateModified": article.created_at,
