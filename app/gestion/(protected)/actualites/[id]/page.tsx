@@ -34,6 +34,7 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
         defaultContenu={a.contenu ?? ""}
         defaultLien={a.lien ?? ""}
         defaultVideoUrl={a.video_url ?? ""}
+        defaultSlug={a.slug ?? ""}
         defaultPublie={a.publie}
         defaultOrdre={a.ordre ?? 0}
       />

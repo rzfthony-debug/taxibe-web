@@ -96,6 +96,26 @@ function readingTime(text: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
+/** Si on a collé un document HTML complet (<!DOCTYPE>, <html>, <head>...)
+ *  au lieu du seul contenu de l'article, n'en garde que l'intérieur du
+ *  <body> — sinon le <title>/<meta> du document collé se mêle à la page. */
+function stripDocumentWrapper(contenu: string): string {
+  if (!/<!DOCTYPE\s+html|<html[\s>]/i.test(contenu)) return contenu;
+  const bodyMatch = contenu.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+  if (bodyMatch) return bodyMatch[1];
+  return contenu.replace(/<head[^>]*>[\s\S]*?<\/head>/i, "");
+}
+
+/** Convertit les retours à la ligne en <br/> pour les articles en texte brut.
+ *  Si le contenu contient déjà des balises de bloc (article rédigé/collé en
+ *  HTML), on n'y touche pas — sinon chaque saut de ligne entre deux balises
+ *  s'ajoute à leur marge et double les espacements. */
+function renderContenu(contenu: string): string {
+  const cleaned = stripDocumentWrapper(contenu);
+  const hasBlockTags = /<(p|div|h[1-6]|ul|ol|li|blockquote|section|article|table)[\s>]/i.test(cleaned);
+  return hasBlockTags ? cleaned : cleaned.replace(/\n/g, "<br/>");
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = await getArticle(slug);
@@ -235,7 +255,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             <div className="article-body">
               {article.contenu ? (
-                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.contenu.replace(/\n/g, "<br/>")) }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(renderContenu(article.contenu)) }} />
               ) : (
                 <p style={{ color: "#64748B", fontStyle: "italic" }}>Aucun contenu disponible pour cet article.</p>
               )}

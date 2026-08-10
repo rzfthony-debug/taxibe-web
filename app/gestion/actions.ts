@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { slugify } from "@/lib/slugify";
 
 const MAX_ATTEMPTS = 5;
 const BLOCK_MINUTES = 15;
@@ -158,6 +159,19 @@ export async function deleteActualite(id: string) {
   revalidatePath("/");
 }
 
+async function uniqueActualiteSlug(base: string, excludeId?: string): Promise<string> {
+  const root = slugify(base).slice(0, 80) || "article";
+  let slug = root;
+  let n = 2;
+  for (;;) {
+    let query = adminDb.from("actualites").select("id").eq("slug", slug);
+    if (excludeId) query = query.neq("id", excludeId);
+    const { data } = await query.maybeSingle();
+    if (!data) return slug;
+    slug = `${root}-${n++}`;
+  }
+}
+
 export async function createActualite(formData: FormData) {
   await requireAdmin();
   const image_url = formData.get("image_url") as string;
@@ -170,7 +184,10 @@ export async function createActualite(formData: FormData) {
 
   if (!image_url || !texte) { redirect("/gestion/actualites"); return; }
 
-  await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, video_url, publie, ordre });
+  const rawSlug = (formData.get("slug") as string)?.trim();
+  const slug = await uniqueActualiteSlug(rawSlug || texte);
+
+  await adminDb.from("actualites").insert({ image_url, texte, contenu, lien, video_url, slug, publie, ordre });
   revalidatePath("/blog");
   revalidatePath("/");
   redirect("/gestion/actualites");
@@ -186,8 +203,12 @@ export async function updateActualite(id: string, formData: FormData) {
   const publie = formData.get("publie") === "true";
   const ordre = parseInt((formData.get("ordre") as string) || "0");
 
-  await adminDb.from("actualites").update({ image_url, texte, contenu, lien, video_url, publie, ordre }).eq("id", id);
+  const rawSlug = (formData.get("slug") as string)?.trim();
+  const slug = await uniqueActualiteSlug(rawSlug || texte, id);
+
+  await adminDb.from("actualites").update({ image_url, texte, contenu, lien, video_url, slug, publie, ordre }).eq("id", id);
   revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
   revalidatePath("/");
   redirect("/gestion/actualites");
 }
@@ -384,10 +405,6 @@ export async function deleteSignalement(id: string) {
 }
 
 // ── Lignes ────────────────────────────────────────────────────────────────────
-
-function slugify(s: string) {
-  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100);
-}
 
 export async function createLigne(formData: FormData) {
   await requireAdmin();

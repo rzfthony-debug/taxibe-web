@@ -12,6 +12,7 @@ type ArticleFormProps = {
   defaultContenu?: string;
   defaultLien?: string;
   defaultVideoUrl?: string;
+  defaultSlug?: string;
   defaultPublie?: boolean;
   defaultOrdre?: number;
 };
@@ -65,6 +66,7 @@ export default function ArticleForm({
   defaultContenu = "",
   defaultLien = "",
   defaultVideoUrl = "",
+  defaultSlug = "",
   defaultPublie = true,
   defaultOrdre = 0,
 }: ArticleFormProps) {
@@ -221,6 +223,14 @@ export default function ArticleForm({
       </div>
 
       <div className="card article-form-sidebar" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 18, position: "sticky", top: 24 }}>
+        <div>
+          <label>URL de l&apos;article (slug)</label>
+          <input name="slug" type="text" defaultValue={defaultSlug} placeholder="généré automatiquement si vide" />
+          <p style={{ fontSize: "0.68rem", color: "#94A3B8", marginTop: 4 }}>
+            taxibe.mg/blog/<strong>votre-slug</strong> — laissez vide pour le générer depuis le titre.
+          </p>
+        </div>
+
         <div>
           <label>Lien vidéo (optionnel)</label>
           <input name="video_url" type="url" defaultValue={defaultVideoUrl} placeholder="YouTube, Vimeo ou .mp4..." />
