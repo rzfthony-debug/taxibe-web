@@ -118,7 +118,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "NewsArticle",
+        "@type": "BlogPosting",
         "headline": headline,
         "description": articleDescription(article, 200),
         "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],

@@ -4,7 +4,30 @@ import CtaApp from "@/app/components/CtaApp";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+
+const BASE = "https://taxibe.mg";
+
+const leProjetJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+        { "@type": "ListItem", "position": 2, "name": "Le Projet", "item": `${BASE}/le-projet` },
+      ],
+    },
+    {
+      "@type": "AboutPage",
+      "name": "Le Projet TaxiBe",
+      "url": `${BASE}/le-projet`,
+      "description": "TaxiBe cartographie le réseau de taxi-be d'Antananarivo pour le rendre accessible à tous.",
+      "about": { "@id": `${BASE}/#organization` },
+    },
+  ],
+};
 
 export const revalidate = 3600;
 
@@ -84,6 +107,7 @@ export default async function LeProjetPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(leProjetJsonLd) }} />
       <Nav />
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`

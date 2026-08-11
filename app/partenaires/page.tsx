@@ -1,6 +1,29 @@
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
+import { safeJsonLd } from "@/lib/sanitize";
+
+const BASE = "https://taxibe.mg";
+
+const partenairesJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+        { "@type": "ListItem", "position": 2, "name": "Partenaires", "item": `${BASE}/partenaires` },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "name": "Partenaires — TaxiBe",
+      "url": `${BASE}/partenaires`,
+      "description": "Coopératives de transport, institutions et acteurs de la mobilité : collaborer avec TaxiBe à Antananarivo.",
+      "about": { "@id": `${BASE}/#organization` },
+    },
+  ],
+};
 
 export const revalidate = 3600;
 
@@ -89,6 +112,7 @@ const VALEURS = [
 export default function PartenairesPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(partenairesJsonLd) }} />
       <Nav />
       <style>{`
         .pt-hero   { max-width: 1100px; margin: 0 auto; padding: 64px 40px 56px; }

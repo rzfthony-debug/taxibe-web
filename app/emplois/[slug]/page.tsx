@@ -93,6 +93,12 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
 
   const offreUrl = `${BASE}/emplois/${offre.slug || offre.id}`;
 
+  // Google exige validThrough pour l'éligibilité aux résultats enrichis "Emplois" :
+  // à défaut de date limite renseignée, on retient 90 jours après publication
+  // plutôt que d'omettre le champ (ce qui invaliderait le balisage).
+  const validThrough = offre.date_limite
+    ?? new Date(new Date(offre.created_at).getTime() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -101,7 +107,7 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
         "title": offre.nom,
         "description": offre.description ?? offre.nom,
         "datePosted": offre.created_at,
-        ...(offre.date_limite ? { "validThrough": offre.date_limite } : {}),
+        "validThrough": validThrough,
         "employmentType": offre.type_poste ?? "FULL_TIME",
         "hiringOrganization": { "@type": "Organization", "name": "TaxiBe", "sameAs": BASE },
         "jobLocation": {

@@ -8,8 +8,11 @@ import { getLigneBySlugOrId } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 import LigneMapWrapper from "@/app/components/LigneMapWrapper";
 import StopTimeline from "@/app/components/StopTimeline";
+import { safeJsonLd } from "@/lib/sanitize";
 
 export const revalidate = 3600;
+
+const BASE = "https://taxibe.mg";
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -17,9 +20,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ligne = await getLigneBySlugOrId(slug);
   if (!ligne) return { title: "Ligne introuvable" };
+  const canonicalSlug = ligne.slug || ligne.id;
+  const title = `Ligne ${ligne.numero} — ${ligne.terminus_debut} → ${ligne.terminus_fin}`;
+  const description = `Arrêts et itinéraire de la ligne taxi-be ${ligne.numero} à Antananarivo : de ${ligne.terminus_debut} à ${ligne.terminus_fin}, ${ligne.arrets.length} arrêts.`;
   return {
-    title: `Ligne ${ligne.numero} — ${ligne.terminus_debut} → ${ligne.terminus_fin}`,
-    description: `Arrêts et itinéraire de la ligne taxi-be ${ligne.numero} à Antananarivo.`,
+    title,
+    description,
+    alternates: { canonical: `/ligne/${canonicalSlug}` },
+    openGraph: {
+      title: `${title} — TaxiBe`,
+      description,
+      url: `/ligne/${canonicalSlug}`,
+      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: title }],
+    },
   };
 }
 
@@ -39,8 +52,47 @@ export default async function LignePage({ params }: Props) {
   const isAllerRet = ligne.type_circuit === "aller_retour";
   const color = ligne.couleur_bus ?? "#FFB800";
 
+  const ligneUrl = `${BASE}/ligne/${ligne.slug || ligne.id}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BusTrip",
+        "name": `Ligne ${ligne.numero} — ${ligne.terminus_debut} → ${ligne.terminus_fin}`,
+        "busName": `Taxi-be ${ligne.numero}`,
+        "busNumber": ligne.numero,
+        "url": ligneUrl,
+        "departureBusStop": { "@type": "BusStop", "name": ligne.terminus_debut },
+        "arrivalBusStop": { "@type": "BusStop", "name": ligne.terminus_fin },
+        "provider": ligne.cooperative
+          ? { "@type": "Organization", "name": ligne.cooperative }
+          : { "@id": `${BASE}/#organization` },
+        ...(ligne.arrets.length > 0 && {
+          "itinerary": {
+            "@type": "ItemList",
+            "itemListElement": ligne.arrets.map((a, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "name": a.arret,
+            })),
+          },
+        }),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": BASE },
+          { "@type": "ListItem", "position": 2, "name": "Recherche", "item": `${BASE}/recherche` },
+          { "@type": "ListItem", "position": 3, "name": `Ligne ${ligne.numero}`, "item": ligneUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <Nav />
       <style>{`
         @media (max-width: 700px) {
