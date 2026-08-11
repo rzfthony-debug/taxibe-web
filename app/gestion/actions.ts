@@ -208,7 +208,9 @@ export async function updateActualite(id: string, formData: FormData) {
   const rawSlug = (formData.get("slug") as string)?.trim();
   const slug = await uniqueActualiteSlug(rawSlug || titre || texte, id);
 
-  await adminDb.from("actualites").update({ image_url, titre, texte, contenu, lien, video_url, slug, publie, ordre }).eq("id", id);
+  await adminDb.from("actualites")
+    .update({ image_url, titre, texte, contenu, lien, video_url, slug, publie, ordre, updated_at: new Date().toISOString() })
+    .eq("id", id);
   revalidatePath("/blog");
   revalidatePath(`/blog/${slug}`);
   revalidatePath("/");
@@ -318,7 +320,7 @@ export async function updateStatutEmploi(id: string, statut: string) {
   await requireAdmin();
   const STATUTS = ["en_attente", "publie", "ferme", "refuse"];
   if (!STATUTS.includes(statut)) return;
-  await adminDb.from("offres_emploi").update({ statut }).eq("id", id);
+  await adminDb.from("offres_emploi").update({ statut, updated_at: new Date().toISOString() }).eq("id", id);
   revalidatePath("/emplois");
 }
 
@@ -354,7 +356,7 @@ export async function createEmploiInterne(formData: FormData) {
 
 export async function toggleInterneEmploi(id: string, interne: boolean) {
   await requireAdmin();
-  await adminDb.from("offres_emploi").update({ interne }).eq("id", id);
+  await adminDb.from("offres_emploi").update({ interne, updated_at: new Date().toISOString() }).eq("id", id);
   revalidatePath("/emplois");
 }
 
@@ -445,7 +447,7 @@ export async function updateLigne(id: string, formData: FormData) {
 
   await adminDb
     .from("lignes")
-    .update({ numero, slug, cooperative, telephone, couleur_bus, type_circuit, statut, actif })
+    .update({ numero, slug, cooperative, telephone, couleur_bus, type_circuit, statut, actif, updated_at: new Date().toISOString() })
     .eq("id", id);
 
   revalidatePath(`/ligne/${slug}`);
@@ -473,6 +475,7 @@ export async function saveArrets(
       lng: a.lng,
     })),
   });
+  await adminDb.from("lignes").update({ updated_at: new Date().toISOString() }).eq("id", ligneId);
 
   revalidatePath(`/ligne/${ligneId}`);
 }

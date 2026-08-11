@@ -23,9 +23,10 @@ type Article = {
   publie: boolean;
   ordre: number;
   created_at: string;
+  updated_at: string | null;
 };
 
-const SELECT = "id, slug, image_url, titre, texte, contenu, lien, video_url, publie, ordre, created_at";
+const SELECT = "id, slug, image_url, titre, texte, contenu, lien, video_url, publie, ordre, created_at, updated_at";
 
 async function getArticle(slugOrId: string): Promise<Article | null> {
   const bySlug = await supabase
@@ -77,6 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `/blog/${canonicalSlug}`,
       type: "article",
       publishedTime: article.created_at,
+      modifiedTime: article.updated_at ?? article.created_at,
       images: article.image_url
         ? [{ url: article.image_url, width: 1200, height: 630, alt: title }]
         : [{ url: "/logo_taxibe.png", width: 1842, height: 1466, alt: "TaxiBe Blog" }],
@@ -123,7 +125,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         "description": articleDescription(article, 200),
         "image": article.image_url ? [article.image_url] : [`${BASE}/logo_taxibe.png`],
         "datePublished": article.created_at,
-        "dateModified": article.created_at,
+        "dateModified": article.updated_at ?? article.created_at,
         "author": { "@type": "Organization", "name": "TaxiBe", "url": BASE },
         "publisher": { "@type": "Organization", "name": "TaxiBe", "logo": { "@type": "ImageObject", "url": `${BASE}/logo_taxibe.png` } },
         "url": articleUrl,
