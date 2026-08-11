@@ -2,6 +2,9 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import RichTextEditor from "./RichTextEditor";
+import { ARTICLE_BODY_CSS, renderContenu } from "@/lib/article";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 type ArticleFormProps = {
   action: (formData: FormData) => void;
@@ -51,13 +54,6 @@ function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<Fil
   });
 }
 
-const TOOLBAR_ACTIONS = [
-  { label: "Gras", open: "<strong>", close: "</strong>", placeholder: "texte en gras" },
-  { label: "Citation", open: "\n<blockquote>\n", close: "\n</blockquote>\n", placeholder: "citation" },
-  { label: "Titre", open: "\n<h2>", close: "</h2>\n", placeholder: "Titre de section" },
-  { label: "Sous-titre", open: "\n<h3>", close: "</h3>\n", placeholder: "Sous-titre" },
-] as const;
-
 export default function ArticleForm({
   action,
   backHref,
@@ -72,10 +68,12 @@ export default function ArticleForm({
   defaultPublie = true,
   defaultOrdre = 0,
 }: ArticleFormProps) {
-  const contenuRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [imageUrl, setImageUrl] = useState(defaultImageUrl);
+  const [titre, setTitre] = useState(defaultTitre);
+  const [contenuHtml, setContenuHtml] = useState(defaultContenu);
+  const [showPreview, setShowPreview] = useState(false);
   const [compressing, setCompressing] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadMsg, setUploadMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
@@ -138,22 +136,6 @@ export default function ArticleForm({
     xhr.send(fd);
   }
 
-  function applyFormat(open: string, close: string, placeholder: string) {
-    const ta = contenuRef.current;
-    if (!ta) return;
-    const start = ta.selectionStart;
-    const end = ta.selectionEnd;
-    const value = ta.value;
-    const selected = value.slice(start, end) || placeholder;
-    const before = value.slice(0, start);
-    const after = value.slice(end);
-    ta.value = before + open + selected + close + after;
-    const cursorStart = before.length + open.length;
-    const cursorEnd = cursorStart + selected.length;
-    ta.focus();
-    ta.setSelectionRange(cursorStart, cursorEnd);
-  }
-
   return (
     <form action={action} className="article-form">
       <style>{`
@@ -200,7 +182,7 @@ export default function ArticleForm({
 
         <div>
           <label>Titre *</label>
-          <input name="titre" type="text" defaultValue={defaultTitre}
+          <input name="titre" type="text" value={titre} onChange={(e) => setTitre(e.target.value)}
             placeholder="Ex : Comment trouver le bon taxi-be à Antananarivo ?" required />
           <p style={{ fontSize: "0.68rem", color: "#94A3B8", marginTop: 4 }}>
             Le titre affiché en haut de l&apos;article et dans les listes. Une phrase courte, pas un paragraphe.
@@ -214,24 +196,24 @@ export default function ArticleForm({
         </div>
 
         <div>
-          <label>Contenu de l&apos;article</label>
-          <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
-            {TOOLBAR_ACTIONS.map((a) => (
-              <button key={a.label} type="button" className="toolbar-btn"
-                onClick={() => applyFormat(a.open, a.close, a.placeholder)}>
-                {a.label}
-              </button>
-            ))}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 5 }}>
+            <label style={{ margin: 0 }}>Contenu de l&apos;article</label>
+            <button type="button" className="toolbar-btn" onClick={() => setShowPreview(true)}>
+              👁 Aperçu
+            </button>
           </div>
-          <textarea ref={contenuRef} name="contenu" rows={16} defaultValue={defaultContenu}
-            placeholder="Écrivez le corps de l'article ici. Sélectionnez du texte puis cliquez sur un bouton pour le mettre en forme."
-            style={{ resize: "vertical", lineHeight: 1.6, fontFamily: "inherit" }} />
-          <p style={{ fontSize: "0.72rem", color: "#94A3B8", marginTop: 6 }}>
-            Sélectionnez du texte puis cliquez sur Gras, Citation, Titre ou Sous-titre pour le mettre en forme.
-            Vous pouvez aussi écrire ou coller du HTML directement (listes, liens, images...).
-          </p>
+          <RichTextEditor name="contenu" defaultValue={defaultContenu} onChangeHtml={setContenuHtml} />
         </div>
       </div>
+
+      {showPreview && (
+        <ArticlePreview
+          imageUrl={imageUrl}
+          titre={titre || "Titre de l'article"}
+          contenuHtml={contenuHtml}
+          onClose={() => setShowPreview(false)}
+        />
+      )}
 
       <div className="card article-form-sidebar" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 18, position: "sticky", top: 24 }}>
         <div>
@@ -276,5 +258,65 @@ export default function ArticleForm({
         </div>
       </div>
     </form>
+  );
+}
+
+function ArticlePreview({
+  imageUrl,
+  titre,
+  contenuHtml,
+  onClose,
+}: {
+  imageUrl: string;
+  titre: string;
+  contenuHtml: string;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        background: "rgba(13,21,37,0.6)", backdropFilter: "blur(4px)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 20,
+      }}
+    >
+      <div style={{
+        background: "white", borderRadius: 16, width: "100%", maxWidth: 760,
+        maxHeight: "90vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+      }}>
+        <style>{ARTICLE_BODY_CSS}</style>
+        <div style={{
+          position: "sticky", top: 0, zIndex: 1, background: "white",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "14px 24px", borderBottom: "1px solid #E8ECF0",
+        }}>
+          <span style={{ fontSize: "0.78rem", fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            Aperçu — tel que vu sur le site
+          </span>
+          <button type="button" onClick={onClose} className="btn-sm btn-gray">Fermer</button>
+        </div>
+
+        {imageUrl.trim() && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={imageUrl} alt="" style={{ width: "100%", maxHeight: 320, objectFit: "cover", display: "block" }}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+        )}
+
+        <div style={{ padding: "28px 32px 40px" }}>
+          <h1 style={{ fontSize: "clamp(1.35rem, 5vw, 1.9rem)", fontWeight: 900, color: "#0D1525", lineHeight: 1.25, margin: "0 0 20px" }}>
+            {titre}
+          </h1>
+          <div style={{ height: 3, width: 48, background: "#FFB800", borderRadius: 2, marginBottom: 24 }} />
+
+          {contenuHtml.trim() ? (
+            <div className="article-body" dangerouslySetInnerHTML={{ __html: sanitizeHtml(renderContenu(contenuHtml)) }} />
+          ) : (
+            <p style={{ color: "#94A3B8", fontStyle: "italic" }}>Le contenu apparaîtra ici au fur et à mesure de la rédaction.</p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

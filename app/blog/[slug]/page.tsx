@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { sanitizeHtml, safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
 import { getVideoEmbed } from "@/lib/video";
-import { articleTitle, articleDescription } from "@/lib/article";
+import { articleTitle, articleDescription, renderContenu } from "@/lib/article";
 import ShareButtons from "@/app/blog/ShareButtons";
 
 type Article = {
@@ -97,26 +97,6 @@ function formatDate(iso: string) {
 function readingTime(text: string): number {
   const words = text.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
-}
-
-/** Si on a collé un document HTML complet (<!DOCTYPE>, <html>, <head>...)
- *  au lieu du seul contenu de l'article, n'en garde que l'intérieur du
- *  <body> — sinon le <title>/<meta> du document collé se mêle à la page. */
-function stripDocumentWrapper(contenu: string): string {
-  if (!/<!DOCTYPE\s+html|<html[\s>]/i.test(contenu)) return contenu;
-  const bodyMatch = contenu.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-  if (bodyMatch) return bodyMatch[1];
-  return contenu.replace(/<head[^>]*>[\s\S]*?<\/head>/i, "");
-}
-
-/** Convertit les retours à la ligne en <br/> pour les articles en texte brut.
- *  Si le contenu contient déjà des balises de bloc (article rédigé/collé en
- *  HTML), on n'y touche pas — sinon chaque saut de ligne entre deux balises
- *  s'ajoute à leur marge et double les espacements. */
-function renderContenu(contenu: string): string {
-  const cleaned = stripDocumentWrapper(contenu);
-  const hasBlockTags = /<(p|div|h[1-6]|ul|ol|li|blockquote|section|article|table)[\s>]/i.test(cleaned);
-  return hasBlockTags ? cleaned : cleaned.replace(/\n/g, "<br/>");
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
