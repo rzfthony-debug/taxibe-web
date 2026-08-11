@@ -77,6 +77,7 @@ const PANELS: Record<string, PanelDef> = {
   },
   communaute: {
     items: [
+      { label: "Blog",                desc: "Actualités et conseils mobilité",     href: "/blog",                icon: Ico.megaphone },
       { label: "Aide & FAQ",         desc: "Questions fréquentes sur TaxiBe",      href: "/aide",              icon: Ico.helpCircle },
       { label: "Signaler une erreur", desc: "Ligne incorrecte, arrêt manquant…",   href: "/contact#signalement", icon: Ico.flag },
     ],
