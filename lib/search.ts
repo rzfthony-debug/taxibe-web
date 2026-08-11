@@ -151,3 +151,27 @@ export async function searchLignesByQuartier(quartier: string): Promise<LigneRes
   if (!lignes?.length) return [];
   return withTerminus(lignes);
 }
+
+/** Lignes suggérées pour une page de ligne : celles qui partagent un
+ *  terminus (départ ou arrivée) avec la ligne courante — un signal simple
+ *  de correspondance possible, sans données de géolocalisation à calculer. */
+export async function getRelatedLignes(
+  currentId: string,
+  terminusDebut: string,
+  terminusFin: string,
+  limit = 4
+): Promise<LigneResult[]> {
+  const [fromStart, fromEnd] = await Promise.all([
+    searchLignesByQuartier(terminusDebut),
+    searchLignesByQuartier(terminusFin),
+  ]);
+  const seen = new Set<string>([currentId]);
+  const combined: LigneResult[] = [];
+  for (const l of [...fromStart, ...fromEnd]) {
+    if (seen.has(l.id)) continue;
+    seen.add(l.id);
+    combined.push(l);
+    if (combined.length >= limit) break;
+  }
+  return combined;
+}

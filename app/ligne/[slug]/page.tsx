@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
-import { getLigneBySlugOrId } from "@/lib/search";
+import { getLigneBySlugOrId, getRelatedLignes } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 import LigneMapWrapper from "@/app/components/LigneMapWrapper";
 import StopTimeline from "@/app/components/StopTimeline";
@@ -51,6 +51,7 @@ export default async function LignePage({ params }: Props) {
   const statut = STATUT_STYLE[ligne.statut ?? ""] ?? STATUT_STYLE.a_verifier;
   const isAllerRet = ligne.type_circuit === "aller_retour";
   const color = ligne.couleur_bus ?? "#FFB800";
+  const relatedLignes = await getRelatedLignes(ligne.id, ligne.terminus_debut, ligne.terminus_fin);
 
   const ligneUrl = `${BASE}/ligne/${ligne.slug || ligne.id}`;
 
@@ -192,6 +193,37 @@ export default async function LignePage({ params }: Props) {
           <StopTimeline arrets={ligne.arrets} label={isAllerRet ? "Arrêts — Aller" : "Arrêts"} />
           {isAllerRet && ligne.retourArrets.length > 0 && (
             <StopTimeline arrets={ligne.retourArrets} label="Arrêts — Retour" />
+          )}
+
+          {/* Lignes suggérées */}
+          {relatedLignes.length > 0 && (
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ margin: "0 0 10px", fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
+                Lignes suggérées
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+                {relatedLignes.map((rl) => (
+                  <Link key={rl.id} href={`/ligne/${rl.slug || rl.id}`} style={{
+                    display: "flex", alignItems: "center", gap: 12,
+                    padding: "12px 14px", borderRadius: 12,
+                    background: "white", border: "1px solid #E8ECF0",
+                    textDecoration: "none",
+                  }}>
+                    <span style={{
+                      flexShrink: 0, minWidth: 44, textAlign: "center",
+                      background: rl.couleur_bus ?? "#FFB800", color: "white",
+                      borderRadius: 8, padding: "5px 8px",
+                      fontWeight: 900, fontSize: "0.9rem",
+                    }}>
+                      {rl.numero}
+                    </span>
+                    <span style={{ fontSize: "0.78rem", color: "#374151", fontWeight: 600, lineHeight: 1.35 }}>
+                      {rl.terminus_debut} <span style={{ color: "#94A3B8" }}>→</span> {rl.terminus_fin}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
 
           {/* CTA app */}

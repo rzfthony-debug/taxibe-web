@@ -65,7 +65,7 @@ const CATEGORIES = [
 export const metadata = {
   title: "Blog",
   description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",
-  alternates: { canonical: "/blog" },
+  alternates: { canonical: "/blog", types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     title: "Blog — TaxiBe",
     description: "Actualités, conseils et nouveautés sur TaxiBe et les transports en commun à Antananarivo.",

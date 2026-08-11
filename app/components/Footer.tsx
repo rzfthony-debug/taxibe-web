@@ -140,6 +140,33 @@ export default async function Footer() {
             L&apos;infrastructure digitale du transport collectif à Antananarivo.
           </p>
 
+          {/* Recherche rapide de ligne */}
+          <form action="/recherche" method="GET" style={{
+            display: "flex", marginBottom: 18, maxWidth: 260,
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: 9, overflow: "hidden",
+          }}>
+            <input
+              name="q"
+              type="text"
+              placeholder="Numéro de ligne…"
+              aria-label="Chercher une ligne"
+              style={{
+                flex: 1, minWidth: 0, padding: "9px 12px",
+                background: "transparent", border: "none", outline: "none",
+                color: "white", fontSize: "0.78rem", fontFamily: "inherit",
+              }}
+            />
+            <button type="submit" aria-label="Rechercher" style={{
+              flexShrink: 0, width: 38, border: "none", background: "rgba(255,184,0,0.14)",
+              color: "#FFB800", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+          </form>
+
           {/* CTA projet */}
           <Link href="/le-projet" style={{
             display: "inline-flex", alignItems: "center", gap: 6,
