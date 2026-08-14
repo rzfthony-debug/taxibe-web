@@ -175,3 +175,32 @@ export async function getRelatedLignes(
   }
   return combined;
 }
+
+export interface AvisRecord {
+  id: string;
+  user_nom: string;
+  note: number;
+  commentaire: string;
+  created_at: string;
+}
+
+export interface AvisStats {
+  count: number;
+  moyenne: number; // 0 si aucun avis
+}
+
+/** Avis laissés par les voyageurs sur l'app — même table que betax,
+ *  affichés ici pour le SEO (Review/AggregateRating) et la confiance. */
+export async function getAvisForLigne(ligneId: string): Promise<{ avis: AvisRecord[]; stats: AvisStats }> {
+  const { data } = await adminDb
+    .from("avis")
+    .select("id, user_nom, note, commentaire, created_at")
+    .eq("ligne_id", ligneId)
+    .order("created_at", { ascending: false });
+
+  const list = (data ?? []) as AvisRecord[];
+  const count = list.length;
+  const moyenne = count > 0 ? list.reduce((acc, a) => acc + a.note, 0) / count : 0;
+
+  return { avis: list, stats: { count, moyenne } };
+}

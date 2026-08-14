@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
-import { getLigneBySlugOrId, getRelatedLignes } from "@/lib/search";
+import { getLigneBySlugOrId, getRelatedLignes, getAvisForLigne } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 import LigneMapWrapper from "@/app/components/LigneMapWrapper";
 import StopTimeline from "@/app/components/StopTimeline";
@@ -13,6 +13,7 @@ import { safeJsonLd } from "@/lib/sanitize";
 export const revalidate = 3600;
 
 const BASE = "https://taxibe.mg";
+const APP_BASE = "https://app.taxibe.mg";
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -52,8 +53,10 @@ export default async function LignePage({ params }: Props) {
   const isAllerRet = ligne.type_circuit === "aller_retour";
   const color = ligne.couleur_bus ?? "#FFB800";
   const relatedLignes = await getRelatedLignes(ligne.id, ligne.terminus_debut, ligne.terminus_fin);
+  const { avis, stats } = await getAvisForLigne(ligne.id);
 
   const ligneUrl = `${BASE}/ligne/${ligne.slug || ligne.id}`;
+  const appUrl = `${APP_BASE}/ligne/${ligne.id}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -78,6 +81,27 @@ export default async function LignePage({ params }: Props) {
               "name": a.arret,
             })),
           },
+        }),
+        ...(stats.count > 0 && {
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": stats.moyenne.toFixed(1),
+            "reviewCount": stats.count,
+            "bestRating": 5,
+            "worstRating": 1,
+          },
+          "review": avis.slice(0, 10).map((a) => ({
+            "@type": "Review",
+            "author": { "@type": "Person", "name": a.user_nom },
+            "datePublished": a.created_at.slice(0, 10),
+            "reviewBody": a.commentaire,
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": a.note,
+              "bestRating": 5,
+              "worstRating": 1,
+            },
+          })),
         }),
       },
       {
@@ -226,6 +250,51 @@ export default async function LignePage({ params }: Props) {
             </div>
           )}
 
+          {/* Avis des voyageurs */}
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+              <p style={{ margin: 0, fontSize: "0.7rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "#64748B" }}>
+                Avis des voyageurs
+              </p>
+              {stats.count > 0 && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ color: "#FFB800", fontSize: "0.9rem", letterSpacing: 1 }}>
+                    {"★".repeat(Math.round(stats.moyenne))}{"☆".repeat(5 - Math.round(stats.moyenne))}
+                  </span>
+                  <span style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0D1525" }}>{stats.moyenne.toFixed(1)}</span>
+                  <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>
+                    ({stats.count} avis)
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {stats.count === 0 ? (
+              <p style={{ margin: 0, fontSize: "0.82rem", color: "#94A3B8" }}>
+                Aucun avis pour cette ligne pour l&apos;instant — soyez le premier sur l&apos;app.
+              </p>
+            ) : (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+                {avis.slice(0, 6).map((a) => (
+                  <div key={a.id} style={{
+                    background: "white", border: "1px solid #E8ECF0", borderRadius: 12,
+                    padding: "14px 16px",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                      <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#0D1525" }}>{a.user_nom}</span>
+                      <span style={{ color: "#FFB800", fontSize: "0.72rem", letterSpacing: 1 }}>
+                        {"★".repeat(a.note)}{"☆".repeat(5 - a.note)}
+                      </span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: "0.8rem", color: "#374151", lineHeight: 1.55 }}>
+                      {a.commentaire}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* CTA app */}
           <div style={{
             background: "#0D1525", borderRadius: 16, padding: "28px 32px",
@@ -248,12 +317,12 @@ export default async function LignePage({ params }: Props) {
                 Retrouvez cette ligne et bien plus dans l&apos;application TaxiBe.
               </p>
             </div>
-            <a href="/telecharger" style={{
+            <a href={appUrl} style={{
               padding: "11px 24px", borderRadius: 10, background: "#FFB800",
               color: "#0D1525", fontWeight: 800, fontSize: "0.9rem",
               textDecoration: "none", flexShrink: 0, whiteSpace: "nowrap",
             }}>
-              Ouvrir l&apos;app →
+              Voir en direct sur l&apos;appli →
             </a>
           </div>
 
