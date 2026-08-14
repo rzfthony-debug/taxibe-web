@@ -115,25 +115,27 @@ export default async function Footer() {
         }
         .footer-social:hover { background: #FFB800; color: #0D1525; }
         .footer-search-bar {
-          max-width: 1200px; margin: 0 auto; padding: 20px 24px;
-          display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+          max-width: 720px; margin: 0 auto; padding: 56px 24px 60px;
+          display: flex; flex-direction: column; align-items: center; gap: 22px;
+          text-align: center;
         }
-        .footer-search-label {
-          font-size: 0.72rem; font-weight: 800; color: white;
-          white-space: nowrap; margin: 0;
+        .footer-search-title {
+          font-size: 1.7rem; font-weight: 800; color: white;
+          letter-spacing: -0.02em; line-height: 1.25; margin: 0;
         }
         .footer-search-form {
-          display: flex; flex: 1; min-width: 220px; max-width: 420px;
-          background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
-          border-radius: 10px; overflow: hidden;
+          display: flex; width: 100%; max-width: 460px;
+          background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+          border-radius: 12px; overflow: hidden;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.18);
         }
         .footer-search-form input {
-          flex: 1; min-width: 0; padding: 11px 14px;
+          flex: 1; min-width: 0; padding: 15px 18px;
           background: transparent; border: none; outline: none;
-          color: white; font-size: 0.84rem; font-family: inherit;
+          color: white; font-size: 0.92rem; font-family: inherit;
         }
         .footer-search-form button {
-          flex-shrink: 0; width: 44px; border: none; background: #FFB800;
+          flex-shrink: 0; width: 54px; border: none; background: #FFB800;
           color: #0D1525; cursor: pointer; display: flex; align-items: center; justify-content: center;
           transition: background 0.15s;
         }
@@ -145,16 +147,19 @@ export default async function Footer() {
           .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; padding: 36px 20px 24px; }
           .footer-grid > div:first-child { grid-column: 1 / -1; }
           .footer-bottom { flex-direction: column; text-align: center; }
-          .footer-search-bar { padding: 18px 20px; }
-          .footer-search-form { max-width: none; }
+          .footer-search-bar { padding: 44px 20px 48px; }
+          .footer-search-title { font-size: 1.32rem; }
         }
         footer { padding-bottom: var(--app-banner-h, 0px); }
       `}</style>
 
       {/* ── Bande recherche, toujours visible en haut du footer ── */}
-      <div style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{
+        background: "linear-gradient(180deg, #1E2534 0%, #2A3244 100%)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+      }}>
         <div className="footer-search-bar">
-          <p className="footer-search-label">Trouver une ligne</p>
+          <p className="footer-search-title">Trouvez votre trajet, où que vous soyez sur le site</p>
           <form action="/recherche" method="GET" className="footer-search-form">
             <input
               name="q"
@@ -163,7 +168,7 @@ export default async function Footer() {
               aria-label="Chercher une ligne"
             />
             <button type="submit" aria-label="Rechercher">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
               </svg>
             </button>
