@@ -2,6 +2,7 @@ import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
 import { safeJsonLd } from "@/lib/sanitize";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 const BASE = "https://taxibe.mg";
 
@@ -136,6 +137,9 @@ export default function PartenairesPage() {
         {/* ── Hero ── */}
         <section style={{ background: "white", borderBottom: "1px solid #E8ECF0" }}>
           <div className="pt-hero">
+            <div style={{ marginBottom: 20 }}>
+              <Breadcrumb items={[{ label: "Accueil", href: "/" }, { label: "Partenaires" }]} />
+            </div>
             <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
               <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>Partenaires</span>
             </div>

@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import SpotlightSection from "@/app/components/SpotlightSection";
 import HeroIllustration from "@/app/components/HeroIllustration";
 import { articleTitle } from "@/lib/article";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 type Article = {
   id: string;
@@ -156,14 +157,13 @@ export default async function BlogPage({
           .lire-link { font-size: 0.82rem; font-weight: 700; color: #FFB800; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
           .lire-link:hover { text-decoration: underline; }
           .badge-cat { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #FFB800; }
-          .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.8rem; color: #94A3B8; }
-          .breadcrumb a { color: #64748B; text-decoration: none; font-weight: 500; }
-          .breadcrumb a:hover { color: #0D1525; }
+          .blog-breadcrumb-wrap { max-width: 1280px; margin: 0 auto; padding: 24px 40px 0; }
 
           @media (max-width: 900px) {
             .blog-layout  { grid-template-columns: 1fr; }
             .blog-hero    { grid-template-columns: 1fr; padding: 40px 20px; }
             .blog-hero-img { display: none; }
+            .blog-breadcrumb-wrap { padding: 16px 20px 0; }
             .article-grid { grid-template-columns: 1fr 1fr; }
           }
           @media (max-width: 540px) {
@@ -177,6 +177,9 @@ export default async function BlogPage({
 
         {/* Hero */}
         <section style={{ borderBottom: "1px solid #E8ECF0" }}>
+          <div className="blog-breadcrumb-wrap">
+            <Breadcrumb items={[{ label: "Accueil", href: "/" }, { label: "Blog" }]} />
+          </div>
           <div className="blog-hero">
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>

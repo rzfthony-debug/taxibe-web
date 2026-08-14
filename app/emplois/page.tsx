@@ -5,6 +5,7 @@ import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import EmploisListe from "./EmploisListe";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 export const revalidate = 3600;
 
@@ -109,6 +110,7 @@ export default async function EmploisPage() {
             overflow: hidden;
             border-bottom: 1px solid #E8ECF0;
           }
+          .emp-breadcrumb-wrap { max-width: 1280px; margin: 0 auto; padding: 24px 40px 0; }
           .hero-inner {
             max-width: 1280px; margin: 0 auto;
             padding: 64px 40px;
@@ -121,6 +123,7 @@ export default async function EmploisPage() {
           }
           @media (max-width: 768px) {
             .hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 16px; }
+            .emp-breadcrumb-wrap { padding: 16px 20px 0; }
             .hero-img-col { display: none; }
           }
 
@@ -196,6 +199,9 @@ export default async function EmploisPage() {
 
         {/* ── Hero ── */}
         <section className="carriere-hero">
+          <div className="emp-breadcrumb-wrap">
+            <Breadcrumb items={[{ label: "Accueil", href: "/" }, { label: "Carrières" }]} />
+          </div>
           <div className="hero-inner">
             {/* Colonne gauche — texte */}
             <div className="hero-text-col">

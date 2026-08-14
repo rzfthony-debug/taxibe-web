@@ -5,6 +5,7 @@ import Footer from "@/app/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 const BASE = "https://taxibe.mg";
 
@@ -183,9 +184,13 @@ export default async function LegalPage() {
         <style>{`
           .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
           .page-hero-img { display: flex; align-items: center; justify-content: center; }
-          @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } }
+          .page-breadcrumb-wrap { max-width: 1280px; margin: 0 auto; padding: 24px 40px 0; }
+          @media (max-width: 768px) { .page-hero-inner { grid-template-columns: 1fr; padding: 40px 20px; } .page-hero-img { display: none; } .page-breadcrumb-wrap { padding: 16px 20px 0; } }
         `}</style>
         <section style={{ background: "#F8F9FB", overflow: "hidden", borderBottom: "1px solid #E8ECF0" }}>
+          <div className="page-breadcrumb-wrap">
+            <Breadcrumb items={[{ label: "Accueil", href: "/" }, { label: "Informations légales" }]} />
+          </div>
           <div className="page-hero-inner">
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>

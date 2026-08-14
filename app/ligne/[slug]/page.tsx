@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import CtaApp from "@/app/components/CtaApp";
 import Footer from "@/app/components/Footer";
+import Breadcrumb from "@/app/components/Breadcrumb";
 import { getLigneBySlugOrId, getRelatedLignes, getAvisForLigne } from "@/lib/search";
 import type { ArretItem } from "@/lib/search";
 import LigneMapWrapper from "@/app/components/LigneMapWrapper";
@@ -134,10 +135,12 @@ export default async function LignePage({ params }: Props) {
 
         {/* ── Breadcrumb ── */}
         <div style={{ background: "white", borderBottom: "1px solid #E8ECF0" }}>
-          <div style={{ maxWidth: 860, margin: "0 auto", padding: "10px 24px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.78rem", color: "#94A3B8" }}>
-            <Link href="/recherche" style={{ color: "#64748B", textDecoration: "none", fontWeight: 500 }}>← Recherche</Link>
-            <span>/</span>
-            <span style={{ color: "#0D1525", fontWeight: 600 }}>Ligne {ligne.numero}</span>
+          <div style={{ maxWidth: 860, margin: "0 auto", padding: "10px 24px" }}>
+            <Breadcrumb items={[
+              { label: "Accueil", href: "/" },
+              { label: "Recherche", href: "/recherche" },
+              { label: `Ligne ${ligne.numero}` },
+            ]} />
           </div>
         </div>
 

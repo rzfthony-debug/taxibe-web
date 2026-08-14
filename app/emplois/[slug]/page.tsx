@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
+import Breadcrumb from "@/app/components/Breadcrumb";
 import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import { isUuid } from "@/lib/slugify";
@@ -175,24 +176,13 @@ export default async function OffrePage({ params }: { params: Promise<{ slug: st
         <div className="offre-hero">
           <div className="offre-hero-dots" aria-hidden="true" />
           <div style={{ maxWidth: 1060, margin: "0 auto", padding: "44px 24px 52px", position: "relative" }}>
-            <nav style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 24, flexWrap: "wrap" }}>
-              {[
+            <div style={{ marginBottom: 24 }}>
+              <Breadcrumb variant="dark" items={[
                 { label: "Accueil", href: "/" },
                 { label: "Carrières", href: "/emplois" },
                 { label: offre.nom },
-              ].map((c, i) => (
-                <span key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  {i > 0 && <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.75rem" }}>›</span>}
-                  {c.href ? (
-                    <Link href={c.href} style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textDecoration: "none", fontWeight: 500 }}>
-                      {c.label}
-                    </Link>
-                  ) : (
-                    <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>{c.label}</span>
-                  )}
-                </span>
-              ))}
-            </nav>
+              ]} />
+            </div>
 
             <div style={{ borderLeft: "3px solid #FFB800", paddingLeft: 20 }}>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>

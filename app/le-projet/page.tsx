@@ -6,6 +6,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 const BASE = "https://taxibe.mg";
 
@@ -112,6 +113,7 @@ export default async function LeProjetPage() {
       <main style={{ background: "#F8F9FB", minHeight: "70vh" }}>
         <style>{`
           .lp-hero-inner { max-width: 1200px; margin: 0 auto; padding: 52px 40px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+          .lp-breadcrumb-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 40px 0; }
           .lp-hero-img   { display: flex; align-items: center; justify-content: center; }
           .lp-stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1200px; margin: 0 auto; padding: 0 40px 48px; }
           .lp-stat-card  { padding: 24px 24px 20px; border-radius: 16px; background: white; border: 1px solid #E8ECF0; position: relative; overflow: hidden; cursor: default; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, border-color 0.18s; }
@@ -127,6 +129,7 @@ export default async function LeProjetPage() {
           .lp-roadmap    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
           @media (max-width: 900px) {
             .lp-hero-inner { grid-template-columns: 1fr; padding: 40px 20px 32px; }
+            .lp-breadcrumb-wrap { padding: 16px 20px 0; }
             .lp-hero-img   { display: none; }
             .lp-stat-cards { grid-template-columns: 1fr; padding: 0 20px 36px; }
 
@@ -140,6 +143,9 @@ export default async function LeProjetPage() {
 
         {/* ── Hero ── */}
         <section style={{ background: "white", borderBottom: "1px solid #E8ECF0", overflow: "hidden" }}>
+          <div className="lp-breadcrumb-wrap">
+            <Breadcrumb items={[{ label: "Accueil", href: "/" }, { label: "Le Projet" }]} />
+          </div>
           <div className="lp-hero-inner">
 
             {/* Texte */}

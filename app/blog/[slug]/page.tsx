@@ -10,6 +10,7 @@ import { isUuid } from "@/lib/slugify";
 import { getVideoEmbed } from "@/lib/video";
 import { articleTitle, articleDescription, renderContenu } from "@/lib/article";
 import ShareButtons from "@/app/blog/ShareButtons";
+import Breadcrumb from "@/app/components/Breadcrumb";
 
 type Article = {
   id: string;
@@ -163,9 +164,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           .rel-item:hover .rel-title { color: #FFB800; }
           .rel-title { font-size: 0.82rem; font-weight: 700; color: #0D1525; line-height: 1.35; }
           .rel-date  { font-size: 0.72rem; color: #94A3B8; margin-top: 4px; }
-          .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.8rem; color: #94A3B8; }
-          .breadcrumb a { color: #64748B; text-decoration: none; font-weight: 500; }
-          .breadcrumb a:hover { color: #0D1525; }
           @media (max-width: 860px) {
             .article-layout { grid-template-columns: 1fr; }
           }
@@ -175,12 +173,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         `}</style>
 
         {/* Breadcrumb */}
-        <div className="breadcrumb">
-          <Link href="/">Accueil</Link>
-          <span style={{ margin: "0 8px" }}>›</span>
-          <Link href="/blog">Blog</Link>
-          <span style={{ margin: "0 8px" }}>›</span>
-          <span style={{ color: "#0D1525", fontWeight: 600 }}>{title}</span>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "14px 24px 0" }}>
+          <Breadcrumb items={[
+            { label: "Accueil", href: "/" },
+            { label: "Blog", href: "/blog" },
+            { label: title },
+          ]} />
         </div>
 
         {/* Image hero */}
