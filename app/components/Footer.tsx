@@ -114,6 +114,30 @@ export default async function Footer() {
           transition: background 0.15s, color 0.15s;
         }
         .footer-social:hover { background: #FFB800; color: #0D1525; }
+        .footer-search-bar {
+          max-width: 1200px; margin: 0 auto; padding: 20px 24px;
+          display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        }
+        .footer-search-label {
+          font-size: 0.72rem; font-weight: 800; color: white;
+          white-space: nowrap; margin: 0;
+        }
+        .footer-search-form {
+          display: flex; flex: 1; min-width: 220px; max-width: 420px;
+          background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+          border-radius: 10px; overflow: hidden;
+        }
+        .footer-search-form input {
+          flex: 1; min-width: 0; padding: 11px 14px;
+          background: transparent; border: none; outline: none;
+          color: white; font-size: 0.84rem; font-family: inherit;
+        }
+        .footer-search-form button {
+          flex-shrink: 0; width: 44px; border: none; background: #FFB800;
+          color: #0D1525; cursor: pointer; display: flex; align-items: center; justify-content: center;
+          transition: background 0.15s;
+        }
+        .footer-search-form button:hover { background: #ffc633; }
         @media (max-width: 1000px) {
           .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
         }
@@ -121,9 +145,31 @@ export default async function Footer() {
           .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; padding: 36px 20px 24px; }
           .footer-grid > div:first-child { grid-column: 1 / -1; }
           .footer-bottom { flex-direction: column; text-align: center; }
+          .footer-search-bar { padding: 18px 20px; }
+          .footer-search-form { max-width: none; }
         }
         footer { padding-bottom: var(--app-banner-h, 0px); }
       `}</style>
+
+      {/* ── Bande recherche, toujours visible en haut du footer ── */}
+      <div style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="footer-search-bar">
+          <p className="footer-search-label">Trouver une ligne</p>
+          <form action="/recherche" method="GET" className="footer-search-form">
+            <input
+              name="q"
+              type="text"
+              placeholder="Numéro de ligne ou quartier…"
+              aria-label="Chercher une ligne"
+            />
+            <button type="submit" aria-label="Rechercher">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
 
       <div className="footer-grid">
 
@@ -139,33 +185,6 @@ export default async function Footer() {
           <p style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.32)", lineHeight: 1.7, margin: "0 0 20px", maxWidth: 220 }}>
             L&apos;infrastructure digitale du transport collectif à Antananarivo.
           </p>
-
-          {/* Recherche rapide de ligne */}
-          <form action="/recherche" method="GET" style={{
-            display: "flex", marginBottom: 18, maxWidth: 260,
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: 9, overflow: "hidden",
-          }}>
-            <input
-              name="q"
-              type="text"
-              placeholder="Numéro de ligne…"
-              aria-label="Chercher une ligne"
-              style={{
-                flex: 1, minWidth: 0, padding: "9px 12px",
-                background: "transparent", border: "none", outline: "none",
-                color: "white", fontSize: "0.78rem", fontFamily: "inherit",
-              }}
-            />
-            <button type="submit" aria-label="Rechercher" style={{
-              flexShrink: 0, width: 38, border: "none", background: "rgba(255,184,0,0.14)",
-              color: "#FFB800", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
-            </button>
-          </form>
 
           {/* CTA projet */}
           <Link href="/le-projet" style={{
