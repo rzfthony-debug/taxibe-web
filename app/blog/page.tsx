@@ -9,6 +9,7 @@ import SpotlightSection from "@/app/components/SpotlightSection";
 import HeroIllustration from "@/app/components/HeroIllustration";
 import { articleTitle } from "@/lib/article";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import BackToTop from "@/app/components/BackToTop";
 
 type Article = {
   id: string;
@@ -421,6 +422,7 @@ export default async function BlogPage({
       </div>
       <CtaApp />
       <Footer />
+      <BackToTop />
     </>
   );
 }

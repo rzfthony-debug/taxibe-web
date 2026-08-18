@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { safeJsonLd } from "@/lib/sanitize";
 import HeroIllustration from "@/app/components/HeroIllustration";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import BackToTop from "@/app/components/BackToTop";
 
 const BASE = "https://taxibe.mg";
 
@@ -232,6 +233,7 @@ export default async function LegalPage() {
       </main>
       <CtaApp />
       <Footer />
+      <BackToTop />
     </>
   );
 }

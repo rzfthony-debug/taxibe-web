@@ -11,6 +11,7 @@ import { getVideoEmbed } from "@/lib/video";
 import { articleTitle, articleDescription, renderContenu } from "@/lib/article";
 import ShareButtons from "@/app/blog/ShareButtons";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import BackToTop from "@/app/components/BackToTop";
 
 type Article = {
   id: string;
@@ -322,6 +323,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
       <Footer />
+      <BackToTop />
     </>
   );
 }

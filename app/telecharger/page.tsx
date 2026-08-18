@@ -103,7 +103,7 @@ export default function TelechargerPage() {
                 100% Gratuit
               </span>
             </div>
-            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 14px", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
               Installer TaxiBe<br />sur votre téléphone
             </h1>
             <p style={{ fontSize: "0.95rem", color: "#64748B", margin: 0, lineHeight: 1.75, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>

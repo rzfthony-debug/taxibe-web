@@ -99,6 +99,23 @@ const NAV_ITEMS = [
   { key: "communaute",  label: "Communauté",  href: "/communaute",  hasPanel: true  },
 ];
 
+// Préfixes de route couverts par chaque section, pour l'indicateur de page active.
+const SECTION_PREFIXES: Record<string, string[]> = {
+  rechercher:  ["/recherche", "/ligne"],
+  projet:      ["/le-projet", "/emplois"],
+  partenaires: ["/partenaires"],
+  communaute:  ["/blog", "/aide", "/contact", "/communaute"],
+};
+
+function currentSectionKey(pathname: string): string | null {
+  for (const item of NAV_ITEMS) {
+    if (SECTION_PREFIXES[item.key]?.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+      return item.key;
+    }
+  }
+  return null;
+}
+
 // ── Panel desktop ─────────────────────────────────────────────────────────────
 
 function Panel({ sectionKey, onClose }: { sectionKey: string; onClose: () => void }) {
@@ -202,6 +219,7 @@ export default function Nav() {
   }
 
   const isPanelOpen = activeSection !== null;
+  const currentKey = currentSectionKey(pathname);
 
   return (
     <>
@@ -234,15 +252,20 @@ export default function Nav() {
           padding: 8px 12px; border-radius: 8px;
           font-size: 0.875rem; font-weight: 600; color: #64748B;
           background: none; border: none; cursor: pointer;
-          font-family: inherit;
+          font-family: inherit; position: relative;
           transition: color 0.15s, background 0.15s; white-space: nowrap;
         }
         .nav-trigger:hover, .nav-trigger.active { color: #0D1525; background: #F8F9FB; }
+        .nav-trigger.current, .nav-link.current { color: #0D1525; background: rgba(255,184,0,0.1); }
+        .nav-trigger.current::after, .nav-link.current::after {
+          content: ""; position: absolute; left: 12px; right: 12px; bottom: 1px;
+          height: 2px; border-radius: 2px; background: #FFB800;
+        }
         .nav-link {
           display: flex; align-items: center; gap: 5px;
           padding: 8px 12px; border-radius: 8px;
           font-size: 0.875rem; font-weight: 600; color: #64748B;
-          text-decoration: none;
+          text-decoration: none; position: relative;
           transition: color 0.15s, background 0.15s; white-space: nowrap;
         }
         .nav-link:hover { color: #0D1525; background: #F8F9FB; }
@@ -274,18 +297,20 @@ export default function Nav() {
               item.hasPanel ? (
                 <button
                   key={item.key}
-                  className={`nav-trigger${activeSection === item.key ? " active" : ""}`}
+                  className={`nav-trigger${activeSection === item.key ? " active" : ""}${currentKey === item.key ? " current" : ""}`}
                   onMouseEnter={() => openSection(item.key)}
                   onMouseLeave={scheduleClose}
                   onClick={() => activeSection === item.key ? setActiveSection(null) : openSection(item.key)}
                   aria-expanded={activeSection === item.key}
                   aria-haspopup="true"
+                  aria-current={currentKey === item.key ? "page" : undefined}
                 >
                   {item.label}
                   {Ico.chevron(activeSection === item.key)}
                 </button>
               ) : (
-                <Link key={item.key} href={item.href} className="nav-link">
+                <Link key={item.key} href={item.href} className={`nav-link${currentKey === item.key ? " current" : ""}`}
+                  aria-current={currentKey === item.key ? "page" : undefined}>
                   {Ico.search}
                   {item.label}
                 </Link>
@@ -347,9 +372,13 @@ export default function Nav() {
 
             {/* Lien direct Rechercher */}
             <Link href="/recherche" onClick={() => setMobileOpen(false)}
+              aria-current={currentKey === "rechercher" ? "page" : undefined}
               style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0", borderBottom: "1px solid #F1F5F9", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", textDecoration: "none" }}>
               <span style={{ color: "#FFB800", display: "flex" }}>{Ico.search}</span>
               Rechercher
+              {currentKey === "rechercher" && (
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FFB800", flexShrink: 0 }} />
+              )}
             </Link>
 
             {/* Sections avec sous-menus */}
@@ -359,9 +388,15 @@ export default function Nav() {
                 <div key={item.key} style={{ borderBottom: "1px solid #F1F5F9" }}>
                   <button
                     onClick={() => setMobileExpanded(mobileExpanded === item.key ? null : item.key)}
+                    aria-current={currentKey === item.key ? "page" : undefined}
                     style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", fontWeight: 700, fontSize: "0.9rem", color: "#0D1525", fontFamily: "inherit" }}
                   >
-                    {item.label}
+                    <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      {item.label}
+                      {currentKey === item.key && (
+                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FFB800", flexShrink: 0 }} />
+                      )}
+                    </span>
                     {Ico.chevron(mobileExpanded === item.key)}
                   </button>
                   {mobileExpanded === item.key && (

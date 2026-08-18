@@ -216,7 +216,7 @@ export default async function EmploisPage() {
               </div>
 
               <h1 style={{
-                fontSize: "clamp(1.8rem, 5vw, 3rem)", fontWeight: 900,
+                fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900,
                 color: "#0D1525", margin: "0 0 16px", lineHeight: 1.12, letterSpacing: "-0.025em",
               }}>
                 Rejoignez l&apos;équipe qui transforme la <span style={{ color: "#FFB800" }}>mobilité</span> à Madagascar

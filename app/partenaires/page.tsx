@@ -143,7 +143,7 @@ export default function PartenairesPage() {
             <div style={{ display: "inline-flex", alignItems: "center", background: "rgba(255,184,0,0.12)", border: "1px solid rgba(255,184,0,0.4)", borderRadius: 8, padding: "5px 12px", marginBottom: 24 }}>
               <span style={{ fontSize: "0.68rem", fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", color: "#B8860B" }}>Partenaires</span>
             </div>
-            <h1 style={{ fontSize: "clamp(1.8rem, 4.5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", letterSpacing: "-0.025em", lineHeight: 1.1, maxWidth: 600 }}>
+            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, color: "#0D1525", margin: "0 0 16px", letterSpacing: "-0.025em", lineHeight: 1.1, maxWidth: 600 }}>
               Construisons ensemble<br />une meilleure mobilité<br /><span style={{ color: "#FFB800" }}>à Antananarivo.</span>
             </h1>
             <p style={{ fontSize: "0.95rem", color: "#64748B", maxWidth: 500, margin: "0 0 32px", lineHeight: 1.75 }}>

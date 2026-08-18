@@ -7,6 +7,13 @@
   --light: #F1F5F9;
   --white: #ffffff;
   --border: #E2E8F0;
+
+  /* Échelle typographique de référence — garder les tailles inline alignées
+     sur ces paliers plutôt que d'improviser un clamp() par page.
+     - Hero de page (h1 marketing) : clamp(1.8rem, 5vw, 2.8rem)
+     - Titre de section (h2)        : clamp(1.4rem, 4vw, 2.1rem)
+     - Titre d'entité (h1 détail : ligne/article/offre) : clamp(1.35rem, 5vw, 1.9rem)
+     - Sous-titre (h3)              : clamp(1rem, 2.5vw, 1.25rem) */
 }
 
 body {
